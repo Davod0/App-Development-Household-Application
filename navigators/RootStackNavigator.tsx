@@ -4,12 +4,12 @@ import { Button, IconButton, Text } from "react-native-paper";
 import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
-type rootStackParamList = {
+export type RootStackParamList = {
   Home: undefined;
   Profile: undefined;
 };
 
-const RootStack = createNativeStackNavigator<rootStackParamList>();
+const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
   return (
