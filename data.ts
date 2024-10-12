@@ -48,8 +48,24 @@ export type Avatar = {
   colour: Colour;
 };
 
-type Icon = "fox" | "whale" | "pig" | "frog" | "chic" | "octopus";
-type Colour = "orange" | "blue" | "pink" | "green" | "yellow" | "purple";
+type Icon =
+  | "fox"
+  | "whale"
+  | "pig"
+  | "frog"
+  | "chic"
+  | "octopus"
+  | "owl"
+  | "unicorn";
+type Colour =
+  | "orange"
+  | "blue"
+  | "pink"
+  | "green"
+  | "yellow"
+  | "red"
+  | "brown"
+  | "purple";
 
 export const ColourHexMap: { [key in Colour]: string } = {
   orange: "#FFA500",
@@ -57,6 +73,8 @@ export const ColourHexMap: { [key in Colour]: string } = {
   pink: "#FFC0CB",
   green: "#008000",
   yellow: "#FFFF00",
+  red: "#FF0000",
+  brown: "#A52A2A",
   purple: "#800080",
 };
 
