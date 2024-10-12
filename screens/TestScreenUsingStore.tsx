@@ -40,6 +40,7 @@ export default function TestScreenUsingStore() {
       <Button title="Save" onPress={handleSave} />
       <View>
         <Text>User</Text>
+        <Text>User ID: {user.id}</Text>
         <Text>First Name: {user.firstName}</Text>
         <Text>Last Name: {user.lastName}</Text>
       </View>
