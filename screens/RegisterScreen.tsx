@@ -5,7 +5,7 @@ import { Button, Icon, TextInput } from "react-native-paper";
 import { RootStackParamList } from "../navigators/RootStackNavigator";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Register">;
-export default function App({ navigation }: Props) {
+export default function RegisterScreen({ navigation }: Props) {
 
     const [username, setUsername] = useState("");
     const [pasword, setPassword] = useState("");
