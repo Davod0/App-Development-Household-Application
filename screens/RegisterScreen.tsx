@@ -1,8 +1,11 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { Button, Icon, TextInput } from "react-native-paper";
+import { RootStackParamList } from "../navigators/RootStackNavigator";
 
-export default function App() {
+type Props = NativeStackScreenProps<RootStackParamList, "Register">;
+export default function App({ navigation }: Props) {
 
     const [username, setUsername] = useState("");
     const [pasword, setPassword] = useState("");
@@ -24,6 +27,7 @@ export default function App() {
     const registerAccount = () => {
         if (validateInput()) {
             console.log("All inputs are valid. We can create a new user.");
+            navigation.navigate("Home");
         }
     }
 
@@ -44,14 +48,14 @@ export default function App() {
                     textColor="black"
                     theme={{ roundness: 0 }}
                     icon={({ color }) => (
-                        <Icon source="plus-circle-outline" size={30} color={color} />
+                        <Icon source="plus-circle-outline" size={27} color={color} />
                     )}
                     labelStyle={{
-                        fontSize: 24,
+                        fontSize: 20,
                         lineHeight: 30,
                     }}
                     contentStyle={{ height: 65, gap: 10, }}
-                    onPress={() => { }}
+                    onPress={registerAccount}
                 >Spara
                 </Button>
                 <Button
@@ -60,14 +64,14 @@ export default function App() {
                     textColor="black"
                     theme={{ roundness: 0 }}
                     icon={({ color }) => (
-                        <Icon source="close-circle-outline" size={30} color={color} />
+                        <Icon source="close-circle-outline" size={27} color={color} />
                     )}
                     labelStyle={{
-                        fontSize: 24,
+                        fontSize: 20,
                         lineHeight: 30,
                     }}
                     contentStyle={{ height: 65, gap: 10, }}
-                    onPress={() => { }}
+                    onPress={() => { navigation.goBack() }}
                 >Stäng
                 </Button>
             </View>
@@ -80,7 +84,6 @@ const s = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         marginVertical: 1,
-        // marginHorizontal: 20
     },
     textInput: {
         minHeight: 60,
@@ -88,6 +91,5 @@ const s = StyleSheet.create({
     footer: {
         flexDirection: "row",
         width: "100%",
-        // alignSelf: "flex-end"
     }
 });
