@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleSheet, View } from "react-native";
 import { Button, IconButton, Text } from "react-native-paper";
+import CreateHouseholdScreen from "../screens/CreateHouseholdScreen";
 import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import RegisterScreen from "../screens/RegisterScreen";
@@ -11,13 +12,25 @@ export type RootStackParamList = {
   Profile: undefined;
   Register: undefined;
   TestStore: undefined;
+  CreateHouseHold: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
   return (
-    <RootStack.Navigator initialRouteName="Home">
+    <RootStack.Navigator initialRouteName="CreateHouseHold">
+      <RootStack.Screen
+        name="CreateHouseHold"
+        component={CreateHouseholdScreen}
+        options={{
+          headerTitle: () => (
+            <View style={s.titleContainer}>
+              <Text style={s.title}>Skapa hushåll</Text>
+            </View>
+          )
+        }}
+      />
       <RootStack.Screen name="Home" component={HomeScreen} />
       <RootStack.Screen name="TestStore" component={TestScreenUsingStore} />
       <RootStack.Screen
