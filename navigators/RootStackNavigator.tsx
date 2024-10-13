@@ -1,12 +1,16 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StyleSheet, View } from "react-native";
 import { Button, IconButton, Text } from "react-native-paper";
+import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import RegisterScreen from "../screens/RegisterScreen";
 import TestScreenUsingStore from "../screens/TestScreenUsingStore";
 
 export type RootStackParamList = {
   Home: undefined;
   Profile: undefined;
+  Register: undefined;
+  TestStore: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -14,7 +18,19 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 export default function RootStackNavigator() {
   return (
     <RootStack.Navigator initialRouteName="Home">
-      <RootStack.Screen name="Home" component={TestScreenUsingStore} />
+      <RootStack.Screen name="Home" component={HomeScreen} />
+      <RootStack.Screen name="TestStore" component={TestScreenUsingStore} />
+      <RootStack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{
+          headerTitle: () => (
+            <View style={s.titleContainer}>
+              <Text style={s.title}>Registrera dig</Text>
+            </View>
+          ),
+        }}
+      />
       <RootStack.Screen
         name="Profile"
         component={ProfileScreen}
