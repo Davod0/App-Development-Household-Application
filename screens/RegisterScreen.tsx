@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { Button, Icon, TextInput } from "react-native-paper";
 
 export default function App() {
@@ -7,12 +7,32 @@ export default function App() {
     const [username, setUsername] = useState("");
     const [pasword, setPassword] = useState("");
 
+    const validateInput = () => {
+
+        // I just check if user have written anything in TextInput now. Can add other validation controlls later (if we want)
+        if (!username) {
+            Alert.alert("Validation Error", "Användarnamn kan inte vara tomt.");
+            return false;
+        }
+        if (!pasword) {
+            Alert.alert("Validation Error", "Password kan inte vara tomt.");
+            return false;
+        }
+
+        return true;
+    }
+    const registerAccount = () => {
+        if (validateInput()) {
+            console.log("All inputs are valid. We can create a new user.");
+        }
+    }
+
     return (
         <View style={s.container}>
             <View style={{ padding: 14, gap: 14 }}>
                 <TextInput style={s.textInput} mode="outlined" label={"Användarnamn"} value={username} onChangeText={text => setUsername(text)} theme={{ roundness: 10 }} />
-                <TextInput style={s.textInput} mode="outlined" label={"Lösenord"} value={pasword} onChangeText={text => setPassword(text)} theme={{ roundness: 10 }} />
-                <Button mode="contained" style={{ marginTop: 30 }} onPress={() => console.log("Pressed!")}>
+                <TextInput style={s.textInput} mode="outlined" label={"Lösenord"} value={pasword} onChangeText={text => setPassword(text)} secureTextEntry={true} theme={{ roundness: 10 }} />
+                <Button mode="contained" style={{ marginTop: 30 }} onPress={registerAccount}>
                     Registrera konto
                 </Button>
 
@@ -31,6 +51,7 @@ export default function App() {
                         lineHeight: 30,
                     }}
                     contentStyle={{ height: 65, gap: 10, }}
+                    onPress={() => { }}
                 >Spara
                 </Button>
                 <Button
@@ -46,6 +67,7 @@ export default function App() {
                         lineHeight: 30,
                     }}
                     contentStyle={{ height: 65, gap: 10, }}
+                    onPress={() => { }}
                 >Stäng
                 </Button>
             </View>
