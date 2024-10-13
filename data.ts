@@ -209,3 +209,15 @@ export const mockedAvatars: Avatar[] = [
     colour: 'green',
   },
 ];
+
+type Avatar_test = { id: string; icon: string; color: string };
+export const avatarList: Avatar_test[] = [
+  { id: 'avatar-0', icon: '\uD83E\uDD8A', color: '#FFA500' },
+  { id: 'avatar-1', icon: '\uD83D\uDC37', color: '#FFC0CB' },
+  { id: 'avatar-2', icon: '\uD83D\uDC38', color: '#008000' },
+  { id: 'avatar-3', icon: '\uD83D\uDC25', color: '#FFFF00' },
+  { id: 'avatar-4', icon: '\uD83D\uDC19', color: '#FF0000' },
+  { id: 'avatar-5', icon: '\uD83D\uDC2C', color: '#0000FF' },
+  { id: 'avatar-6', icon: '\uD83E\uDD89', color: '#A52A2A' },
+  { id: 'avatar-7', icon: '\uD83E\uDD84', color: '#800080' },
+];
