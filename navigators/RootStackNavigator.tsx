@@ -15,7 +15,8 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
     return (
-        <RootStack.Navigator initialRouteName="Register">
+        <RootStack.Navigator initialRouteName="Home">
+            <RootStack.Screen name="Home" component={HomeScreen} />
             <RootStack.Screen
                 name="Register"
                 component={RegisterScreen}
@@ -27,7 +28,6 @@ export default function RootStackNavigator() {
                     )
                 }}
             />
-            <RootStack.Screen name="Home" component={HomeScreen} />
             <RootStack.Screen
                 name="Profile"
                 component={ProfileScreen}
