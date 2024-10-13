@@ -19,7 +19,8 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
   return (
-    <RootStack.Navigator initialRouteName="CreateHouseHold">
+    <RootStack.Navigator initialRouteName="Home">
+      <RootStack.Screen name="Home" component={HomeScreen} />
       <RootStack.Screen
         name="CreateHouseHold"
         component={CreateHouseholdScreen}
@@ -31,7 +32,6 @@ export default function RootStackNavigator() {
           )
         }}
       />
-      <RootStack.Screen name="Home" component={HomeScreen} />
       <RootStack.Screen name="TestStore" component={TestScreenUsingStore} />
       <RootStack.Screen
         name="Register"
