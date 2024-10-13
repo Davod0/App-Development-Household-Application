@@ -1,12 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import householdReducer from "./householdReducer";
+import taskReducer from "./taskReducer";
 import userReducer from "./userReducer";
-
 
 export const store = configureStore({
     reducer: {
         user: userReducer,
-        household: householdReducer,
+        task: taskReducer,
+        household: householdReducer
     },
 })
 

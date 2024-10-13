@@ -68,8 +68,8 @@ export default function TestScreenUsingStore() {
         />
         <Button title="Save" onPress={handleSaveHousehold} />
         <Text>Household ID: {household.id}</Text>
-        <Text>Household ID: {household.name}</Text>
-        <Text>Household ID: {household.code}</Text>
+        <Text>Household name: {household.name}</Text>
+        <Text>Household code: {household.code}</Text>
       </View>
     </View>
   );
