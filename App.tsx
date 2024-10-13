@@ -1,6 +1,6 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
-import RootStackNavigator from "./navigators/RootStackNavigator";
+import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
+import RootStackNavigator from './navigators/RootStackNavigator';
 
 export default function App() {
   return (
