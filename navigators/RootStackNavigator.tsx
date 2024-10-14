@@ -21,7 +21,7 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
   return (
-    <RootStack.Navigator initialRouteName="JoinHousehold">
+    <RootStack.Navigator initialRouteName="Home">
       <RootStack.Screen name="Home" component={HomeScreen} />
       <RootStack.Screen
         name="CreateHouseHold"
@@ -72,7 +72,8 @@ export default function RootStackNavigator() {
           ),
         })}
       />
-      <RootStack.Screen name='JoinHousehold' component={JoinHouseholdScreen}         options={{
+      <RootStack.Screen name='JoinHousehold' component={JoinHouseholdScreen}
+      options={{
           headerTitle: () => (
             <View style={s.titleContainer}>
               <Text style={s.title}>Gå med i hushåll</Text>
