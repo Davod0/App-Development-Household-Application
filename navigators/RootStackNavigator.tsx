@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import HomeScreen from '../screens/HomeScreen';
+import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
@@ -13,13 +14,14 @@ export type RootStackParamList = {
   Register: undefined;
   TestStore: undefined;
   CreateHouseHold: undefined;
+  JoinHousehold: undefined
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
   return (
-    <RootStack.Navigator initialRouteName="Home">
+    <RootStack.Navigator initialRouteName="JoinHousehold">
       <RootStack.Screen name="Home" component={HomeScreen} />
       <RootStack.Screen
         name="CreateHouseHold"
@@ -70,6 +72,13 @@ export default function RootStackNavigator() {
           ),
         })}
       />
+      <RootStack.Screen name='JoinHousehold' component={JoinHouseholdScreen}         options={{
+          headerTitle: () => (
+            <View style={s.titleContainer}>
+              <Text style={s.title}>Gå med i hushåll</Text>
+            </View>
+          ),
+        }} />
     </RootStack.Navigator>
   );
 }
