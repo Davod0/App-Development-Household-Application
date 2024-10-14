@@ -14,7 +14,7 @@ export type RootStackParamList = {
   Register: undefined;
   TestStore: undefined;
   CreateHouseHold: undefined;
-  JoinHousehold: undefined
+  JoinHousehold: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -72,14 +72,17 @@ export default function RootStackNavigator() {
           ),
         })}
       />
-      <RootStack.Screen name='JoinHousehold' component={JoinHouseholdScreen}
-      options={{
+      <RootStack.Screen
+        name="JoinHousehold"
+        component={JoinHouseholdScreen}
+        options={{
           headerTitle: () => (
             <View style={s.titleContainer}>
               <Text style={s.title}>Gå med i hushåll</Text>
             </View>
           ),
-        }} />
+        }}
+      />
     </RootStack.Navigator>
   );
 }
