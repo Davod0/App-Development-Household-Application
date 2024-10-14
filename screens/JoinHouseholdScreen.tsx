@@ -5,9 +5,22 @@ import { Button, TextInput } from "react-native-paper";
 export default function JoinHouseholdScreen(){
     const [houseCode, setHouseCode] = useState("")
 
+    // quick check to see if input field is empty
+      const validateHouseCode = () => {
+    if (!houseCode) {
+      Alert.alert('Validation error', 'Fältet får inte vara tomt.');
+      return false;
+    }
+    return true;
+  };
+
     const handleSubmitCode = () => {
-        // TODO: få 'ok' knappen till samma lila färg
-        Alert.alert("Förfrågan har registrerats", "Ägaren måste godkänna din förfrågan")
+        if(validateHouseCode()) {
+            // TODO: få 'ok' knappen till samma lila färg
+            Alert.alert("Förfrågan har registrerats", "Ägaren måste godkänna din förfrågan")
+            console.log(houseCode)
+            setHouseCode("")
+        }
     }
 
     return(
