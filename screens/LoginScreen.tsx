@@ -3,8 +3,9 @@ import { StyleSheet, View } from 'react-native';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
-export default function RegisterScreen({ navigation }: Props) {
-  return <View>Login Screen</View>;
+
+export default function LoginScreen({ navigation }: Props) {
+  return <View></View>;
 }
 
 const s = StyleSheet.create({
