@@ -1,9 +1,14 @@
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 
 export default function JoinHouseholdScreen(){
     const [houseCode, setHouseCode] = useState("")
+
+    const handleSubmitCode = () => {
+        // TODO: få 'ok' knappen till samma lila färg
+        Alert.alert("Förfrågan har registrerats", "Ägaren måste godkänna din förfrågan")
+    }
 
     return(
         <View style={s.container}>
@@ -13,9 +18,9 @@ export default function JoinHouseholdScreen(){
             mode="outlined"
             label={'Kod till hushållet'}
             value={houseCode}
-
+            onChangeText={(text) => setHouseCode(text)}
             />
-            <Button mode="contained">Gå med i hushåll</Button>
+            <Button mode="contained" style={s.button} onPress={handleSubmitCode}>Gå med i hushåll</Button>
             </View>
         </View>
     )
@@ -29,4 +34,7 @@ const s = StyleSheet.create({
  textInput: {
     minHeight: 60,
   },
+  button: {
+    marginTop: 20
+  }
 });
