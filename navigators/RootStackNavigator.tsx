@@ -8,6 +8,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
 
 export type RootStackParamList = {
+  Login: undefined ;
   Home: undefined;
   Profile: undefined;
   Register: undefined;
