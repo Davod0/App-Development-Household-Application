@@ -1,37 +1,37 @@
-import { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
-import { Household, User } from "../data";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { createHousehold } from "../store/householdReducer";
-import { createUser } from "../store/userReducer";
+import { useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Household, User } from '../data';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { createHousehold } from '../store/householdReducer';
+import { createUser } from '../store/userReducer';
 
 export default function TestScreenUsingStore() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [householdName, setHouseholdName] = useState("");
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [householdName, setHouseholdName] = useState('');
   const user = useAppSelector((state) => state.user);
   const household = useAppSelector((state) => state.household);
   const dispatch = useAppDispatch();
 
   const handleSaveUser = () => {
     const user: User = {
-      id: "1",
+      id: '1',
       firstName,
       lastName,
     };
     dispatch(createUser(user));
-    setFirstName("");
-    setLastName("");
+    setFirstName('');
+    setLastName('');
   };
 
   const handleSaveHousehold = () => {
     const household: Household = {
-      id: "1",
-      code: "1234",
+      id: '1',
+      code: '1234',
       name: householdName,
     };
     dispatch(createHousehold(household));
-    setHouseholdName("");
+    setHouseholdName('');
   };
 
   return (

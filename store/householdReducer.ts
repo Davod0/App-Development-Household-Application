@@ -1,14 +1,14 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Household } from "../data";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Household } from '../data';
 
 const initialState: Household = {
-  id: "",
-  name: "",
-  code: "",
+  id: '',
+  name: '',
+  code: '',
 };
 
 export const householdSlice = createSlice({
-  name: "household",
+  name: 'household',
   initialState,
   reducers: {
     createHousehold: (state, action: PayloadAction<Household>) => {
@@ -17,9 +17,9 @@ export const householdSlice = createSlice({
       state.code = action.payload.code;
     },
     clearHousehold: (state, action: PayloadAction<Household>) => {
-      state.id = "";
-      state.name = "";
-      state.code = "";
+      state.id = '';
+      state.name = '';
+      state.code = '';
     },
   },
 });
