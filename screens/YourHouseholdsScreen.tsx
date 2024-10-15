@@ -3,6 +3,7 @@ import { Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { mockedHouseholds, mockedMembers } from '../data';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
@@ -29,22 +30,31 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   console.log(userHouseholds);
 
   return (
-    <View>
-      <View>
-        <Text>Your Households</Text>
-        {userHouseholds.map((household) => (
-          <View key={household.id}>
-            <Text>{household.name}</Text>
-          </View>
-        ))}
-      </View>
-      <View></View>
-    </View>
+    <SafeAreaView style={s.container}>
+      {userHouseholds.map((household) => (
+        <View style={s.household} key={household.id}>
+          <Text style={s.text}>{household.name}</Text>
+          <Text style={s.text}>{household.name}</Text>
+          <Text style={s.text}>{household.name}</Text>
+          <Text style={s.text}>{household.name}</Text>
+          <Text style={s.text}>{household.name}</Text>
+        </View>
+      ))}
+    </SafeAreaView>
   );
 }
 
 const s = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'space-between',
+  },
+  household: {
+    margin: 10,
+    gap: 10,
+    padding: 15,
+  },
+  text: {
+    fontSize: 25,
   },
 });
