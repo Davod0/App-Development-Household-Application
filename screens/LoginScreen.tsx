@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import { Button, Icon, TextInput } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -21,10 +21,11 @@ export default function LoginScreen({ navigation }: Props) {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={s.container}>
       <View style={{ padding: 14, gap: 14 }}>
         <TextInput
           style={s.textInput}
+          mode="outlined"
           label={'Användarnamn'}
           value={username}
           onChangeText={(text) => setUsername(text)}
@@ -32,6 +33,7 @@ export default function LoginScreen({ navigation }: Props) {
         />
         <TextInput
           style={s.textInput}
+          mode="outlined"
           label={'Lösenord'}
           value={password}
           onChangeText={(text) => setPassword(text)}
@@ -51,6 +53,44 @@ export default function LoginScreen({ navigation }: Props) {
           onPress={navigateToRegister}
         >
           Registera konto
+        </Button>
+      </View>
+      <View style={s.footer}>
+        <Button
+          style={{ width: '50%' }}
+          mode="elevated"
+          textColor="black"
+          theme={{ roundness: 0 }}
+          icon={({ color }) => (
+            <Icon source="plus-circle-outline" size={27} color={color} />
+          )}
+          labelStyle={{
+            fontSize: 20,
+            lineHeight: 30,
+          }}
+          contentStyle={{ height: 65, gap: 10 }}
+          onPress={handleLogin}
+        >
+          Spara
+        </Button>
+        <Button
+          style={{ width: '50%' }}
+          mode="elevated"
+          textColor="black"
+          theme={{ roundness: 0 }}
+          icon={({ color }) => (
+            <Icon source="close-circle-outline" size={27} color={color} />
+          )}
+          labelStyle={{
+            fontSize: 20,
+            lineHeight: 30,
+          }}
+          contentStyle={{ height: 65, gap: 10 }}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          Stäng
         </Button>
       </View>
     </View>

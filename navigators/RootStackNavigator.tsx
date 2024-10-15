@@ -9,7 +9,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
 
 export type RootStackParamList = {
-  Login: undefined ;
+  Login: undefined;
   Home: undefined;
   Profile: undefined;
   Register: undefined;
@@ -22,17 +22,17 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 export default function RootStackNavigator() {
   return (
     <RootStack.Navigator initialRouteName="Login">
-      <RootStack.Screen 
-      name="Login" 
-      component={LoginScreen}
-       options={{
+      <RootStack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
           headerTitle: () => (
             <View style={s.titleContainer}>
               <Text style={s.title}>Logga in</Text>
             </View>
           ),
         }}
-        />
+      />
       <RootStack.Screen name="Home" component={HomeScreen} />
       <RootStack.Screen
         name="CreateHouseHold"
