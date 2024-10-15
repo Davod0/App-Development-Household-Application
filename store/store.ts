@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import householdReducer from './householdReducer';
 import taskReducer from './taskReducer';
-import userReducer from './user/userReducer';
+import usersReducer from './user/usersReducer';
 
 export const store = configureStore({
   reducer: {
-    user: userReducer,
+    users: usersReducer,
     task: taskReducer,
     household: householdReducer,
   },
