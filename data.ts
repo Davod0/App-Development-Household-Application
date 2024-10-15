@@ -88,7 +88,7 @@ export const mockedHouseholds: Household[] = [
   {
     id: 'household-2',
     name: 'Doe Family',
-    code: 'DF456',
+    code: 'AF246',
   },
 ];
 

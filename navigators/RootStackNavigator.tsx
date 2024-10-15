@@ -91,7 +91,7 @@ export default function RootStackNavigator() {
         options={{
           headerTitle: () => (
             <View style={s.titleContainer}>
-              <Text style={s.title}>Gå med i hushåll</Text>
+              <Text style={s.title}>Dina hushåll</Text>
             </View>
           ),
         }}
