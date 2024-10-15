@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
+import DetailsScreen from '../screens/DetailsScreen';
 import HomeScreen from '../screens/HomeScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -17,6 +18,7 @@ export type RootStackParamList = {
   TestStore: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
+  Details: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -92,6 +94,17 @@ export default function RootStackNavigator() {
           headerTitle: () => (
             <View style={s.titleContainer}>
               <Text style={s.title}>Gå med i hushåll</Text>
+            </View>
+          ),
+        }}
+      />
+      <RootStack.Screen
+        name="Details"
+        component={DetailsScreen}
+        options={{
+          headerTitle: () => (
+            <View style={s.titleContainer}>
+              <Text style={s.title}>Detaljer</Text>
             </View>
           ),
         }}
