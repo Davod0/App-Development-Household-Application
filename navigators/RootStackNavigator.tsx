@@ -7,6 +7,7 @@ import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
+import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -15,13 +16,14 @@ export type RootStackParamList = {
   TestStore: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
+  YourHouseholds: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
   return (
-    <RootStack.Navigator initialRouteName="Home">
+    <RootStack.Navigator initialRouteName="YourHouseholds">
       <RootStack.Screen name="Home" component={HomeScreen} />
       <RootStack.Screen
         name="CreateHouseHold"
@@ -75,6 +77,17 @@ export default function RootStackNavigator() {
       <RootStack.Screen
         name="JoinHousehold"
         component={JoinHouseholdScreen}
+        options={{
+          headerTitle: () => (
+            <View style={s.titleContainer}>
+              <Text style={s.title}>Gå med i hushåll</Text>
+            </View>
+          ),
+        }}
+      />
+      <RootStack.Screen
+        name="YourHouseholds"
+        component={YourHouseholdsScreen}
         options={{
           headerTitle: () => (
             <View style={s.titleContainer}>
