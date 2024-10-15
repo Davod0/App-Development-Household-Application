@@ -3,7 +3,7 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Household, User } from '../data';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { createHousehold } from '../store/householdReducer';
-import { createUser } from '../store/userReducer';
+import { createUser } from '../store/user/userReducer';
 
 export default function TestScreenUsingStore() {
   const [firstName, setFirstName] = useState('');
