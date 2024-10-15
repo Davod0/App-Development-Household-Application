@@ -17,8 +17,6 @@ export const createUser = createAsyncThunk<User, NewUser>(
       firstName: user.firstName,
       lastName: user.lastName,
     };
-
-    //return data to redux store
     return storedUser;
   },
 );

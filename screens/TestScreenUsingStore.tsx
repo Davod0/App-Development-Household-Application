@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, Text, TextInput, View } from 'react-native';
 import { Household, NewUser } from '../data';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { createHousehold } from '../store/householdReducer';
@@ -14,11 +14,11 @@ export default function TestScreenUsingStore() {
   const dispatch = useAppDispatch();
 
   const handleSaveUser = () => {
-    const user: NewUser = {
+    const newUser: NewUser = {
       firstName,
       lastName,
     };
-    dispatch(createUser(user));
+    dispatch(createUser(newUser));
     setFirstName('');
     setLastName('');
   };
@@ -78,5 +78,3 @@ export default function TestScreenUsingStore() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({});
