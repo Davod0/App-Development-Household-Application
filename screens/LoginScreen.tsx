@@ -8,15 +8,20 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 export default function LoginScreen({ navigation }: Props) {
   const [username, setUsername] = useState('');
-  const [pasword, setPassword] = useState('');
+  const [password, setPassword] = useState('');
 
-  const hanldeLogin = () => {
+  const handleLogin = () => {
+    //Check with database if correct!
+    console.log('Password and Username match');
     navigation.navigate('Home');
   };
-  const navigateToRegister = () => {};
+  const navigateToRegister = () => {
+    console.log('Register button pressed');
+    navigation.navigate('Register');
+  };
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <View style={{ padding: 14, gap: 14 }}>
         <TextInput
           style={s.textInput}
@@ -28,7 +33,7 @@ export default function LoginScreen({ navigation }: Props) {
         <TextInput
           style={s.textInput}
           label={'Lösenord'}
-          value={pasword}
+          value={password}
           onChangeText={(text) => setPassword(text)}
           secureTextEntry={true}
           theme={{ roundness: 10 }}
@@ -36,16 +41,16 @@ export default function LoginScreen({ navigation }: Props) {
         <Button
           mode="contained"
           style={{ marginTop: 30 }}
-          onPress={hanldeLogin}
+          onPress={handleLogin}
         >
-          Login
+          Logga in
         </Button>
         <Button
           mode="contained"
           style={{ marginTop: 30 }}
           onPress={navigateToRegister}
         >
-          Register
+          Registera konto
         </Button>
       </View>
     </View>
