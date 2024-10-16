@@ -1,26 +1,26 @@
 import { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
-import { Household, NewUser } from '../data';
+import { Household } from '../data';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { createHousehold } from '../store/householdReducer';
-import { createUser } from '../store/user/userActions';
+import { EmailPassword, signUpUser } from '../store/user/userActions';
 
 export default function TestScreenUsingStore() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [householdName, setHouseholdName] = useState('');
-  const users = useAppSelector((state) => state.users);
+  const user = useAppSelector((state) => state.user);
   const household = useAppSelector((state) => state.household);
   const dispatch = useAppDispatch();
 
   const handleSaveUser = () => {
-    const newUser: NewUser = {
-      firstName,
-      lastName,
+    const emailPassword: EmailPassword = {
+      email,
+      password,
     };
-    dispatch(createUser(newUser));
-    setFirstName('');
-    setLastName('');
+    dispatch(signUpUser(emailPassword));
+    setEmail('');
+    setPassword('');
   };
 
   const handleSaveHousehold = () => {
@@ -36,31 +36,23 @@ export default function TestScreenUsingStore() {
   return (
     <View>
       <Text style={{ fontSize: 30 }}>Test Screen</Text>
-      <Text>First Name:</Text>
       <TextInput
-        value={firstName}
-        onChangeText={setFirstName}
-        placeholder="Enter your first name"
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Enter youre email"
       />
 
-      <Text>Last Name:</Text>
       <TextInput
-        value={lastName}
-        onChangeText={setLastName}
-        placeholder="Enter your last name"
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Enter youre password"
       />
       <Button title="Save" onPress={handleSaveUser} />
 
       <View style={{ paddingTop: 10 }}>
-        <Text style={{ fontSize: 30 }}>All Users</Text>
-        {users.map((user) => (
-          <View key={user.id}>
-            <Text>User ID: {user.id}</Text>
-            <Text>First Name: {user.firstName}</Text>
-            <Text>Last Name: {user.lastName}</Text>
-            <Text>__________________________________</Text>
-          </View>
-        ))}
+        <Text style={{ fontSize: 30 }}>Current User</Text>
+        <Text>User ID: {user.currentUser?.email}</Text>
+        <Text>User Email address: {user.currentUser?.uid}</Text>
       </View>
 
       <View style={{ paddingTop: 10 }}>

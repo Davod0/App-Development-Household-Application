@@ -27,7 +27,7 @@ export default function RootStackNavigator() {
   // useFocusEffect() i screens för att säkerställa att användaren ser den senaste datan
 
   return (
-    <RootStack.Navigator initialRouteName="Login">
+    <RootStack.Navigator initialRouteName="TestStore">
       <RootStack.Screen
         name="Login"
         component={LoginScreen}
