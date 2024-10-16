@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
+import CreateTaskScreen from '../screens/CreateTaskScreen';
 import HomeScreen from '../screens/HomeScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -18,6 +19,7 @@ export type RootStackParamList = {
   TestStore: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
+  CreateTask: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -27,7 +29,7 @@ export default function RootStackNavigator() {
   // useFocusEffect() i screens för att säkerställa att användaren ser den senaste datan
 
   return (
-    <RootStack.Navigator initialRouteName="Login">
+    <RootStack.Navigator initialRouteName="CreateTask">
       <RootStack.Screen
         name="Login"
         component={LoginScreen}
@@ -96,6 +98,17 @@ export default function RootStackNavigator() {
           headerTitle: () => (
             <View style={s.titleContainer}>
               <Text style={s.title}>Gå med i hushåll</Text>
+            </View>
+          ),
+        }}
+      />
+      <RootStack.Screen
+        name="CreateTask"
+        component={CreateTaskScreen}
+        options={{
+          headerTitle: () => (
+            <View style={s.titleContainer}>
+              <Text style={s.title}>Skapa en ny syssla</Text>
             </View>
           ),
         }}
