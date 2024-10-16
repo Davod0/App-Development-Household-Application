@@ -51,8 +51,8 @@ export default function TestScreenUsingStore() {
 
       <View style={{ paddingTop: 10 }}>
         <Text style={{ fontSize: 30 }}>Current User</Text>
-        <Text>User ID: {user.currentUser?.email}</Text>
-        <Text>User Email address: {user.currentUser?.uid}</Text>
+        <Text>User Email address: {user.currentUser?.email}</Text>
+        <Text>User ID: {user.currentUser?.uid}</Text>
       </View>
 
       <View style={{ paddingTop: 10 }}>
