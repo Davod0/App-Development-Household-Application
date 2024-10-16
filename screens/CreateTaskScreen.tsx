@@ -46,7 +46,16 @@ export default function CreateTaskScreen() {
           <Text>Hur energikrävande är sysslan?</Text>
         </View>
         <View style={s.padding}>
-          <Text>2</Text>
+          <View style={s.valueNumberContainer}>
+            <Text
+              style={s.valueNumber}
+              onPress={() => {
+                console.log('Hi!');
+              }}
+            >
+              2
+            </Text>
+          </View>
         </View>
       </Surface>
       <Button mode="contained" onPress={handleCreateTask}>
@@ -80,5 +89,18 @@ const s = StyleSheet.create({
   titleText: {
     fontWeight: 'bold',
     fontSize: 20,
+  },
+  valueNumberContainer: {
+    backgroundColor: '#e7e0ec',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  valueNumber: {
+    textAlign: 'center',
+    fontSize: 15,
+    fontWeight: 'bold',
   },
 });
