@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { mockedUsers, User } from '../../data';
 import { createUser } from './userActions';
 
-const initialState: User[] = mockedUsers;
+const initialState: User[] = mockedUsers; // Single User | null
 
 export const usersSlice = createSlice({
   name: 'users',

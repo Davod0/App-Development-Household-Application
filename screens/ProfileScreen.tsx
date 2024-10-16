@@ -10,6 +10,7 @@ export default function ProfileScreen({ navigation }: Props) {
   const userId = 'user-2';
   const user = mockedUsers.find((u) => u.id === userId);
   const member = mockedMembers.find((m) => m.userId === userId);
+  // const members = useAppSelector(selectMembersByUser);
 
   if (!user || !member) {
     throw new Error('bad userId: ' + userId);

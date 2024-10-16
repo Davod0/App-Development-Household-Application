@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Task } from '../data';
 
+// Flera (plural)
+// Min: Alla tasks för det valda hushållet (filtering för användaren och hushåll i backenden)
+// Max: Alla tasks för användaren alla hushåll (filtering för användaren i backenden, filtrering för hushåll med selector på klientsidan)
 const initialState: Task = {
   id: '',
   householdId: '',

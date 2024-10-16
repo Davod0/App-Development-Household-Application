@@ -11,6 +11,7 @@ import TestScreenUsingStore from '../screens/TestScreenUsingStore';
 
 export type RootStackParamList = {
   Login: undefined;
+  // Home: { selectedHouseholdId: string };
   Home: undefined;
   Profile: undefined;
   Register: undefined;
@@ -22,6 +23,9 @@ export type RootStackParamList = {
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
+  // Hämta data om den inloggade användaren (hämta members, households, tasks, completedTasked)
+  // useFocusEffect() i screens för att säkerställa att användaren ser den senaste datan
+
   return (
     <RootStack.Navigator initialRouteName="Login">
       <RootStack.Screen

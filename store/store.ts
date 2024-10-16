@@ -5,9 +5,11 @@ import usersReducer from './user/usersReducer';
 
 export const store = configureStore({
   reducer: {
-    users: usersReducer,
-    task: taskReducer,
-    household: householdReducer,
+    users: usersReducer, // singular?
+    task: taskReducer, // plural?
+    household: householdReducer, // plural?
+    // members // selector för att filtrera på exempelvis det valda hushållet
+    // completedTasks
   },
 });
 
