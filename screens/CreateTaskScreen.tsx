@@ -1,11 +1,28 @@
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Surface, Text, TextInput } from 'react-native-paper';
+import { Button, Surface, Text, TextInput } from 'react-native-paper';
 
 export default function CreateTaskScreen() {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  //   not used yet
+  const [frequency, setFrequency] = useState(0);
+  const [weight, setWeight] = useState(0);
+
+  const handleCreateTask = () => {
+    console.log(title);
+    console.log(description);
+  };
+
   return (
     <View style={s.container}>
       <Surface>
-        <TextInput placeholder="Titel" placeholderTextColor="#bdbdbd" />
+        <TextInput
+          placeholder="Titel"
+          placeholderTextColor="#bdbdbd"
+          value={title}
+          onChangeText={setTitle}
+        />
       </Surface>
       <Surface>
         <TextInput
@@ -13,6 +30,8 @@ export default function CreateTaskScreen() {
           placeholderTextColor="#bdbdbd"
           multiline={true}
           numberOfLines={5}
+          value={description}
+          onChangeText={setDescription}
         />
       </Surface>
       {/* TODO: lägg in komponent väljare */}
@@ -30,6 +49,9 @@ export default function CreateTaskScreen() {
           <Text>2</Text>
         </View>
       </Surface>
+      <Button mode="contained" onPress={handleCreateTask}>
+        Skapa
+      </Button>
     </View>
   );
 }
