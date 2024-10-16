@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import HomeScreen from '../screens/HomeScreen';
+import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -24,7 +25,7 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
   return (
-    <RootStack.Navigator initialRouteName="TestStore">
+    <RootStack.Navigator initialRouteName="HouseholdInformation">
       <RootStack.Screen
         name="Login"
         component={LoginScreen}
@@ -97,10 +98,17 @@ export default function RootStackNavigator() {
           ),
         }}
       />
-      {/* <RootStack.Screen
+      <RootStack.Screen
         name="HouseholdInformation"
         component={HouseholdInformationScreen}
-      /> */}
+        options={{
+          headerTitle: () => (
+            <View style={s.titleContainer}>
+              <Text style={s.title}>Hushålls Infå</Text>
+            </View>
+          ),
+        }}
+      />
     </RootStack.Navigator>
   );
 }
