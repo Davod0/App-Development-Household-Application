@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { mockedHouseholds, mockedMembers } from '../data';
@@ -30,10 +30,13 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   console.log(userHouseholds);
 
   return (
+    //surface i nataive paper
     <SafeAreaView style={s.container}>
       {userHouseholds.map((household) => (
         <View style={s.household} key={household.id}>
-          <Text style={s.text}>{household.name}</Text>
+          <Surface elevation={4}>
+            <Text style={s.text}>{household.name}</Text>
+          </Surface>
           <Text style={s.text}>{household.name}</Text>
           <Text style={s.text}>{household.name}</Text>
           <Text style={s.text}>{household.name}</Text>
