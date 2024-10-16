@@ -16,6 +16,7 @@ export default function DetailsScreen({ navigation }: Props) {
           justifyContent: 'center',
           marginBottom: 20,
           margin: 20,
+          borderRadius: 10,
         }}
         elevation={1}
       >
@@ -23,11 +24,12 @@ export default function DetailsScreen({ navigation }: Props) {
       </Surface>
       <Surface
         style={{
-          padding: 140,
+          padding: 60,
           alignItems: 'center',
           justifyContent: 'center',
           marginBottom: 20,
           margin: 20,
+          borderRadius: 10,
         }}
         elevation={1}
       >
