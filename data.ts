@@ -42,6 +42,8 @@ export type User = {
   lastName: string;
 };
 
+export type NewUser = Omit<User, 'id'>;
+
 export type Avatar = {
   id: string;
   icon: Icon;

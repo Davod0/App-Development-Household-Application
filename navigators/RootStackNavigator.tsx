@@ -4,12 +4,14 @@ import { Button, IconButton, Text } from 'react-native-paper';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import HomeScreen from '../screens/HomeScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
+import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 
 export type RootStackParamList = {
+  Login: undefined;
   Home: undefined;
   Profile: undefined;
   Register: undefined;
@@ -24,6 +26,17 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 export default function RootStackNavigator() {
   return (
     <RootStack.Navigator initialRouteName="YourHouseholds">
+      <RootStack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
+          headerTitle: () => (
+            <View style={s.titleContainer}>
+              <Text style={s.title}>Logga in</Text>
+            </View>
+          ),
+        }}
+      />
       <RootStack.Screen name="Home" component={HomeScreen} />
       <RootStack.Screen
         name="CreateHouseHold"

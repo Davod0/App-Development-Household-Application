@@ -1,25 +1,24 @@
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
-import { Household, User } from '../data';
+import { Button, Text, TextInput, View } from 'react-native';
+import { Household, NewUser } from '../data';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { createHousehold } from '../store/householdReducer';
-import { createUser } from '../store/userReducer';
+import { createUser } from '../store/user/userActions';
 
 export default function TestScreenUsingStore() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [householdName, setHouseholdName] = useState('');
-  const user = useAppSelector((state) => state.user);
+  const users = useAppSelector((state) => state.users);
   const household = useAppSelector((state) => state.household);
   const dispatch = useAppDispatch();
 
   const handleSaveUser = () => {
-    const user: User = {
-      id: '1',
+    const newUser: NewUser = {
       firstName,
       lastName,
     };
-    dispatch(createUser(user));
+    dispatch(createUser(newUser));
     setFirstName('');
     setLastName('');
   };
@@ -53,10 +52,15 @@ export default function TestScreenUsingStore() {
       <Button title="Save" onPress={handleSaveUser} />
 
       <View style={{ paddingTop: 10 }}>
-        <Text style={{ fontSize: 30 }}>User</Text>
-        <Text>User ID: {user.id}</Text>
-        <Text>First Name: {user.firstName}</Text>
-        <Text>Last Name: {user.lastName}</Text>
+        <Text style={{ fontSize: 30 }}>All Users</Text>
+        {users.map((user) => (
+          <View key={user.id}>
+            <Text>User ID: {user.id}</Text>
+            <Text>First Name: {user.firstName}</Text>
+            <Text>Last Name: {user.lastName}</Text>
+            <Text>__________________________________</Text>
+          </View>
+        ))}
       </View>
 
       <View style={{ paddingTop: 10 }}>
@@ -74,5 +78,3 @@ export default function TestScreenUsingStore() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({});
