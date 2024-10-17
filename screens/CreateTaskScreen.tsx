@@ -16,14 +16,6 @@ export default function CreateTaskScreen() {
     console.log(weight);
   };
 
-  const PickerValue = (click: boolean) => {
-    if (click) {
-      console.log('PickerValue: true');
-    } else {
-      console.log('PickerValue: false');
-    }
-  };
-
   return (
     <View style={s.container}>
       <Surface>
@@ -51,7 +43,7 @@ export default function CreateTaskScreen() {
         <Text style={s.padding}>var 7 dag</Text>
       </Surface>
 
-      {/* TODO: lägg in komponent energi */}
+      {/* TODO: Gör om till komponent?*/}
 
       {isPickerOpen ? (
         <Surface style={[s.RecurringValue, s.baseStyle]}>
@@ -63,8 +55,8 @@ export default function CreateTaskScreen() {
                 setIsPickerOpen(!isPickerOpen);
               }}
             >
-              <View style={s.valueNumberContainer}>
-                <Text key={value} style={s.valueNumber}>
+              <View style={s.valueNumberOptionsContainer}>
+                <Text key={value} style={s.valueNumberOptions}>
                   {value}
                 </Text>
               </View>
@@ -133,6 +125,19 @@ const s = StyleSheet.create({
   valueNumber: {
     textAlign: 'center',
     fontSize: 15,
+    fontWeight: 'bold',
+  },
+  valueNumberOptionsContainer: {
+    backgroundColor: '#e7e0ec',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  valueNumberOptions: {
+    textAlign: 'center',
+    fontSize: 20,
     fontWeight: 'bold',
   },
 });
