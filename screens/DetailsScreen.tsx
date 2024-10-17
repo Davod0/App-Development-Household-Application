@@ -1,12 +1,18 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Chip, Surface, Text } from 'react-native-paper';
+import { Chip, Menu, Surface, Text, TouchableRipple } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
 export default function DetailsScreen({ navigation }: Props) {
+  const [visible, setVisible] = React.useState(false);
+  const openMenu = () => setVisible(true);
+
+  const closeMenu = () => setVisible(false);
+
   return (
     <View>
       <Surface
@@ -51,7 +57,11 @@ export default function DetailsScreen({ navigation }: Props) {
       >
         <Chip
           onPress={() => console.log('Pressed')}
-          style={{ paddingVertical: 10, paddingHorizontal: 20 }}
+          style={{
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+            width: '100%',
+          }}
         >
           <View
             style={{
@@ -60,12 +70,27 @@ export default function DetailsScreen({ navigation }: Props) {
               width: '100%',
             }}
           >
-            <Text variant="displaySmall" style={{ textAlign: 'left' }}>
-              Återkommer
+            <Text variant="headlineSmall" style={{ textAlign: 'left' }}>
+              Återkommer:
             </Text>
-            <Text variant="displaySmall" style={{ textAlign: 'right' }}>
-              var dag
-            </Text>
+
+            <TouchableRipple onPress={openMenu}>
+              <Text variant="headlineSmall" style={{ textAlign: 'right' }}>
+                var dag
+              </Text>
+            </TouchableRipple>
+
+            <Menu
+              visible={visible}
+              onDismiss={closeMenu}
+              anchor={
+                <TouchableRipple onPress={openMenu}>
+                  <Text>Open Menu</Text>
+                </TouchableRipple>
+              }
+            >
+              <Menu.Item onPress={() => {}} title="pickNumber" />
+            </Menu>
           </View>
         </Chip>
       </Surface>
