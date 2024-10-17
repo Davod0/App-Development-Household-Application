@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Button, Surface, Text, TextInput } from 'react-native-paper';
 
 export default function CreateTaskScreen() {
@@ -8,10 +8,20 @@ export default function CreateTaskScreen() {
   //   not used yet
   const [frequency, setFrequency] = useState(0);
   const [weight, setWeight] = useState(0);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
 
   const handleCreateTask = () => {
     console.log(title);
     console.log(description);
+    console.log(weight);
+  };
+
+  const PickerValue = (click: boolean) => {
+    if (click) {
+      console.log('PickerValue: true');
+    } else {
+      console.log('PickerValue: false');
+    }
   };
 
   return (
@@ -34,30 +44,51 @@ export default function CreateTaskScreen() {
           onChangeText={setDescription}
         />
       </Surface>
+
       {/* TODO: lägg in komponent väljare */}
       <Surface style={[s.RecurringDate, s.baseStyle]}>
         <Text style={[s.padding, s.titleText]}>Återkommer:</Text>
         <Text style={s.padding}>var 7 dag</Text>
       </Surface>
+
       {/* TODO: lägg in komponent energi */}
-      <Surface style={[s.RecurringValue, s.baseStyle]}>
-        <View style={s.padding}>
-          <Text style={s.titleText}>Värde:</Text>
-          <Text>Hur energikrävande är sysslan?</Text>
-        </View>
-        <View style={s.padding}>
-          <View style={s.valueNumberContainer}>
-            <Text
-              style={s.valueNumber}
+
+      {isPickerOpen ? (
+        <Surface style={[s.RecurringValue, s.baseStyle]}>
+          {[1, 2, 4, 6, 8].map((value) => (
+            <Pressable
+              style={s.RecurringValue}
               onPress={() => {
-                console.log('Hi!');
+                setWeight(value);
+                setIsPickerOpen(!isPickerOpen);
               }}
             >
-              2
-            </Text>
-          </View>
-        </View>
-      </Surface>
+              <View style={s.valueNumberContainer}>
+                <Text key={value} style={s.valueNumber}>
+                  {value}
+                </Text>
+              </View>
+            </Pressable>
+          ))}
+        </Surface>
+      ) : (
+        <>
+          <Pressable onPress={() => setIsPickerOpen(!isPickerOpen)}>
+            <Surface style={[s.RecurringValue, s.baseStyle]}>
+              <View style={s.padding}>
+                <Text style={s.titleText}>Värde:</Text>
+                <Text>Hur energikrävande är sysslan?</Text>
+              </View>
+              <View style={s.padding}>
+                <View style={s.valueNumberContainer}>
+                  <Text style={s.valueNumber}>{weight}</Text>
+                </View>
+              </View>
+            </Surface>
+          </Pressable>
+        </>
+      )}
+
       <Button mode="contained" onPress={handleCreateTask}>
         Skapa
       </Button>
@@ -82,6 +113,7 @@ const s = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    height: 80,
   },
   padding: {
     padding: 10,
