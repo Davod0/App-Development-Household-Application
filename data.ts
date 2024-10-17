@@ -1,3 +1,8 @@
+export type EmailPassword = {
+  email: string;
+  password: string;
+};
+
 export type ScheduledTask = {
   id: string;
   memberId: string;
@@ -42,8 +47,6 @@ export type User = {
   firstName: string;
   lastName: string;
 };
-
-export type NewUser = Omit<User, 'id'>;
 
 export type Avatar = {
   id: string;
