@@ -3,11 +3,14 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Surface, Text } from 'react-native-paper';
+import { mockedTasks } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
 export default function DetailsScreen({ navigation }: Props) {
+  const taskId = 'task-2';
+  const task = mockedTasks.find((t) => t.id === taskId);
   return (
     <View>
       <Surface
@@ -22,7 +25,7 @@ export default function DetailsScreen({ navigation }: Props) {
         }}
         elevation={1}
       >
-        <Text variant="displaySmall">Display Medium</Text>
+        <Text variant="displaySmall">{task?.name}</Text>
       </Surface>
       <Surface
         style={{
@@ -36,7 +39,7 @@ export default function DetailsScreen({ navigation }: Props) {
         }}
         elevation={1}
       >
-        <Text variant="displaySmall">Display Medium</Text>
+        <Text variant="displaySmall">{task?.description}</Text>
       </Surface>
       <Surface
         style={{
@@ -62,7 +65,7 @@ export default function DetailsScreen({ navigation }: Props) {
           </Text>
 
           <Text variant="headlineSmall" style={{ textAlign: 'right' }}>
-            var {} dag
+            var {task?.frequency} dag
           </Text>
         </View>
       </Surface>
