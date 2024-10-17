@@ -1,26 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { createUserWithEmailAndPassword, User } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { EmailPassword } from '../../data';
 import { auth } from '../../firebase';
 
-export type EmailPassword = {
-  email: string;
-  password: string;
-};
-
-export const signUpUser = createAsyncThunk<User, EmailPassword>(
+export const signUpUser = createAsyncThunk<void, EmailPassword>(
   'users/signUp-user',
   async (emailPassword, thunkAPI) => {
     try {
-      const result = await createUserWithEmailAndPassword(
+      await createUserWithEmailAndPassword(
         auth,
         emailPassword.email,
         emailPassword.password,
       );
-      // return result.user;
-      return result.user.toJSON() as User;
+      // return result.user.toJSON() as User;
     } catch (error) {
       console.error(error);
-      return thunkAPI.rejectWithValue('Could not register!');
+      return thunkAPI.rejectWithValue(
+        'Something went wrong, Could not register the user!:',
+      );
     }
   },
 );

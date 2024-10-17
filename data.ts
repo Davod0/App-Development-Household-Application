@@ -1,3 +1,8 @@
+export type EmailPassword = {
+  email: string;
+  password: string;
+};
+
 export type ScheduledTask = {
   id: string;
   memberId: string;

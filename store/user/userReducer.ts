@@ -5,29 +5,30 @@ import { signUpUser } from './userActions';
 
 type userState = {
   currentUser?: User;
+  isLoading: boolean;
 };
 const initialState: userState = {
   currentUser: undefined,
+  isLoading: true,
 };
 
 export const userSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    createUserOptimistically: (state, action: PayloadAction<User>) => {
+    setUserOptimistically: (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
+      state.isLoading = false;
     },
     clearUserOptimistically: (state, action: PayloadAction<User>) => {
       state.currentUser = undefined;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(signUpUser.fulfilled, (state, action) => {
-      state.currentUser = action.payload;
-    });
+    builder.addCase(signUpUser.fulfilled, (state, action) => {});
   },
 });
 
-export const { createUserOptimistically, clearUserOptimistically } =
+export const { setUserOptimistically, clearUserOptimistically } =
   userSlice.actions;
 export default userSlice.reducer;

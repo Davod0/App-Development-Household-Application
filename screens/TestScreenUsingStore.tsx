@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
-import { Household } from '../data';
+import { EmailPassword, Household } from '../data';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { createHousehold } from '../store/householdReducer';
-import { EmailPassword, signUpUser } from '../store/user/userActions';
+import { signUpUser } from '../store/user/userActions';
 
 export default function TestScreenUsingStore() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [householdName, setHouseholdName] = useState('');
-  const user = useAppSelector((state) => state.user);
   const household = useAppSelector((state) => state.household);
   const dispatch = useAppDispatch();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const user = useAppSelector((state) => state.user.currentUser);
 
   const handleSaveUser = () => {
     const emailPassword: EmailPassword = {
@@ -51,8 +51,8 @@ export default function TestScreenUsingStore() {
 
       <View style={{ paddingTop: 10 }}>
         <Text style={{ fontSize: 30 }}>Current User</Text>
-        <Text>User Email address: {user.currentUser?.email}</Text>
-        <Text>User ID: {user.currentUser?.uid}</Text>
+        <Text>User Email address: {user?.email}</Text>
+        <Text>User ID: {user?.uid}</Text>
       </View>
 
       <View style={{ paddingTop: 10 }}>
