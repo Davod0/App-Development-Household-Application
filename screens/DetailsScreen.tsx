@@ -69,6 +69,48 @@ export default function DetailsScreen({ navigation }: Props) {
           </Text>
         </View>
       </Surface>
+      <Surface
+        style={{
+          padding: 25,
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: 10,
+          margin: 20,
+          borderRadius: 10,
+          backgroundColor: '#FFFFFF',
+        }}
+        elevation={1}
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '100%',
+          }}
+        >
+          <View>
+            <Text
+              variant="headlineSmall"
+              style={{ textAlign: 'left', textAlignVertical: 'top' }}
+            >
+              Värde:
+            </Text>
+            <Text
+              variant="titleSmall"
+              style={{ textAlign: 'left', textAlignVertical: 'bottom' }}
+            >
+              Hur energikrävande är sysslan?
+            </Text>
+          </View>
+
+          <Text
+            variant="headlineSmall"
+            style={{ textAlign: 'right', textAlignVertical: 'center' }}
+          >
+            {task?.weight}
+          </Text>
+        </View>
+      </Surface>
     </View>
   );
 }
