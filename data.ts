@@ -28,6 +28,7 @@ export type Task = {
 
 export type Member = {
   id: string;
+  name: string;
   userId: string;
   householdId: string;
   avatarId: string;
@@ -101,6 +102,7 @@ export const mockedHouseholds: Household[] = [
 export const mockedMembers: Member[] = [
   {
     id: 'member-1',
+    name: 'Magnus',
     userId: 'user-1',
     householdId: 'household-1',
     avatarId: 'avatar-1',
@@ -109,6 +111,7 @@ export const mockedMembers: Member[] = [
   },
   {
     id: 'member-2',
+    name: 'Liam',
     userId: 'user-2',
     householdId: 'household-1',
     avatarId: 'avatar-2',
@@ -117,6 +120,16 @@ export const mockedMembers: Member[] = [
   },
   {
     id: 'member-3',
+    name: 'Tony',
+    userId: 'user-3',
+    householdId: 'household-2',
+    avatarId: 'avatar-3',
+    isOwner: true,
+    isAllowed: true,
+  },
+  {
+    id: 'member-4',
+    name: 'Tony2',
     userId: 'user-3',
     householdId: 'household-2',
     avatarId: 'avatar-3',
