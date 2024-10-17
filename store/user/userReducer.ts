@@ -1,7 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { User } from 'firebase/auth';
-import { signUpUser } from './userActions';
+import { signInUser, signUpUser } from './userActions';
 
 type userState = {
   currentUser?: User;
@@ -26,6 +26,7 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(signUpUser.fulfilled, (state, action) => {});
+    builder.addCase(signInUser.fulfilled, (state, action) => {});
   },
 });
 

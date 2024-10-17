@@ -14,7 +14,7 @@ export function useUserAuthState() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       dispatch(setUserOptimistically(user?.toJSON() as User));
-      console.log(`User: ${user?.toJSON()}`);
+      console.log(`User from useUserAuthState: ${user?.email}`);
     });
     return unsubscribe;
   }, [dispatch]);

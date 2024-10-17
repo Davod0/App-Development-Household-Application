@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
-import { EmailPassword, Household } from '../data';
+import { EmailPassword } from '../data';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { createHousehold } from '../store/householdReducer';
-import { signUpUser } from '../store/user/userActions';
+import { signInUser, signUpUser } from '../store/user/userActions';
 
 export default function TestScreenUsingStore() {
   const [householdName, setHouseholdName] = useState('');
@@ -13,7 +12,7 @@ export default function TestScreenUsingStore() {
   const [password, setPassword] = useState('');
   const user = useAppSelector((state) => state.user.currentUser);
 
-  const handleSaveUser = () => {
+  const handleSignUpUser = () => {
     const emailPassword: EmailPassword = {
       email,
       password,
@@ -23,50 +22,48 @@ export default function TestScreenUsingStore() {
     setPassword('');
   };
 
-  const handleSaveHousehold = () => {
-    const household: Household = {
-      id: '1',
-      code: '1234',
-      name: householdName,
+  const handleSignInUser = () => {
+    const emailPassword: EmailPassword = {
+      email,
+      password,
     };
-    dispatch(createHousehold(household));
-    setHouseholdName('');
+    dispatch(signInUser(emailPassword));
+    setEmail('');
+    setPassword('');
   };
 
   return (
     <View>
       <Text style={{ fontSize: 30 }}>Test Screen</Text>
+      <Text style={{ fontSize: 30, paddingBottom: 10, paddingTop: 10 }}>
+        Sign Up
+      </Text>
       <TextInput
         value={email}
         onChangeText={setEmail}
-        placeholder="Enter youre email"
+        placeholder="Enter your email"
       />
-
       <TextInput
         value={password}
         onChangeText={setPassword}
-        placeholder="Enter youre password"
+        placeholder="Enter your password"
       />
-      <Button title="Save" onPress={handleSaveUser} />
+      <Button title="Sign up" onPress={handleSignUpUser} />
 
-      <View style={{ paddingTop: 10 }}>
-        <Text style={{ fontSize: 30 }}>Current User</Text>
-        <Text>User Email address: {user?.email}</Text>
-        <Text>User ID: {user?.uid}</Text>
-      </View>
-
-      <View style={{ paddingTop: 10 }}>
-        <Text style={{ fontSize: 30 }}>Household</Text>
-        <TextInput
-          placeholder="Enter your household name"
-          value={householdName}
-          onChangeText={setHouseholdName}
-        />
-        <Button title="Save" onPress={handleSaveHousehold} />
-        <Text>Household ID: {household.id}</Text>
-        <Text>Household name: {household.name}</Text>
-        <Text>Household code: {household.code}</Text>
-      </View>
+      <Text style={{ fontSize: 30, paddingBottom: 10, paddingTop: 40 }}>
+        Sign In
+      </Text>
+      <TextInput
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Enter your email address"
+      />
+      <TextInput
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Enter your password"
+      />
+      <Button title="Sign in" onPress={handleSignInUser} />
     </View>
   );
 }
