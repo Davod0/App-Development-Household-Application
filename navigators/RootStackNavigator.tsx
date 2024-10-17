@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
+import { Household } from '../data';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import HomeScreen from '../screens/HomeScreen';
 import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
@@ -9,7 +10,6 @@ import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
-import { Household } from '../data';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -30,7 +30,7 @@ export default function RootStackNavigator() {
   // useFocusEffect() i screens för att säkerställa att användaren ser den senaste datan
 
   return (
-    <RootStack.Navigator initialRouteName="HouseholdInformation">
+    <RootStack.Navigator initialRouteName="Home">
       <RootStack.Screen
         name="Login"
         component={LoginScreen}
