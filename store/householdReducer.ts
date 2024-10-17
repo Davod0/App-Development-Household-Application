@@ -1,6 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+// import { Household, mockedHouseholds } from '../data';
 import { Household } from '../data';
 
+// // const initialState = {
+// //   selected: mockedHouseholds[0],
+// //   list: mockedHouseholds,
+// };
+
+// Plural
 const initialState: Household = {
   id: '',
   name: '',
