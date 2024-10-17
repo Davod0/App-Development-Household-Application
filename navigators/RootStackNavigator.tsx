@@ -9,6 +9,7 @@ import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
+import { Household } from '../data';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -18,7 +19,7 @@ export type RootStackParamList = {
   TestStore: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
-  HouseholdInformation: undefined;
+  HouseholdInformation: { household: Household };
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();

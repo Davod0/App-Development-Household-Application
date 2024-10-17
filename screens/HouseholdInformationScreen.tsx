@@ -1,25 +1,32 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Card, Icon, List, Text } from 'react-native-paper';
+import { Household, mockedMembers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 
-export default function HouseholdInformation({ navigation }: Props) {
+export default function HouseholdInformation(
+  { navigation }: Props,
+  household: Household,
+) {
+  const membersInHousehold = mockedMembers.filter(
+    (m) => m.householdId === household.id,
+  );
   return (
     <ScrollView contentContainerStyle={s.root}>
       <ScrollView>
         <View style={{ padding: 14 }}>
-          <Text style={s.text}>Din kod till hushållet</Text>
+          <Text style={s.text}>Din kod till hushållet:</Text>
           <Card style={s.box}>
             <Card.Content style={{ height: 80 }}>
-              <Text style={s.text}>kod</Text>
+              <Text style={s.text}>{household.code}</Text>
             </Card.Content>
           </Card>
-          <Text style={s.text}>Ditt namn till hushållet</Text>
+          <Text style={s.text}>Namn till hushållet:</Text>
           <Card style={s.box}>
             <Card.Content style={{ height: 80 }}>
-              <Text style={s.text}>name</Text>
+              <Text style={s.text}>{household.name}</Text>
             </Card.Content>
           </Card>
           <Text style={{ marginTop: 12, fontSize: 34 }}>Medlemmar:</Text>
@@ -38,11 +45,21 @@ export default function HouseholdInformation({ navigation }: Props) {
                 flexWrap: 'wrap',
               }}
             >
-              <List.Item
-                style={{ width: '50%' }}
-                title="Name"
-                left={(props) => <List.Icon {...props} icon="account-circle" />}
-              />
+              {membersInHousehold &&
+              Object.keys(membersInHousehold).length > 0 ? (
+                membersInHousehold.map((member) => (
+                  <List.Item
+                    key={member.id}
+                    style={{ width: '50%' }}
+                    title={member.name}
+                    left={(props) => (
+                      <List.Icon {...props} icon="account-circle" />
+                    )}
+                  />
+                ))
+              ) : (
+                <Text style={s.text}>Inga medlemmar är med i hushållet.</Text>
+              )}
             </Card.Content>
           </Card>
         </ScrollView>
