@@ -1,31 +1,47 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
-import { Button, Icon, TextInput } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper';
+import { EmailPassword } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { useAppDispatch } from '../store/hooks';
+import { signUpUser } from '../store/user/userActions';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Register'>;
 export default function RegisterScreen({ navigation }: Props) {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
 
   const validateInput = () => {
     // I just check if user have written anything in TextInput now. Can add other validation controls later (if we want)
-    if (!username) {
-      Alert.alert('Validation Error', 'Användarnamn kan inte vara tomt.');
+    if (!email) {
+      Alert.alert('Validation Error', 'Du måste skriva en giltig email');
       return false;
     }
     if (!password) {
-      Alert.alert('Validation Error', 'Password kan inte vara tomt.');
+      Alert.alert(
+        'Validation Error',
+        'Password kan inte vara tomt och måste vara minst 6 bokstäver.',
+      );
       return false;
     }
 
     return true;
   };
-  const registerAccount = () => {
+  const signUpAccount = () => {
     if (validateInput()) {
-      console.log('All inputs are valid. We can create a new user.');
-      navigation.navigate('Home');
+      const emailPassword: EmailPassword = {
+        email,
+        password,
+      };
+      const result = dispatch(signUpUser(emailPassword));
+      if (result !== null) {
+        Alert.alert('User creation faild');
+        setEmail('');
+        setPassword('');
+        // navigation.navigate('Home');
+      }
     }
   };
 
@@ -36,8 +52,8 @@ export default function RegisterScreen({ navigation }: Props) {
           style={s.textInput}
           mode="outlined"
           label={'Användarnamn'}
-          value={username}
-          onChangeText={(text) => setUsername(text)}
+          value={email}
+          onChangeText={(text) => setEmail(text)}
           theme={{ roundness: 10 }}
         />
         <TextInput
@@ -52,47 +68,9 @@ export default function RegisterScreen({ navigation }: Props) {
         <Button
           mode="contained"
           style={{ marginTop: 30 }}
-          onPress={registerAccount}
+          onPress={signUpAccount}
         >
           Registrera konto
-        </Button>
-      </View>
-      <View style={s.footer}>
-        <Button
-          style={{ width: '50%' }}
-          mode="elevated"
-          textColor="black"
-          theme={{ roundness: 0 }}
-          icon={({ color }) => (
-            <Icon source="plus-circle-outline" size={27} color={color} />
-          )}
-          labelStyle={{
-            fontSize: 20,
-            lineHeight: 30,
-          }}
-          contentStyle={{ height: 65, gap: 10 }}
-          onPress={registerAccount}
-        >
-          Spara
-        </Button>
-        <Button
-          style={{ width: '50%' }}
-          mode="elevated"
-          textColor="black"
-          theme={{ roundness: 0 }}
-          icon={({ color }) => (
-            <Icon source="close-circle-outline" size={27} color={color} />
-          )}
-          labelStyle={{
-            fontSize: 20,
-            lineHeight: 30,
-          }}
-          contentStyle={{ height: 65, gap: 10 }}
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          Stäng
         </Button>
       </View>
     </View>
@@ -107,9 +85,5 @@ const s = StyleSheet.create({
   },
   textInput: {
     minHeight: 60,
-  },
-  footer: {
-    flexDirection: 'row',
-    width: '100%',
   },
 });

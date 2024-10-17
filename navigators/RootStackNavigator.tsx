@@ -30,7 +30,7 @@ export default function RootStackNavigator() {
   const user = useAppSelector((state) => state.user.currentUser);
 
   return (
-    <RootStack.Navigator initialRouteName="TestStore">
+    <RootStack.Navigator initialRouteName="Login">
       {user ? (
         <>
           <RootStack.Screen name="Home" component={HomeScreen} />
@@ -102,7 +102,7 @@ export default function RootStackNavigator() {
             component={RegisterScreen}
             options={{
               headerTitle: () => (
-                <View style={s.titleContainer}>
+                <View>
                   <Text style={s.title}>Registrera dig</Text>
                 </View>
               ),
