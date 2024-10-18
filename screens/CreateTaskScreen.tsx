@@ -1,19 +1,23 @@
 import { useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Surface, Text, TextInput } from 'react-native-paper';
+import EffortPicker from '../Components/EffortPicker';
 
 export default function CreateTaskScreen() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  //   not used yet
   const [frequency, setFrequency] = useState(0);
   const [weight, setWeight] = useState(0);
-  const [isPickerOpen, setIsPickerOpen] = useState(false);
+
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const days = Array.from({ length: 31 }, (_, i) => i + 1); // Generate days 1 to 31
 
   const handleCreateTask = () => {
     console.log(title);
     console.log(description);
     console.log(weight);
+    console.log(frequency);
+    Alert.alert('En syssla är skapad');
   };
 
   return (
@@ -38,48 +42,36 @@ export default function CreateTaskScreen() {
       </Surface>
 
       {/* TODO: lägg in komponent väljare */}
-      <Surface style={[s.RecurringDate, s.baseStyle]}>
-        <Text style={[s.padding, s.titleText]}>Återkommer:</Text>
-        <Text style={s.padding}>var 7 dag</Text>
-      </Surface>
 
-      {/* TODO: Gör om till komponent?*/}
-
-      {isPickerOpen ? (
+      {isDatePickerOpen ? (
         <Surface style={[s.RecurringValue, s.baseStyle]}>
-          {[1, 2, 4, 6, 8].map((value) => (
-            <Pressable
-              style={s.RecurringValue}
-              onPress={() => {
-                setWeight(value);
-                setIsPickerOpen(!isPickerOpen);
-              }}
-            >
-              <View style={s.valueNumberOptionsContainer}>
-                <Text key={value} style={s.valueNumberOptions}>
-                  {value}
-                </Text>
-              </View>
-            </Pressable>
-          ))}
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {days.map((day) => (
+              <Pressable
+                key={day}
+                onPress={() => {
+                  setFrequency(day);
+                  setIsDatePickerOpen(!isDatePickerOpen);
+                }}
+              >
+                <View style={[s.baseStyle]}>
+                  <Text style={s.dateText}>{day}</Text>
+                </View>
+              </Pressable>
+            ))}
+          </ScrollView>
         </Surface>
       ) : (
-        <>
-          <Pressable onPress={() => setIsPickerOpen(!isPickerOpen)}>
-            <Surface style={[s.RecurringValue, s.baseStyle]}>
-              <View style={s.padding}>
-                <Text style={s.titleText}>Värde:</Text>
-                <Text>Hur energikrävande är sysslan?</Text>
-              </View>
-              <View style={s.padding}>
-                <View style={s.valueNumberContainer}>
-                  <Text style={s.valueNumber}>{weight}</Text>
-                </View>
-              </View>
-            </Surface>
-          </Pressable>
-        </>
+        <Pressable onPress={() => setIsDatePickerOpen(!isDatePickerOpen)}>
+          <Surface style={[s.RecurringDate, s.baseStyle]}>
+            <Text style={[s.padding, s.titleText]}>Återkommer:</Text>
+            <Text style={s.padding}>var {frequency} dag</Text>
+          </Surface>
+        </Pressable>
       )}
+
+      {/* använder EffortPicker komponenten till att kunna välja energivärdet */}
+      <EffortPicker weight={weight} setWeight={setWeight} />
 
       <Button mode="contained" onPress={handleCreateTask}>
         Skapa
@@ -89,6 +81,11 @@ export default function CreateTaskScreen() {
 }
 
 const s = StyleSheet.create({
+  dateText: {
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+
   container: {
     margin: 15,
     gap: 15,
