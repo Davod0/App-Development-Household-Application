@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Surface, Text } from 'react-native-paper';
+import { Button, Icon, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Household, mockedHouseholds, mockedMembers } from '../data';
@@ -35,19 +35,38 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   return (
     //surface i nataive paper
     <SafeAreaView style={s.container}>
+      {/* ta bort hushåll, ska ligga i ännu en touchableopacity som leder till ett 
+      ta bort statement hushåll från member till firebase. eventuellt "säker på tabort?" först */}
       {userHouseholds.map((household) => (
         <View style={s.household} key={household.id}>
           <TouchableOpacity onPress={() => handleHouseholdPress(household)}>
-            <Surface elevation={4}>
-              <Text style={s.text}>{household.name}</Text>
+            <Surface style={s.surface}>
+              <Text style={s.text}>{household.name} 🏠</Text>
             </Surface>
           </TouchableOpacity>
-          <Text style={s.text}>{household.name}</Text>
-          <Text style={s.text}>{household.name}</Text>
-          <Text style={s.text}>{household.name}</Text>
-          <Text style={s.text}>{household.name}</Text>
         </View>
       ))}
+      <View style={s.footer}>
+        <Button
+          style={{ width: '100%' }}
+          mode="elevated"
+          textColor="black"
+          theme={{ roundness: 0 }}
+          icon={({ color }) => (
+            <Icon source="close-circle-outline" size={27} color={color} />
+          )}
+          labelStyle={{
+            fontSize: 20,
+            lineHeight: 30,
+          }}
+          contentStyle={{ height: 65, gap: 10 }}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          Stäng
+        </Button>
+      </View>
     </SafeAreaView>
   );
 }
@@ -55,14 +74,21 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
   },
   household: {
-    margin: 10,
-    gap: 10,
-    padding: 15,
+    margin: 12,
+  },
+  surface: {
+    elevation: 4,
+    borderRadius: 10,
+    paddingLeft: 10,
   },
   text: {
     fontSize: 25,
+  },
+  footer: {
+    flexDirection: 'row',
+    width: '100%',
   },
 });
