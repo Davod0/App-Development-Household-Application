@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Surface, Text } from 'react-native-paper';
+import { Button, Icon, Surface, Text } from 'react-native-paper';
 import { mockedTasks } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 
@@ -11,8 +11,11 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 export default function DetailsScreen({ navigation }: Props) {
   const taskId = 'task-2';
   const task = mockedTasks.find((t) => t.id === taskId);
+
+  const handleSave = () => {};
+
   return (
-    <View style={{ backgroundColor: '#F2F2F2' }}>
+    <View style={s.container}>
       <Surface
         style={{
           padding: 14,
@@ -64,7 +67,13 @@ export default function DetailsScreen({ navigation }: Props) {
             Återkommer:
           </Text>
 
-          <View style={{ position: 'relative' }}>
+          <View
+            style={{
+              position: 'relative',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <View
               style={{
                 position: 'absolute',
@@ -78,7 +87,9 @@ export default function DetailsScreen({ navigation }: Props) {
                 alignItems: 'center',
               }}
             />
-            <Text variant="headlineSmall">{task?.frequency}</Text>
+            <Text variant="headlineSmall" style={{ color: '#fff' }}>
+              {task?.frequency}{' '}
+            </Text>
           </View>
 
           <Text variant="headlineSmall" style={{ textAlign: 'right' }}>
@@ -142,6 +153,44 @@ export default function DetailsScreen({ navigation }: Props) {
           </View>
         </View>
       </Surface>
+      <View style={s.footer}>
+        <Button
+          style={{ width: '50%' }}
+          mode="elevated"
+          textColor="black"
+          theme={{ roundness: 0 }}
+          icon={({ color }) => (
+            <Icon source="plus-circle-outline" size={27} color={color} />
+          )}
+          labelStyle={{
+            fontSize: 20,
+            lineHeight: 30,
+          }}
+          contentStyle={{ height: 65, gap: 10 }}
+          onPress={handleSave}
+        >
+          Spara
+        </Button>
+        <Button
+          style={{ width: '50%' }}
+          mode="elevated"
+          textColor="black"
+          theme={{ roundness: 0 }}
+          icon={({ color }) => (
+            <Icon source="close-circle-outline" size={27} color={color} />
+          )}
+          labelStyle={{
+            fontSize: 20,
+            lineHeight: 30,
+          }}
+          contentStyle={{ height: 65, gap: 10 }}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          Stäng
+        </Button>
+      </View>
     </View>
   );
 }
@@ -151,6 +200,7 @@ const s = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     marginVertical: 1,
+    backgroundColor: '#F2F2F2',
   },
   textInput: {
     minHeight: 60,
