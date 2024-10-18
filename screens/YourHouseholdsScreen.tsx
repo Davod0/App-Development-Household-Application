@@ -1,8 +1,8 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { mockedHouseholds, mockedMembers } from '../data';
+import { Household, mockedHouseholds, mockedMembers } from '../data';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
@@ -28,15 +28,20 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   );
 
   console.log(userHouseholds);
+  const handleHouseholdPress = (household: Household) => {
+    navigation.navigate('HouseholdInformation', { household });
+  };
 
   return (
     //surface i nataive paper
     <SafeAreaView style={s.container}>
       {userHouseholds.map((household) => (
         <View style={s.household} key={household.id}>
-          <Surface elevation={4}>
-            <Text style={s.text}>{household.name}</Text>
-          </Surface>
+          <TouchableOpacity onPress={() => handleHouseholdPress(household)}>
+            <Surface elevation={4}>
+              <Text style={s.text}>{household.name}</Text>
+            </Surface>
+          </TouchableOpacity>
           <Text style={s.text}>{household.name}</Text>
           <Text style={s.text}>{household.name}</Text>
           <Text style={s.text}>{household.name}</Text>

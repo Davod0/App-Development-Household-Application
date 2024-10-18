@@ -9,7 +9,7 @@ type props = NativeStackScreenProps<RootStackParamList, 'CreateHouseHold'>;
 export default function CreateHouseholdScreen({ navigation }: props) {
   const [name, setName] = useState('');
 
-  const validateHaouseHoldName = () => {
+  const validateHouseHoldName = () => {
     if (!name) {
       Alert.alert('Validation error', 'Household name kan inte vara tomt.');
       return false;
@@ -18,7 +18,7 @@ export default function CreateHouseholdScreen({ navigation }: props) {
   };
 
   const createHouseHold = () => {
-    if (validateHaouseHoldName()) {
+    if (validateHouseHoldName()) {
       console.log('Household name is right. We can create household.');
       navigation.navigate('Home');
     }
