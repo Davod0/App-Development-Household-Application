@@ -1,4 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { signOut } from 'firebase/auth';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { auth } from '../firebase';
 // import { mockedHouseholds, mockedMembers } from '../data';
 // import { useAppSelector } from '../store/hooks';
 
@@ -18,6 +20,12 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Home Screen</Text>
+      <Button
+        title="log out"
+        onPress={() => {
+          signOut(auth);
+        }}
+      ></Button>
     </View>
   );
 }
