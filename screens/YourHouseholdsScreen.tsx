@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Button, Icon, Surface, Text } from 'react-native-paper';
+import { Button, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Household, mockedHouseholds, mockedMembers } from '../data';
@@ -37,24 +37,23 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
     <SafeAreaView style={s.container}>
       {/* ta bort hushåll, ska ligga i ännu en touchableopacity som leder till ett 
       ta bort statement hushåll från member till firebase. eventuellt "säker på tabort?" först */}
-      {userHouseholds.map((household) => (
-        <View style={s.household} key={household.id}>
-          <TouchableOpacity onPress={() => handleHouseholdPress(household)}>
-            <Surface style={s.surface}>
-              <Text style={s.text}>{household.name} 🏠</Text>
-            </Surface>
-          </TouchableOpacity>
-        </View>
-      ))}
+      <View style={s.householdsContainer}>
+        {userHouseholds.map((household) => (
+          <View style={s.household} key={household.id}>
+            <TouchableOpacity onPress={() => handleHouseholdPress(household)}>
+              <Surface style={s.surface}>
+                <Text style={s.text}>{household.name} 🏠</Text>
+              </Surface>
+            </TouchableOpacity>
+          </View>
+        ))}
+      </View>
       <View style={s.footer}>
         <Button
-          style={{ width: '100%' }}
+          style={{ width: '50%' }}
           mode="elevated"
           textColor="black"
           theme={{ roundness: 0 }}
-          icon={({ color }) => (
-            <Icon source="close-circle-outline" size={27} color={color} />
-          )}
           labelStyle={{
             fontSize: 20,
             lineHeight: 30,
@@ -64,7 +63,23 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
             navigation.goBack();
           }}
         >
-          Stäng
+          Skapa hushåll
+        </Button>
+        <Button
+          style={{ width: '50%' }}
+          mode="elevated"
+          textColor="black"
+          theme={{ roundness: 0 }}
+          labelStyle={{
+            fontSize: 20,
+            lineHeight: 30,
+          }}
+          contentStyle={{ height: 65, gap: 10 }}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          Gå med i hushåll
         </Button>
       </View>
     </SafeAreaView>
@@ -74,7 +89,10 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  householdsContainer: {
+    flex: 1,
   },
   household: {
     margin: 12,
