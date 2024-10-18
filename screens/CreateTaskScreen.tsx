@@ -38,6 +38,7 @@ export default function CreateTaskScreen() {
           onChangeText={setDescription}
         />
       </Surface>
+
       {/* använder DatePicker komponenten till att kunna välja återkommande värdet */}
       <DatePicker frequency={frequency} setFrequency={setFrequency} />
 
@@ -52,60 +53,8 @@ export default function CreateTaskScreen() {
 }
 
 const s = StyleSheet.create({
-  dateText: {
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-
   container: {
     margin: 15,
     gap: 15,
-  },
-  baseStyle: {
-    borderRadius: 10,
-    padding: 10,
-  },
-  RecurringDate: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  RecurringValue: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 80,
-  },
-  padding: {
-    padding: 10,
-  },
-  titleText: {
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-  valueNumberContainer: {
-    backgroundColor: '#e7e0ec',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  valueNumber: {
-    textAlign: 'center',
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  valueNumberOptionsContainer: {
-    backgroundColor: '#e7e0ec',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  valueNumberOptions: {
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: 'bold',
   },
 });

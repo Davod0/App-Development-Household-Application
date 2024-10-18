@@ -9,7 +9,7 @@ type Props = {
 
 export default function DatePicker({ frequency, setFrequency }: Props) {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const days = Array.from({ length: 31 }, (_, i) => i + 1); // Generate days 1 to 31
+  const days = Array.from({ length: 31 }, (_, i) => i + 1); // Genererar nummer 1 till 31
 
   return isDatePickerOpen ? (
     <Surface style={[s.RecurringValue, s.baseStyle]}>
@@ -32,8 +32,14 @@ export default function DatePicker({ frequency, setFrequency }: Props) {
   ) : (
     <Pressable onPress={() => setIsDatePickerOpen(!isDatePickerOpen)}>
       <Surface style={[s.RecurringDate, s.baseStyle]}>
-        <Text style={[s.padding, s.titleText]}>Återkommer:</Text>
-        <Text style={s.padding}>var {frequency} dag</Text>
+        <Text style={s.titleText}>Återkommer:</Text>
+        <View style={s.container}>
+          <Text style={s.displayText}>Var</Text>
+          <View style={s.dateValueContainer}>
+            <Text style={s.dateValue}>{frequency}</Text>
+          </View>
+          <Text style={s.displayText}>dag</Text>
+        </View>
       </Surface>
     </Pressable>
   );
@@ -44,11 +50,6 @@ const s = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
   },
-
-  container: {
-    margin: 15,
-    gap: 15,
-  },
   baseStyle: {
     borderRadius: 10,
     padding: 10,
@@ -56,6 +57,8 @@ const s = StyleSheet.create({
   RecurringDate: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 80,
   },
   RecurringValue: {
     flexDirection: 'row',
@@ -63,37 +66,31 @@ const s = StyleSheet.create({
     alignItems: 'center',
     height: 80,
   },
-  padding: {
-    padding: 10,
-  },
   titleText: {
     fontWeight: 'bold',
     fontSize: 20,
+    padding: 10,
   },
-  valueNumberContainer: {
-    backgroundColor: '#e7e0ec',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  valueNumber: {
-    textAlign: 'center',
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  valueNumberOptionsContainer: {
-    backgroundColor: '#e7e0ec',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  valueNumberOptions: {
-    textAlign: 'center',
+  displayText: {
     fontSize: 20,
+  },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+  },
+  dateValueContainer: {
+    backgroundColor: '#cd5d6f',
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 7,
+  },
+  dateValue: {
+    color: '#fff',
     fontWeight: 'bold',
+    fontSize: 20,
   },
 });

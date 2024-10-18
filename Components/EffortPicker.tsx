@@ -52,7 +52,6 @@ const s = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
   },
-
   RecurringValue: {
     flexDirection: 'row',
     justifyContent: 'space-between',
