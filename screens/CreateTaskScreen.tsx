@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Surface, Text, TextInput } from 'react-native-paper';
+import { Alert, StyleSheet, View } from 'react-native';
+import { Button, Surface, TextInput } from 'react-native-paper';
+import DatePicker from '../Components/DatePicker';
 import EffortPicker from '../Components/EffortPicker';
 
 export default function CreateTaskScreen() {
@@ -8,9 +9,6 @@ export default function CreateTaskScreen() {
   const [description, setDescription] = useState('');
   const [frequency, setFrequency] = useState(0);
   const [weight, setWeight] = useState(0);
-
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const days = Array.from({ length: 31 }, (_, i) => i + 1); // Generate days 1 to 31
 
   const handleCreateTask = () => {
     console.log(title);
@@ -40,35 +38,8 @@ export default function CreateTaskScreen() {
           onChangeText={setDescription}
         />
       </Surface>
-
-      {/* TODO: lägg in komponent väljare */}
-
-      {isDatePickerOpen ? (
-        <Surface style={[s.RecurringValue, s.baseStyle]}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {days.map((day) => (
-              <Pressable
-                key={day}
-                onPress={() => {
-                  setFrequency(day);
-                  setIsDatePickerOpen(!isDatePickerOpen);
-                }}
-              >
-                <View style={[s.baseStyle]}>
-                  <Text style={s.dateText}>{day}</Text>
-                </View>
-              </Pressable>
-            ))}
-          </ScrollView>
-        </Surface>
-      ) : (
-        <Pressable onPress={() => setIsDatePickerOpen(!isDatePickerOpen)}>
-          <Surface style={[s.RecurringDate, s.baseStyle]}>
-            <Text style={[s.padding, s.titleText]}>Återkommer:</Text>
-            <Text style={s.padding}>var {frequency} dag</Text>
-          </Surface>
-        </Pressable>
-      )}
+      {/* använder DatePicker komponenten till att kunna välja återkommande värdet */}
+      <DatePicker frequency={frequency} setFrequency={setFrequency} />
 
       {/* använder EffortPicker komponenten till att kunna välja energivärdet */}
       <EffortPicker weight={weight} setWeight={setWeight} />
