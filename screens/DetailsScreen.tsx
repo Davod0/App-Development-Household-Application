@@ -12,7 +12,7 @@ export default function DetailsScreen({ navigation }: Props) {
   const taskId = 'task-2';
   const task = mockedTasks.find((t) => t.id === taskId);
   return (
-    <View>
+    <View style={{ backgroundColor: '#F2F2F2' }}>
       <Surface
         style={{
           padding: 14,
@@ -64,14 +64,31 @@ export default function DetailsScreen({ navigation }: Props) {
             Återkommer:
           </Text>
 
+          <View style={{ position: 'relative' }}>
+            <View
+              style={{
+                position: 'absolute',
+                borderRadius: 15,
+                borderColor: '#CD5D6F',
+                borderWidth: 1,
+                backgroundColor: '#CD5D6F',
+                height: 30,
+                width: 30,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            />
+            <Text variant="headlineSmall">{task?.frequency}</Text>
+          </View>
+
           <Text variant="headlineSmall" style={{ textAlign: 'right' }}>
-            var {task?.frequency} dag
+            dag
           </Text>
         </View>
       </Surface>
       <Surface
         style={{
-          padding: 25,
+          padding: 20,
           alignItems: 'center',
           justifyContent: 'center',
           marginBottom: 10,
@@ -96,19 +113,33 @@ export default function DetailsScreen({ navigation }: Props) {
               Värde:
             </Text>
             <Text
-              variant="titleSmall"
+              variant="titleMedium"
               style={{ textAlign: 'left', textAlignVertical: 'bottom' }}
             >
               Hur energikrävande är sysslan?
             </Text>
           </View>
-
-          <Text
-            variant="headlineSmall"
-            style={{ textAlign: 'right', textAlignVertical: 'center' }}
+          <View
+            style={{
+              borderRadius: 30,
+              borderColor: '#F2F2F2',
+              borderWidth: 1,
+              backgroundColor: '#F2F2F2',
+              height: 30,
+              width: 30,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
           >
-            {task?.weight}
-          </Text>
+            <Text
+              variant="headlineSmall"
+              style={{
+                textAlign: 'right',
+              }}
+            >
+              {task?.weight}
+            </Text>
+          </View>
         </View>
       </Surface>
     </View>
