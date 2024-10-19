@@ -8,6 +8,7 @@ import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
+import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -18,6 +19,7 @@ export type RootStackParamList = {
   TestStore: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
+  SelectedHouseholdNav: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -27,7 +29,14 @@ export default function RootStackNavigator() {
   // useFocusEffect() i screens för att säkerställa att användaren ser den senaste datan
 
   return (
-    <RootStack.Navigator initialRouteName="Login">
+    <RootStack.Navigator
+      initialRouteName="Home"
+      screenOptions={{ headerTitleAlign: 'center' }}
+    >
+      <RootStack.Screen
+        name="SelectedHouseholdNav"
+        component={SelectedHouseholdTopTabNav}
+      />
       <RootStack.Screen
         name="Login"
         component={LoginScreen}
