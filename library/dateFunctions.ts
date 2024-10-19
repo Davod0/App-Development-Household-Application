@@ -1,3 +1,5 @@
+import { mod } from './utils';
+
 // constants
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
@@ -8,7 +10,7 @@ const DAY_IN_MS = 24 * 60 * 60 * 1000;
  */
 export function startDayCurrentWeek(today: Date): Date {
   //FIXME: need to use setHours(0,0,0,0)?
-  return new Date(today.getTime() - (today.getDay() - 1) * DAY_IN_MS);
+  return new Date(today.getTime() - mod(today.getDay() - 1, 7) * DAY_IN_MS);
 }
 /**
  * Function that calculate the number of whole days between to dates.
