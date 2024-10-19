@@ -1,11 +1,13 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { signOut } from 'firebase/auth';
+import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
+import { auth } from '../firebase';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 // import { mockedHouseholds, mockedMembers } from '../data';
 // import { useAppSelector } from '../store/hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
-export default function App({ navigation }: Props) {
+export default function Home({ navigation }: Props) {
   // const households = useAppSelector((state) => state.household.list);
   // const members = useAppSelector((state) => state.members.filter());
   // const householdMembers = useAppSelector(selectMembersByHousehold);
@@ -43,6 +45,13 @@ export default function App({ navigation }: Props) {
       </Pressable>
 
       {/* <Pressable onPress={() => navigation.navigate('Login')}><Text style={styles.text}>Login</Text></Pressable> */}
+      <Text>Home Screen</Text>
+      <Button
+        title="log out"
+        onPress={() => {
+          signOut(auth);
+        }}
+      ></Button>
     </View>
   );
 }
