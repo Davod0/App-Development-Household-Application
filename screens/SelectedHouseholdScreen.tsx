@@ -1,11 +1,10 @@
-import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Surface } from 'react-native-paper';
 import { mockedTasks } from '../data';
 
-export default function SelectedHouseholdScreen({
-  navigation,
-}: MaterialTopTabBarProps) {
+export default function SelectedHouseholdScreen({ navigation }: any) {
+  //TODO: fix type
+  // MaterialTopTabBarProps) {
   const householdId = 'household-1';
   const tasks = mockedTasks.filter((t) => t.householdId === householdId);
 
