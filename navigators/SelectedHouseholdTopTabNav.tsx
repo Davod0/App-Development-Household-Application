@@ -1,11 +1,17 @@
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {
+  createMaterialTopTabNavigator,
+  MaterialTopTabScreenProps,
+} from '@react-navigation/material-top-tabs';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import { SubHeaderStatsScreens } from '../components/SubHeaderStatsScreens';
 import SelectedHouseholdScreen from '../screens/SelectedHouseholdScreen';
 import CurrentWeek from '../screens/statistics/CurrentWeek';
 import LastWeek from '../screens/statistics/LastWeek';
+import { RootStackParamList } from './RootStackNavigator';
 
-type TopTabNavigatorParamList = {
+export type TopTabNavigatorParamList = {
   SelectedHousehold: undefined;
   StatsCurrentWeek: undefined;
   StatsLastWeek: undefined;
@@ -13,10 +19,12 @@ type TopTabNavigatorParamList = {
 
 const Tab = createMaterialTopTabNavigator<TopTabNavigatorParamList>();
 
-export default function SelectedHouseholdTopTabNav(
-  //TODO: fix type
-  props: any, //MaterialTopTabBarProps,
-) {
+type Props = CompositeScreenProps<
+  NativeStackScreenProps<RootStackParamList, 'SelectedHouseholdNav'>,
+  MaterialTopTabScreenProps<TopTabNavigatorParamList>
+>;
+
+export default function SelectedHouseholdTopTabNav(props: Props) {
   return (
     <Tab.Navigator tabBar={(props) => <SubHeaderStatsScreens {...props} />}>
       <Tab.Screen

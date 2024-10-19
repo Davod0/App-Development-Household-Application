@@ -1,3 +1,4 @@
+import { NavigatorScreenParams } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
@@ -8,7 +9,9 @@ import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
-import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
+import SelectedHouseholdTopTabNav, {
+  TopTabNavigatorParamList,
+} from './SelectedHouseholdTopTabNav';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -19,7 +22,7 @@ export type RootStackParamList = {
   TestStore: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
-  SelectedHouseholdNav: undefined;
+  SelectedHouseholdNav: NavigatorScreenParams<TopTabNavigatorParamList>;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
