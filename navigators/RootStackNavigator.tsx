@@ -36,6 +36,18 @@ export default function RootStackNavigator() {
       <RootStack.Screen
         name="SelectedHouseholdNav"
         component={SelectedHouseholdTopTabNav}
+        options={({ navigation }) => ({
+          title: 'HouseholdName',
+          headerShadowVisible: false,
+          headerRight: () => (
+            <IconButton
+              icon="account-outline"
+              size={24}
+              // TODO: change route to edit-profile
+              onPress={() => navigation.navigate('Home')}
+            />
+          ),
+        })}
       />
       <RootStack.Screen
         name="Login"
