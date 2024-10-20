@@ -3,7 +3,8 @@ import { avatarList, Task } from '../data';
 
 type Props = { task: Task };
 
-export default function SmallPie({ task }: Props) {
+//TODO: implement pie chart per task
+export default function PieChartOneTask({ task }: Props) {
   // test data
   const data = [
     { value: 30, color: avatarList[0].color, text: avatarList[0].icon },

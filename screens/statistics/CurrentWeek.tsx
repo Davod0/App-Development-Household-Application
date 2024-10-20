@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
-import BigPie from '../../components/BigPie';
-import SmallPie from '../../components/SmallPie';
+import PieChartAllTasks from '../../components/PieChartAllTasks';
+import PieChartOneTask from '../../components/PieChartOneTask';
 import { mockedTasks, Task } from '../../data';
 
 export default function CurrentWeek() {
@@ -10,7 +10,7 @@ export default function CurrentWeek() {
 
   const renderItem = (item: Task) => (
     <View style={s.item}>
-      <SmallPie task={item} />
+      <PieChartOneTask task={item} />
       <Text>
         {item.name.slice(0, 14).trim()}
         {item.name.length > 14 ? '...' : ''}
@@ -19,7 +19,10 @@ export default function CurrentWeek() {
   );
   return (
     <View style={s.container}>
-      <BigPie />
+      <View style={s.chartTotal}>
+        <PieChartAllTasks />
+        <Text style={s.text}>Totalt</Text>
+      </View>
       <FlatList
         contentContainerStyle={s.list}
         numColumns={3}
@@ -38,10 +41,19 @@ const s = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
-    gap: 20,
+    gap: 30,
+  },
+  chartTotal: {
+    alignItems: 'center',
+    gap: 5,
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: '900',
   },
   list: {
     gap: 20,
+    alignItems: 'center',
   },
   item: {},
   row: {

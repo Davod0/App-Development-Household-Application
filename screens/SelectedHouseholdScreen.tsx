@@ -1,3 +1,4 @@
+import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Badge, Button, Icon, Surface } from 'react-native-paper';
@@ -8,12 +9,12 @@ import {
   mockedTasks,
   Task,
 } from '../data';
-import { dateDifference, startDayCurrentWeek } from '../library/dateFunctions';
+import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 
-export default function SelectedHouseholdScreen({ navigation }: any) {
-  //TODO: fix type
-  // MaterialTopTabBarProps) {
-
+//TODO: fix type
+export default function SelectedHouseholdScreen({
+  navigation,
+}: MaterialTopTabBarProps) {
   //for testing...
   const currentUser = { isAdmin: true };
   // const currentUser = { isAdmin: false };
@@ -25,49 +26,18 @@ export default function SelectedHouseholdScreen({ navigation }: any) {
   const tasksHousehold = mockedTasks.filter(
     (t) => t.householdId === householdId,
   );
-  for (let t of tasksHousehold) {
-    console.log(t.name, '---\t', t.id);
-  }
-  console.log('-- -- -- --');
 
-  // const ttSet = tasksHousehold.filter(findUnique);
-  // for (let t of ttSet) {
-  //   console.log(t.name);
-  // }
-
-  const a = avatarList2;
-  const today = new Date();
+  const today = todayAtMidnight();
   const completedTasks = mockedCompletedTasks
     .filter((t) => members.some((m) => m.id === t.memberId))
-    .filter((t) => t.dateDone >= startDayCurrentWeek(today));
-  console.log('all comp. tasks this week', completedTasks.length);
-
-  for (let t of completedTasks) {
-    console.log(t);
-  }
-  console.log('</>');
-
-  const tasksId = new Set(completedTasks.map((ct) => ct.taskId));
-
-  for (let t of tasksId) {
-    console.log(completedTasks.find((ct) => ct.taskId === t));
-  }
-  console.log('</>');
-
-  const tasks = mockedTasks.filter((t) => tasksId.has(t.id));
-  // for (let t of tasks) {
-  //   console.log(t);
-  // }
-  //-----
+    .filter((t) => t.dateDone >= todayAtMidnight());
+  // .filter((t) => t.dateDone >= startDayCurrentWeek(today));
 
   const renderTaskBadges = (task: Task) => {
-    console.log(task.name, task.id);
-
     const memberIds = completedTasks
       .filter((t) => t.taskId === task.id)
       .map((t) => t.memberId);
 
-    console.log('members', memberIds);
     if (memberIds.length > 0) {
       const memberAvatars = memberIds.map(
         (mId) => members.find((m) => m.id === mId)?.avatarId!,
@@ -75,47 +45,46 @@ export default function SelectedHouseholdScreen({ navigation }: any) {
       return (
         <>
           {memberAvatars.map((x, idx) => (
-            <Text key={idx}>{a[x].icon}</Text>
+            <Text key={idx}>{avatarList2[x].icon}</Text>
           ))}
         </>
       );
     } else {
-      const pastCompletionsOfTask = mockedCompletedTasks
+      // we need to find when this task was done in the past
+      const pastCompletionsOfThisTask = mockedCompletedTasks
         .filter(
           (t) =>
             t.taskId === task.id && members.some((m) => m.id === t.memberId),
         )
         .sort((a, b) => (a.dateDone <= b.dateDone ? 1 : -1));
 
-      console.log(task.id, pastCompletionsOfTask);
-
-      let daysSinceLastCompleted;
-      if (pastCompletionsOfTask.length > 0) {
-        daysSinceLastCompleted = dateDifference(
-          today,
-          pastCompletionsOfTask[0].dateDone,
-        );
-      } else {
-        daysSinceLastCompleted = 1000;
-      }
+      let daysSinceLastCompleted =
+        pastCompletionsOfThisTask.length > 0
+          ? dateDifference(today, pastCompletionsOfThisTask[0].dateDone)
+          : 100;
 
       return (
         <>
-          {daysSinceLastCompleted > 999 ? (
-            <View
-              style={{
-                backgroundColor: 'tomato',
-                borderRadius: 25,
-              }}
-            >
-              <Icon source="infinity" size={20} color="white" />
+          {daysSinceLastCompleted > 99 ? (
+            <View>
+              <Badge size={24}>99+</Badge>
             </View>
           ) : daysSinceLastCompleted > task.frequency ? (
             <View>
               <Badge size={24}>{daysSinceLastCompleted}</Badge>
             </View>
           ) : (
-            <Text>{daysSinceLastCompleted}</Text>
+            <View>
+              <Badge
+                size={28}
+                style={{
+                  backgroundColor: '#f2f2f2',
+                  color: 'black',
+                }}
+              >
+                {daysSinceLastCompleted}
+              </Badge>
+            </View>
           )}
         </>
       );

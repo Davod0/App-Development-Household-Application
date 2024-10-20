@@ -5,13 +5,13 @@ import {
   mockedMembers,
   mockedTasks,
 } from '../data';
-import { startDayCurrentWeek } from '../library/dateFunctions';
+import { startDayCurrentWeek, todayAtMidnight } from '../library/dateFunctions';
 
-export default function BigPie() {
+export default function PieChartAllTasks() {
   const householdId = 'household-1';
   const members = mockedMembers.filter((m) => m.householdId === householdId);
   const tasks = mockedTasks.filter((t) => t.householdId === householdId);
-  const today = new Date();
+  const today = todayAtMidnight();
 
   // filter on member to get tasks for current household
   const completedTasks = mockedCompletedTasks
@@ -26,7 +26,11 @@ export default function BigPie() {
 
     let task = tasks.find((t) => t.id === completedTask.taskId);
     if (!task) {
-      console.error('Task not found, but should exist!');
+      console.error(
+        'Task not found, but should exist!',
+        'competedTaskId=',
+        completedTask.id,
+      );
       continue;
     }
 

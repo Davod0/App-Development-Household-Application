@@ -17,7 +17,7 @@ export function startDayCurrentWeek(today: Date): Date {
  * Function to create a new date with time set to 00:00:00
  * @returns new date at midnight
  */
-export function todayStart(): Date {
+export function todayAtMidnight(): Date {
   let today = new Date();
   return new Date(today.setHours(0, 0, 0, 0));
 }

@@ -8,7 +8,6 @@ export function SubHeaderStatsScreens({
   descriptors,
   navigation,
 }: MaterialTopTabBarProps) {
-  //   console.log(state);
   const numRoutes = state.routes.length;
   return (
     <View style={{ flexDirection: 'row' }}>
@@ -21,7 +20,6 @@ export function SubHeaderStatsScreens({
             style={{
               flex: isFocused ? 1 : 0,
               flexDirection: 'row',
-              // justifyContent: 'center',
               borderBottomWidth: 1,
               borderBottomColor: '#aaa',
               backgroundColor: 'white',
