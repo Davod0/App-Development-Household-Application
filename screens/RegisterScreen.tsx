@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Button, HelperText, TextInput } from 'react-native-paper';
 import { EmailPassword } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch } from '../store/hooks';
@@ -11,37 +11,36 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Register'>;
 export default function RegisterScreen({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const dispatch = useAppDispatch();
 
-  const validateInput = () => {
-    // I just check if user have written anything in TextInput now. Can add other validation controls later (if we want)
-    if (!email) {
-      Alert.alert('Validation Error', 'Du måste skriva en giltig email');
-      return false;
-    }
-    if (!password) {
-      Alert.alert(
-        'Validation Error',
-        'Password kan inte vara tomt och måste vara minst 6 bokstäver.',
-      );
-      return false;
-    }
-
-    return true;
+  const emailHasErrors = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{3,}$/;
+    return !emailRegex.test(email);
   };
-  const signUpAccount = () => {
-    if (validateInput()) {
-      const emailPassword: EmailPassword = {
-        email,
-        password,
-      };
-      const result = dispatch(signUpUser(emailPassword));
-      if (result !== null) {
-        Alert.alert('User creation faild');
-        setEmail('');
-        setPassword('');
-        // navigation.navigate('Home');
-      }
+
+  const PasswordHasErrors = () => {
+    return password.length < 6;
+  };
+
+  useEffect(() => {
+    if (!emailHasErrors() && !PasswordHasErrors()) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [email, password]);
+
+  const signUpAccount = async () => {
+    const emailPassword: EmailPassword = {
+      email,
+      password,
+    };
+    try {
+      await dispatch(signUpUser(emailPassword)).unwrap();
+      navigation.navigate('Home');
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -56,6 +55,9 @@ export default function RegisterScreen({ navigation }: Props) {
           onChangeText={(text) => setEmail(text)}
           theme={{ roundness: 10 }}
         />
+        <HelperText type="error" visible={emailHasErrors()}>
+          E-postadressen är ogiltig!
+        </HelperText>
         <TextInput
           style={s.textInput}
           mode="outlined"
@@ -65,10 +67,14 @@ export default function RegisterScreen({ navigation }: Props) {
           secureTextEntry={true}
           theme={{ roundness: 10 }}
         />
+        <HelperText type="error" visible={PasswordHasErrors()}>
+          Lösenord måste vara minst 6 tecken.
+        </HelperText>
         <Button
           mode="contained"
           style={{ marginTop: 30 }}
           onPress={signUpAccount}
+          disabled={isButtonDisabled}
         >
           Registrera konto
         </Button>
@@ -85,5 +91,12 @@ const s = StyleSheet.create({
   },
   textInput: {
     minHeight: 60,
+  },
+  errorMessage: {
+    color: 'red',
+    fontSize: 24,
+    marginTop: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
