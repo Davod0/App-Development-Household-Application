@@ -3,14 +3,15 @@ import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
 import { Household } from '../data';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
+import CreateTaskScreen from '../screens/CreateTaskScreen';
 import HomeScreen from '../screens/HomeScreen';
-import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
+import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import { useAppSelector, useUserAuthState } from '../store/hooks';
 
 export type RootStackParamList = {
@@ -21,6 +22,7 @@ export type RootStackParamList = {
   TestStore: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
+  CreateTask: undefined;
   YourHouseholds: undefined;
   HouseholdInformation: { household: Household };
 };
@@ -100,6 +102,17 @@ export default function RootStackNavigator() {
               headerTitle: () => (
                 <View style={s.titleContainer}>
                   <Text style={s.title}>Hushållsinformation</Text>
+                </View>
+              ),
+            }}
+          />
+          <RootStack.Screen
+            name="CreateTask"
+            component={CreateTaskScreen}
+            options={{
+              headerTitle: () => (
+                <View style={s.titleContainer}>
+                  <Text style={s.title}>Skapa en ny syssla</Text>
                 </View>
               ),
             }}
