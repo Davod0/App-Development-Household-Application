@@ -40,6 +40,12 @@ export default function Home({ navigation }: Props) {
       <Pressable onPress={() => navigation.navigate('JoinHousehold')}>
         <Text style={styles.text}>JoinHousehold</Text>
       </Pressable>
+      <Pressable onPress={() => navigation.navigate('CreateTask')}>
+        <Text style={styles.text}>CreateTask</Text>
+      </Pressable>
+      <Pressable onPress={() => navigation.navigate('HouseholdInformation')}>
+        <Text style={styles.text}>HouseholdInformation</Text>
+      </Pressable>
       <Pressable
         onPress={() =>
           navigation.navigate('SelectedHouseholdNav', {
