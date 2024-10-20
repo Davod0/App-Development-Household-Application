@@ -33,6 +33,10 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   const handleHouseholdPress = (household: Household) => {
     navigation.navigate('HouseholdInformation', { household });
   };
+  const handleDeletePress = () => {
+    navigation.navigate('Profile');
+    // funktionalitet ska implementeras i denna
+  };
 
   return (
     <SafeAreaView style={s.container}>
@@ -44,8 +48,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
               <TouchableOpacity onPress={() => handleHouseholdPress(household)}>
                 <Text style={s.text}>{household.name} 🏠</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-                {/* OPACITY OVAN - onPress, ta bort user - household i firebase (dvs member?) */}
+              <TouchableOpacity onPress={() => handleDeletePress()}>
                 <Entypo
                   style={s.entypo}
                   name="circle-with-cross"
