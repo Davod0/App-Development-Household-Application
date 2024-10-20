@@ -1,4 +1,3 @@
-import { NavigatorScreenParams } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
@@ -12,9 +11,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
 import { useAppSelector, useUserAuthState } from '../store/hooks';
-import SelectedHouseholdTopTabNav, {
-  TopTabNavigatorParamList,
-} from './SelectedHouseholdTopTabNav';
+import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
 // useFocusEffect() i screens för att säkerställa att användaren ser den senaste datan
 
@@ -27,7 +24,8 @@ export type RootStackParamList = {
   TestStore: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
-  SelectedHouseholdNav: NavigatorScreenParams<TopTabNavigatorParamList>;
+  // SelectedHouseholdNav: NavigatorScreenParams<TopTabNavigatorParamList>;
+  SelectedHouseholdNav: undefined;
   CreateTask: undefined;
   // HouseholdInformation: { household: Household };
   HouseholdInformation: undefined;

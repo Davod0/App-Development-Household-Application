@@ -26,7 +26,10 @@ type Props = CompositeScreenProps<
 
 export default function SelectedHouseholdTopTabNav(props: Props) {
   return (
-    <Tab.Navigator tabBar={(props) => <SubHeaderStatsScreens {...props} />}>
+    <Tab.Navigator
+      initialRouteName="SelectedHousehold"
+      tabBar={(props) => <SubHeaderStatsScreens {...props} />}
+    >
       <Tab.Screen
         name="SelectedHousehold"
         component={SelectedHouseholdScreen}

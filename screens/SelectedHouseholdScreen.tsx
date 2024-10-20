@@ -1,4 +1,4 @@
-import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
+import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Badge, Button, Icon, Surface } from 'react-native-paper';
@@ -10,11 +10,15 @@ import {
   Task,
 } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
+import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
+
+type Props = MaterialTopTabScreenProps<
+  TopTabNavigatorParamList,
+  'SelectedHousehold'
+>;
 
 //TODO: fix type
-export default function SelectedHouseholdScreen({
-  navigation,
-}: MaterialTopTabBarProps) {
+export default function SelectedHouseholdScreen({ navigation }: Props) {
   //for testing...
   const currentUser = { isAdmin: true };
   // const currentUser = { isAdmin: false };
@@ -94,7 +98,7 @@ export default function SelectedHouseholdScreen({
     <>
       <ScrollView style={s.container}>
         {tasksHousehold.map((task) => (
-          <Pressable key={task.id} onPress={() => navigation.navigate('')}>
+          <Pressable key={task.id} onPress={() => {}}>
             <Surface style={s.surface}>
               <Text style={s.taskItem}>{task.name}</Text>
               <Text style={s.taskItem}>{renderTaskBadges(task)}</Text>
