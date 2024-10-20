@@ -4,6 +4,7 @@ import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Household, mockedHouseholds, mockedMembers } from '../data';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Entypo from '@expo/vector-icons/Entypo';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
@@ -34,18 +35,25 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   };
 
   return (
-    //surface i nataive paper
     <SafeAreaView style={s.container}>
-      {/* ta bort hushåll, ska ligga i ännu en touchableopacity som leder till ett 
-      ta bort statement hushåll från member till firebase. eventuellt "säker på tabort?" först */}
+      {/* ta bort hushåll, eventuellt "säker på tabort?" först */}
       <View style={s.householdsContainer}>
         {userHouseholds.map((household) => (
           <View style={s.household} key={household.id}>
-            <TouchableOpacity onPress={() => handleHouseholdPress(household)}>
-              <Surface style={s.surface}>
+            <Surface style={s.surface}>
+              <TouchableOpacity onPress={() => handleHouseholdPress(household)}>
                 <Text style={s.text}>{household.name} 🏠</Text>
-              </Surface>
-            </TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+                {/* OPACITY OVAN - onPress, ta bort user - household i firebase (dvs member?) */}
+                <Entypo
+                  style={s.entypo}
+                  name="circle-with-cross"
+                  size={35}
+                  color="black"
+                />
+              </TouchableOpacity>
+            </Surface>
           </View>
         ))}
       </View>
@@ -102,10 +110,15 @@ const s = StyleSheet.create({
   surface: {
     elevation: 4,
     borderRadius: 10,
-    paddingLeft: 10,
+    padding: 'auto',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
   },
   text: {
     fontSize: 25,
+  },
+  entypo: {
+    margin: 'auto',
   },
   footer: {
     flexDirection: 'row',
