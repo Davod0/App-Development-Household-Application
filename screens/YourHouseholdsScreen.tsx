@@ -28,6 +28,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   );
 
   console.log(userHouseholds);
+
   const handleHouseholdPress = (household: Household) => {
     navigation.navigate('HouseholdInformation', { household });
   };
@@ -60,7 +61,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
           }}
           contentStyle={{ height: 65, gap: 10 }}
           onPress={() => {
-            navigation.goBack();
+            navigation.navigate('CreateHouseHold');
           }}
         >
           Skapa hushåll
@@ -75,9 +76,10 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
             lineHeight: 30,
           }}
           contentStyle={{ height: 65, gap: 10 }}
-          onPress={() => {
-            navigation.goBack();
+          onPress={(member) => {
+            navigation.navigate('JoinHousehold');
           }}
+          // loggerInUserId (eller member), verkar skapas på nytt av ngn anledning? Scopelength?
         >
           Gå med i hushåll
         </Button>
