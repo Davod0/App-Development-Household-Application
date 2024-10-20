@@ -9,9 +9,19 @@ const DAY_IN_MS = 24 * 60 * 60 * 1000;
  * @returns new date from the same week.
  */
 export function startDayCurrentWeek(today: Date): Date {
-  //FIXME: need to use setHours(0,0,0,0)?
+  today.setHours(0, 0, 0, 0);
   return new Date(today.getTime() - mod(today.getDay() - 1, 7) * DAY_IN_MS);
 }
+
+/**
+ * Function to create a new date with time set to 00:00:00
+ * @returns new date at midnight
+ */
+export function todayStart(): Date {
+  let today = new Date();
+  return new Date(today.setHours(0, 0, 0, 0));
+}
+
 /**
  * Function that calculate the number of whole days between to dates.
  * @param d1 a date
