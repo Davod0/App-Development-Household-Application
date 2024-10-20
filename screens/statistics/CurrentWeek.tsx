@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
-import PieChartAllTasks from '../../Components/PieChartAllTasks';
-import PieChartOneTask from '../../Components/PieChartOneTask';
+import PieChartAllTasks from '../../components/PieChartAllTasks';
+import PieChartOneTask from '../../components/PieChartOneTask';
 import { mockedTasks, Task } from '../../data';
 import { todayAtMidnight } from '../../library/dateFunctions';
 

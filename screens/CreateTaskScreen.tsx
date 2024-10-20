@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Button, Surface, TextInput } from 'react-native-paper';
-import DatePicker from '../Components/DatePicker';
-import EffortPicker from '../Components/EffortPicker';
+import DatePicker from '../components/DatePicker';
+import EffortPicker from '../components/EffortPicker';
 
 export default function CreateTaskScreen() {
   const [title, setTitle] = useState('');
