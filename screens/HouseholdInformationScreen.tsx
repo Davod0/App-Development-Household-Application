@@ -6,7 +6,7 @@ import { RootStackParamList } from '../navigators/RootStackNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 
-export default function HouseholdInformation(
+export default function HouseholdInformationScreen(
   { navigation }: Props,
   household: Household,
 ) {

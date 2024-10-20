@@ -10,13 +10,12 @@ import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
+import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
+import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import { useAppSelector, useUserAuthState } from '../store/hooks';
-
-// useFocusEffect() i screens för att säkerställa att användaren ser den senaste datan
 
 export type RootStackParamList = {
   Login: undefined;
-  // Home: { selectedHouseholdId: string };
   Home: undefined;
   Profile: undefined;
   Register: undefined;
@@ -24,6 +23,7 @@ export type RootStackParamList = {
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
   CreateTask: undefined;
+  YourHouseholds: undefined;
   HouseholdInformation: { household: Household };
 };
 
@@ -34,7 +34,7 @@ export default function RootStackNavigator() {
   const user = useAppSelector((state) => state.user.currentUser);
 
   return (
-    <RootStack.Navigator initialRouteName="TestStore">
+    <RootStack.Navigator initialRouteName="YourHouseholds">
       {user ? (
         <>
           <RootStack.Screen name="Home" component={HomeScreen} />
@@ -59,7 +59,6 @@ export default function RootStackNavigator() {
                   <IconButton
                     icon="account-edit-outline"
                     size={24}
-                    // TODO: change route to edit-profile
                     onPress={() => navigation.navigate('Home')}
                   />
                 </View>
@@ -67,7 +66,6 @@ export default function RootStackNavigator() {
               headerRight: () => (
                 <Button
                   mode="contained"
-                  // TODO: change route to logout? add confirmation?
                   onPress={() => navigation.navigate('Home')}
                 >
                   Logout
@@ -82,6 +80,28 @@ export default function RootStackNavigator() {
               headerTitle: () => (
                 <View style={s.titleContainer}>
                   <Text style={s.title}>Gå med i hushåll</Text>
+                </View>
+              ),
+            }}
+          />
+          <RootStack.Screen
+            name="YourHouseholds"
+            component={YourHouseholdsScreen}
+            options={{
+              headerTitle: () => (
+                <View style={s.titleContainer}>
+                  <Text style={s.title}>Dina hushåll</Text>
+                </View>
+              ),
+            }}
+          />
+          <RootStack.Screen
+            name="HouseholdInformation"
+            component={HouseholdInformationScreen}
+            options={{
+              headerTitle: () => (
+                <View style={s.titleContainer}>
+                  <Text style={s.title}>Hushållsinformation</Text>
                 </View>
               ),
             }}
