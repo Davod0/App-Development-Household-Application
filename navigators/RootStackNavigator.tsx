@@ -1,13 +1,11 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
+import { Household } from '../data';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
 import HomeScreen from '../screens/HomeScreen';
-import {
-  default as HouseholdInformation,
-  default as HouseholdInformationScreen,
-} from '../screens/HouseholdInformationScreen';
+import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -28,8 +26,7 @@ export type RootStackParamList = {
   // SelectedHouseholdNav: NavigatorScreenParams<TopTabNavigatorParamList>;
   SelectedHouseholdNav: undefined;
   CreateTask: undefined;
-  // HouseholdInformation: { household: Household };
-  HouseholdInformation: undefined;
+  HouseholdInformation: { household: Household };
   YourHouseholds: undefined;
 };
 
@@ -64,13 +61,6 @@ export default function RootStackNavigator() {
             })}
           />
 
-          <RootStack.Screen
-            name="HouseholdInformation"
-            component={HouseholdInformation}
-            options={{
-              title: 'Hushålls info',
-            }}
-          />
           <RootStack.Screen
             name="CreateHouseHold"
             component={CreateHouseholdScreen}

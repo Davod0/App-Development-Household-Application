@@ -1,18 +1,18 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Card, Icon, List, Text } from 'react-native-paper';
-import { mockedHouseholds, mockedMembers } from '../data';
+import { Household, mockedMembers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 
 export default function HouseholdInformationScreen(
   { navigation }: Props,
-  // household: Household,
+  household: Household,
 ) {
   // console.log(household);
 
-  const household = mockedHouseholds[0];
+  // const household = mockedHouseholds[0];
   const membersInHousehold = mockedMembers.filter(
     (m) => m.householdId === household.id,
   );
