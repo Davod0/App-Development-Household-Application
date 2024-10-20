@@ -5,7 +5,7 @@ import {
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
-import { SubHeaderStatsScreens } from '../components/SubHeaderStatsScreens';
+import { SubHeaderStatsScreens } from '../Components/SubHeaderStatsScreens';
 import SelectedHouseholdScreen from '../screens/SelectedHouseholdScreen';
 import CurrentWeek from '../screens/statistics/CurrentWeek';
 import LastWeek from '../screens/statistics/LastWeek';
