@@ -3,7 +3,7 @@ import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Badge, Button, Icon, Surface } from 'react-native-paper';
 import {
-  avatarList2,
+  avatarList,
   mockedCompletedTasks,
   mockedMembers,
   mockedTasks,
@@ -45,7 +45,7 @@ export default function SelectedHouseholdScreen({
       return (
         <>
           {memberAvatars.map((x, idx) => (
-            <Text key={idx}>{avatarList2[x].icon}</Text>
+            <Text key={idx}>{avatarList[x].icon}</Text>
           ))}
         </>
       );

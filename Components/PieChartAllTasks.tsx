@@ -1,6 +1,6 @@
 import { PieChart } from 'react-native-gifted-charts';
 import {
-  avatarList2,
+  avatarList,
   mockedCompletedTasks,
   mockedMembers,
   mockedTasks,
@@ -45,8 +45,8 @@ export default function PieChartAllTasks() {
     let avatarInfo = members.find((m) => m.id === memberId)?.avatarId!;
     overallData.push({
       value: chartData.get(memberId)!,
-      color: avatarList2[avatarInfo].color,
-      text: avatarList2[avatarInfo].icon,
+      color: avatarList[avatarInfo].color,
+      text: avatarList[avatarInfo].icon,
     });
   }
   return (

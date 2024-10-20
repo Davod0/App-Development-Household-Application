@@ -48,43 +48,6 @@ export type User = {
   lastName: string;
 };
 
-export type Avatar = {
-  id: string;
-  icon: Icon;
-  colour: Colour;
-};
-
-type Icon =
-  | 'fox'
-  | 'whale'
-  | 'pig'
-  | 'frog'
-  | 'chic'
-  | 'octopus'
-  | 'owl'
-  | 'unicorn';
-
-type Colour =
-  | 'orange'
-  | 'blue'
-  | 'pink'
-  | 'green'
-  | 'yellow'
-  | 'red'
-  | 'brown'
-  | 'purple';
-
-export const ColourHexMap: { [key in Colour]: string } = {
-  orange: '#FFA500',
-  blue: '#0000FF',
-  pink: '#FFC0CB',
-  green: '#008000',
-  yellow: '#FFFF00',
-  red: '#FF0000',
-  brown: '#A52A2A',
-  purple: '#800080',
-};
-
 // Mocked Household data
 export const mockedHouseholds: Household[] = [
   {
@@ -103,6 +66,7 @@ export const mockedHouseholds: Household[] = [
 export const mockedMembers: Member[] = [
   {
     id: 'member-0',
+    name: 'Kalle',
     userId: 'user-0',
     householdId: 'household-1',
     avatarId: 'fox',
@@ -132,7 +96,7 @@ export const mockedMembers: Member[] = [
     name: 'Tony',
     userId: 'user-3',
     householdId: 'household-2',
-    avatarId: 'avatar-3',
+    avatarId: 'octopus',
     isOwner: true,
     isAllowed: true,
   },
@@ -146,23 +110,17 @@ export const mockedMembers: Member[] = [
     isAllowed: true,
   },
   {
-    id: 'member-4',
-    userId: 'user-4',
-    householdId: 'household-1',
-    avatarId: 'octopus',
-    isOwner: false,
-    isAllowed: true,
-  },
-  {
     id: 'member-5',
+    name: 'Olle',
     userId: 'user-5',
     householdId: 'household-1',
-    avatarId: 'whale',
+    avatarId: 'dolphin',
     isOwner: false,
     isAllowed: true,
   },
   {
     id: 'member-6',
+    name: 'Anna',
     userId: 'user-6',
     householdId: 'household-2',
     avatarId: 'owl',
@@ -171,6 +129,7 @@ export const mockedMembers: Member[] = [
   },
   {
     id: 'member-7',
+    name: 'Stina',
     userId: 'user-7',
     householdId: 'household-2',
     avatarId: 'unicorn',
@@ -218,12 +177,6 @@ export const mockedCompletedTasks: CompletedTask[] = [
     memberId: 'member-2',
     taskId: 'task-5',
     dateDone: new Date(2024, 9, 8), // October 8, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68a7',
-    memberId: 'member-4',
-    taskId: 'task-12',
-    dateDone: new Date(2024, 9, 9), // October 9, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68a8',
@@ -279,12 +232,7 @@ export const mockedCompletedTasks: CompletedTask[] = [
     taskId: 'task-13',
     dateDone: new Date(2024, 9, 18), // October 18, 2024
   },
-  {
-    id: '652dcd1b2c8f3a00169b68b7',
-    memberId: 'member-1',
-    taskId: 'task-8',
-    dateDone: new Date(2024, 9, 7), // October 7, 2024
-  },
+
   {
     id: '652dcd1b2c8f3a00169b68b8',
     memberId: 'member-7',
@@ -297,12 +245,7 @@ export const mockedCompletedTasks: CompletedTask[] = [
     taskId: 'task-21',
     dateDone: new Date(2024, 9, 9), // October 9, 2024
   },
-  {
-    id: '652dcd1b2c8f3a00169b68ba',
-    memberId: 'member-5',
-    taskId: 'task-2',
-    dateDone: new Date(2024, 9, 10), // October 10, 2024
-  },
+
   {
     id: '652dcd1b2c8f3a00169b68bb',
     memberId: 'member-3',
@@ -462,7 +405,7 @@ export const mockedTasks: Task[] = [
   },
   {
     id: 'task-10',
-    householdId: 'household-2',
+    householdId: 'household-1',
     name: 'Mow the lawn',
     description: 'Mow the front and back lawn, trim the edges.',
     weight: 4,
@@ -498,7 +441,7 @@ export const mockedTasks: Task[] = [
   },
   {
     id: 'task-15',
-    householdId: 'household-2',
+    householdId: 'household-1',
     name: 'Dust shelves',
     description: 'Dust all the shelves in the living room and bedrooms.',
     weight: 2,
@@ -616,60 +559,29 @@ export const mockedTasks: Task[] = [
   },
 ];
 
-// Mocked Avatar data
-export const mockedAvatars: Avatar[] = [
-  {
-    id: 'avatar-1',
-    icon: 'fox',
-    colour: 'orange',
-  },
-  {
-    id: 'avatar-2',
-    icon: 'whale',
-    colour: 'blue',
-  },
-  {
-    id: 'avatar-3',
-    icon: 'frog',
-    colour: 'green',
-  },
-];
-
-type Avatar_test = { id: string; icon: string; color: string };
-export const avatarList: Avatar_test[] = [
-  { id: 'avatar-0', icon: '\uD83E\uDD8A', color: '#FFA500' },
-  { id: 'avatar-1', icon: '\uD83D\uDC37', color: '#FFC0CB' },
-  { id: 'avatar-2', icon: '\uD83D\uDC38', color: '#008000' },
-  { id: 'avatar-3', icon: '\uD83D\uDC25', color: '#FFFF00' },
-  { id: 'avatar-4', icon: '\uD83D\uDC19', color: '#FF0000' },
-  { id: 'avatar-5', icon: '\uD83D\uDC2C', color: '#0000FF' },
-  { id: 'avatar-6', icon: '\uD83E\uDD89', color: '#A52A2A' },
-  { id: 'avatar-7', icon: '\uD83E\uDD84', color: '#800080' },
-];
-
 export type AvatarName =
   | 'fox'
   | 'pig'
   | 'frog'
   | 'chic'
   | 'octopus'
-  | 'whale'
+  | 'dolphin'
   | 'owl'
   | 'unicorn';
 
-interface AvatarInfo {
+interface AvatarProps {
   icon: string;
   color: string;
 }
 
 // export const avatarList2: Record<AvatarName, AvatarInfo> = {
-export const avatarList2: { [key in AvatarName]: AvatarInfo } = {
-  fox: { icon: '\uD83E\uDD8A', color: '#FFA500' },
-  pig: { icon: '\uD83D\uDC37', color: '#FFC0CB' },
-  frog: { icon: '\uD83D\uDC38', color: '#008000' },
-  chic: { icon: '\uD83D\uDC25', color: '#FFFF00' },
-  octopus: { icon: '\uD83D\uDC19', color: '#FF0000' },
-  whale: { icon: '\uD83D\uDC2C', color: '#0000FF' },
-  owl: { icon: '\uD83E\uDD89', color: '#A52A2A' },
-  unicorn: { icon: '\uD83E\uDD84', color: '#800080' },
+export const avatarList: { [key in AvatarName]: AvatarProps } = {
+  fox: { icon: '\uD83E\uDD8A', color: '#ffc242' },
+  pig: { icon: '\uD83D\uDC37', color: '#f4ccc7' },
+  frog: { icon: '\uD83D\uDC38', color: '#8bf15d' },
+  chic: { icon: '\uD83D\uDC25', color: '#fffe60' },
+  octopus: { icon: '\uD83D\uDC19', color: '#d74b67' },
+  dolphin: { icon: '\uD83D\uDC2C', color: '#48c0e0' },
+  owl: { icon: '\uD83E\uDD89', color: '#a06b39' },
+  unicorn: { icon: '\uD83E\uDD84', color: '#ba72f8' },
 };

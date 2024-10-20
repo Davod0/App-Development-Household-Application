@@ -7,14 +7,46 @@ type Props = { task: Task };
 export default function PieChartOneTask({ task }: Props) {
   // test data
   const data = [
-    { value: 30, color: avatarList[0].color, text: avatarList[0].icon },
-    { value: 30, color: avatarList[1].color, text: avatarList[1].icon },
-    { value: 30, color: avatarList[2].color, text: avatarList[2].icon },
-    { value: 30, color: avatarList[3].color, text: avatarList[3].icon },
-    { value: 30, color: avatarList[4].color, text: avatarList[4].icon },
-    { value: 30, color: avatarList[5].color, text: avatarList[5].icon },
-    { value: 30, color: avatarList[6].color, text: avatarList[6].icon },
-    { value: 30, color: avatarList[7].color, text: avatarList[7].icon },
+    {
+      value: 30,
+      color: avatarList['fox'].color,
+      text: avatarList['fox'].icon,
+    },
+    {
+      value: 30,
+      color: avatarList['pig'].color,
+      text: avatarList['pig'].icon,
+    },
+    {
+      value: 30,
+      color: avatarList['frog'].color,
+      text: avatarList['frog'].icon,
+    },
+    {
+      value: 30,
+      color: avatarList['chic'].color,
+      text: avatarList['chic'].icon,
+    },
+    {
+      value: 30,
+      color: avatarList['octopus'].color,
+      text: avatarList['octopus'].icon,
+    },
+    {
+      value: 30,
+      color: avatarList['dolphin'].color,
+      text: avatarList['dolphin'].icon,
+    },
+    {
+      value: 30,
+      color: avatarList['owl'].color,
+      text: avatarList['owl'].icon,
+    },
+    {
+      value: 30,
+      color: avatarList['unicorn'].color,
+      text: avatarList['unicorn'].icon,
+    },
   ];
   return <PieChart radius={50} data={data} />;
 }

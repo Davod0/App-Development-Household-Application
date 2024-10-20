@@ -5,24 +5,55 @@ import { avatarList, mockedTasks } from '../../data';
 export default function LastWeek() {
   const householdId = 'household-1';
   const tasks = mockedTasks.filter((t) => t.householdId === householdId);
-  const a = avatarList;
   // const completedTasks = mockedCompletedTasks.filter(
   //   (t) => t.dateDone > Date.now(),
   // );
   const data = [
-    { value: 30, color: a[0].color, text: a[0].icon },
-    { value: 30, color: a[1].color, text: a[1].icon },
-    { value: 30, color: a[2].color, text: a[2].icon },
-    { value: 30, color: a[3].color, text: a[3].icon },
-    { value: 30, color: a[4].color, text: a[4].icon },
-    { value: 30, color: a[5].color, text: a[5].icon },
-    { value: 30, color: a[6].color, text: a[6].icon },
-    { value: 30, color: a[7].color, text: a[7].icon },
+    {
+      value: 30,
+      color: avatarList['fox'].color,
+      text: avatarList['fox'].icon,
+    },
+    {
+      value: 30,
+      color: avatarList['pig'].color,
+      text: avatarList['pig'].icon,
+    },
+    {
+      value: 30,
+      color: avatarList['frog'].color,
+      text: avatarList['frog'].icon,
+    },
+    {
+      value: 30,
+      color: avatarList['chic'].color,
+      text: avatarList['chic'].icon,
+    },
+    {
+      value: 30,
+      color: avatarList['octopus'].color,
+      text: avatarList['octopus'].icon,
+    },
+    {
+      value: 30,
+      color: avatarList['dolphin'].color,
+      text: avatarList['dolphin'].icon,
+    },
+    {
+      value: 30,
+      color: avatarList['owl'].color,
+      text: avatarList['owl'].icon,
+    },
+    {
+      value: 30,
+      color: avatarList['unicorn'].color,
+      text: avatarList['unicorn'].icon,
+    },
   ];
   return (
     <View style={s.container}>
       <Text>LastWeek</Text>
-      <PieChart showText data={data} />
+      <PieChart showText textSize={32} radius={150} data={data} />
     </View>
   );
 }

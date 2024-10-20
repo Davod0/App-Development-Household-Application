@@ -16,10 +16,10 @@ export default function ProfileScreen({ navigation }: Props) {
     throw new Error('bad userId: ' + userId);
   }
 
-  const avatar = avatarList.find((a) => a.id === member.avatarId)?.icon;
+  const avatar = avatarList[member.avatarId].icon;
 
   if (!avatar) {
-    throw new Error('bad avatarId:' + member.avatarId);
+    throw new Error('bad avatarId: ' + member.avatarId);
   }
 
   return (
