@@ -4,20 +4,21 @@ import { Button, IconButton, Text } from 'react-native-paper';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
 import HomeScreen from '../screens/HomeScreen';
-import HouseholdInformation from '../screens/HouseholdInformationScreen';
+import {
+  default as HouseholdInformation,
+  default as HouseholdInformationScreen,
+} from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
+import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 import { useAppSelector, useUserAuthState } from '../store/hooks';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
-// useFocusEffect() i screens för att säkerställa att användaren ser den senaste datan
-
 export type RootStackParamList = {
   Login: undefined;
-  // Home: { selectedHouseholdId: string };
   Home: undefined;
   Profile: undefined;
   Register: undefined;
@@ -29,6 +30,7 @@ export type RootStackParamList = {
   CreateTask: undefined;
   // HouseholdInformation: { household: Household };
   HouseholdInformation: undefined;
+  YourHouseholds: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -90,7 +92,6 @@ export default function RootStackNavigator() {
                   <IconButton
                     icon="account-edit-outline"
                     size={24}
-                    // TODO: change route to edit-profile
                     onPress={() => navigation.navigate('Home')}
                   />
                 </View>
@@ -98,7 +99,6 @@ export default function RootStackNavigator() {
               headerRight: () => (
                 <Button
                   mode="contained"
-                  // TODO: change route to logout? add confirmation?
                   onPress={() => navigation.navigate('Home')}
                 >
                   Logout
@@ -113,6 +113,28 @@ export default function RootStackNavigator() {
               headerTitle: () => (
                 <View style={s.titleContainer}>
                   <Text style={s.title}>Gå med i hushåll</Text>
+                </View>
+              ),
+            }}
+          />
+          <RootStack.Screen
+            name="YourHouseholds"
+            component={YourHouseholdsScreen}
+            options={{
+              headerTitle: () => (
+                <View style={s.titleContainer}>
+                  <Text style={s.title}>Dina hushåll</Text>
+                </View>
+              ),
+            }}
+          />
+          <RootStack.Screen
+            name="HouseholdInformation"
+            component={HouseholdInformationScreen}
+            options={{
+              headerTitle: () => (
+                <View style={s.titleContainer}>
+                  <Text style={s.title}>Hushållsinformation</Text>
                 </View>
               ),
             }}

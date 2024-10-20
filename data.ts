@@ -58,7 +58,12 @@ export const mockedHouseholds: Household[] = [
   {
     id: 'household-2',
     name: 'Doe Family',
-    code: 'DF456',
+    code: 'AF246',
+  },
+  {
+    id: 'household-3',
+    name: 'Hällentorp Family',
+    code: 'GE246',
   },
 ];
 
@@ -88,6 +93,24 @@ export const mockedMembers: Member[] = [
     userId: 'user-2',
     householdId: 'household-1',
     avatarId: 'frog',
+    isOwner: false,
+    isAllowed: true,
+  },
+  {
+    id: 'member-2',
+    name: 'Liam',
+    userId: 'user-2',
+    householdId: 'household-2',
+    avatarId: 'avatar-2',
+    isOwner: false,
+    isAllowed: true,
+  },
+  {
+    id: 'member-2',
+    name: 'Liam',
+    userId: 'user-2',
+    householdId: 'household-3',
+    avatarId: 'avatar-2',
     isOwner: false,
     isAllowed: true,
   },
@@ -330,7 +353,7 @@ export const mockedUsers: User[] = [
   {
     id: 'user-2',
     firstName: 'Jane',
-    lastName: 'Johnson',
+    lastName: 'Roberts',
   },
   {
     id: 'user-3',
