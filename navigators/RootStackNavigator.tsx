@@ -5,14 +5,15 @@ import { Household } from '../data';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
 import HomeScreen from '../screens/HomeScreen';
+import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
-import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import { useAppSelector, useUserAuthState } from '../store/hooks';
+import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -22,9 +23,11 @@ export type RootStackParamList = {
   TestStore: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
+  // SelectedHouseholdNav: NavigatorScreenParams<TopTabNavigatorParamList>;
+  SelectedHouseholdNav: undefined;
   CreateTask: undefined;
-  YourHouseholds: undefined;
   HouseholdInformation: { household: Household };
+  YourHouseholds: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -34,10 +37,30 @@ export default function RootStackNavigator() {
   const user = useAppSelector((state) => state.user.currentUser);
 
   return (
-    <RootStack.Navigator initialRouteName="YourHouseholds">
+    <RootStack.Navigator
+      initialRouteName="TestStore"
+      screenOptions={{ headerTitleAlign: 'center' }}
+    >
       {user ? (
         <>
           <RootStack.Screen name="Home" component={HomeScreen} />
+
+          <RootStack.Screen
+            name="SelectedHouseholdNav"
+            component={SelectedHouseholdTopTabNav}
+            options={({ navigation }) => ({
+              title: 'HouseholdName',
+              headerShadowVisible: false,
+              headerRight: () => (
+                <IconButton
+                  icon="account-outline"
+                  size={24}
+                  onPress={() => navigation.navigate('Profile')}
+                />
+              ),
+            })}
+          />
+
           <RootStack.Screen
             name="CreateHouseHold"
             component={CreateHouseholdScreen}

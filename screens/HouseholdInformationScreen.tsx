@@ -10,6 +10,9 @@ export default function HouseholdInformationScreen(
   { navigation }: Props,
   household: Household,
 ) {
+  // console.log(household);
+
+  // const household = mockedHouseholds[0];
   const membersInHousehold = mockedMembers.filter(
     (m) => m.householdId === household.id,
   );

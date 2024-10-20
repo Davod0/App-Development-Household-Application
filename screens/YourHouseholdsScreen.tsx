@@ -1,10 +1,10 @@
+import Entypo from '@expo/vector-icons/Entypo';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, Surface, Text } from 'react-native-paper';
-import { RootStackParamList } from '../navigators/RootStackNavigator';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Household, mockedHouseholds, mockedMembers } from '../data';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Entypo from '@expo/vector-icons/Entypo';
+import { Household, mockedHouseholds, mockedMembers } from '../data';
+import { RootStackParamList } from '../navigators/RootStackNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
