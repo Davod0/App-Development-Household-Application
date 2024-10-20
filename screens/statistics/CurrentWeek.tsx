@@ -3,6 +3,7 @@ import { Text } from 'react-native-paper';
 import PieChartAllTasks from '../../components/PieChartAllTasks';
 import PieChartOneTask from '../../components/PieChartOneTask';
 import { mockedTasks, Task } from '../../data';
+import { todayAtMidnight } from '../../library/dateFunctions';
 
 export default function CurrentWeek() {
   const householdId = 'household-1';
@@ -20,7 +21,7 @@ export default function CurrentWeek() {
   return (
     <View style={s.container}>
       <View style={s.chartTotal}>
-        <PieChartAllTasks />
+        <PieChartAllTasks startDate={todayAtMidnight()} />
         <Text style={s.text}>Totalt</Text>
       </View>
       <FlatList

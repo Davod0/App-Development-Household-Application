@@ -24,8 +24,8 @@ export default function PieChartOneTask({ task }: Props) {
     },
     {
       value: 30,
-      color: avatarList['chic'].color,
-      text: avatarList['chic'].icon,
+      color: avatarList['chicken'].color,
+      text: avatarList['chicken'].icon,
     },
     {
       value: 30,

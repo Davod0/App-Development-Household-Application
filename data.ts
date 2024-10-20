@@ -105,7 +105,7 @@ export const mockedMembers: Member[] = [
     name: 'Tony2',
     userId: 'user-3',
     householdId: 'household-2',
-    avatarId: 'chic',
+    avatarId: 'chicken',
     isOwner: true,
     isAllowed: true,
   },
@@ -563,7 +563,7 @@ export type AvatarName =
   | 'fox'
   | 'pig'
   | 'frog'
-  | 'chic'
+  | 'chicken'
   | 'octopus'
   | 'dolphin'
   | 'owl'
@@ -579,7 +579,7 @@ export const avatarList: { [key in AvatarName]: AvatarProps } = {
   fox: { icon: '\uD83E\uDD8A', color: '#ffc242' },
   pig: { icon: '\uD83D\uDC37', color: '#f4ccc7' },
   frog: { icon: '\uD83D\uDC38', color: '#8bf15d' },
-  chic: { icon: '\uD83D\uDC25', color: '#fffe60' },
+  chicken: { icon: '\uD83D\uDC25', color: '#fffe60' },
   octopus: { icon: '\uD83D\uDC19', color: '#d74b67' },
   dolphin: { icon: '\uD83D\uDC2C', color: '#48c0e0' },
   owl: { icon: '\uD83E\uDD89', color: '#a06b39' },

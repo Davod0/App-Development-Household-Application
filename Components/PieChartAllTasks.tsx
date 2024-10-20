@@ -5,18 +5,23 @@ import {
   mockedMembers,
   mockedTasks,
 } from '../data';
-import { startDayCurrentWeek, todayAtMidnight } from '../library/dateFunctions';
+import { startDayCurrentWeek } from '../library/dateFunctions';
 
-export default function PieChartAllTasks() {
+type Props = {
+  startDate: Date;
+  endDate?: Date;
+};
+
+export default function PieChartAllTasks({ startDate, endDate }: Props) {
   const householdId = 'household-1';
   const members = mockedMembers.filter((m) => m.householdId === householdId);
   const tasks = mockedTasks.filter((t) => t.householdId === householdId);
-  const today = todayAtMidnight();
 
   // filter on member to get tasks for current household
   const completedTasks = mockedCompletedTasks
     .filter((t) => members.some((m) => m.id === t.memberId))
-    .filter((t) => t.dateDone >= startDayCurrentWeek(today));
+    //TODO: date filtering is not done (this only works for current week)
+    .filter((t) => t.dateDone >= startDayCurrentWeek(startDate));
 
   const chartData = new Map<string, number>();
   for (let completedTask of completedTasks) {
