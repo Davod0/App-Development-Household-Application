@@ -2,19 +2,32 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Icon, TextInput } from 'react-native-paper';
+import { EmailPassword } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { useAppDispatch } from '../store/hooks';
+import { signInUser } from '../store/user/userActions';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 export default function LoginScreen({ navigation }: Props) {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     //Check with database if correct!
-    console.log('Password and Username match');
-    navigation.navigate('Home');
+    // console.log('Password and Username match');
+    // navigation.navigate('Home');
+    const emailPassword: EmailPassword = {
+      email,
+      password,
+    };
+    try {
+      await dispatch(signInUser(emailPassword)).unwrap();
+      navigation.navigate('Home');
+    } catch (error) {}
   };
+
   const navigateToRegister = () => {
     console.log('Register button pressed');
     navigation.navigate('Register');
@@ -27,8 +40,8 @@ export default function LoginScreen({ navigation }: Props) {
           style={s.textInput}
           mode="outlined"
           label={'Användarnamn'}
-          value={username}
-          onChangeText={(text) => setUsername(text)}
+          value={email}
+          onChangeText={(text) => setEmail(text)}
           theme={{ roundness: 10 }}
         />
         <TextInput
