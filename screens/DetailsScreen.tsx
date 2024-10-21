@@ -9,7 +9,7 @@ import { RootStackParamList } from '../navigators/RootStackNavigator';
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
 export default function DetailsScreen({ navigation }: Props) {
-  const taskId = 'task-2';
+  const taskId = 'task-1';
   const task = mockedTasks.find((t) => t.id === taskId);
 
   const handleSave = () => {};
@@ -21,7 +21,6 @@ export default function DetailsScreen({ navigation }: Props) {
           padding: 14,
           alignItems: 'center',
           justifyContent: 'center',
-          marginBottom: 20,
           margin: 20,
           borderRadius: 10,
           backgroundColor: '#FFFFFF',
@@ -35,71 +34,18 @@ export default function DetailsScreen({ navigation }: Props) {
           padding: 60,
           alignItems: 'center',
           justifyContent: 'center',
-          marginBottom: 20,
+          marginBottom: 10,
           margin: 20,
           borderRadius: 10,
           backgroundColor: '#FFFFFF',
         }}
         elevation={1}
       >
-        <Text variant="displaySmall">{task?.description}</Text>
+        <Text variant="headlineLarge">{task?.description}</Text>
       </Surface>
       <Surface
         style={{
           padding: 14,
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: 20,
-          margin: 20,
-          borderRadius: 10,
-          backgroundColor: '#FFFFFF',
-        }}
-        elevation={1}
-      >
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-          }}
-        >
-          <Text variant="headlineSmall" style={{ textAlign: 'left' }}>
-            Återkommer:
-          </Text>
-
-          <View
-            style={{
-              position: 'relative',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <View
-              style={{
-                position: 'absolute',
-                borderRadius: 15,
-                borderColor: '#CD5D6F',
-                borderWidth: 1,
-                backgroundColor: '#CD5D6F',
-                height: 30,
-                width: 30,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            />
-            <Text variant="headlineSmall" style={{ color: '#fff' }}>
-              {task?.frequency}{' '}
-            </Text>
-          </View>
-
-          <Text variant="headlineSmall" style={{ textAlign: 'right' }}>
-            dag
-          </Text>
-        </View>
-      </Surface>
-      <Surface
-        style={{
-          padding: 20,
           alignItems: 'center',
           justifyContent: 'center',
           marginBottom: 10,
@@ -119,7 +65,83 @@ export default function DetailsScreen({ navigation }: Props) {
           <View>
             <Text
               variant="headlineSmall"
-              style={{ textAlign: 'left', textAlignVertical: 'top' }}
+              style={{ textAlign: 'left', fontWeight: 'bold' }}
+            >
+              Återkommer:
+            </Text>
+          </View>
+          <View
+            style={{
+              position: 'relative',
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: '35%',
+            }}
+          >
+            <Text variant="headlineSmall" style={{ textAlign: 'right' }}>
+              var
+            </Text>
+            <View
+              style={{
+                position: 'relative',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <View
+                style={{
+                  position: 'absolute',
+                  borderRadius: 15,
+                  borderColor: '#CD5D6F',
+                  borderWidth: 1,
+                  backgroundColor: '#CD5D6F',
+                  height: 30,
+                  width: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              />
+
+              <Text variant="titleMedium" style={{ color: '#fff' }}>
+                {task?.frequency}
+                {''}
+              </Text>
+            </View>
+
+            <Text variant="headlineSmall" style={{ textAlign: 'right' }}>
+              dag
+            </Text>
+          </View>
+        </View>
+      </Surface>
+      <Surface
+        style={{
+          padding: 20,
+          alignItems: 'center',
+          justifyContent: 'center',
+
+          margin: 20,
+          borderRadius: 10,
+          backgroundColor: '#FFFFFF',
+        }}
+        elevation={1}
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '100%',
+          }}
+        >
+          <View>
+            <Text
+              variant="headlineSmall"
+              style={{
+                textAlign: 'left',
+                textAlignVertical: 'top',
+                fontWeight: 'bold',
+              }}
             >
               Värde:
             </Text>
