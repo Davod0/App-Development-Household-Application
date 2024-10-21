@@ -8,3 +8,9 @@ export default function LoadingIndicator(isLoading: boolean) {
     </View>
   );
 }
+
+// helper function to wait for a given time
+export const wait = async (ms: number) => {
+  console.log(`waiting for ${ms} seconds`);
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
