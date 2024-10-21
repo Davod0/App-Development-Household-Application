@@ -3,6 +3,7 @@ import { Button, Text, TextInput, View } from 'react-native';
 import { EmailPassword } from '../data';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { signInUser, signUpUser } from '../store/user/userActions';
+import { selectCurrentUser } from '../store/user/selectors';
 
 export default function TestScreenUsingStore() {
   const [householdName, setHouseholdName] = useState('');
@@ -10,7 +11,7 @@ export default function TestScreenUsingStore() {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const user = useAppSelector((state) => state.user.currentUser);
+  const user = useAppSelector(selectCurrentUser);
 
   const handleSignUpUser = () => {
     const emailPassword: EmailPassword = {
