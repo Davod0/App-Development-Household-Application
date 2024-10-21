@@ -1,8 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FirebaseError } from 'firebase/app';
-import { createUserWithEmailAndPassword, User } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  User,
+} from 'firebase/auth';
 import { EmailPassword } from '../../data';
 import { auth } from '../../firebase';
+import { createAppAsyncThunk } from '../hooks';
 
 export const signUpUser = createAsyncThunk<User, EmailPassword>(
   'users/signUp-user',
@@ -42,6 +47,25 @@ export const signUpUser = createAsyncThunk<User, EmailPassword>(
 
         return thunkAPI.rejectWithValue(errorMessage);
       }
+      return thunkAPI.rejectWithValue(
+        'Something went wrong, Could not register the user!:',
+      );
+    }
+  },
+);
+
+export const signInUser = createAppAsyncThunk<User, EmailPassword>(
+  'users/signIn-user',
+  async (emailPassword, thunkAPI) => {
+    try {
+      const result = await signInWithEmailAndPassword(
+        auth,
+        emailPassword.email,
+        emailPassword.password,
+      );
+      return result.user.toJSON() as User;
+    } catch (error) {
+      console.error(error);
       return thunkAPI.rejectWithValue(
         'Something went wrong, Could not register the user!:',
       );
