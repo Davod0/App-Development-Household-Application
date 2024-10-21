@@ -40,6 +40,9 @@ export default function Home({ navigation }: Props) {
           <Text style={styles.text}>TestStore</Text>
         </Pressable>
       </Surface>
+      <Pressable onPress={() => navigation.navigate('ReduxTest')}>
+        <Text style={styles.text}>ReduxTest</Text>
+      </Pressable>
       <Pressable onPress={() => navigation.navigate('Profile')}>
         <Text style={styles.text}>Profile</Text>
       </Pressable>
