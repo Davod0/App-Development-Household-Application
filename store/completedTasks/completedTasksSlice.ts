@@ -12,7 +12,7 @@ const completedTasksSlice = createSlice({
   initialState,
   reducers: {
     //TODO: fix type
-    addCompletedTask: (state, action: PayloadAction<CompletedTask>) => {
+    addCompletedTaskLocal: (state, action: PayloadAction<CompletedTask>) => {
       state.push(action.payload);
     },
   },
@@ -25,4 +25,4 @@ const completedTasksSlice = createSlice({
 
 // export reducer and actions
 export const completedTasksReducer = completedTasksSlice.reducer;
-export const {} = completedTasksSlice.actions;
+export const { addCompletedTaskLocal } = completedTasksSlice.actions;
