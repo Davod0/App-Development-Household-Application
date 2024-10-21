@@ -6,10 +6,11 @@ import { signInUser, signUpUser } from './userActions';
 type userState = {
   currentUser?: User;
   isLoading: boolean;
+  error?: string;
 };
 const initialState: userState = {
   currentUser: undefined,
-  isLoading: true,
+  isLoading: false,
 };
 
 export const userSlice = createSlice({
@@ -18,15 +19,23 @@ export const userSlice = createSlice({
   reducers: {
     setUserOptimistically: (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
-      state.isLoading = false;
     },
-    clearUserOptimistically: (state, action: PayloadAction<User>) => {
-      state.currentUser = undefined;
-    },
+    clearUserOptimistically: (state, action: PayloadAction<User>) => {},
   },
-  extraReducers: (builder) => {
+  extraReducers: async (builder) => {
     builder.addCase(signUpUser.fulfilled, (state, action) => {});
-    builder.addCase(signInUser.fulfilled, (state, action) => {});
+
+    builder.addCase(signInUser.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(signInUser.fulfilled, (state, action) => {
+      state.isLoading = false;
+    });
+    builder.addCase(signInUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+      console.log(`Error message from user reducer: ${action.payload}`);
+    });
   },
 });
 

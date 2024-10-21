@@ -16,7 +16,6 @@ export const signUpUser = createAppAsyncThunk<void, EmailPassword>(
         emailPassword.email,
         emailPassword.password,
       );
-      // return result.user.toJSON() as User;
     } catch (error) {
       console.error(error);
       return thunkAPI.rejectWithValue(
@@ -44,3 +43,8 @@ export const signInUser = createAppAsyncThunk<User, EmailPassword>(
     }
   },
 );
+
+// const wait = async (ms: number) => {
+//   console.log('waiting for 5 seconds');
+//   return new Promise((resolve) => setTimeout(resolve, ms));
+// };
