@@ -2,15 +2,19 @@ import { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
 import { EmailPassword } from '../data';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import {
+  selectCurrentUser,
+  selectUserAuthenticationIsLoading,
+} from '../store/user/selectors';
+import LoadingIndicator from '../store/LoadingIndicator';
 import { signInUser, signUpUser } from '../store/user/userActions';
 
 export default function TestScreenUsingStore() {
-  const [householdName, setHouseholdName] = useState('');
-  const household = useAppSelector((state) => state.household);
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const user = useAppSelector((state) => state.user.currentUser);
+  const user = useAppSelector(selectCurrentUser);
+  const isLoading = useAppSelector(selectUserAuthenticationIsLoading);
 
   const handleSignUpUser = () => {
     const emailPassword: EmailPassword = {
@@ -64,6 +68,8 @@ export default function TestScreenUsingStore() {
         placeholder="Enter your password"
       />
       <Button title="Sign in" onPress={handleSignInUser} />
+
+      {LoadingIndicator(isLoading)}
     </View>
   );
 }

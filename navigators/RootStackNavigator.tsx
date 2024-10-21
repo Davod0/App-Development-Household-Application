@@ -12,7 +12,9 @@ import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
-import { useAppSelector, useUserAuthState } from '../store/hooks';
+import { useAppSelector } from '../store/hooks';
+import { useUserAuthState } from '../store/user/hooks';
+import { selectCurrentUser } from '../store/user/selectors';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
 export type RootStackParamList = {
@@ -34,7 +36,7 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
   useUserAuthState();
-  const user = useAppSelector((state) => state.user.currentUser);
+  const user = useAppSelector(selectCurrentUser);
 
   return (
     <RootStack.Navigator
