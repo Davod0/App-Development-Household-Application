@@ -12,7 +12,8 @@ import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
-import { useAppSelector, useUserAuthState } from '../store/hooks';
+import { useAppSelector } from '../store/hooks';
+import { useUserAuthState } from '../store/user/hooks';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
 export type RootStackParamList = {
