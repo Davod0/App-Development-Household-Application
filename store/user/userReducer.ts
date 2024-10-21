@@ -6,6 +6,7 @@ import { signUpUser } from './userActions';
 type userState = {
   currentUser?: User;
   isLoading: boolean;
+  errorMessage?: string;
 };
 const initialState: userState = {
   currentUser: undefined,
@@ -26,6 +27,9 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(signUpUser.fulfilled, (state, action) => {});
+    builder.addCase(signUpUser.rejected, (state, action) => {
+      state.errorMessage = action.payload as any;
+    });
   },
 });
 
