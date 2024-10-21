@@ -339,7 +339,7 @@ export const mockedCompletedTasks: CompletedTask[] = [
     id: '652dcd1b2c8f3a00169b68c6',
     memberId: 'member-0',
     taskId: 'task-6',
-    dateDone: new Date(2024, 9, 19), // October 20, 2024
+    dateDone: new Date(2024, 9, 21), // October 20, 2024
   },
 ];
 
