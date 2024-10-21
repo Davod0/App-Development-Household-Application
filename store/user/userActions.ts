@@ -1,4 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -6,8 +5,9 @@ import {
 } from 'firebase/auth';
 import { EmailPassword } from '../../data';
 import { auth } from '../../firebase';
+import { createAppAsyncThunk } from '../hooks';
 
-export const signUpUser = createAsyncThunk<void, EmailPassword>(
+export const signUpUser = createAppAsyncThunk<void, EmailPassword>(
   'users/signUp-user',
   async (emailPassword, thunkAPI) => {
     try {
@@ -16,7 +16,6 @@ export const signUpUser = createAsyncThunk<void, EmailPassword>(
         emailPassword.email,
         emailPassword.password,
       );
-      // return result.user.toJSON() as User;
     } catch (error) {
       console.error(error);
       return thunkAPI.rejectWithValue(
@@ -26,7 +25,7 @@ export const signUpUser = createAsyncThunk<void, EmailPassword>(
   },
 );
 
-export const signInUser = createAsyncThunk<User, EmailPassword>(
+export const signInUser = createAppAsyncThunk<User, EmailPassword>(
   'users/signIn-user',
   async (emailPassword, thunkAPI) => {
     try {
