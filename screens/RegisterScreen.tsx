@@ -93,7 +93,7 @@ export default function RegisterScreen({ navigation }: Props) {
         >
           Lösenord måste vara minst 6 tecken.
         </HelperText>
-        <Text>{errorMessage}</Text>
+        <Text style={s.errorMessage}>{errorMessage}</Text>
         <Button
           mode="contained"
           onPress={signUpAccount}
@@ -117,8 +117,7 @@ const s = StyleSheet.create({
   },
   errorMessage: {
     color: 'red',
-    fontSize: 24,
-    marginTop: 12,
+    fontSize: 17,
     alignItems: 'center',
     justifyContent: 'center',
   },

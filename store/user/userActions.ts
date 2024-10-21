@@ -20,7 +20,6 @@ export const signUpUser = createAsyncThunk<User, EmailPassword>(
       );
       return result.user.toJSON() as User;
     } catch (error) {
-      console.error(error);
       if (error instanceof FirebaseError) {
         let errorMessage = '';
 
@@ -47,6 +46,7 @@ export const signUpUser = createAsyncThunk<User, EmailPassword>(
 
         return thunkAPI.rejectWithValue(errorMessage);
       }
+      console.error(error);
       return thunkAPI.rejectWithValue(
         'Something went wrong, Could not register the user!:',
       );
