@@ -30,7 +30,7 @@ export default function RootStackNavigator() {
   const user = useAppSelector((state) => state.user.currentUser);
 
   return (
-    <RootStack.Navigator initialRouteName="Login">
+    <RootStack.Navigator initialRouteName="TestStore">
       {user ? (
         <>
           <RootStack.Screen name="Home" component={HomeScreen} />
