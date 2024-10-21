@@ -44,7 +44,7 @@ export const signInUser = createAppAsyncThunk<User, EmailPassword>(
   },
 );
 
-// const wait = async (ms: number) => {
-//   console.log('waiting for 5 seconds');
-//   return new Promise((resolve) => setTimeout(resolve, ms));
-// };
+const wait = async (ms: number) => {
+  console.log('waiting for 5 seconds');
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};

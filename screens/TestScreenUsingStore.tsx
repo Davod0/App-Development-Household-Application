@@ -6,11 +6,10 @@ import {
   selectCurrentUser,
   selectUserAuthenticationIsLoading,
 } from '../store/user/selectors';
+import LoadingIndicator from '../store/LoadingIndicator';
 import { signInUser, signUpUser } from '../store/user/userActions';
 
 export default function TestScreenUsingStore() {
-  const [householdName, setHouseholdName] = useState('');
-  const household = useAppSelector((state) => state.household);
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -70,7 +69,7 @@ export default function TestScreenUsingStore() {
       />
       <Button title="Sign in" onPress={handleSignInUser} />
 
-      {isLoading ? <Text>is Loading</Text> : null}
+      {LoadingIndicator(isLoading)}
     </View>
   );
 }
