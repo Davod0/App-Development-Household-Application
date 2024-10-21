@@ -16,6 +16,8 @@ export type CompletedTask = {
   dateDone: Date;
 };
 
+export type CreateCompletedTask = Omit<CompletedTask, 'id'>;
+
 export type Task = {
   id: string;
   householdId: string;
