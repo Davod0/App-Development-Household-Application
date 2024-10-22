@@ -7,10 +7,10 @@ import { RootStackParamList } from '../navigators/RootStackNavigator';
 type props = NativeStackScreenProps<RootStackParamList, 'CreateHouseHold'>;
 
 export default function CreateHouseholdScreen({ navigation }: props) {
-  const [name, setName] = useState('');
+  const [HounseholdName, setHounseholdName] = useState('');
 
   const validateHouseHoldName = () => {
-    if (!name) {
+    if (!HounseholdName) {
       Alert.alert('Validation error', 'Household name kan inte vara tomt.');
       return false;
     }
@@ -30,8 +30,8 @@ export default function CreateHouseholdScreen({ navigation }: props) {
         <TextInput
           mode="outlined"
           label={'Namn'}
-          value={name}
-          onChangeText={(text) => setName(text)}
+          value={HounseholdName}
+          onChangeText={(text) => setHounseholdName(text)}
           theme={{ roundness: 10 }}
           style={{ height: 60, justifyContent: 'center' }}
         />
