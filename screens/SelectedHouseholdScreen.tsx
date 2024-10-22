@@ -34,7 +34,7 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   const today = todayAtMidnight();
   const completedTasks = mockedCompletedTasks
     .filter((t) => members.some((m) => m.id === t.memberId))
-    .filter((t) => t.dateDone >= todayAtMidnight());
+    .filter((t) => new Date(Date.parse(t.dateDone)) >= todayAtMidnight());
   // .filter((t) => t.dateDone >= startDayCurrentWeek(today));
 
   const renderTaskBadges = (task: Task) => {
@@ -64,7 +64,10 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
 
       let daysSinceLastCompleted =
         pastCompletionsOfThisTask.length > 0
-          ? dateDifference(today, pastCompletionsOfThisTask[0].dateDone)
+          ? dateDifference(
+              today,
+              new Date(Date.parse(pastCompletionsOfThisTask[0].dateDone)),
+            )
           : 100;
 
       return (

@@ -1,6 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { signOut } from 'firebase/auth';
 import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Surface } from 'react-native-paper';
 import { mockedHouseholds } from '../data';
 import { auth } from '../firebase';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
@@ -24,17 +25,26 @@ export default function Home({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home Screen - testing </Text>
-      <Pressable onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.text}>Login</Text>
+      <Surface
+        style={{ paddingVertical: 5, paddingHorizontal: 20 }}
+        elevation={2}
+      >
+        <Text>Need to change in RootStackNavigator to test these screens.</Text>
+        <Pressable onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.text}>Login</Text>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.text}>Register</Text>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate('TestStore')}>
+          <Text style={styles.text}>TestStore</Text>
+        </Pressable>
+      </Surface>
+      <Pressable onPress={() => navigation.navigate('ReduxTest')}>
+        <Text style={styles.text}>ReduxTest</Text>
       </Pressable>
       <Pressable onPress={() => navigation.navigate('Profile')}>
         <Text style={styles.text}>Profile</Text>
-      </Pressable>
-      <Pressable onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.text}>Register</Text>
-      </Pressable>
-      <Pressable onPress={() => navigation.navigate('TestStore')}>
-        <Text style={styles.text}>TestStore</Text>
       </Pressable>
       <Pressable onPress={() => navigation.navigate('Details')}>
         <Text style={styles.text}>Details</Text>

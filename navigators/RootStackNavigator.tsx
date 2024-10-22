@@ -10,6 +10,7 @@ import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ReduxTestScreen from '../screens/ReduxTestScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
@@ -32,6 +33,7 @@ export type RootStackParamList = {
   CreateTask: undefined;
   HouseholdInformation: { household: Household };
   YourHouseholds: undefined;
+  ReduxTest: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -48,6 +50,7 @@ export default function RootStackNavigator() {
       {user ? (
         <>
           <RootStack.Screen name="Home" component={HomeScreen} />
+          <RootStack.Screen name="ReduxTest" component={ReduxTestScreen} />
           <RootStack.Screen name="Details" component={DetailsScreen} />
 
           <RootStack.Screen
