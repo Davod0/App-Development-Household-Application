@@ -1,22 +1,21 @@
 import { ScrollView, StyleSheet, Text } from 'react-native';
 import { Button, Card } from 'react-native-paper';
-import { CreateCompletedTask, CreateTask } from '../data';
-import { selectAllCompletedTasks } from '../store/completedTasks/completedTasksSelectors';
+import { CreateTask } from '../data';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { selectTasks } from '../store/tasks/tasksSelectors';
 import { addNewTask } from '../store/tasks/tasksSlice';
 
 export default function ReduxTestScreen() {
-  const reduxTest = useAppSelector(selectAllCompletedTasks);
+  // const reduxTest = useAppSelector(selectAllCompletedTasks);
   const taskTest = useAppSelector(selectTasks);
 
   // test code to add to redux...
-  const dispatch = useAppDispatch();
-  const somethingToAdd: CreateCompletedTask = {
-    memberId: 'member-1',
-    taskId: 'task-5',
-    dateDone: new Date().toUTCString(),
-  };
+  // const dispatch = useAppDispatch();
+  // const somethingToAdd: CreateCompletedTask = {
+  //   memberId: 'member-1',
+  //   taskId: 'task-5',
+  //   dateDone: new Date().toUTCString(),
+  // };
 
   // test code to add a task to redux ...
   const dispatch1 = useAppDispatch();
