@@ -9,6 +9,11 @@ export type ScheduledTask = {
   taskId: string;
 };
 
+export interface CreateScheduledTask {
+  memberId: string;
+  taskId: string;
+}
+
 export type CompletedTask = {
   id: string;
   memberId: string;
@@ -27,6 +32,8 @@ export type Task = {
   frequency: number;
   isArchived: boolean;
 };
+
+export type CreateTask = Omit<Task, 'id' | 'householdId' | 'isArchived'>;
 
 export type Member = {
   id: string;
