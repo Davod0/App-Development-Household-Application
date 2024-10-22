@@ -100,7 +100,6 @@ export default function DetailsScreen({ navigation }: Props) {
     </View>
   );
 }
-
 const s = StyleSheet.create({
   container: {
     flex: 1,
@@ -112,7 +111,8 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 20,
-    marginBottom: 5,
+    marginTop: 20,
+    marginBottom: 15,
     borderRadius: 10,
     backgroundColor: '#FFFFFF',
   },
@@ -121,7 +121,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 20,
-    marginBottom: 5,
+    marginBottom: 15,
     borderRadius: 10,
     backgroundColor: '#FFFFFF',
   },
@@ -130,7 +130,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 20,
-    marginBottom: 5,
+    marginBottom: 15,
     borderRadius: 10,
     backgroundColor: '#FFFFFF',
   },
@@ -167,7 +167,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 20,
-    marginBottom: 5,
+    marginBottom: 15,
     borderRadius: 10,
     backgroundColor: '#FFFFFF',
   },
@@ -197,8 +197,7 @@ const s = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     width: '100%',
-    paddingHorizontal: 10,
-    paddingBottom: 15,
     justifyContent: 'space-between',
+    marginTop: 'auto',
   },
 });
