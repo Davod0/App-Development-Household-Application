@@ -4,6 +4,7 @@ import householdReducer from './householdReducer';
 
 import { tasksReducer } from './tasks/tasksSlice';
 import userReducer from './user/userReducer';
+import { scheduledTasksReducer } from './scheduledTasks/scheduledTasksSlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     tasks: tasksReducer,
     household: householdReducer, // plural?
     completedTasks: completedTasksReducer,
+    scheduledTasks: scheduledTasksReducer,
     // members // selector för att filtrera på exempelvis det valda hushållet
   },
 });
