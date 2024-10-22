@@ -1,6 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { User } from 'firebase/auth';
+import { ColorMode } from '../../theme/ThemeProvider';
 import { signInUser, signUpUser } from './userActions';
 
 type userState = {
@@ -8,10 +9,12 @@ type userState = {
   isLoading: boolean;
   registerErrorMessage?: string;
   loginErrorMessage?: string;
+  theme: ColorMode;
 };
 const initialState: userState = {
   currentUser: undefined,
   isLoading: false,
+  theme: 'auto',
 };
 
 export const userSlice = createSlice({
@@ -20,6 +23,9 @@ export const userSlice = createSlice({
   reducers: {
     setUserOptimistically: (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
+    },
+    setColorMode: (state, action: PayloadAction<ColorMode>) => {
+      state.theme = action.payload;
     },
   },
 
@@ -51,5 +57,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUserOptimistically } = userSlice.actions;
+export const { setUserOptimistically, setColorMode } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,14 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { completedTasksReducer } from './completedTasks/completedTasksSlice';
 import householdReducer from './householdReducer';
-import taskReducer from './taskReducer';
+
+import { tasksReducer } from './tasks/tasksSlice';
 import userReducer from './user/userReducer';
 import { scheduledTasksReducer } from './scheduledTasks/scheduledTasksSlice';
 
 export const store = configureStore({
   reducer: {
     user: userReducer, // singular?
-    task: taskReducer, // plural?
+    tasks: tasksReducer,
     household: householdReducer, // plural?
     completedTasks: completedTasksReducer,
     scheduledTasks: scheduledTasksReducer,

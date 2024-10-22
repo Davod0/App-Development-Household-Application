@@ -33,6 +33,8 @@ export type Task = {
   isArchived: boolean;
 };
 
+export type CreateTask = Omit<Task, 'id' | 'householdId' | 'isArchived'>;
+
 export type Member = {
   id: string;
   name: string;
