@@ -1,6 +1,6 @@
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
 import { StyleSheet, View } from 'react-native';
-import { IconButton, Text } from 'react-native-paper';
+import { IconButton, Text, useTheme } from 'react-native-paper';
 import { mod } from '../library/utils';
 
 export function SubHeaderStatsScreens({
@@ -9,6 +9,7 @@ export function SubHeaderStatsScreens({
   navigation,
 }: MaterialTopTabBarProps) {
   const numRoutes = state.routes.length;
+  const theme = useTheme();
   return (
     <View style={{ flexDirection: 'row' }}>
       {state.routes.map((route, index) => {
@@ -21,12 +22,14 @@ export function SubHeaderStatsScreens({
               flex: isFocused ? 1 : 0,
               flexDirection: 'row',
               borderBottomWidth: 1,
-              borderBottomColor: '#aaa',
+              borderBottomColor: theme.colors.background,
               backgroundColor: 'white',
             }}
           >
             {isFocused && (
-              <View style={s.header}>
+              <View
+                style={[s.header, { backgroundColor: theme.colors.background }]}
+              >
                 <IconButton
                   icon="chevron-left"
                   size={24}
@@ -36,7 +39,9 @@ export function SubHeaderStatsScreens({
                     )
                   }
                 />
-                <Text style={s.title}>{options.title}</Text>
+                <Text style={[s.title, { color: theme.colors.onBackground }]}>
+                  {options.title}
+                </Text>
                 <IconButton
                   icon="chevron-right"
                   size={24}
