@@ -1,9 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { mockedTasks, Task } from '../../data';
-import { RootState } from '../store';
-import { addTask } from './tasksAction';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CreateTask, mockedTasks, Task } from '../../data';
 
 // STATE
+// TODO: är ett objekt just nu ifall ni vill ha andra saker i den
 export type TaskState = {
   list: Task[];
 };
@@ -16,17 +15,24 @@ const initialState: TaskState = {
 const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(addTask.fulfilled, (state, action) => {
-      state.list.push(action.payload);
-    });
+  reducers: {
+    addNewTask: (state, action: PayloadAction<CreateTask>) => {
+      state.list.push({
+        id: Date.now().toString(),
+        householdId: '1',
+        isArchived: false,
+        ...action.payload,
+      });
+    },
   },
+  // code for using thunks with firebase...
+  // extraReducers: (builder) => {
+  //   builder.addCase(addTask.fulfilled, (state, action) => {
+  //     state.list.push(action.payload);
+  //   });
+  // },
 });
 
 // REDUCER & ACTIONS
 export const tasksReducer = tasksSlice.reducer;
-export const {} = tasksSlice.actions;
-
-// SELECTORS
-export const selectTasks = (state: RootState) => state.tasks.list;
+export const { addNewTask } = tasksSlice.actions;
