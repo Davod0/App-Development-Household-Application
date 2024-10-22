@@ -11,7 +11,7 @@ const membersSlice = createSlice({
   name: 'members',
   initialState,
   reducers: {
-    addMembers: (state, action: PayloadAction<CreateMembers>) => {
+    addMember: (state, action: PayloadAction<CreateMembers>) => {
       state.push({
         id: Date.now().toString(),
         ...action.payload,
@@ -21,5 +21,5 @@ const membersSlice = createSlice({
 });
 
 // Exportera reducer och actions
-export const memberReducer = membersSlice.reducer;
-export const { addMembers } = membersSlice.actions;
+export const membersReducer = membersSlice.reducer;
+export const { addMember } = membersSlice.actions;
