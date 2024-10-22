@@ -37,7 +37,6 @@ export const signInUser = createAppAsyncThunk<User, EmailPassword>(
       );
       return result.user.toJSON() as User;
     } catch (error) {
-      console.error(error);
       if (error instanceof FirebaseError) {
         let errorMessage = '';
 
@@ -54,11 +53,15 @@ export const signInUser = createAppAsyncThunk<User, EmailPassword>(
           case 'auth/user-disabled':
             errorMessage = 'Detta konto har inaktiverats. Kontakta support.';
             break;
+          case 'auth/invalid-credential':
+            errorMessage = 'Din email eller lösenord är fel';
+            break;
           default:
             errorMessage = 'Ett okänt fel uppstod. Försök igen senare.';
         }
         return thunkAPI.rejectWithValue(errorMessage);
       }
+      console.error(error);
       return thunkAPI.rejectWithValue(
         'Something went wrong, Could not register the user!:',
       );

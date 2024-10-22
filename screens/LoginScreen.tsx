@@ -1,10 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Icon, TextInput } from 'react-native-paper';
+import { Button, Icon, Text, TextInput } from 'react-native-paper';
 import { EmailPassword } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
-import { useAppDispatch } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { signInUser } from '../store/user/userActions';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -13,11 +13,10 @@ export default function LoginScreen({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
+  const errorMessage = useAppSelector((state) => state.user.errorMessage);
 
   const handleLogin = async () => {
     //Check with database if correct!
-    // console.log('Password and Username match');
-    // navigation.navigate('Home');
     const emailPassword: EmailPassword = {
       email,
       password,
@@ -53,6 +52,7 @@ export default function LoginScreen({ navigation }: Props) {
           secureTextEntry={true}
           theme={{ roundness: 10 }}
         />
+        <Text style={s.errorMessage}>{errorMessage}</Text>
         <Button
           mode="contained"
           style={{ marginTop: 30 }}
@@ -118,6 +118,10 @@ const s = StyleSheet.create({
   },
   textInput: {
     minHeight: 60,
+  },
+  errorMessage: {
+    fontSize: 17,
+    color: 'red',
   },
   footer: {
     flexDirection: 'row',
