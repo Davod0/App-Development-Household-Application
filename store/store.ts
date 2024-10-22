@@ -2,9 +2,10 @@ import { configureStore } from '@reduxjs/toolkit';
 import { completedTasksReducer } from './completedTasks/completedTasksSlice';
 import householdReducer from './householdReducer';
 
+import { memberReducer } from './Members/memberSlice';
+import { scheduledTasksReducer } from './scheduledTasks/scheduledTasksSlice';
 import { tasksReducer } from './tasks/tasksSlice';
 import userReducer from './user/userReducer';
-import { scheduledTasksReducer } from './scheduledTasks/scheduledTasksSlice';
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     household: householdReducer, // plural?
     completedTasks: completedTasksReducer,
     scheduledTasks: scheduledTasksReducer,
+    members: memberReducer,
     // members // selector för att filtrera på exempelvis det valda hushållet
   },
 });
