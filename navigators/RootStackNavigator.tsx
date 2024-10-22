@@ -42,7 +42,7 @@ export default function RootStackNavigator() {
 
   return (
     <RootStack.Navigator
-      initialRouteName="ReduxTest"
+      initialRouteName="Login"
       screenOptions={{ headerTitleAlign: 'center' }}
     >
       {user ? (
@@ -165,7 +165,7 @@ export default function RootStackNavigator() {
             component={RegisterScreen}
             options={{
               headerTitle: () => (
-                <View style={s.titleContainer}>
+                <View>
                   <Text style={s.title}>Registrera dig</Text>
                 </View>
               ),
