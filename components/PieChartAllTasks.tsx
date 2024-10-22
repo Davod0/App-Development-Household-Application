@@ -21,7 +21,9 @@ export default function PieChartAllTasks({ startDate, endDate }: Props) {
   const completedTasks = mockedCompletedTasks
     .filter((t) => members.some((m) => m.id === t.memberId))
     //TODO: date filtering is not done (this only works for current week)
-    .filter((t) => t.dateDone >= startDayCurrentWeek(startDate));
+    .filter(
+      (t) => new Date(Date.parse(t.dateDone)) >= startDayCurrentWeek(startDate),
+    );
 
   const chartData = new Map<string, number>();
   for (let completedTask of completedTasks) {

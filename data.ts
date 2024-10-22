@@ -13,8 +13,10 @@ export type CompletedTask = {
   id: string;
   memberId: string;
   taskId: string;
-  dateDone: Date;
+  dateDone: string;
 };
+
+export type CreateCompletedTask = Omit<CompletedTask, 'id'>;
 
 export type Task = {
   id: string;
@@ -180,168 +182,154 @@ export const mockedScheduledTasks: ScheduledTask[] = [
 // Mocked CompletedTask data
 export const mockedCompletedTasks: CompletedTask[] = [
   {
-    id: 'completed-task-1',
-    memberId: 'member-1',
-    taskId: 'task-1',
-    dateDone: new Date('2024-10-01'),
-  },
-  {
-    id: 'completed-task-2',
-    memberId: 'member-1',
-    taskId: 'task-14',
-    dateDone: new Date('2024-10-05'),
-  },
-  {
     id: '652dcd1b2c8f3a00169b68a5',
     memberId: 'member-1',
     taskId: 'task-14',
-    dateDone: new Date(2024, 9, 9), // October 7, 2024
+    dateDone: new Date(2024, 9, 9).toUTCString(), // October 7, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68a6',
     memberId: 'member-2',
     taskId: 'task-5',
-    dateDone: new Date(2024, 9, 8), // October 8, 2024
+    dateDone: new Date(2024, 9, 8).toUTCString(), // October 8, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68a8',
     memberId: 'member-0',
     taskId: 'task-17',
-    dateDone: new Date(2024, 9, 10), // October 10, 2024
+    dateDone: new Date(2024, 9, 10).toUTCString(), // October 10, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68a9',
     memberId: 'member-5',
     taskId: 'task-22',
-    dateDone: new Date(2024, 9, 11), // October 11, 2024
+    dateDone: new Date(2024, 9, 11).toUTCString(), // October 11, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68b0',
     memberId: 'member-4',
     taskId: 'task-20',
-    dateDone: new Date(2024, 9, 15), // October 12, 2024
+    dateDone: new Date(2024, 9, 15).toUTCString(), // October 12, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68b1',
     memberId: 'member-7',
     taskId: 'task-3',
-    dateDone: new Date(2024, 9, 13), // October 13, 2024
+    dateDone: new Date(2024, 9, 13).toUTCString(), // October 13, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68b2',
     memberId: 'member-1',
     taskId: 'task-15',
-    dateDone: new Date(2024, 9, 14), // October 14, 2024
+    dateDone: new Date(2024, 9, 14).toUTCString(), // October 14, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68b3',
     memberId: 'member-3',
     taskId: 'task-24',
-    dateDone: new Date(2024, 9, 15), // October 15, 2024
+    dateDone: new Date(2024, 9, 15).toUTCString(), // October 15, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68b4',
     memberId: 'member-4',
     taskId: 'task-6',
-    dateDone: new Date(2024, 9, 16), // October 16, 2024
+    dateDone: new Date(2024, 9, 16).toUTCString(), // October 16, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68b5',
     memberId: 'member-2',
     taskId: 'task-19',
-    dateDone: new Date(2024, 9, 17), // October 17, 2024
+    dateDone: new Date(2024, 9, 17).toUTCString(), // October 17, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68b6',
     memberId: 'member-6',
     taskId: 'task-13',
-    dateDone: new Date(2024, 9, 18), // October 18, 2024
+    dateDone: new Date(2024, 9, 18).toUTCString(), // October 18, 2024
   },
-
   {
     id: '652dcd1b2c8f3a00169b68b8',
     memberId: 'member-7',
     taskId: 'task-11',
-    dateDone: new Date(2024, 9, 8), // October 8, 2024
+    dateDone: new Date(2024, 9, 8).toUTCString(), // October 8, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68b9',
     memberId: 'member-0',
     taskId: 'task-21',
-    dateDone: new Date(2024, 9, 9), // October 9, 2024
+    dateDone: new Date(2024, 9, 9).toUTCString(), // October 9, 2024
   },
-
   {
     id: '652dcd1b2c8f3a00169b68bb',
     memberId: 'member-3',
     taskId: 'task-14',
-    dateDone: new Date(2024, 9, 11), // October 11, 2024
+    dateDone: new Date(2024, 9, 11).toUTCString(), // October 11, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68bc',
     memberId: 'member-6',
     taskId: 'task-23',
-    dateDone: new Date(2024, 9, 12), // October 12, 2024
+    dateDone: new Date(2024, 9, 12).toUTCString(), // October 12, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68bd',
     memberId: 'member-4',
     taskId: 'task-4',
-    dateDone: new Date(2024, 9, 13), // October 13, 2024
+    dateDone: new Date(2024, 9, 13).toUTCString(), // October 13, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68be',
     memberId: 'member-2',
     taskId: 'task-10',
-    dateDone: new Date(2024, 9, 14), // October 14, 2024
+    dateDone: new Date(2024, 9, 14).toUTCString(), // October 14, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68bf',
     memberId: 'member-1',
     taskId: 'task-27',
-    dateDone: new Date(2024, 9, 15), // October 15, 2024
+    dateDone: new Date(2024, 9, 15).toUTCString(), // October 15, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68c0',
     memberId: 'member-5',
     taskId: 'task-7',
-    dateDone: new Date(2024, 9, 16), // October 16, 2024
+    dateDone: new Date(2024, 9, 16).toUTCString(), // October 16, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68c1',
     memberId: 'member-3',
     taskId: 'task-18',
-    dateDone: new Date(2024, 9, 17), // October 17, 2024
+    dateDone: new Date(2024, 9, 17).toUTCString(), // October 17, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68c2',
     memberId: 'member-0',
     taskId: 'task-25',
-    dateDone: new Date(2024, 9, 18), // October 18, 2024
+    dateDone: new Date(2024, 9, 18).toUTCString(), // October 18, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68c3',
     memberId: 'member-7',
     taskId: 'task-1',
-    dateDone: new Date(2024, 9, 7), // October 7, 2024
+    dateDone: new Date(2024, 9, 7).toUTCString(), // October 7, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68c4',
     memberId: 'member-6',
     taskId: 'task-16',
-    dateDone: new Date(2024, 9, 8), // October 8, 2024
+    dateDone: new Date(2024, 9, 8).toUTCString(), // October 8, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68c5',
     memberId: 'member-4',
     taskId: 'task-26',
-    dateDone: new Date(2024, 9, 9), // October 9, 2024
+    dateDone: new Date(2024, 9, 9).toUTCString(), // October 9, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68c6',
     memberId: 'member-0',
     taskId: 'task-6',
-    dateDone: new Date(2024, 9, 19), // October 20, 2024
+    dateDone: new Date(2024, 9, 21).toUTCString(), // October 20, 2024
   },
 ];
 

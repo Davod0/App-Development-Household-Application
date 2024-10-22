@@ -31,6 +31,7 @@ export const userSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(signUpUser.rejected, (state, action) => {
+      // TODO: fix as string?!
       state.registerErrorMessage = action.payload as string;
       state.isLoading = false;
       console.log(`Error message from user reducer:1 ${action.payload}`);
@@ -42,7 +43,8 @@ export const userSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(signInUser.rejected, (state, action) => {
-      state.loginErrorMessage = action.payload;
+      // TODO: fix as string?!
+      state.loginErrorMessage = action.payload as string;
       state.isLoading = false;
       console.log(`Error message from user reducer:2 ${action.payload}`);
     });
