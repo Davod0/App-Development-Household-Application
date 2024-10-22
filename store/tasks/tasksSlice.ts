@@ -19,7 +19,7 @@ const tasksSlice = createSlice({
     addNewTask: (state, action: PayloadAction<CreateTask>) => {
       state.list.push({
         id: Date.now().toString(),
-        householdId: '1',
+        householdId: 'household-1',
         isArchived: false,
         ...action.payload,
       });

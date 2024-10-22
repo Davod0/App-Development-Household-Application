@@ -23,7 +23,7 @@ export default function ReduxTestScreen() {
   const addTask: CreateTask = {
     name: 'Katten',
     description: 'Ge katten mat',
-    frequency: 1,
+    frequency: 2,
     weight: 2,
   };
 
