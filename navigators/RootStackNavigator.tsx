@@ -4,6 +4,7 @@ import { Button, IconButton, Text } from 'react-native-paper';
 import { Household } from '../data';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
+import DetailsScreen from '../screens/DetailsScreen';
 import HomeScreen from '../screens/HomeScreen';
 import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
@@ -47,6 +48,7 @@ export default function RootStackNavigator() {
       {user ? (
         <>
           <RootStack.Screen name="Home" component={HomeScreen} />
+          <RootStack.Screen name="Details" component={DetailsScreen} />
 
           <RootStack.Screen
             name="SelectedHouseholdNav"
