@@ -3,8 +3,24 @@ import { avatarList, Task } from '../data';
 
 type Props = { task: Task };
 
-//TODO: implement pie chart per task
 export default function PieChartOneTask({ task }: Props) {
+  /* 
+     När applikationen startas ska alla hushåll som tillhör just den user som är inloggade hämtas från databasen.
+     Och om en user går till screenen där alla user's hushåll visas,
+     ska user kunna välja ett hushåll för att se informationen just om det hushållet så som 
+     alla task som ska göras under dagen, statistik om nuvarande veckan och ......
+
+    1. Här ska visas alla Task som tillhör just det valda hushållet.
+    2. Varje Task ska visas i en cirkel med olika färger och varje färg tillhör en av de 7 avatars som finns i appen
+       då vajre avatar är en Member i hushållet.
+    3. Man ska komma åt Member objektet för att ha tillgång till avatarens namn och färg, 
+        då Member objektet innehåller =  avatarId: AvatarName;
+
+      Hämta alla task för just det hushållet som är valt, 
+      Hämta alla Members för just det hushållet som är valt.
+      Kolla vilken Member har gjort hur mycket av varje Task under veckan/dagen/månaden
+  */
+
   // test data
   const data = [
     {
