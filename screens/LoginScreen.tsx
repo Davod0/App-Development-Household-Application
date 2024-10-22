@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Icon, Text, TextInput } from 'react-native-paper';
+import { Button, Text, TextInput } from 'react-native-paper';
 import { EmailPassword } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -66,44 +66,6 @@ export default function LoginScreen({ navigation }: Props) {
           onPress={navigateToRegister}
         >
           Registera konto
-        </Button>
-      </View>
-      <View style={s.footer}>
-        <Button
-          style={{ width: '50%' }}
-          mode="elevated"
-          textColor="black"
-          theme={{ roundness: 0 }}
-          icon={({ color }) => (
-            <Icon source="plus-circle-outline" size={27} color={color} />
-          )}
-          labelStyle={{
-            fontSize: 20,
-            lineHeight: 30,
-          }}
-          contentStyle={{ height: 65, gap: 10 }}
-          onPress={handleLogin}
-        >
-          Spara
-        </Button>
-        <Button
-          style={{ width: '50%' }}
-          mode="elevated"
-          textColor="black"
-          theme={{ roundness: 0 }}
-          icon={({ color }) => (
-            <Icon source="close-circle-outline" size={27} color={color} />
-          )}
-          labelStyle={{
-            fontSize: 20,
-            lineHeight: 30,
-          }}
-          contentStyle={{ height: 65, gap: 10 }}
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          Stäng
         </Button>
       </View>
     </View>

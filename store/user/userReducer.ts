@@ -30,7 +30,7 @@ export const userSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(signUpUser.rejected, (state, action) => {
-      state.errorMessage = action.payload;
+      state.errorMessage = action.payload as string;
       state.isLoading = false;
       console.log(`Error message from user reducer: ${action.payload}`);
     });
