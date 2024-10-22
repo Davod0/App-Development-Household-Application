@@ -1,15 +1,32 @@
 import { ScrollView, StyleSheet, Text } from 'react-native';
-import { Card } from 'react-native-paper';
+import { Button, Card } from 'react-native-paper';
+import { CreateCompletedTask } from '../data';
 import { selectAllCompletedTasks } from '../store/completedTasks/completedTasksSelectors';
-import { useAppSelector } from '../store/hooks';
+import { addCompletedTask } from '../store/completedTasks/completedTasksSlice';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 export default function ReduxTestScreen() {
-  const comTasks = useAppSelector(selectAllCompletedTasks);
+  const reduxTest = useAppSelector(selectAllCompletedTasks);
+
+  // test code to add to redux...
+  const dispatch = useAppDispatch();
+  const somethingToAdd: CreateCompletedTask = {
+    memberId: 'member-1',
+    taskId: 'task-5',
+    dateDone: new Date().toUTCString(),
+  };
+
   return (
     <ScrollView contentContainerStyle={s.container}>
       <Text>ReduxTestScreen</Text>
-      {comTasks.map((task, idx) => (
-        <Card key={idx}>
+      <Button
+        mode="contained"
+        onPress={() => dispatch(addCompletedTask(somethingToAdd))}
+      >
+        add
+      </Button>
+      {reduxTest.map((task, index) => (
+        <Card key={index}>
           <Card.Title title={task.id} />
           <Card.Content>
             <Text>{task.dateDone.toLocaleString()}</Text>
