@@ -7,15 +7,15 @@ import { RootStackParamList } from '../navigators/RootStackNavigator';
 type Props = NativeStackScreenProps<RootStackParamList, 'Register'>;
 export default function RegisterScreen({ navigation }: Props) {
   const [username, setUsername] = useState('');
-  const [pasword, setPassword] = useState('');
+  const [password, setPassword] = useState('');
 
   const validateInput = () => {
-    // I just check if user have written anything in TextInput now. Can add other validation controlls later (if we want)
+    // I just check if user have written anything in TextInput now. Can add other validation controls later (if we want)
     if (!username) {
       Alert.alert('Validation Error', 'Användarnamn kan inte vara tomt.');
       return false;
     }
-    if (!pasword) {
+    if (!password) {
       Alert.alert('Validation Error', 'Password kan inte vara tomt.');
       return false;
     }
@@ -44,7 +44,7 @@ export default function RegisterScreen({ navigation }: Props) {
           style={s.textInput}
           mode="outlined"
           label={'Lösenord'}
-          value={pasword}
+          value={password}
           onChangeText={(text) => setPassword(text)}
           secureTextEntry={true}
           theme={{ roundness: 10 }}

@@ -10,15 +10,16 @@ export default function ProfileScreen({ navigation }: Props) {
   const userId = 'user-2';
   const user = mockedUsers.find((u) => u.id === userId);
   const member = mockedMembers.find((m) => m.userId === userId);
+  // const members = useAppSelector(selectMembersByUser);
 
   if (!user || !member) {
     throw new Error('bad userId: ' + userId);
   }
 
-  const avatar = avatarList.find((a) => a.id === member.avatarId)?.icon;
+  const avatar = avatarList[member.avatarId].icon;
 
   if (!avatar) {
-    throw new Error('bad avatarId:' + member.avatarId);
+    throw new Error('bad avatarId: ' + member.avatarId);
   }
 
   return (
