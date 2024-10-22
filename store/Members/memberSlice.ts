@@ -1,10 +1,8 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Member, mockedMembers } from '../../data';
 
-// type CompletedTasksState = CompletedTask[];
-// const initialState: CompletedTasksState = mockedCompletedTasks;
-
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Member, mockedMembers } from "../../data";
-
+// Skapa en typ för att lägga till nya medlemmar (utan 'id')
+type CreateMembers = Omit<Member, 'id'>;
 
 type MembersState = Member[];
 const initialState: MembersState = mockedMembers;
@@ -20,9 +18,8 @@ const membersSlice = createSlice({
       });
     },
   },
-
 });
 
-// export reducer and actions
+// Exportera reducer och actions
 export const memberReducer = membersSlice.reducer;
 export const { addMembers } = membersSlice.actions;
