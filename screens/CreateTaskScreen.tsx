@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet } from 'react-native';
 import { Button, Surface, Text, TextInput } from 'react-native-paper';
 import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { addTask } from '../store/tasks/tasksAction';
 import { selectTasks } from '../store/tasks/tasksSlice';
 
 export default function CreateTaskScreen() {
@@ -11,11 +12,11 @@ export default function CreateTaskScreen() {
   const [description, setDescription] = useState('');
   const [frequency, setFrequency] = useState(0);
   const [weight, setWeight] = useState(0);
+  const dispatch = useAppDispatch();
 
-  {
-    /* ================= REMOVE BEFORE PUSH =============== */
-  }
+  // ================= REMOVE BEFORE PUSH ===============
   const tasks = useAppSelector(selectTasks);
+  // ================= REMOVE BEFORE PUSH ===============
 
   const handleCreateTask = () => {
     console.log(title);
@@ -23,10 +24,12 @@ export default function CreateTaskScreen() {
     console.log(weight);
     console.log(frequency);
     Alert.alert('En syssla är skapad');
+    dispatch(addTask({ name: title, description, frequency, weight }));
   };
 
   return (
-    <View style={s.container}>
+    // ÄNDRA TILLBAKA TILL VIEW ===================
+    <ScrollView style={s.container}>
       <Surface>
         <TextInput
           placeholder="Titel"
@@ -57,9 +60,11 @@ export default function CreateTaskScreen() {
       </Button>
       {/* ================= REMOVE BEFORE PUSH =============== */}
       {tasks.map((t) => (
-        <Text>{t.name}</Text>
+        <Text>
+          {t.name} + {t.weight}
+        </Text>
       ))}
-    </View>
+    </ScrollView>
   );
 }
 

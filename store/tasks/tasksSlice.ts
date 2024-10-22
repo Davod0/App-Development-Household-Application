@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { mockedTasks, Task } from '../../data';
 import { RootState } from '../store';
+import { addTask } from './tasksAction';
 
 // STATE
 export type TaskState = {
@@ -16,6 +17,11 @@ const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(addTask.fulfilled, (state, action) => {
+      state.list.push(action.payload);
+    });
+  },
 });
 
 // REDUCER & ACTIONS

@@ -26,6 +26,8 @@ export type Task = {
   isArchived: boolean;
 };
 
+export type TaskCreate = Omit<Task, 'id' | 'householdId' | 'isArchived'>;
+
 export type Member = {
   id: string;
   name: string;
