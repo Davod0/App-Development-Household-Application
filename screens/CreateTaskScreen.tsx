@@ -1,14 +1,21 @@
 import { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
-import { Button, Surface, TextInput } from 'react-native-paper';
+import { Button, Surface, Text, TextInput } from 'react-native-paper';
 import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
+import { useAppSelector } from '../store/hooks';
+import { selectTasks } from '../store/tasks/tasksSlice';
 
 export default function CreateTaskScreen() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [frequency, setFrequency] = useState(0);
   const [weight, setWeight] = useState(0);
+
+  {
+    /* ================= REMOVE BEFORE PUSH =============== */
+  }
+  const tasks = useAppSelector(selectTasks);
 
   const handleCreateTask = () => {
     console.log(title);
@@ -48,6 +55,10 @@ export default function CreateTaskScreen() {
       <Button mode="contained" onPress={handleCreateTask}>
         Skapa
       </Button>
+      {/* ================= REMOVE BEFORE PUSH =============== */}
+      {tasks.map((t) => (
+        <Text>{t.name}</Text>
+      ))}
     </View>
   );
 }

@@ -1,12 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import householdReducer from './householdReducer';
-import taskReducer from './taskReducer';
+
+import { tasksReducer } from './tasks/tasksSlice';
 import userReducer from './user/userReducer';
 
 export const store = configureStore({
   reducer: {
     user: userReducer, // singular?
-    task: taskReducer, // plural?
+    tasks: tasksReducer,
     household: householdReducer, // plural?
     // members // selector för att filtrera på exempelvis det valda hushållet
     // completedTasks
