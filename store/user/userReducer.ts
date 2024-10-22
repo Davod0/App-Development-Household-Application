@@ -6,7 +6,8 @@ import { signInUser, signUpUser } from './userActions';
 type userState = {
   currentUser?: User;
   isLoading: boolean;
-  errorMessage?: string;
+  registerErrorMessage?: string;
+  loginErrorMessage?: string;
 };
 const initialState: userState = {
   currentUser: undefined,
@@ -30,9 +31,9 @@ export const userSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(signUpUser.rejected, (state, action) => {
-      state.errorMessage = action.payload as string;
+      state.registerErrorMessage = action.payload as string;
       state.isLoading = false;
-      console.log(`Error message from user reducer: ${action.payload}`);
+      console.log(`Error message from user reducer:1 ${action.payload}`);
     });
     builder.addCase(signInUser.pending, (state, action) => {
       state.isLoading = true;
@@ -41,9 +42,9 @@ export const userSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(signInUser.rejected, (state, action) => {
-      state.errorMessage = action.payload;
+      state.loginErrorMessage = action.payload;
       state.isLoading = false;
-      console.log(`Error message from user reducer: ${action.payload}`);
+      console.log(`Error message from user reducer:2 ${action.payload}`);
     });
   },
 });

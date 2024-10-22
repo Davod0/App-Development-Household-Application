@@ -40,7 +40,7 @@ export default function RootStackNavigator() {
 
   return (
     <RootStack.Navigator
-      initialRouteName="TestStore"
+      initialRouteName="Login"
       screenOptions={{ headerTitleAlign: 'center' }}
     >
       {user ? (
