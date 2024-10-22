@@ -46,6 +46,7 @@ export default function LoginScreen({ navigation }: Props) {
           value={email}
           onChangeText={(text) => setEmail(text)}
           theme={{ roundness: 10 }}
+          keyboardType="email-address"
         />
         <TextInput
           style={s.textInput}
