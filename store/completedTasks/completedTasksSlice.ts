@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CompletedTask, mockedCompletedTasks } from '../../data';
-import { addCompletedTask } from './completedTasksActions';
+import {
+  CompletedTask,
+  CreateCompletedTask,
+  mockedCompletedTasks,
+} from '../../data';
 
 // state
 type CompletedTasksState = CompletedTask[];
@@ -11,18 +14,21 @@ const completedTasksSlice = createSlice({
   name: 'completedTasks',
   initialState,
   reducers: {
-    //TODO: fix type
-    addCompletedTaskLocal: (state, action: PayloadAction<CompletedTask>) => {
-      state.push(action.payload);
+    addCompletedTask: (state, action: PayloadAction<CreateCompletedTask>) => {
+      state.push({
+        id: Date.now().toString(),
+        ...action.payload,
+      });
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(addCompletedTask.fulfilled, (state, action) => {
-      state.push(action.payload);
-    });
-  },
+  // code for using thunks with firebase...
+  // extraReducers: (builder) => {
+  //   builder.addCase(addCompletedTask.fulfilled, (state, action) => {
+  //     state.push(action.payload);
+  //   });
+  // },
 });
 
 // export reducer and actions
 export const completedTasksReducer = completedTasksSlice.reducer;
-export const { addCompletedTaskLocal } = completedTasksSlice.actions;
+export const { addCompletedTask } = completedTasksSlice.actions;
