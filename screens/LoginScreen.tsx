@@ -13,7 +13,9 @@ export default function LoginScreen({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
-  const errorMessage = useAppSelector((state) => state.user.errorMessage);
+  const loginErrorMessage = useAppSelector(
+    (state) => state.user.loginErrorMessage,
+  );
 
   const handleLogin = async () => {
     //Check with database if correct!
@@ -52,7 +54,7 @@ export default function LoginScreen({ navigation }: Props) {
           secureTextEntry={true}
           theme={{ roundness: 10 }}
         />
-        <Text style={s.errorMessage}>{errorMessage}</Text>
+        <Text style={s.errorMessage}>{loginErrorMessage}</Text>
         <Button
           mode="contained"
           style={{ marginTop: 30 }}

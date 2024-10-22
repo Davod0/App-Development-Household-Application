@@ -15,7 +15,9 @@ export default function RegisterScreen({ navigation }: Props) {
   const [usernameInitialDisplay, setUsernameInitialDisplay] = useState(false);
   const [passwordInitialDisplay, setPasswordInitialDisplay] = useState(false);
   const dispatch = useAppDispatch();
-  const errorMessage = useAppSelector((state) => state.user.errorMessage);
+  const registerErrorMessage = useAppSelector(
+    (state) => state.user.registerErrorMessage,
+  );
 
   const emailHasErrors = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{3,}$/;
@@ -93,7 +95,7 @@ export default function RegisterScreen({ navigation }: Props) {
         >
           Lösenord måste vara minst 6 tecken.
         </HelperText>
-        <Text style={s.errorMessage}>{errorMessage}</Text>
+        <Text style={s.errorMessage}>{registerErrorMessage}</Text>
         <Button
           mode="contained"
           onPress={signUpAccount}
