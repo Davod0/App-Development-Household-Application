@@ -60,7 +60,7 @@ export default function RootStackNavigator() {
             options={({ navigation }) => ({
               title: 'HouseholdName',
               headerShadowVisible: false,
-              headerRight: () => <ProfileIconButton />,
+              headerRight: () => <ProfileIconButton navigation={navigation} />,
             })}
           />
 
