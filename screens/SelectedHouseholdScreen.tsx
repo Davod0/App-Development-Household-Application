@@ -31,6 +31,8 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
     (t) => t.householdId === householdId,
   );
 
+  // useFocusEffect
+
   const today = todayAtMidnight();
   const completedTasks = mockedCompletedTasks
     .filter((t) => members.some((m) => m.id === t.memberId))

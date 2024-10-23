@@ -13,7 +13,7 @@ type userState = {
 };
 const initialState: userState = {
   currentUser: undefined,
-  isLoading: false,
+  isLoading: true,
   theme: 'auto',
 };
 
@@ -23,6 +23,7 @@ export const userSlice = createSlice({
   reducers: {
     setUserOptimistically: (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
+      state.isLoading = false;
     },
     setColorMode: (state, action: PayloadAction<ColorMode>) => {
       state.theme = action.payload;

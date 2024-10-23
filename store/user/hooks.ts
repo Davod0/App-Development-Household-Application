@@ -6,10 +6,10 @@ import { setUserOptimistically } from './userReducer';
 
 export function useUserAuthState() {
   const dispatch = useAppDispatch();
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       dispatch(setUserOptimistically(user?.toJSON() as User));
+      //if(user){dispatch user data}
       console.log(`User from useUserAuthState: ${user?.email}`);
     });
     return unsubscribe;
