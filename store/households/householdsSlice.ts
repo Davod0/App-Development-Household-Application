@@ -5,9 +5,11 @@ import { createHousehold } from './householdsActions';
 // state
 type HouseholdState = {
   list: Household[];
+  selectedHousehold?: Household;
 };
 const initialState: HouseholdState = {
   list: mockedHouseholds,
+  selectedHousehold: undefined,
 };
 
 // slice
