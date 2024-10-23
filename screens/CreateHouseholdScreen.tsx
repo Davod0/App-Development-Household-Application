@@ -3,22 +3,42 @@ import { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Button, Icon, TextInput } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { useAppDispatch } from '../store/hooks';
+import { createHousehold } from '../store/households/householdsActions';
 
 type props = NativeStackScreenProps<RootStackParamList, 'CreateHouseHold'>;
 
 export default function CreateHouseholdScreen({ navigation }: props) {
-  const [name, setName] = useState('');
+  const [HounseholdName, setHounseholdName] = useState('');
+  const dispatch = useAppDispatch();
 
   const validateHouseHoldName = () => {
-    if (!name) {
+    if (!HounseholdName) {
       Alert.alert('Validation error', 'Household name kan inte vara tomt.');
       return false;
     }
     return true;
   };
 
+  const generateRandomCode = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 5; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters.charAt(randomIndex);
+    }
+    return result;
+  };
+
   const createHouseHold = () => {
     if (validateHouseHoldName()) {
+      const householdCode = generateRandomCode();
+      dispatch(
+        createHousehold({
+          name: HounseholdName,
+          code: householdCode,
+        }),
+      );
       console.log('Household name is right. We can create household.');
       navigation.navigate('Home');
     }
@@ -30,8 +50,8 @@ export default function CreateHouseholdScreen({ navigation }: props) {
         <TextInput
           mode="outlined"
           label={'Namn'}
-          value={name}
-          onChangeText={(text) => setName(text)}
+          value={HounseholdName}
+          onChangeText={(text) => setHounseholdName(text)}
           theme={{ roundness: 10 }}
           style={{ height: 60, justifyContent: 'center' }}
         />
