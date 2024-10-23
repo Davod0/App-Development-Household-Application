@@ -1,12 +1,18 @@
 import * as React from 'react';
 
-import { IconButton, MD3Colors } from 'react-native-paper';
+import { IconButton } from 'react-native-paper';
+//  <ProfileIconButton />
 
 const ProfileIconButton = () => (
   <IconButton
-    icon="User"
-    iconColor={MD3Colors.error50}
-    size={20}
+    style={{
+      position: 'absolute',
+      right: 0,
+      top: -30,
+    }}
+    icon="account"
+    iconColor="#000000"
+    size={30}
     onPress={() => console.log('Pressed')}
   />
 );
