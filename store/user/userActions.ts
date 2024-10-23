@@ -96,3 +96,5 @@ export const signInUser = createAppAsyncThunk<User, EmailPassword>(
     }
   },
 );
+
+// getUserData (hushåll, profiler, sysslor, avklarade)

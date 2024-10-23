@@ -5,6 +5,8 @@ import { Button, Text, TextInput } from 'react-native-paper';
 import { EmailPassword } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import LoadingIndicator from '../store/LoadingIndicator';
+import { selectUserAuthenticationIsLoading } from '../store/user/selectors';
 import { signInUser } from '../store/user/userActions';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -16,9 +18,9 @@ export default function LoginScreen({ navigation }: Props) {
   const loginErrorMessage = useAppSelector(
     (state) => state.user.loginErrorMessage,
   );
+  const isLoading = useAppSelector(selectUserAuthenticationIsLoading);
 
   const handleLogin = async () => {
-    //Check with database if correct!
     const emailPassword: EmailPassword = {
       email,
       password,
@@ -44,6 +46,7 @@ export default function LoginScreen({ navigation }: Props) {
           value={email}
           onChangeText={(text) => setEmail(text)}
           theme={{ roundness: 10 }}
+          keyboardType="email-address"
         />
         <TextInput
           style={s.textInput}
@@ -70,6 +73,7 @@ export default function LoginScreen({ navigation }: Props) {
           Registera konto
         </Button>
       </View>
+      {LoadingIndicator(isLoading)}
     </View>
   );
 }

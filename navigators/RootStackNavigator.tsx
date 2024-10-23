@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
+import useSplashScreenVisibility from '../components/SplashScreenVisibility';
 import { Household } from '../data';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
@@ -41,6 +42,7 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 export default function RootStackNavigator() {
   useUserAuthState();
   const user = useAppSelector(selectCurrentUser);
+  useSplashScreenVisibility();
 
   return (
     <RootStack.Navigator
