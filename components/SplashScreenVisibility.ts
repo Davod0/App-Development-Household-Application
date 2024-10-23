@@ -3,20 +3,22 @@ import { useEffect } from 'react';
 import { useAppSelector } from '../store/hooks';
 import { selectUserAuthenticationIsLoading } from '../store/user/selectors';
 
-export default function SplashScreenVisibility() {
+SplashScreen.preventAutoHideAsync();
+
+export default function useSplashScreenVisibility() {
   const userAuthIsLoading = useAppSelector(selectUserAuthenticationIsLoading);
 
   useEffect(() => {
-    const prevent = async () => {
-      await SplashScreen.preventAutoHideAsync();
-    };
     const hide = async () => {
       if (userAuthIsLoading === false) {
-        await SplashScreen.hideAsync();
+        console.log('HIDE SPLASH');
+        setTimeout(() => {
+          SplashScreen.hideAsync();
+        }, 300);
+        // await SplashScreen.hideAsync();
       }
     };
 
-    prevent();
     hide();
   }, [userAuthIsLoading]);
 }
