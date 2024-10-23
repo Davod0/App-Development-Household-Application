@@ -11,29 +11,25 @@ import { selectCurrentUser } from '../store/user/selectors';
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
 // kolla om inloggad antingen här eller på föregående sida dvs inloggningssidan?
-const isLoggedIn = true;
-
 export default function YourHouseholdsScreen({ navigation }: Props) {
   const user = useAppSelector(selectCurrentUser);
   const members = useAppSelector(selectAllMembers);
   const loggedInUserId = user?.uid;
-  const ReduxMockedHousholds = useAppSelector(selectAllHouseholds);
-  if (!isLoggedIn) {
+  const ReduxHousholds = useAppSelector(selectAllHouseholds);
+  if (!user) {
     return (
       <View>
-        <Text>Error, användare inte inloggad</Text>
+        <Text style={s.emptyText}>Error, användare inte inloggad</Text>
       </View>
     );
   }
 
-  const userHouseholds = ReduxMockedHousholds.filter((household) =>
+  const userHouseholds = ReduxHousholds.filter((household) =>
     members.some(
       (member) =>
         member.userId === loggedInUserId && member.householdId === household.id,
     ),
   );
-
-  console.log('userHouseholds:', userHouseholds);
 
   const handleHouseholdPress = (household: Household) => {
     navigation.navigate('HouseholdInformation', { household });
@@ -47,20 +43,26 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   return (
     <ScrollView contentContainerStyle={s.container}>
       <View style={s.householdsContainer}>
-        {userHouseholds.map((household) => (
-          <View style={s.household} key={household.id}>
-            <Surface style={s.surface}>
-              <TouchableOpacity onPress={() => handleHouseholdPress(household)}>
-                <Text style={s.text}>{household.name} 🏠</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleDeletePress()}>
-                <View style={{ marginRight: 7 }}>
-                  <Icon source="close-circle" size={24} />
-                </View>
-              </TouchableOpacity>
-            </Surface>
-          </View>
-        ))}
+        {userHouseholds && userHouseholds.length > 0 ? (
+          userHouseholds.map((household) => (
+            <View style={s.household} key={household.id}>
+              <Surface style={s.surface}>
+                <TouchableOpacity
+                  onPress={() => handleHouseholdPress(household)}
+                >
+                  <Text style={s.text}>{household.name} 🏠</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleDeletePress()}>
+                  <View style={{ marginRight: 7 }}>
+                    <Icon source="close-circle" size={24} />
+                  </View>
+                </TouchableOpacity>
+              </Surface>
+            </View>
+          ))
+        ) : (
+          <Text style={s.emptyText}>Inga tillgängliga hushåll.</Text>
+        )}
       </View>
       <View style={s.footer}>
         <Button
@@ -122,9 +124,10 @@ const s = StyleSheet.create({
     fontSize: 25,
     marginLeft: 10,
   },
-  entypo: {
-    marginRight: 10,
-    margin: 'auto',
+  emptyText: {
+    fontSize: 25,
+    textAlign: 'center',
+    marginTop: 12,
   },
   footer: {
     flexDirection: 'row',
