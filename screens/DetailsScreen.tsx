@@ -63,7 +63,6 @@ export default function DetailsScreen({ navigation }: Props) {
         <Button
           style={{ width: '50%' }}
           mode="elevated"
-          textColor="black"
           theme={{ roundness: 0 }}
           icon={({ color }) => (
             <Icon source="plus-circle-outline" size={27} color={color} />
@@ -80,7 +79,6 @@ export default function DetailsScreen({ navigation }: Props) {
         <Button
           style={{ width: '50%' }}
           mode="elevated"
-          textColor="black"
           theme={{ roundness: 0 }}
           icon={({ color }) => (
             <Icon source="close-circle-outline" size={27} color={color} />
@@ -104,7 +102,7 @@ const s = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    backgroundColor: '#F2F2F2',
+    // backgroundColor: '#F2F2F2',
   },
   titleContainer: {
     padding: 14,
@@ -114,7 +112,7 @@ const s = StyleSheet.create({
     marginTop: 20,
     marginBottom: 15,
     borderRadius: 10,
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
   },
   descriptionContainer: {
     padding: 14,
@@ -123,7 +121,7 @@ const s = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 15,
     borderRadius: 10,
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
   },
   frequencyContainer: {
     padding: 14,
@@ -132,7 +130,7 @@ const s = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 15,
     borderRadius: 10,
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
   },
   frequencyContent: {
     flexDirection: 'row',
@@ -169,7 +167,7 @@ const s = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 15,
     borderRadius: 10,
-    backgroundColor: '#FFFFFF',
+    // backgroundColor: '#FFFFFF',
   },
   valueContent: {
     flexDirection: 'row',
@@ -188,7 +186,7 @@ const s = StyleSheet.create({
     borderRadius: 30,
     borderColor: '#F2F2F2',
     borderWidth: 1,
-    backgroundColor: '#F2F2F2',
+    // backgroundColor: '#F2F2F2',
     height: 30,
     width: 30,
     justifyContent: 'center',

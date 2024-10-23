@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { signOut } from 'firebase/auth';
-import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
-import { Surface } from 'react-native-paper';
+import { Button, Pressable, StyleSheet, View } from 'react-native';
+import { Surface, Text } from 'react-native-paper';
 import { mockedHouseholds } from '../data';
 import { auth } from '../firebase';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
@@ -88,7 +88,6 @@ export default function Home({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
