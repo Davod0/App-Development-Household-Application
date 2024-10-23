@@ -2,15 +2,18 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Button, Icon, TextInput } from 'react-native-paper';
+import { generateRandomCode } from '../library/utils';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
-import { useAppDispatch } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { createHousehold } from '../store/households/householdsActions';
+import { selectCurrentUser } from '../store/user/selectors';
 
 type props = NativeStackScreenProps<RootStackParamList, 'CreateHouseHold'>;
 
 export default function CreateHouseholdScreen({ navigation }: props) {
   const [HounseholdName, setHounseholdName] = useState('');
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
 
   const validateHouseHoldName = () => {
     if (!HounseholdName) {
@@ -20,27 +23,26 @@ export default function CreateHouseholdScreen({ navigation }: props) {
     return true;
   };
 
-  const generateRandomCode = () => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let result = '';
-    for (let i = 0; i < 5; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters.charAt(randomIndex);
-    }
-    return result;
-  };
-
   const createHouseHold = () => {
     if (validateHouseHoldName()) {
       const householdCode = generateRandomCode();
       dispatch(
         createHousehold({
-          name: HounseholdName,
-          code: householdCode,
+          household: {
+            name: HounseholdName,
+            code: householdCode,
+          },
+          member: {
+            name: 'Kalle',
+            userId: user!.uid,
+            householdId: '',
+            avatarId: 'fox',
+            isOwner: true,
+            isAllowed: true,
+          },
         }),
       );
-      console.log('Household name is right. We can create household.');
-      navigation.navigate('Home');
+      navigation.navigate('YourHouseholds');
     }
   };
 

@@ -22,7 +22,6 @@ const householdSlice = createSlice({
 
     //  builder.addCase(createHousehold2.fulfilled, (state, action) => {
     //    state.list.push(action.payload.member);
-
     //  });
   },
   // code for using thunks with firebase...

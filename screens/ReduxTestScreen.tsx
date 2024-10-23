@@ -1,9 +1,13 @@
 import { ScrollView, StyleSheet, Text } from 'react-native';
 import { Button, Card } from 'react-native-paper';
-import { CreateHousehold } from '../data';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { createHousehold } from '../store/households/householdsActions';
+import {
+  createHousehold,
+  CreateHouseholdWithMember,
+} from '../store/households/householdsActions';
 import { selectAllHouseholds } from '../store/households/housholdsSelectors';
+import { selectAllMembers } from '../store/Members/membersSelectors';
+import { selectCurrentUser } from '../store/user/selectors';
 
 export default function ReduxTestScreen() {
   // const reduxTest = useAppSelector(selectAllCompletedTasks);
@@ -25,10 +29,24 @@ export default function ReduxTestScreen() {
   //   frequency: 2,
   //   weight: 2,
   // };
+
+  const user = useAppSelector(selectCurrentUser);
+  const households = useAppSelector(selectAllHouseholds);
+  const members = useAppSelector(selectAllMembers);
   const dispatch1 = useAppDispatch();
-  const addHouse: CreateHousehold = {
-    name: 'Katten',
-    code: 'werewr',
+  const addHouse: CreateHouseholdWithMember = {
+    household: {
+      name: 'Katten',
+      code: 'werewr',
+    },
+    member: {
+      name: 'Kalle',
+      userId: user!.uid,
+      householdId: '',
+      avatarId: 'fox',
+      isOwner: true,
+      isAllowed: true,
+    },
   };
 
   return (
@@ -69,6 +87,16 @@ export default function ReduxTestScreen() {
           <Card.Content>
             <Text>{task.name}</Text>
             <Text>{task.code}</Text>
+          </Card.Content>
+        </Card>
+      ))}
+      {members.map((member, index) => (
+        <Card key={index}>
+          <Card.Title title={member.id} />
+          <Card.Content>
+            <Text>{member.id}</Text>
+            <Text>{member.name}</Text>
+            <Text>{member.householdId}</Text>
           </Card.Content>
         </Card>
       ))}
