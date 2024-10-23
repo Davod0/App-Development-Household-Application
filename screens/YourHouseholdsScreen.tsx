@@ -1,12 +1,12 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Button, Icon, Surface, Text } from 'react-native-paper';
-import { Household } from '../data';
+import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppSelector } from '../store/hooks';
 import { selectAllHouseholds } from '../store/households/housholdsSelectors';
 import { selectAllMembers } from '../store/Members/membersSelectors';
 import { selectCurrentUser } from '../store/user/selectors';
+import { Household } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
@@ -52,11 +52,12 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
                 >
                   <Text style={s.text}>{household.name} 🏠</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleDeletePress()}>
-                  <View style={{ marginRight: 7 }}>
-                    <Icon source="close-circle" size={24} />
-                  </View>
-                </TouchableOpacity>
+
+                <IconButton
+                  icon="close-circle-outline"
+                  size={24}
+                  onPress={handleDeletePress}
+                />
               </Surface>
             </View>
           ))

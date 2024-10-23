@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
+import ProfileIconButton from '../components/ProfileIconButton';
 import useSplashScreenVisibility from '../components/SplashScreenVisibility';
 import { Household } from '../data';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
@@ -51,9 +52,21 @@ export default function RootStackNavigator() {
     >
       {user ? (
         <>
-          <RootStack.Screen name="Home" component={HomeScreen} />
+          <RootStack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={({ navigation }) => ({
+              title: 'HouseholdName',
+              headerShadowVisible: false,
+              headerRight: () => <ProfileIconButton navigation={navigation} />,
+            })}
+          />
           <RootStack.Screen name="ReduxTest" component={ReduxTestScreen} />
-          <RootStack.Screen name="Details" component={DetailsScreen} />
+          <RootStack.Screen
+            name="Details"
+            component={DetailsScreen}
+            options={{ title: 'Information om syssla' }}
+          />
 
           <RootStack.Screen
             name="SelectedHouseholdNav"
@@ -61,26 +74,14 @@ export default function RootStackNavigator() {
             options={({ navigation }) => ({
               title: 'HouseholdName',
               headerShadowVisible: false,
-              headerRight: () => (
-                <IconButton
-                  icon="account-outline"
-                  size={24}
-                  onPress={() => navigation.navigate('Profile')}
-                />
-              ),
+              headerRight: () => <ProfileIconButton navigation={navigation} />,
             })}
           />
 
           <RootStack.Screen
             name="CreateHouseHold"
             component={CreateHouseholdScreen}
-            options={{
-              headerTitle: () => (
-                <View style={s.titleContainer}>
-                  <Text style={s.title}>Skapa hushåll</Text>
-                </View>
-              ),
-            }}
+            options={{ title: 'Skapa hushåll' }}
           />
           <RootStack.Screen
             name="Profile"
@@ -109,46 +110,22 @@ export default function RootStackNavigator() {
           <RootStack.Screen
             name="JoinHousehold"
             component={JoinHouseholdScreen}
-            options={{
-              headerTitle: () => (
-                <View style={s.titleContainer}>
-                  <Text style={s.title}>Gå med i hushåll</Text>
-                </View>
-              ),
-            }}
+            options={{ title: 'Gå med i hushåll' }}
           />
           <RootStack.Screen
             name="YourHouseholds"
             component={YourHouseholdsScreen}
-            options={{
-              headerTitle: () => (
-                <View style={s.titleContainer}>
-                  <Text style={s.title}>Dina hushåll</Text>
-                </View>
-              ),
-            }}
+            options={{ title: 'Dina hushåll' }}
           />
           <RootStack.Screen
             name="HouseholdInformation"
             component={HouseholdInformationScreen}
-            options={{
-              headerTitle: () => (
-                <View style={s.titleContainer}>
-                  <Text style={s.title}>Hushållsinformation</Text>
-                </View>
-              ),
-            }}
+            options={{ title: 'Hushållsinformation' }}
           />
           <RootStack.Screen
             name="CreateTask"
             component={CreateTaskScreen}
-            options={{
-              headerTitle: () => (
-                <View style={s.titleContainer}>
-                  <Text style={s.title}>Skapa en ny syssla</Text>
-                </View>
-              ),
-            }}
+            options={{ title: 'Skapa en ny syssla' }}
           />
         </>
       ) : (
@@ -157,24 +134,12 @@ export default function RootStackNavigator() {
           <RootStack.Screen
             name="Login"
             component={LoginScreen}
-            options={{
-              headerTitle: () => (
-                <View style={s.titleContainer}>
-                  <Text style={s.title}>Logga in</Text>
-                </View>
-              ),
-            }}
+            options={{ title: 'Logga in' }}
           />
           <RootStack.Screen
             name="Register"
             component={RegisterScreen}
-            options={{
-              headerTitle: () => (
-                <View>
-                  <Text style={s.title}>Registrera dig</Text>
-                </View>
-              ),
-            }}
+            options={{ title: 'Registrera dig' }}
           />
         </>
       )}
