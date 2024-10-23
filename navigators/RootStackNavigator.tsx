@@ -44,7 +44,7 @@ export default function RootStackNavigator() {
 
   return (
     <RootStack.Navigator
-      initialRouteName="CreateHouseHold"
+      initialRouteName="YourHouseholds"
       screenOptions={{ headerTitleAlign: 'center' }}
     >
       {user ? (

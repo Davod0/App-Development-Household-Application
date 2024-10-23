@@ -3,8 +3,10 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, Surface, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Household, mockedHouseholds, mockedMembers } from '../data';
+import { Household, mockedMembers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { useAppSelector } from '../store/hooks';
+import { selectAllHouseholds } from '../store/households/housholdsSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
@@ -13,6 +15,7 @@ const isLoggedIn = true;
 const loggedInUserId = 'user-2';
 
 export default function YourHouseholdsScreen({ navigation }: Props) {
+  const ReduxMockedHousholds = useAppSelector(selectAllHouseholds);
   if (!isLoggedIn) {
     return (
       <View>
@@ -21,7 +24,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
     );
   }
 
-  const userHouseholds = mockedHouseholds.filter((household) =>
+  const userHouseholds = ReduxMockedHousholds.filter((household) =>
     mockedMembers.some(
       (member) =>
         member.userId === loggedInUserId && member.householdId === household.id,
@@ -32,6 +35,8 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
 
   const handleHouseholdPress = (household: Household) => {
     navigation.navigate('HouseholdInformation', { household });
+
+    console.log(ReduxMockedHousholds);
   };
   const handleDeletePress = () => {
     navigation.navigate('Profile');

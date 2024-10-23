@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Household, mockedHouseholds, User } from '../../data';
-import { createHousehold2 } from './householdsActions';
+import { Household, mockedHouseholds } from '../../data';
+import { createHousehold } from './householdsActions';
 
 // state
 type HouseholdState = {
@@ -16,9 +16,14 @@ const householdSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(createHousehold2.fulfilled, (state, action) => {
+    builder.addCase(createHousehold.fulfilled, (state, action) => {
       state.list.push(action.payload);
     });
+
+    //  builder.addCase(createHousehold2.fulfilled, (state, action) => {
+    //    state.list.push(action.payload.member);
+
+    //  });
   },
   // code for using thunks with firebase...
   // extraReducers: (builder) => {

@@ -3,11 +3,14 @@ import { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Button, Icon, TextInput } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { useAppDispatch } from '../store/hooks';
+import { createHousehold } from '../store/households/householdsActions';
 
 type props = NativeStackScreenProps<RootStackParamList, 'CreateHouseHold'>;
 
 export default function CreateHouseholdScreen({ navigation }: props) {
   const [HounseholdName, setHounseholdName] = useState('');
+  const dispatch = useAppDispatch();
 
   const validateHouseHoldName = () => {
     if (!HounseholdName) {
@@ -17,8 +20,25 @@ export default function CreateHouseholdScreen({ navigation }: props) {
     return true;
   };
 
+  const generateRandomCode = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 5; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters.charAt(randomIndex);
+    }
+    return result;
+  };
+
   const createHouseHold = () => {
     if (validateHouseHoldName()) {
+      const householdCode = generateRandomCode();
+      dispatch(
+        createHousehold({
+          name: HounseholdName,
+          code: householdCode,
+        }),
+      );
       console.log('Household name is right. We can create household.');
       navigation.navigate('Home');
     }
