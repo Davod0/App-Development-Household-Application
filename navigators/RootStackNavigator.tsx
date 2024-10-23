@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
+import ProfileIconButton from '../components/ProfileIconButton';
 import useSplashScreenVisibility from '../components/SplashScreenVisibility';
 import { Household } from '../data';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
@@ -51,7 +52,15 @@ export default function RootStackNavigator() {
     >
       {user ? (
         <>
-          <RootStack.Screen name="Home" component={HomeScreen} />
+          <RootStack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={({ navigation }) => ({
+              title: 'HouseholdName',
+              headerShadowVisible: false,
+              headerRight: () => <ProfileIconButton navigation={navigation} />,
+            })}
+          />
           <RootStack.Screen name="ReduxTest" component={ReduxTestScreen} />
           <RootStack.Screen name="Details" component={DetailsScreen} />
 
@@ -61,13 +70,7 @@ export default function RootStackNavigator() {
             options={({ navigation }) => ({
               title: 'HouseholdName',
               headerShadowVisible: false,
-              headerRight: () => (
-                <IconButton
-                  icon="account-outline"
-                  size={24}
-                  onPress={() => navigation.navigate('Profile')}
-                />
-              ),
+              headerRight: () => <ProfileIconButton navigation={navigation} />,
             })}
           />
 
