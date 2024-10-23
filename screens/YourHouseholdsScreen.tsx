@@ -1,10 +1,11 @@
-import Entypo from '@expo/vector-icons/Entypo';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Button, Surface, Text } from 'react-native-paper';
+import { Button, Icon, Surface, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Household, mockedHouseholds, mockedMembers } from '../data';
+import { Household, mockedMembers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { useAppSelector } from '../store/hooks';
+import { selectAllHouseholds } from '../store/households/housholdsSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
@@ -13,6 +14,7 @@ const isLoggedIn = true;
 const loggedInUserId = 'user-2';
 
 export default function YourHouseholdsScreen({ navigation }: Props) {
+  const ReduxMockedHousholds = useAppSelector(selectAllHouseholds);
   if (!isLoggedIn) {
     return (
       <View>
@@ -21,7 +23,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
     );
   }
 
-  const userHouseholds = mockedHouseholds.filter((household) =>
+  const userHouseholds = ReduxMockedHousholds.filter((household) =>
     mockedMembers.some(
       (member) =>
         member.userId === loggedInUserId && member.householdId === household.id,
@@ -32,6 +34,8 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
 
   const handleHouseholdPress = (household: Household) => {
     navigation.navigate('HouseholdInformation', { household });
+
+    console.log(ReduxMockedHousholds);
   };
   const handleDeletePress = () => {
     navigation.navigate('Profile');
@@ -49,12 +53,9 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
                 <Text style={s.text}>{household.name} 🏠</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleDeletePress()}>
-                <Entypo
-                  style={s.entypo}
-                  name="circle-with-cross"
-                  size={35}
-                  color="black"
-                />
+                <View style={{ marginRight: 7 }}>
+                  <Icon source="close-circle" size={24} />
+                </View>
               </TouchableOpacity>
             </Surface>
           </View>
@@ -64,7 +65,6 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
         <Button
           style={{ width: '50%' }}
           mode="elevated"
-          textColor="black"
           theme={{ roundness: 0 }}
           labelStyle={{
             fontSize: 20,
@@ -80,7 +80,6 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
         <Button
           style={{ width: '50%' }}
           mode="elevated"
-          textColor="black"
           theme={{ roundness: 0 }}
           labelStyle={{
             fontSize: 20,
@@ -116,11 +115,15 @@ const s = StyleSheet.create({
     padding: 'auto',
     justifyContent: 'space-between',
     flexDirection: 'row',
+    height: 60,
+    alignItems: 'center',
   },
   text: {
     fontSize: 25,
+    marginLeft: 10,
   },
   entypo: {
+    marginRight: 10,
     margin: 'auto',
   },
   footer: {

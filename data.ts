@@ -51,6 +51,8 @@ export type Household = {
   code: string;
 };
 
+export type CreateHousehold = Omit<Household, 'id'>;
+
 export type User = {
   id: string;
   firstName: string;
