@@ -50,7 +50,15 @@ export default function RootStackNavigator() {
     >
       {user ? (
         <>
-          <RootStack.Screen name="Home" component={HomeScreen} />
+          <RootStack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={({ navigation }) => ({
+              title: 'HouseholdName',
+              headerShadowVisible: false,
+              headerRight: () => <ProfileIconButton navigation={navigation} />,
+            })}
+          />
           <RootStack.Screen name="ReduxTest" component={ReduxTestScreen} />
           <RootStack.Screen name="Details" component={DetailsScreen} />
 
