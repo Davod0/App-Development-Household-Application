@@ -1,7 +1,7 @@
 import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Badge, Button, Icon, Surface } from 'react-native-paper';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Badge, Button, Icon, Surface, Text } from 'react-native-paper';
 import {
   avatarList,
   mockedCompletedTasks,
@@ -122,7 +122,6 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
             <Button
               style={{ width: '50%' }}
               mode="elevated"
-              textColor="black"
               theme={{ roundness: 0 }}
               icon={({ color }) => (
                 <View>
@@ -145,7 +144,6 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
           <Button
             style={{ width: '50%' }}
             mode="elevated"
-            textColor="black"
             theme={{ roundness: 0 }}
             icon={({ color }) => (
               <Icon source="plus-circle-outline" size={27} color={color} />
@@ -169,23 +167,11 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
 
 const s = StyleSheet.create({
   container: {
-    // flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: '#008080aa',
     gap: 5,
   },
   taskItem: {
     // justifyContent: 'space-between',
     fontSize: 20,
-  },
-  header: {
-    marginTop: -13,
-    // flex: 1,
-    // justifyContent: 'center',
-    alignItems: 'center',
-    // backgroundColor: '#008080aa',
-    flexDirection: 'row',
   },
   surface: {
     flexDirection: 'row',

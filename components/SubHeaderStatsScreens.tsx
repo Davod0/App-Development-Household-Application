@@ -23,7 +23,6 @@ export function SubHeaderStatsScreens({
               flexDirection: 'row',
               borderBottomWidth: 1,
               borderBottomColor: theme.colors.background,
-              backgroundColor: 'white',
             }}
           >
             {isFocused && (
