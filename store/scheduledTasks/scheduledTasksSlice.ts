@@ -22,7 +22,6 @@ const scheduledTasksSlice = createSlice({
         ...action.payload,
       });
     },
-    // Optional: You could add more reducers like removeScheduledTask, updateScheduledTask, etc.
   },
 });
 
