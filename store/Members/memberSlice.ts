@@ -20,8 +20,17 @@ const membersSlice = createSlice({
     deleteMemberById: (state, action: PayloadAction<DeleteMembers>) => {
       return state.filter((member) => member.id !== action.payload);
     },
+    updateMember: (state, action: PayloadAction<Member>) => {
+      const index = state.findIndex(
+        (member) => member.id === action.payload.id,
+      );
+      if (index !== -1) {
+        state[index] = action.payload;
+      }
+    },
   },
 });
 
 export const membersReducer = membersSlice.reducer;
-export const { addMember, deleteMemberById } = membersSlice.actions;
+export const { addMember, deleteMemberById, updateMember } =
+  membersSlice.actions;
