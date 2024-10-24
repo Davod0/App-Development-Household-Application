@@ -3,8 +3,9 @@ import { Alert, StyleSheet, View } from 'react-native';
 import { Button, Surface, TextInput } from 'react-native-paper';
 import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
-import { useAppDispatch } from '../store/hooks';
-import { addNewTask } from '../store/tasks/tasksSlice';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { addTask } from '../store/tasks/tasksAction';
+import { selectCurrentUser } from '../store/user/selectors';
 
 export default function CreateTaskScreen() {
   const [name, setName] = useState('');
@@ -12,6 +13,7 @@ export default function CreateTaskScreen() {
   const [frequency, setFrequency] = useState(0);
   const [weight, setWeight] = useState(0);
   const dispatch = useAppDispatch();
+  // const user = useAppSelector(selectCurrentUser);
 
   const handleCreateTask = () => {
     console.log(name);
@@ -20,7 +22,7 @@ export default function CreateTaskScreen() {
     console.log(frequency);
     Alert.alert('En syssla är skapad');
     // TODO: byt ut till en Thunk i framtiden
-    dispatch(addNewTask({ name, description, frequency, weight }));
+    dispatch(addTask({ name, description, frequency, weight }));
   };
 
   return (

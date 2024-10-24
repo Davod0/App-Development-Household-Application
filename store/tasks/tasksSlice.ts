@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CreateTask, mockedTasks, Task } from '../../data';
+import { addTask, getTasks } from './tasksAction';
 
 // STATE
 // TODO: är ett objekt just nu ifall ni vill ha andra saker i den
@@ -26,11 +27,14 @@ const tasksSlice = createSlice({
     },
   },
   // code for using thunks with firebase...
-  // extraReducers: (builder) => {
-  //   builder.addCase(addTask.fulfilled, (state, action) => {
-  //     state.list.push(action.payload);
-  //   });
-  // },
+  extraReducers: (builder) => {
+    builder.addCase(addTask.fulfilled, (state, action) => {
+      state.list.push(action.payload);
+    });
+    builder.addCase(getTasks.fulfilled, (state, action) => {
+      state.list = action.payload;
+    });
+  },
 });
 
 // REDUCER & ACTIONS
