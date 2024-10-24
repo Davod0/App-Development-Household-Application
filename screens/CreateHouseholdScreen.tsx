@@ -2,9 +2,11 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Dialog, Icon, TextInput } from 'react-native-paper';
+import { generateRandomCode } from '../library/utils';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
-import { useAppDispatch } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { createHousehold } from '../store/households/householdsActions';
+import { selectCurrentUser } from '../store/user/selectors';
 
 type props = NativeStackScreenProps<RootStackParamList, 'CreateHouseHold'>;
 
@@ -12,32 +14,33 @@ export default function CreateHouseholdScreen({ navigation }: props) {
   const [showDialog, setShowDialog] = useState(false);
   const [hounseholdName, setHounseholdName] = useState('');
   const dispatch = useAppDispatch();
-
-  const generateRandomCode = () => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let result = '';
-    for (let i = 0; i < 5; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters.charAt(randomIndex);
-    }
-    return result;
-  };
+  const user = useAppSelector(selectCurrentUser);
 
   const createHouseHold = () => {
     if (!hounseholdName) {
       setShowDialog(true);
       return;
     }
+
     const householdCode = generateRandomCode();
     dispatch(
       createHousehold({
-        name: hounseholdName,
-        code: householdCode,
+        household: {
+          name: hounseholdName,
+          code: householdCode,
+        },
+        member: {
+          name: 'Kalle',
+          userId: user!.uid,
+          householdId: '', //TODO: get from redux
+          avatarId: 'fox',
+          isOwner: true,
+          isAllowed: true,
+        },
       }),
     );
-
+    navigation.navigate('YourHouseholds');
     console.log('Household name is right. We can create household.');
-    navigation.navigate('Home');
   };
 
   return (
