@@ -1,6 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { collection, doc, getDocs } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs } from 'firebase/firestore';
+import { Member } from '../../data';
 import { db } from '../../firebase';
+import { CreateMembers } from './memberSlice';
 
 export const getAllMembersByHouseholdId = createAsyncThunk(
   'members/getAllMembersByHouseholdId',
@@ -19,6 +21,26 @@ export const getAllMembersByHouseholdId = createAsyncThunk(
       return members;
     } catch (error) {
       //   return rejectWithValue(error.message);
+    }
+  },
+);
+export const addMember = createAsyncThunk<Member, CreateMembers>(
+  'members/addMember',
+  async (memberCreate, thunkApi) => {
+    try {
+      const memberRef = collection(
+        doc(db, 'households', memberCreate.householdId),
+        'members',
+      );
+      const newMemberRef = await addDoc(memberRef, memberCreate);
+
+      return {
+        id: newMemberRef.id,
+        ...memberCreate,
+      } as Member;
+    } catch (error) {
+      const errorMessage = (error as Error).message || 'Unknown error';
+      return thunkApi.rejectWithValue(errorMessage);
     }
   },
 );
