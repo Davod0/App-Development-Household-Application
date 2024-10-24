@@ -5,6 +5,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  updateDoc,
 } from 'firebase/firestore';
 import { Member } from '../../data';
 import { db } from '../../firebase';
@@ -58,6 +59,26 @@ export const deleteMemberById = createAsyncThunk<string, string>(
       const memberRef = doc(db, 'members', memberId);
       await deleteDoc(memberRef);
       return memberId;
+    } catch (error) {
+      return rejectWithValue((error as Error).message || 'Unknown error');
+    }
+  },
+);
+
+export const updateMember = createAsyncThunk<Member, Member>(
+  'members/updateMember',
+  async (updatedMember, { rejectWithValue }) => {
+    try {
+      const memberRef = doc(db, 'members', updatedMember.id);
+      await updateDoc(memberRef, {
+        name: updatedMember.name,
+        householdId: updatedMember.householdId,
+        avatarId: updatedMember.avatarId,
+        isOwner: updatedMember.isOwner,
+        isAllowed: updatedMember.isAllowed,
+      });
+
+      return updatedMember;
     } catch (error) {
       return rejectWithValue((error as Error).message || 'Unknown error');
     }

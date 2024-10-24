@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Member, mockedMembers } from '../../data';
 
-// Skapa en typ för att lägga till nya medlemmar (utan 'id')
 export type CreateMembers = Omit<Member, 'id'>;
 export type DeleteMembers = string;
 
@@ -24,6 +23,5 @@ const membersSlice = createSlice({
   },
 });
 
-// Exportera reducer och actions
 export const membersReducer = membersSlice.reducer;
 export const { addMember, deleteMemberById } = membersSlice.actions;
