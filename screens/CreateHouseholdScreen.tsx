@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Dialog, Icon, TextInput } from 'react-native-paper';
+import { avatarList } from '../library/avatarList';
 import { generateRandomCode } from '../library/utils';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -32,7 +33,7 @@ export default function CreateHouseholdScreen({ navigation }: props) {
         member: {
           name: user?.email ?? 'Ägarens namn',
           userId: user!.uid,
-          avatarId: 'fox',
+          avatar: avatarList['fox'],
           isOwner: true,
           isAllowed: true,
         },

@@ -7,9 +7,8 @@ import {
   getDocs,
   updateDoc,
 } from 'firebase/firestore';
-import { Member } from '../../data';
 import { db } from '../../firebase';
-import { CreateMembers } from './memberSlice';
+import { CreateMembers, Member } from '../../types';
 
 export const getAllMembersByHouseholdId = createAsyncThunk(
   'members/getAllMembersByHouseholdId',
@@ -74,7 +73,7 @@ export const updateMember = createAsyncThunk<Member, Member>(
       await updateDoc(memberRef, {
         name: updatedMember.name,
         householdId: updatedMember.householdId,
-        avatarId: updatedMember.avatarId,
+        avatarId: updatedMember.avatar,
         isOwner: updatedMember.isOwner,
         isAllowed: updatedMember.isAllowed,
       });

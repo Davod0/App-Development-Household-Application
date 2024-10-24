@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
-import { EmailPassword } from '../data';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import LoadingIndicator from '../store/LoadingIndicator';
 import {
   selectCurrentUser,
   selectUserAuthenticationIsLoading,
 } from '../store/user/selectors';
-import LoadingIndicator from '../store/LoadingIndicator';
 import { signInUser, signUpUser } from '../store/user/userActions';
+import { EmailPassword } from '../types';
 
 export default function TestScreenUsingStore() {
   const dispatch = useAppDispatch();

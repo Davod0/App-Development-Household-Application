@@ -5,8 +5,8 @@ import {
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
-import { CreateTask, Task } from '../../data';
 import { db } from '../../firebase';
+import { CreateTask, Task } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 
 // Lägger till en task till ett hushåll

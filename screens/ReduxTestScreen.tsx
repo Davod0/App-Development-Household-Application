@@ -1,12 +1,13 @@
 import { ScrollView, StyleSheet } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
-import { CreateTask } from '../data';
+import { getCompletedTasksByHouseholdId } from '../store/completedTasks/completedTasksActions';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { addTask, updateTask } from '../store/tasks/tasksAction';
 import {
   selectTasks,
   selectTasksFromHouseholdId,
 } from '../store/tasks/tasksSelectors';
+import { CreateTask } from '../types';
 
 export default function ReduxTestScreen() {
   // const reduxTest = useAppSelector(selectAllCompletedTasks);
@@ -73,15 +74,26 @@ export default function ReduxTestScreen() {
       >
         add
       </Button>
+      <Button
+        mode="contained"
+        onPress={() => {
+          dispatch(getCompletedTasksByHouseholdId('household-3'));
+        }}
+      >
+        update
+      </Button>
+
       {/* == completed tasks test == */}
       {/* {reduxTest.map((task, index) => (
         <Card key={index}>
           <Card.Title title={task.id} />
           <Card.Content>
             <Text>{task.dateDone.toLocaleString()}</Text>
+            <Text>{task.householdId}</Text>
           </Card.Content>
         </Card>
       ))} */}
+
       {/* == task test == */}
       {tasksForHouseholdId.length > 0 ? (
         tasksForHouseholdId.map((task, index) => (

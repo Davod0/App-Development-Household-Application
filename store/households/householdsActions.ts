@@ -1,6 +1,6 @@
-import { CreateHousehold, Household } from '../../data';
+import { CreateHousehold, CreateHouseholdMember, Household } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
-import { addMember, CreateHouseholdMember } from '../Members/memberSlice';
+import { addMember } from '../Members/memberSlice';
 
 export type CreateHouseholdWithMember = {
   household: CreateHousehold;

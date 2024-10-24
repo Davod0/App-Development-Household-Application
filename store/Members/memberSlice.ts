@@ -1,9 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Member, mockedMembers } from '../../data';
-
-export type CreateMembers = Omit<Member, 'id'>;
-export type DeleteMembers = string;
-export type CreateHouseholdMember = Omit<Member, 'id' | 'householdId'>;
+import { mockedMembers } from '../../data';
+import { CreateMembers, Member } from '../../types';
 
 type MembersState = Member[];
 const initialState: MembersState = mockedMembers;
@@ -18,7 +15,7 @@ const membersSlice = createSlice({
         ...action.payload,
       });
     },
-    deleteMemberById: (state, action: PayloadAction<DeleteMembers>) => {
+    deleteMemberById: (state, action: PayloadAction<string>) => {
       return state.filter((member) => member.id !== action.payload);
     },
     updateMember: (state, action: PayloadAction<Member>) => {

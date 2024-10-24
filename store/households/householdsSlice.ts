@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Household, mockedHouseholds } from '../../data';
+import { mockedHouseholds } from '../../data';
+import { Household } from '../../types';
 import { createHousehold } from './householdsActions';
 
 // state
