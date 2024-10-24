@@ -16,6 +16,7 @@ export default function HouseholdInformationScreen({
   const membersInHousehold = members.filter(
     (m) => m.householdId === household.id,
   );
+
   return (
     <ScrollView contentContainerStyle={s.root}>
       <ScrollView>
@@ -54,10 +55,12 @@ export default function HouseholdInformationScreen({
                   <List.Item
                     key={member.id}
                     style={{ width: '50%' }}
+                    titleStyle={{ textAlign: 'center' }}
                     title={member.name}
                     left={(props) => (
                       <List.Icon {...props} icon="account-circle" />
                     )}
+                    onPress={() => navigation.navigate('Profile')}
                   />
                 ))
               ) : (
