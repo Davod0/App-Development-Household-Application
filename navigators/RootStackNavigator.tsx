@@ -6,6 +6,7 @@ import useSplashScreenVisibility from '../components/SplashScreenVisibility';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
 import DetailsScreen from '../screens/DetailsScreen';
+import EditTaskScreen from '../screens/EditTaskScreen';
 import HomeScreen from '../screens/HomeScreen';
 import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
@@ -36,6 +37,7 @@ export type RootStackParamList = {
   HouseholdInformation: { household: Household };
   YourHouseholds: undefined;
   ReduxTest: undefined;
+  EditTask: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -127,10 +129,15 @@ export default function RootStackNavigator() {
             component={CreateTaskScreen}
             options={{ title: 'Skapa en ny syssla' }}
           />
+          <RootStack.Screen name="EditTask" component={EditTaskScreen} />
         </>
       ) : (
         <>
-          <RootStack.Screen name="TestStore" component={TestScreenUsingStore} />
+          <RootStack.Screen
+            name="TestStore"
+            component={TestScreenUsingStore}
+            options={{ title: 'Uppdatera' }}
+          />
           <RootStack.Screen
             name="Login"
             component={LoginScreen}

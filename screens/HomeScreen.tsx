@@ -73,6 +73,9 @@ export default function Home({ navigation }: Props) {
       <Pressable onPress={() => navigation.navigate('SelectedHouseholdNav')}>
         <Text style={styles.text}>SelectedHousehold</Text>
       </Pressable>
+      <Pressable onPress={() => navigation.navigate('EditTask')}>
+        <Text style={styles.text}>EditTask</Text>
+      </Pressable>
 
       {/* <Pressable onPress={() => navigation.navigate('Login')}><Text style={styles.text}>Login</Text></Pressable> */}
       <Button
