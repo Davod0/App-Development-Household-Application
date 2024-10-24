@@ -13,7 +13,7 @@ import { getFirestore } from 'firebase/firestore';
 //   appId: '1:1084251965186:web:aad9371bc24596042a641b',
 // };
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: 'AIzaSyDAmnvCTQSsPK3hOnv6O7W77_vW0VZoChk',
   authDomain: 'app-developement-household.firebaseapp.com',
   projectId: 'app-developement-household',

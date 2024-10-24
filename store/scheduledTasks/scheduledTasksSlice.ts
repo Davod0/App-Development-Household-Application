@@ -6,6 +6,7 @@ import {
 } from '../../data';
 import {
   addScheduledTaskAsync,
+  deleteScheduledTaskAsync,
   fetchScheduledTasks,
   updateScheduledTaskAsync,
 } from './scheduledTasksActions';
@@ -23,7 +24,7 @@ const scheduledTasksSlice = createSlice({
   reducers: {
     addScheduledTask: (state, action: PayloadAction<CreateScheduledTask>) => {
       state.push({
-        id: Date.now().toString(), // Generate a unique ID for the task
+        id: Date.now().toString(),
         ...action.payload,
       });
     },
@@ -37,14 +38,17 @@ const scheduledTasksSlice = createSlice({
       state.push(action.payload);
     });
 
-    // builder.addCase(updateScheduledTaskAsync.fulfilled, (state, action) => {
-    //   if (index !== -1) {
-    //     state[index] = action.payload;
-    //   }
-    // });
+    builder.addCase(updateScheduledTaskAsync.fulfilled, (state, action) => {
+      const index = state.findIndex((task) => task.id === action.payload.id);
+      if (index !== -1) {
+        state[index] = action.payload;
+      }
+    });
+    builder.addCase(deleteScheduledTaskAsync.fulfilled, (state, action) => {
+      return state.filter((task) => task.id !== action.payload);
+    });
   },
 });
 
-// Export the reducer and actions
 export const scheduledTasksReducer = scheduledTasksSlice.reducer;
 export const { addScheduledTask } = scheduledTasksSlice.actions;

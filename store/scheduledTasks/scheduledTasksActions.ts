@@ -3,6 +3,7 @@ import { ScheduledTask, CreateScheduledTask } from '../../data';
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDocs,
   updateDoc,
@@ -23,7 +24,6 @@ export const fetchScheduledTasks = createAsyncThunk<ScheduledTask[]>(
   },
 );
 
-// Add a scheduled task to Firestore
 export const addScheduledTaskAsync = createAsyncThunk<
   ScheduledTask,
   CreateScheduledTask
@@ -51,3 +51,12 @@ export const updateScheduledTaskAsync = createAsyncThunk<
 
   return updatedTask;
 });
+
+export const deleteScheduledTaskAsync = createAsyncThunk(
+  'scheduledTasks/delete',
+  async (taskId: string) => {
+    const taskDocRef = doc(db, 'scheduledTasks', taskId);
+    await deleteDoc(taskDocRef);
+    return taskId;
+  },
+);
