@@ -42,7 +42,6 @@ export default function ReduxTestScreen() {
     member: {
       name: 'Kalle',
       userId: user!.uid,
-      householdId: '',
       avatarId: 'fox',
       isOwner: true,
       isAllowed: true,

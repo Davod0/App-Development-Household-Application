@@ -3,6 +3,7 @@ import { Member, mockedMembers } from '../../data';
 
 export type CreateMembers = Omit<Member, 'id'>;
 export type DeleteMembers = string;
+export type CreateHouseholdMember = Omit<Member, 'id' | 'householdId'>;
 
 type MembersState = Member[];
 const initialState: MembersState = mockedMembers;

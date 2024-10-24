@@ -1,34 +1,35 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Card, Icon, List, Text } from 'react-native-paper';
-import { Household, mockedMembers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { useAppSelector } from '../store/hooks';
+import { selectAllMembers } from '../store/Members/membersSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 
-export default function HouseholdInformationScreen(
-  { navigation }: Props,
-  household: Household,
-) {
-  // console.log(household);
-
-  // const household = mockedHouseholds[0];
-  const membersInHousehold = mockedMembers.filter(
+export default function HouseholdInformationScreen({
+  navigation,
+  route,
+}: Props) {
+  const members = useAppSelector(selectAllMembers);
+  const { household } = route.params;
+  const membersInHousehold = members.filter(
     (m) => m.householdId === household.id,
   );
+
   return (
     <ScrollView contentContainerStyle={s.root}>
       <ScrollView>
         <View style={{ padding: 14 }}>
-          <Text style={s.text}>Din kod till hushållet:</Text>
+          <Text style={s.headline}>Din kod till hushållet:</Text>
           <Card style={s.box}>
-            <Card.Content style={{ height: 80 }}>
+            <Card.Content>
               <Text style={s.text}>{household.code}</Text>
             </Card.Content>
           </Card>
-          <Text style={s.text}>Namn till hushållet:</Text>
+          <Text style={s.headline}>Namn till hushållet:</Text>
           <Card style={s.box}>
-            <Card.Content style={{ height: 80 }}>
+            <Card.Content style={{ height: 'auto', justifyContent: 'center' }}>
               <Text style={s.text}>{household.name}</Text>
             </Card.Content>
           </Card>
@@ -54,10 +55,12 @@ export default function HouseholdInformationScreen(
                   <List.Item
                     key={member.id}
                     style={{ width: '50%' }}
+                    titleStyle={{ textAlign: 'center' }}
                     title={member.name}
                     left={(props) => (
                       <List.Icon {...props} icon="account-circle" />
                     )}
+                    onPress={() => navigation.navigate('Profile')}
                   />
                 ))
               ) : (
@@ -97,6 +100,10 @@ const s = StyleSheet.create({
     justifyContent: 'space-between',
   },
   text: {
+    justifyContent: 'center',
+    fontSize: 24,
+  },
+  headline: {
     marginTop: 12,
     fontSize: 24,
   },
