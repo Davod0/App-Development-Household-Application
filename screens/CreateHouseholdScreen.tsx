@@ -1,8 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
-import { generateRandomCode } from '../library/utils';
 import { StyleSheet, View } from 'react-native';
 import { Button, Dialog, Icon, TextInput } from 'react-native-paper';
+import { generateRandomCode } from '../library/utils';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { createHousehold } from '../store/households/householdsActions';
@@ -16,7 +16,6 @@ export default function CreateHouseholdScreen({ navigation }: props) {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
 
-  const validateHouseHoldName = () => {
   const createHouseHold = () => {
     if (!hounseholdName) {
       setShowDialog(true);
@@ -27,13 +26,13 @@ export default function CreateHouseholdScreen({ navigation }: props) {
     dispatch(
       createHousehold({
         household: {
-          name: HounseholdName,
+          name: hounseholdName,
           code: householdCode,
         },
         member: {
           name: 'Kalle',
           userId: user!.uid,
-          householdId: '',  //TODO: get from redux
+          householdId: '', //TODO: get from redux
           avatarId: 'fox',
           isOwner: true,
           isAllowed: true,
