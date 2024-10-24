@@ -4,7 +4,10 @@ import {
   CreateScheduledTask,
   mockedScheduledTasks,
 } from '../../data';
-import { fetchScheduledTasks } from './scheduledTasksActions';
+import {
+  addScheduledTaskAsync,
+  fetchScheduledTasks,
+} from './scheduledTasksActions';
 
 // State type
 type ScheduledTasksState = ScheduledTask[];
@@ -27,6 +30,10 @@ const scheduledTasksSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchScheduledTasks.fulfilled, (state, action) => {
       return action.payload;
+    });
+
+    builder.addCase(addScheduledTaskAsync.fulfilled, (state, action) => {
+      state.push(action.payload);
     });
   },
 });
