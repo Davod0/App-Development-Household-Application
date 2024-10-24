@@ -5,6 +5,7 @@ import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
 import { useAppDispatch } from '../store/hooks';
 import { addNewTask } from '../store/tasks/tasksSlice';
+import { addScheduledTaskAsync } from '../store/scheduledTasks/scheduledTasksActions';
 
 export default function CreateTaskScreen() {
   const [name, setName] = useState('');
