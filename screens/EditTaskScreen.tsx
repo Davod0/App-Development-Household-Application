@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Icon, Surface, TextInput } from 'react-native-paper';
+import { Button, Dialog, Icon, Surface, TextInput } from 'react-native-paper';
 import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
+import { useAppDispatch } from '../store/hooks';
 import { Task } from '../types';
 
 // Define the route type for the screen
@@ -21,11 +22,22 @@ export default function EditTaskScreen() {
     frequency: 1,
     isArchived: false,
   };
-
   const [name, setName] = useState(testTask.name);
   const [description, setDescription] = useState(testTask.description);
   const [frequency, setFrequency] = useState(testTask.frequency);
   const [weight, setWeight] = useState(testTask.weight);
+  const [showUpdatedDialog, setUpdatedDialog] = useState(false);
+
+  const dispatch = useAppDispatch();
+
+  const handleUpdateTask = () => {
+    console.log(name);
+    console.log(description);
+    console.log(frequency);
+    console.log(weight);
+    setUpdatedDialog(true);
+  };
+
   return (
     <View style={s.container}>
       <View style={s.inputContainer}>
@@ -56,6 +68,7 @@ export default function EditTaskScreen() {
           icon={({ color }) => (
             <Icon source="check-circle-outline" size={27} color={color} />
           )}
+          onPress={handleUpdateTask}
         >
           Spara
         </Button>
@@ -71,6 +84,15 @@ export default function EditTaskScreen() {
           Stäng
         </Button>
       </View>
+      <Dialog
+        visible={showUpdatedDialog}
+        onDismiss={() => setUpdatedDialog(false)}
+      >
+        <Dialog.Title>Sysslan har skapats</Dialog.Title>
+        <Dialog.Actions>
+          <Button onPress={() => setUpdatedDialog(false)}>OK</Button>
+        </Dialog.Actions>
+      </Dialog>
     </View>
   );
 }
