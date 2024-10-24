@@ -71,7 +71,6 @@ export default function HouseholdInformationScreen(
         <Button
           style={{ width: '100%' }}
           mode="elevated"
-          textColor="black"
           theme={{ roundness: 0 }}
           icon={({ color }) => (
             <Icon source="close-circle-outline" size={27} color={color} />
