@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CreateTask, mockedTasks, Task } from '../../data';
+import { mockedTasks } from '../../data';
+import { CreateTask, Task } from '../../types';
 
 // STATE
 // TODO: är ett objekt just nu ifall ni vill ha andra saker i den
@@ -19,8 +20,6 @@ const tasksSlice = createSlice({
     addNewTask: (state, action: PayloadAction<CreateTask>) => {
       state.list.push({
         id: Date.now().toString(),
-        householdId: 'household-1',
-        isArchived: false,
         ...action.payload,
       });
     },

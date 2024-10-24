@@ -1,4 +1,4 @@
-import { CreateHousehold, Household } from '../../data';
+import { CreateHousehold, Household } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 
 export const createHousehold = createAppAsyncThunk<Household, CreateHousehold>(

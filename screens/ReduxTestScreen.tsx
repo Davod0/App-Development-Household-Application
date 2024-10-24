@@ -1,31 +1,36 @@
 import { ScrollView, StyleSheet, Text } from 'react-native';
 import { Button, Card } from 'react-native-paper';
-import { CreateHousehold } from '../data';
+import {
+  addCompletedTask,
+  getCompletedTasksByHouseholdId,
+} from '../store/completedTasks/completedTasksActions';
+import { selectAllCompletedTasks } from '../store/completedTasks/completedTasksSelectors';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { createHousehold } from '../store/households/householdsActions';
 import { selectAllHouseholds } from '../store/households/housholdsSelectors';
+import { CreateCompletedTask, CreateHousehold, CreateTask } from '../types';
 
 export default function ReduxTestScreen() {
-  // const reduxTest = useAppSelector(selectAllCompletedTasks);
+  const dispatch = useAppDispatch();
+  const reduxTest = useAppSelector(selectAllCompletedTasks);
   const taskTest = useAppSelector(selectAllHouseholds);
 
   // test code to add to redux...
-  // const dispatch = useAppDispatch();
-  // const somethingToAdd: CreateCompletedTask = {
-  //   memberId: 'member-1',
-  //   taskId: 'task-5',
-  //   dateDone: new Date().toUTCString(),
-  // };
+  const addCompTask: CreateCompletedTask = {
+    memberId: 'member-1',
+    taskId: 'task-5',
+    householdId: 'household-2',
+    dateDone: new Date().toUTCString(),
+  };
 
   // test code to add a task to redux ...
-  // const dispatch1 = useAppDispatch();
-  // const addTask: CreateTask = {
-  //   name: 'Katten',
-  //   description: 'Ge katten mat',
-  //   frequency: 2,
-  //   weight: 2,
-  // };
-  const dispatch1 = useAppDispatch();
+  const addTask: CreateTask = {
+    name: 'Katten',
+    description: 'Ge katten mat',
+    householdId: 'household-1',
+    frequency: 2,
+    weight: 2,
+    isArchived: false,
+  };
   const addHouse: CreateHousehold = {
     name: 'Katten',
     code: 'werewr',
@@ -36,21 +41,32 @@ export default function ReduxTestScreen() {
       <Text>ReduxTestScreen</Text>
       <Button
         mode="contained"
-        // change dispatch depending on what you are testing
-        // onPress={() => dispatch1(addNewTask(addTask))}
-        onPress={() => dispatch1(createHousehold(addHouse))}
+        onPress={() => dispatch(addCompletedTask(addCompTask))}
+        // onPress={() => dispatch(addNewTask(addTask))}
+        // onPress={() => dispatch(createHousehold(addHouse))}
       >
         add
       </Button>
+      <Button
+        mode="contained"
+        onPress={() => {
+          dispatch(getCompletedTasksByHouseholdId('household-3'));
+        }}
+      >
+        update
+      </Button>
+
       {/* == completed tasks test == */}
-      {/* {reduxTest.map((task, index) => (
+      {reduxTest.map((task, index) => (
         <Card key={index}>
           <Card.Title title={task.id} />
           <Card.Content>
             <Text>{task.dateDone.toLocaleString()}</Text>
+            <Text>{task.householdId}</Text>
           </Card.Content>
         </Card>
-      ))} */}
+      ))}
+
       {/* == task test == */}
       {/* {taskTest.map((task, index) => (
         <Card key={index}>
@@ -63,7 +79,8 @@ export default function ReduxTestScreen() {
           </Card.Content>
         </Card>
       ))} */}
-      {taskTest.map((task, index) => (
+
+      {/* {taskTest.map((task, index) => (
         <Card key={index}>
           <Card.Title title={task.id} />
           <Card.Content>
@@ -71,7 +88,7 @@ export default function ReduxTestScreen() {
             <Text>{task.code}</Text>
           </Card.Content>
         </Card>
-      ))}
+      ))} */}
     </ScrollView>
   );
 }

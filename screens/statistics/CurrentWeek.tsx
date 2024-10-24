@@ -2,8 +2,9 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import PieChartAllTasks from '../../components/PieChartAllTasks';
 import PieChartOneTask from '../../components/PieChartOneTask';
-import { mockedTasks, Task } from '../../data';
+import { mockedTasks } from '../../data';
 import { todayAtMidnight } from '../../library/dateFunctions';
+import { Task } from '../../types';
 
 export default function CurrentWeek() {
   const householdId = 'household-1';

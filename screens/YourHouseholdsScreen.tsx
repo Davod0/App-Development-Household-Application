@@ -2,10 +2,11 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, Icon, Surface, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Household, mockedMembers } from '../data';
+import { mockedMembers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppSelector } from '../store/hooks';
 import { selectAllHouseholds } from '../store/households/housholdsSelectors';
+import { Household } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 

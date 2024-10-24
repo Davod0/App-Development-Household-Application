@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Member, mockedMembers } from '../../data';
-
-// Skapa en typ för att lägga till nya medlemmar (utan 'id')
-type CreateMembers = Omit<Member, 'id'>;
+import { mockedMembers } from '../../data';
+import { CreateMembers, Member } from '../../types';
 
 type MembersState = Member[];
 const initialState: MembersState = mockedMembers;

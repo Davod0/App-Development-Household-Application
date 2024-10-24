@@ -20,7 +20,16 @@ export default function CreateTaskScreen() {
     console.log(frequency);
     Alert.alert('En syssla är skapad');
     // TODO: byt ut till en Thunk i framtiden
-    dispatch(addNewTask({ name, description, frequency, weight }));
+    dispatch(
+      addNewTask({
+        name,
+        description,
+        frequency,
+        weight,
+        householdId: '', // FIXME: <---
+        isArchived: false,
+      }),
+    );
   };
 
   return (

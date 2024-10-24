@@ -1,9 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  ScheduledTask,
-  CreateScheduledTask,
-  mockedScheduledTasks,
-} from '../../data';
+import { mockedScheduledTasks } from '../../data';
+import { CreateScheduledTask, ScheduledTask } from '../../types';
 
 // State type
 type ScheduledTasksState = ScheduledTask[];

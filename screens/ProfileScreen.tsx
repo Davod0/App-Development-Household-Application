@@ -7,7 +7,7 @@ import {
   SegmentedButtons,
   Text,
 } from 'react-native-paper';
-import { avatarList, mockedMembers, mockedUsers } from '../data';
+import { mockedMembers, mockedUsers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { selectColorMode } from '../store/user/selectors';
@@ -29,9 +29,9 @@ export default function ProfileScreen({ navigation }: Props) {
     throw new Error('bad userId: ' + userId);
   }
 
-  const avatar = avatarList[member.avatarId].icon;
+  const avatar = member.avatar.icon;
   if (!avatar) {
-    throw new Error('bad avatarId: ' + member.avatarId);
+    throw new Error('bad avatarId: ' + member.avatar);
   }
 
   return (

@@ -2,15 +2,10 @@ import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Badge, Button, Icon, Surface } from 'react-native-paper';
-import {
-  avatarList,
-  mockedCompletedTasks,
-  mockedMembers,
-  mockedTasks,
-  Task,
-} from '../data';
+import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
+import { Task } from '../types';
 
 type Props = MaterialTopTabScreenProps<
   TopTabNavigatorParamList,
@@ -46,12 +41,12 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
 
     if (memberIds.length > 0) {
       const memberAvatars = memberIds.map(
-        (mId) => members.find((m) => m.id === mId)?.avatarId!,
+        (mId) => members.find((m) => m.id === mId)?.avatar!,
       );
       return (
         <>
           {memberAvatars.map((x, idx) => (
-            <Text key={idx}>{avatarList[x].icon}</Text>
+            <Text key={idx}>{x.icon}</Text>
           ))}
         </>
       );

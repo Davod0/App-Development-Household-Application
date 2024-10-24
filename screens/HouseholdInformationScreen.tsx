@@ -1,8 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Card, Icon, List, Text } from 'react-native-paper';
-import { Household, mockedMembers } from '../data';
+import { mockedMembers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { Household } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 

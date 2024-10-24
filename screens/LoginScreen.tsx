@@ -2,12 +2,12 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
-import { EmailPassword } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import LoadingIndicator from '../store/LoadingIndicator';
 import { selectUserAuthenticationIsLoading } from '../store/user/selectors';
 import { signInUser } from '../store/user/userActions';
+import { EmailPassword } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
