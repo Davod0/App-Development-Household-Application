@@ -60,6 +60,7 @@ export type CreateCompletedTask = Omit<CompletedTask, 'id'>;
 export type CreateHousehold = Omit<Household, 'id'>;
 export type CreateTask = Omit<Task, 'id'>;
 export type CreateMembers = Omit<Member, 'id'>;
+export type CreateHouseholdMember = Omit<Member, 'id' | 'householdId'>;
 
 export type AvatarName =
   | 'fox'

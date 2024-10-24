@@ -6,9 +6,11 @@ import { createHousehold } from './householdsActions';
 // state
 type HouseholdState = {
   list: Household[];
+  selectedHousehold?: Household;
 };
 const initialState: HouseholdState = {
   list: mockedHouseholds,
+  selectedHousehold: undefined,
 };
 
 // slice
@@ -23,7 +25,6 @@ const householdSlice = createSlice({
 
     //  builder.addCase(createHousehold2.fulfilled, (state, action) => {
     //    state.list.push(action.payload.member);
-
     //  });
   },
   // code for using thunks with firebase...

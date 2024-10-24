@@ -1,66 +1,69 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Button, Icon, Surface, Text } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { mockedMembers } from '../data';
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppSelector } from '../store/hooks';
 import { selectAllHouseholds } from '../store/households/housholdsSelectors';
+import { selectAllMembers } from '../store/Members/membersSelectors';
+import { selectCurrentUser } from '../store/user/selectors';
 import { Household } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
 // kolla om inloggad antingen här eller på föregående sida dvs inloggningssidan?
-const isLoggedIn = true;
-const loggedInUserId = 'user-2';
-
 export default function YourHouseholdsScreen({ navigation }: Props) {
-  const ReduxMockedHousholds = useAppSelector(selectAllHouseholds);
-  if (!isLoggedIn) {
+  const user = useAppSelector(selectCurrentUser);
+  const members = useAppSelector(selectAllMembers);
+  const loggedInUserId = user?.uid;
+  const ReduxHousholds = useAppSelector(selectAllHouseholds);
+  if (!user) {
     return (
       <View>
-        <Text>Error, användare inte inloggad</Text>
+        <Text style={s.emptyText}>Error, användare inte inloggad</Text>
       </View>
     );
   }
 
-  const userHouseholds = ReduxMockedHousholds.filter((household) =>
-    mockedMembers.some(
+  const userHouseholds = ReduxHousholds.filter((household) =>
+    members.some(
       (member) =>
         member.userId === loggedInUserId && member.householdId === household.id,
     ),
   );
 
-  console.log(userHouseholds);
-
   const handleHouseholdPress = (household: Household) => {
     navigation.navigate('HouseholdInformation', { household });
-
-    console.log(ReduxMockedHousholds);
   };
+
   const handleDeletePress = () => {
     navigation.navigate('Profile');
     // funktionalitet ska implementeras i denna
   };
 
   return (
-    <SafeAreaView style={s.container}>
-      {/* ta bort hushåll, eventuellt "säker på tabort?" först */}
+    <ScrollView contentContainerStyle={s.container}>
       <View style={s.householdsContainer}>
-        {userHouseholds.map((household) => (
-          <View style={s.household} key={household.id}>
-            <Surface style={s.surface}>
-              <TouchableOpacity onPress={() => handleHouseholdPress(household)}>
-                <Text style={s.text}>{household.name} 🏠</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleDeletePress()}>
-                <View style={{ marginRight: 7 }}>
-                  <Icon source="close-circle" size={24} />
-                </View>
-              </TouchableOpacity>
-            </Surface>
-          </View>
-        ))}
+        {userHouseholds && userHouseholds.length > 0 ? (
+          userHouseholds.map((household) => (
+            <View style={s.household} key={household.id}>
+              <Surface style={s.surface}>
+                <TouchableOpacity
+                  onPress={() => handleHouseholdPress(household)}
+                >
+                  <Text style={s.text}>{household.name} 🏠</Text>
+                </TouchableOpacity>
+
+                <IconButton
+                  icon="close-circle-outline"
+                  size={24}
+                  onPress={handleDeletePress}
+                />
+              </Surface>
+            </View>
+          ))
+        ) : (
+          <Text style={s.emptyText}>Inga tillgängliga hushåll.</Text>
+        )}
       </View>
       <View style={s.footer}>
         <Button
@@ -69,9 +72,8 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
           theme={{ roundness: 0 }}
           labelStyle={{
             fontSize: 20,
-            lineHeight: 30,
           }}
-          contentStyle={{ height: 65, gap: 10 }}
+          contentStyle={{ height: 65 }}
           onPress={() => {
             navigation.navigate('CreateHouseHold');
           }}
@@ -84,9 +86,8 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
           theme={{ roundness: 0 }}
           labelStyle={{
             fontSize: 20,
-            lineHeight: 30,
           }}
-          contentStyle={{ height: 65, gap: 10 }}
+          contentStyle={{ height: 65 }}
           onPress={(member) => {
             navigation.navigate('JoinHousehold');
           }}
@@ -95,7 +96,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
           Gå med i hushåll
         </Button>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
@@ -106,6 +107,7 @@ const s = StyleSheet.create({
   },
   householdsContainer: {
     flex: 1,
+    marginTop: 17,
   },
   household: {
     margin: 12,
@@ -123,9 +125,10 @@ const s = StyleSheet.create({
     fontSize: 25,
     marginLeft: 10,
   },
-  entypo: {
-    marginRight: 10,
-    margin: 'auto',
+  emptyText: {
+    fontSize: 25,
+    textAlign: 'center',
+    marginTop: 12,
   },
   footer: {
     flexDirection: 'row',

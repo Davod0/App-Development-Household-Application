@@ -1,18 +1,25 @@
 import { ScrollView, StyleSheet, Text } from 'react-native';
 import { Button, Card } from 'react-native-paper';
+import { avatarList } from '../library/avatarList';
 import {
   addCompletedTask,
   getCompletedTasksByHouseholdId,
 } from '../store/completedTasks/completedTasksActions';
 import { selectAllCompletedTasks } from '../store/completedTasks/completedTasksSelectors';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { CreateHouseholdWithMember } from '../store/households/householdsActions';
 import { selectAllHouseholds } from '../store/households/housholdsSelectors';
-import { CreateCompletedTask, CreateHousehold, CreateTask } from '../types';
+import { selectAllMembers } from '../store/Members/membersSelectors';
+import { selectCurrentUser } from '../store/user/selectors';
+import { CreateCompletedTask, CreateTask } from '../types';
 
 export default function ReduxTestScreen() {
   const dispatch = useAppDispatch();
   const reduxTest = useAppSelector(selectAllCompletedTasks);
   const taskTest = useAppSelector(selectAllHouseholds);
+  const user = useAppSelector(selectCurrentUser);
+  const households = useAppSelector(selectAllHouseholds);
+  const members = useAppSelector(selectAllMembers);
 
   // test code to add to redux...
   const addCompTask: CreateCompletedTask = {
@@ -31,9 +38,19 @@ export default function ReduxTestScreen() {
     weight: 2,
     isArchived: false,
   };
-  const addHouse: CreateHousehold = {
-    name: 'Katten',
-    code: 'werewr',
+
+  const addHouse: CreateHouseholdWithMember = {
+    household: {
+      name: 'Katten',
+      code: 'werewr',
+    },
+    member: {
+      name: 'Kalle',
+      userId: user!.uid,
+      avatar: avatarList['fox'],
+      isOwner: true,
+      isAllowed: true,
+    },
   };
 
   return (
@@ -86,6 +103,16 @@ export default function ReduxTestScreen() {
           <Card.Content>
             <Text>{task.name}</Text>
             <Text>{task.code}</Text>
+          </Card.Content>
+        </Card>
+      ))}
+      {members.map((member, index) => (
+        <Card key={index}>
+          <Card.Title title={member.id} />
+          <Card.Content>
+            <Text>{member.id}</Text>
+            <Text>{member.name}</Text>
+            <Text>{member.householdId}</Text>
           </Card.Content>
         </Card>
       ))} */}
