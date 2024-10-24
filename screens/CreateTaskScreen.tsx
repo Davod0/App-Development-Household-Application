@@ -3,9 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import { Button, Dialog, Surface, TextInput } from 'react-native-paper';
 import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppDispatch } from '../store/hooks';
 import { addTask } from '../store/tasks/tasksAction';
-import { selectCurrentUser } from '../store/user/selectors';
 
 export default function CreateTaskScreen() {
   const [name, setName] = useState('');

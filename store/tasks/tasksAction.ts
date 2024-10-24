@@ -8,10 +8,16 @@ export const addTask = createAppAsyncThunk<Task, CreateTask>(
   async (taskData, thunkApi) => {
     const state = thunkApi.getState();
     const newDocRef = doc(collection(db, 'tasks'));
+    if (!state.households.selectedHousehold) {
+      return thunkApi.rejectWithValue(
+        `Error writing to database, no household selected`,
+      );
+    }
+    const householdId = state.households.selectedHousehold.id;
 
     const data: Task = {
       id: newDocRef.id,
-      householdId: 'household-2',
+      householdId: householdId,
       isArchived: false,
       ...taskData,
     };
@@ -31,13 +37,29 @@ export const getTasks = createAppAsyncThunk<Task[]>(
   'tasks/get',
   async (_, thunkAPI) => {
     try {
-      const snapshot = await getDocs(collection(db, 'completedTasks'));
+      const snapshot = await getDocs(collection(db, 'tasks'));
       const data: Task[] = [];
       snapshot.forEach((doc) => data.push(doc.data() as Task));
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        `Error reading from database, completedTasks ${error}`,
+        `Error reading from database, tasks ${error}`,
+      );
+    }
+  },
+);
+
+export const getSelectedHouseholdTasks = createAppAsyncThunk<Task[], string>(
+  'task/householdID/get',
+  async (_, thunkAPI) => {
+    try {
+      const snapshot = await getDocs(collection(db, 'tasks'));
+      const data: Task[] = [];
+      snapshot.forEach((doc) => data.push(doc.data() as Task));
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        `Error reading from database, tasks ${error}`,
       );
     }
   },

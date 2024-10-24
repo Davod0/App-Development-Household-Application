@@ -1,47 +1,47 @@
 import { ScrollView, StyleSheet } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
+import { CreateTask } from '../data';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { addTask } from '../store/tasks/tasksAction';
 import {
-  createHousehold,
-  CreateHouseholdWithMember,
-} from '../store/households/householdsActions';
-import { selectAllHouseholds } from '../store/households/housholdsSelectors';
-import { selectAllMembers } from '../store/Members/membersSelectors';
-import { selectCurrentUser } from '../store/user/selectors';
+  selectTasks,
+  selectTasksFromHouseholdId,
+} from '../store/tasks/tasksSelectors';
 
 export default function ReduxTestScreen() {
   // const reduxTest = useAppSelector(selectAllCompletedTasks);
-  const taskTest = useAppSelector(selectAllHouseholds);
-
-  const dispatch = useAppDispatch();
+  const taskTest = useAppSelector(selectTasks);
+  const tasksForHouseholdId = useAppSelector(
+    selectTasksFromHouseholdId('1111'),
+  );
 
   // test code to add a task to redux ...
-  // const dispatch1 = useAppDispatch();
-  // const addTask: CreateTask = {
-  //   name: 'Katten',
-  //   description: 'Ge katten mat',
-  //   frequency: 2,
-  //   weight: 2,
-  // };
-
-  const user = useAppSelector(selectCurrentUser);
-  const households = useAppSelector(selectAllHouseholds);
-  const members = useAppSelector(selectAllMembers);
-  const dispatch1 = useAppDispatch();
-  const addHouse: CreateHouseholdWithMember = {
-    household: {
-      name: 'Katten',
-      code: 'werewr',
-    },
-    member: {
-      name: 'Kalle',
-      userId: user!.uid,
-      householdId: '',
-      avatarId: 'fox',
-      isOwner: true,
-      isAllowed: true,
-    },
+  const dispatch = useAppDispatch();
+  const newTask: CreateTask = {
+    name: 'Katten',
+    description: 'Ge katten mat',
+    frequency: 2,
+    weight: 2,
   };
+
+  // const user = useAppSelector(selectCurrentUser);
+  // const households = useAppSelector(selectAllHouseholds);
+  // const members = useAppSelector(selectAllMembers);
+  // const dispatch1 = useAppDispatch();
+  // const addHouse: CreateHouseholdWithMember = {
+  //   household: {
+  //     name: 'Katten',
+  //     code: 'werewr',
+  //   },
+  //   member: {
+  //     name: 'Kalle',
+  //     userId: user!.uid,
+  //     householdId: '',
+  //     avatarId: 'fox',
+  //     isOwner: true,
+  //     isAllowed: true,
+  //   },
+  // };
 
   return (
     <ScrollView contentContainerStyle={s.container}>
@@ -49,8 +49,8 @@ export default function ReduxTestScreen() {
       <Button
         mode="contained"
         // change dispatch depending on what you are testing
-        // onPress={() => dispatch1(addNewTask(addTask))}
-        onPress={() => dispatch1(createHousehold(addHouse))}
+        onPress={() => dispatch(addTask(newTask))}
+        // onPress={() => dispatch1(createHousehold(addHouse))}
       >
         add
       </Button>
@@ -64,18 +64,19 @@ export default function ReduxTestScreen() {
         </Card>
       ))} */}
       {/* == task test == */}
-      {/* {taskTest.map((task, index) => (
+      {}
+      {tasksForHouseholdId.map((task, index) => (
         <Card key={index}>
           <Card.Title title={task.id} />
           <Card.Content>
-            <Text>{task.name}</Text>
-            <Text>{task.description}</Text>
-            <Text>{task.frequency}</Text>
-            <Text>{task.householdId}</Text>
+            <Text>Task name: {task.name}</Text>
+            <Text>De: {task.description}</Text>
+            <Text>Frequency: {task.frequency}</Text>
+            <Text>HouseholdID: {task.householdId}</Text>
           </Card.Content>
         </Card>
-      ))} */}
-      {taskTest.map((task, index) => (
+      ))}
+      {/* {taskTest.map((task, index) => (
         <Card key={index}>
           <Card.Title title={task.id} />
           <Card.Content>
@@ -93,7 +94,7 @@ export default function ReduxTestScreen() {
             <Text>{member.householdId}</Text>
           </Card.Content>
         </Card>
-      ))}
+      ))} */}
     </ScrollView>
   );
 }
