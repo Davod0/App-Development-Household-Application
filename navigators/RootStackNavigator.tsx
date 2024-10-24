@@ -19,7 +19,7 @@ import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 import { useAppSelector } from '../store/hooks';
 import { useUserAuthState } from '../store/user/hooks';
 import { selectCurrentUser } from '../store/user/selectors';
-import { Household } from '../types';
+import { Household, Task } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
 export type RootStackParamList = {
@@ -37,7 +37,7 @@ export type RootStackParamList = {
   HouseholdInformation: { household: Household };
   YourHouseholds: undefined;
   ReduxTest: undefined;
-  EditTask: undefined;
+  EditTask: { task: Task };
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();

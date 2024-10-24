@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Dialog, Icon, Surface, TextInput } from 'react-native-paper';
@@ -7,25 +8,16 @@ import { useAppDispatch } from '../store/hooks';
 import { Task } from '../types';
 
 // Define the route type for the screen
-// type EditTaskScreenRouteProp = RouteProp<{ params: { task: Task } }, 'params'>;
+type EditTaskScreenRouteProp = RouteProp<{ params: { task: Task } }, 'params'>;
 
 export default function EditTaskScreen() {
-  //   const route = useRoute<EditTaskScreenRouteProp>();
-  //   const { task } = route.params;
+  const route = useRoute<EditTaskScreenRouteProp>();
+  const { task } = route.params;
 
-  const testTask: Task = {
-    id: '20',
-    householdId: '2020',
-    name: 'Katten',
-    description: 'Mata katten 2 gånger',
-    weight: 4,
-    frequency: 1,
-    isArchived: false,
-  };
-  const [name, setName] = useState(testTask.name);
-  const [description, setDescription] = useState(testTask.description);
-  const [frequency, setFrequency] = useState(testTask.frequency);
-  const [weight, setWeight] = useState(testTask.weight);
+  const [name, setName] = useState(task.name);
+  const [description, setDescription] = useState(task.description);
+  const [frequency, setFrequency] = useState(task.frequency);
+  const [weight, setWeight] = useState(task.weight);
   const [showUpdatedDialog, setUpdatedDialog] = useState(false);
 
   const dispatch = useAppDispatch();
