@@ -11,7 +11,8 @@ type HouseholdState = {
 };
 const initialState: HouseholdState = {
   list: mockedHouseholds,
-  selectedHousehold: undefined,
+  // mocked household TODO: ta bort innan push!!
+  selectedHousehold: { id: '1111', name: 'Katten', code: '12345678' },
 };
 
 // slice
