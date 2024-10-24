@@ -6,6 +6,8 @@ import { createHousehold } from './householdsActions';
 type HouseholdState = {
   list: Household[];
   selectedHousehold?: Household;
+  isLoading?: boolean;
+  errorMessage?: string;
 };
 const initialState: HouseholdState = {
   list: mockedHouseholds,
@@ -18,13 +20,18 @@ const householdSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(createHousehold.pending, (state) => {
+      state.isLoading = true;
+    });
     builder.addCase(createHousehold.fulfilled, (state, action) => {
       state.list.push(action.payload);
+      state.isLoading = false;
     });
-
-    //  builder.addCase(createHousehold2.fulfilled, (state, action) => {
-    //    state.list.push(action.payload.member);
-    //  });
+    builder.addCase(createHousehold.rejected, (state, action) => {
+      state.errorMessage = action.payload as string;
+      state.isLoading = false;
+      state.errorMessage = action.payload as string;
+    });
   },
   // code for using thunks with firebase...
   // extraReducers: (builder) => {

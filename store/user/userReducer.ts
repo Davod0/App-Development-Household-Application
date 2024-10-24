@@ -41,7 +41,7 @@ export const userSlice = createSlice({
       // TODO: fix as string?!
       state.registerErrorMessage = action.payload as string;
       state.isLoading = false;
-      console.log(`Error message from user reducer:1 ${action.payload}`);
+      console.log(`Error message from user reducer: ${action.payload}`);
     });
     builder.addCase(signInUser.pending, (state, action) => {
       state.isLoading = true;
