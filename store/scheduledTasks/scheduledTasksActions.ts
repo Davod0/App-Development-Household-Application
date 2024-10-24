@@ -1,26 +1,53 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ScheduledTask, CreateScheduledTask } from '../../data';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  updateDoc,
+} from 'firebase/firestore';
+import { db } from '../../firebase';
 
-// Thunk to fetch scheduled tasks from an API or database
 export const fetchScheduledTasks = createAsyncThunk<ScheduledTask[]>(
   'scheduledTasks/fetchAll',
   async () => {
-    const response = await fetch('https://api.example.com/scheduled-tasks');
-    return (await response.json()) as ScheduledTask[];
+    const tasksCollection = collection(db, 'scheduledTasks');
+    const taskSnapshot = await getDocs(tasksCollection);
+    const tasks: ScheduledTask[] = taskSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as ScheduledTask[];
+
+    return tasks;
   },
 );
 
-// Thunk to add a new scheduled task to the API or database
-export const addScheduledTaskAsync = createAsyncThunk(
-  'scheduledTasks/add',
-  async (newTask: CreateScheduledTask) => {
-    const response = await fetch('https://api.example.com/scheduled-tasks', {
-      method: 'POST',
-      body: JSON.stringify(newTask),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    return (await response.json()) as CreateScheduledTask;
-  },
-);
+// Add a scheduled task to Firestore
+export const addScheduledTaskAsync = createAsyncThunk<
+  ScheduledTask,
+  CreateScheduledTask
+>('scheduledTasks/add', async (newTask) => {
+  const tasksCollection = collection(db, 'scheduledTasks');
+
+  // Add the new task to Firestore and get the new document reference
+  const docRef = await addDoc(tasksCollection, newTask);
+
+  // Return the new task with the generated ID
+  return { id: docRef.id, ...newTask };
+});
+
+export const updateScheduledTaskAsync = createAsyncThunk<
+  ScheduledTask,
+  ScheduledTask
+>('scheduledTasks/update', async (updatedTask) => {
+  const taskDoc = doc(db, 'scheduledTasks', updatedTask.id);
+
+  // Update the task in Firestore
+  await updateDoc(taskDoc, {
+    memberId: updatedTask.memberId,
+    taskId: updatedTask.taskId,
+  });
+
+  return updatedTask;
+});

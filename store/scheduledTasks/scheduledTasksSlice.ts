@@ -7,6 +7,7 @@ import {
 import {
   addScheduledTaskAsync,
   fetchScheduledTasks,
+  updateScheduledTaskAsync,
 } from './scheduledTasksActions';
 
 // State type
@@ -35,6 +36,12 @@ const scheduledTasksSlice = createSlice({
     builder.addCase(addScheduledTaskAsync.fulfilled, (state, action) => {
       state.push(action.payload);
     });
+
+    // builder.addCase(updateScheduledTaskAsync.fulfilled, (state, action) => {
+    //   if (index !== -1) {
+    //     state[index] = action.payload;
+    //   }
+    // });
   },
 });
 
