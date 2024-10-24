@@ -27,7 +27,8 @@ export const getAllMembersByHouseholdId = createAsyncThunk(
 
       return members;
     } catch (error) {
-      //   return rejectWithValue(error.message);
+      const errorMessage = (error as Error).message || 'Unknown error';
+      return rejectWithValue(errorMessage);
     }
   },
 );
