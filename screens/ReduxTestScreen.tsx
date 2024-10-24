@@ -2,7 +2,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
 import { CreateTask } from '../data';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { addTask } from '../store/tasks/tasksAction';
+import { addTask, updateTask } from '../store/tasks/tasksAction';
 import {
   selectTasks,
   selectTasksFromHouseholdId,
@@ -18,10 +18,29 @@ export default function ReduxTestScreen() {
   // test code to add a task to redux ...
   const dispatch = useAppDispatch();
   const newTask: CreateTask = {
-    name: 'Katten',
-    description: 'Ge katten mat',
-    frequency: 2,
-    weight: 2,
+    name: 'Hunden',
+    description: 'Klappa hunden',
+    frequency: 1,
+    weight: 8,
+  };
+
+  // code to test updating a task
+  const handleUpdateTask = (taskId: string) => {
+    const updates = {
+      name: 'Updated Hunden',
+      description: 'Updated description',
+      frequency: 4,
+    };
+    dispatch(updateTask({ id: taskId, updates }));
+  };
+
+  // code to test to "delete a task "
+  /* true = 🥲(is deleted) false = 🐛 */
+  const handleDeleteTask = (taskId: string) => {
+    const updates = {
+      isArchived: true,
+    };
+    dispatch(updateTask({ id: taskId, updates }));
   };
 
   // const user = useAppSelector(selectCurrentUser);
@@ -64,18 +83,28 @@ export default function ReduxTestScreen() {
         </Card>
       ))} */}
       {/* == task test == */}
-      {}
-      {tasksForHouseholdId.map((task, index) => (
-        <Card key={index}>
-          <Card.Title title={task.id} />
-          <Card.Content>
-            <Text>Task name: {task.name}</Text>
-            <Text>De: {task.description}</Text>
-            <Text>Frequency: {task.frequency}</Text>
-            <Text>HouseholdID: {task.householdId}</Text>
-          </Card.Content>
-        </Card>
-      ))}
+      {tasksForHouseholdId.length > 0 ? (
+        tasksForHouseholdId.map((task, index) => (
+          <Card key={index}>
+            <Card.Title title={`Task ID: ${task.id}`} />
+            <Card.Content>
+              <Text>Task name: {task.name}</Text>
+              <Text>Description: {task.description}</Text>
+              <Text>Frequency: {task.frequency}</Text>
+              <Text>Household ID: {task.householdId}</Text>
+              <Text>IsArchived: {task.isArchived ? '🥲' : '🐛'}</Text>
+            </Card.Content>
+            <Button mode="contained" onPress={() => handleUpdateTask(task.id)}>
+              Update Task
+            </Button>
+            <Button mode="contained" onPress={() => handleDeleteTask(task.id)}>
+              Delete Task 🥲
+            </Button>
+          </Card>
+        ))
+      ) : (
+        <Text>No tasks available for this household.</Text>
+      )}
       {/* {taskTest.map((task, index) => (
         <Card key={index}>
           <Card.Title title={task.id} />
