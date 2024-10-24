@@ -1,10 +1,10 @@
 import { CreateHousehold, Household } from '../../data';
 import { createAppAsyncThunk } from '../hooks';
-import { addMember, CreateMembers } from '../Members/memberSlice';
+import { addMember, CreateHouseholdMember } from '../Members/memberSlice';
 
 export type CreateHouseholdWithMember = {
   household: CreateHousehold;
-  member: CreateMembers;
+  member: CreateHouseholdMember;
 };
 
 export const createHousehold = createAppAsyncThunk<
