@@ -15,9 +15,20 @@ const membersSlice = createSlice({
         ...action.payload,
       });
     },
+    deleteMemberById: (state, action: PayloadAction<string>) => {
+      return state.filter((member) => member.id !== action.payload);
+    },
+    updateMember: (state, action: PayloadAction<Member>) => {
+      const index = state.findIndex(
+        (member) => member.id === action.payload.id,
+      );
+      if (index !== -1) {
+        state[index] = action.payload;
+      }
+    },
   },
 });
 
-// Exportera reducer och actions
 export const membersReducer = membersSlice.reducer;
-export const { addMember } = membersSlice.actions;
+export const { addMember, deleteMemberById, updateMember } =
+  membersSlice.actions;

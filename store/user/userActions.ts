@@ -41,7 +41,7 @@ export const signUpUser = createAsyncThunk<User, EmailPassword>(
             errorMessage = 'Fel lösenord angivet. Försök igen.';
             break;
           default:
-            errorMessage = 'Ett okänt fel uppstod. Försök igen senare.';
+            errorMessage = 'Ett okänt fel uppstod. Försök igen senare.' + error;
         }
 
         return thunkAPI.rejectWithValue(errorMessage);

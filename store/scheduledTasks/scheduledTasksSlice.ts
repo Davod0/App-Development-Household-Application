@@ -1,6 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { mockedScheduledTasks } from '../../data';
 import { CreateScheduledTask, ScheduledTask } from '../../types';
+import {
+  addScheduledTaskAsync,
+  deleteScheduledTaskAsync,
+  fetchScheduledTasks,
+  updateScheduledTaskAsync,
+} from './scheduledTasksActions';
 
 // State type
 type ScheduledTasksState = ScheduledTask[];
@@ -15,14 +21,31 @@ const scheduledTasksSlice = createSlice({
   reducers: {
     addScheduledTask: (state, action: PayloadAction<CreateScheduledTask>) => {
       state.push({
-        id: Date.now().toString(), // Generate a unique ID for the task
+        id: Date.now().toString(),
         ...action.payload,
       });
     },
-    // Optional: You could add more reducers like removeScheduledTask, updateScheduledTask, etc.
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchScheduledTasks.fulfilled, (state, action) => {
+      return action.payload;
+    });
+
+    builder.addCase(addScheduledTaskAsync.fulfilled, (state, action) => {
+      state.push(action.payload);
+    });
+
+    builder.addCase(updateScheduledTaskAsync.fulfilled, (state, action) => {
+      const index = state.findIndex((task) => task.id === action.payload.id);
+      if (index !== -1) {
+        state[index] = action.payload;
+      }
+    });
+    builder.addCase(deleteScheduledTaskAsync.fulfilled, (state, action) => {
+      return state.filter((task) => task.id !== action.payload);
+    });
   },
 });
 
-// Export the reducer and actions
 export const scheduledTasksReducer = scheduledTasksSlice.reducer;
 export const { addScheduledTask } = scheduledTasksSlice.actions;

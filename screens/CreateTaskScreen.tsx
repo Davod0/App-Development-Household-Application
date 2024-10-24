@@ -4,7 +4,7 @@ import { Button, Dialog, Surface, TextInput } from 'react-native-paper';
 import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
 import { useAppDispatch } from '../store/hooks';
-import { addNewTask } from '../store/tasks/tasksSlice';
+import { addTask } from '../store/tasks/tasksAction';
 
 export default function CreateTaskScreen() {
   const [name, setName] = useState('');
@@ -14,6 +14,7 @@ export default function CreateTaskScreen() {
   const [showCreatedDialog, setShowCreatedDialog] = useState(false);
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const dispatch = useAppDispatch();
+  // const user = useAppSelector(selectCurrentUser);
 
   const handleCreateTask = () => {
     if (!name) {
@@ -26,16 +27,7 @@ export default function CreateTaskScreen() {
     console.log(frequency);
     setShowCreatedDialog(true);
     // TODO: byt ut till en Thunk i framtiden
-    dispatch(
-      addNewTask({
-        name,
-        description,
-        frequency,
-        weight,
-        householdId: '', // FIXME: <---
-        isArchived: false,
-      }),
-    );
+    dispatch(addTask({ name, description, frequency, weight }));
   };
 
   return (

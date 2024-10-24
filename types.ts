@@ -58,7 +58,7 @@ export type Avatar = {
 export type CreateScheduledTask = Omit<ScheduledTask, 'id'>;
 export type CreateCompletedTask = Omit<CompletedTask, 'id'>;
 export type CreateHousehold = Omit<Household, 'id'>;
-export type CreateTask = Omit<Task, 'id'>;
+export type CreateTask = Omit<Task, 'id' | 'householdId' | 'isArchived'>;
 export type CreateMembers = Omit<Member, 'id'>;
 export type CreateHouseholdMember = Omit<Member, 'id' | 'householdId'>;
 
