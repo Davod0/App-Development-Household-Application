@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Member, mockedMembers } from '../../data';
 
-// Skapa en typ för att lägga till nya medlemmar (utan 'id')
 export type CreateMembers = Omit<Member, 'id'>;
+export type DeleteMembers = string;
 export type CreateHouseholdMember = Omit<Member, 'id' | 'householdId'>;
 
 type MembersState = Member[];
@@ -18,9 +18,20 @@ const membersSlice = createSlice({
         ...action.payload,
       });
     },
+    deleteMemberById: (state, action: PayloadAction<DeleteMembers>) => {
+      return state.filter((member) => member.id !== action.payload);
+    },
+    updateMember: (state, action: PayloadAction<Member>) => {
+      const index = state.findIndex(
+        (member) => member.id === action.payload.id,
+      );
+      if (index !== -1) {
+        state[index] = action.payload;
+      }
+    },
   },
 });
 
-// Exportera reducer och actions
 export const membersReducer = membersSlice.reducer;
-export const { addMember } = membersSlice.actions;
+export const { addMember, deleteMemberById, updateMember } =
+  membersSlice.actions;
