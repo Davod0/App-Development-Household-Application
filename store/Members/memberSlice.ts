@@ -3,6 +3,7 @@ import { Member, mockedMembers } from '../../data';
 
 // Skapa en typ för att lägga till nya medlemmar (utan 'id')
 export type CreateMembers = Omit<Member, 'id'>;
+export type CreateHouseholdMember = Omit<Member, 'id' | 'householdId'>;
 
 type MembersState = Member[];
 const initialState: MembersState = mockedMembers;
