@@ -30,9 +30,8 @@ export default function CreateHouseholdScreen({ navigation }: props) {
           code: householdCode,
         },
         member: {
-          name: 'Kalle',
+          name: user?.email ?? 'Ägarens namn',
           userId: user!.uid,
-          householdId: '', //TODO: get from redux
           avatarId: 'fox',
           isOwner: true,
           isAllowed: true,
@@ -40,7 +39,6 @@ export default function CreateHouseholdScreen({ navigation }: props) {
       }),
     );
     navigation.navigate('YourHouseholds');
-    console.log('Household name is right. We can create household.');
   };
 
   return (
