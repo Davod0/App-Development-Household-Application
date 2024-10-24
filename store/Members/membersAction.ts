@@ -1,5 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { addDoc, collection, doc, getDocs } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+} from 'firebase/firestore';
 import { Member } from '../../data';
 import { db } from '../../firebase';
 import { CreateMembers } from './memberSlice';
@@ -41,6 +47,19 @@ export const addMember = createAsyncThunk<Member, CreateMembers>(
     } catch (error) {
       const errorMessage = (error as Error).message || 'Unknown error';
       return thunkApi.rejectWithValue(errorMessage);
+    }
+  },
+);
+
+export const deleteMemberById = createAsyncThunk<string, string>(
+  'members/deleteMemberById',
+  async (memberId: string, { rejectWithValue }) => {
+    try {
+      const memberRef = doc(db, 'members', memberId);
+      await deleteDoc(memberRef);
+      return memberId;
+    } catch (error) {
+      return rejectWithValue((error as Error).message || 'Unknown error');
     }
   },
 );
