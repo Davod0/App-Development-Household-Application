@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
-  addDoc,
   collection,
   deleteDoc,
   doc,
   getDocs,
+  setDoc,
   updateDoc,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
@@ -60,16 +60,16 @@ export const addMember = createAsyncThunk<Member, CreateMembers>(
   'members/addMember',
   async (memberCreate, thunkApi) => {
     try {
-      const memberRef = collection(
-        doc(db, 'households', memberCreate.householdId),
-        'members',
-      );
-      const newMemberRef = await addDoc(memberRef, memberCreate);
+      const memberRef = doc(collection(db, 'members'));
 
-      return {
-        id: newMemberRef.id,
+      const newMember: Member = {
+        id: memberRef.id,
         ...memberCreate,
-      } as Member;
+      };
+
+      const newMemberRef = await setDoc(memberRef, newMember);
+
+      return newMember;
     } catch (error) {
       const errorMessage = (error as Error).message || 'Unknown error';
       return thunkApi.rejectWithValue(errorMessage);

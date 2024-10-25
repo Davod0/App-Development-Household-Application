@@ -23,7 +23,6 @@ export default function HouseholdInformationScreen({
   const membersInHousehold = members.filter(
     (m) => m.householdId === household.id,
   );
-  console.log(household.id);
 
   useFocusEffect(
     useCallback(() => {

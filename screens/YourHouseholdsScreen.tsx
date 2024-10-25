@@ -6,7 +6,11 @@ import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getHouseholds } from '../store/households/householdsActions';
-import { selectAllHouseholds } from '../store/households/housholdsSelectors';
+import { setSelectedHouseholdId } from '../store/households/householdsSlice';
+import {
+  selectAllHouseholds,
+  selectHouseholdId,
+} from '../store/households/housholdsSelectors';
 import { getAllMembers } from '../store/Members/membersAction';
 import { selectAllMembers } from '../store/Members/membersSelectors';
 import { selectCurrentUser } from '../store/user/selectors';
@@ -42,17 +46,17 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   const userHouseholds = housholdsInRedux.filter((household) =>
     members.some(
       (member) =>
-        member.userId === loggedInUserId &&
-        member.householdId === 'fXk38p7lKu7v1WtIjYSU',
+        member.userId === loggedInUserId && member.householdId === household.id,
     ),
   );
 
-  const handleHouseholdPress = (household: Household) => {
-    navigation.navigate('HouseholdInformation', { household });
+  const handlePress = (household: Household) => {
+    dispatch(setSelectedHouseholdId(household.id));
+    navigation.navigate('SelectedHouseholdNav');
   };
 
-  const handleDeletePress = () => {
-    navigation.navigate('Profile');
+  const handleHouseholdPress = (household: Household) => {
+    navigation.navigate('HouseholdInformation', { household });
     // funktionalitet ska implementeras i denna
   };
 
@@ -63,16 +67,14 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
           userHouseholds.map((household) => (
             <View style={s.household} key={household.id}>
               <Surface style={s.surface}>
-                <TouchableOpacity
-                  onPress={() => handleHouseholdPress(household)}
-                >
+                <TouchableOpacity onPress={() => handlePress(household)}>
                   <Text style={s.text}>{household.name} 🏠</Text>
                 </TouchableOpacity>
 
                 <IconButton
                   icon="close-circle-outline"
                   size={24}
-                  onPress={handleDeletePress}
+                  onPress={() => handleHouseholdPress(household)}
                 />
               </Surface>
             </View>

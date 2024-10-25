@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Household } from '../../types';
 import {
@@ -24,7 +24,12 @@ const initialState: HouseholdState = {
 const householdSlice = createSlice({
   name: 'household',
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedHouseholdId: (state, action: PayloadAction<string>) => {
+      state.selectedHouseholdId = action.payload;
+    },
+  },
+
   extraReducers: (builder) => {
     builder.addCase(createHousehold.pending, (state) => {
       state.isLoading = true;
@@ -63,4 +68,4 @@ const householdSlice = createSlice({
 
 // export reducer and actions
 export const householdReducer = householdSlice.reducer;
-export const {} = householdSlice.actions;
+export const { setSelectedHouseholdId } = householdSlice.actions;

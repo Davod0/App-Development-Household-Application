@@ -5,6 +5,8 @@ import { Badge, Button, Icon, Surface, Text } from 'react-native-paper';
 import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
+import { useAppSelector } from '../store/hooks';
+import { selectHouseholdId } from '../store/households/housholdsSelectors';
 import { Task } from '../types';
 
 type Props = MaterialTopTabScreenProps<
@@ -19,7 +21,8 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   // const currentUser = { isAdmin: false };
   const pendingRequests = ['a', 'b'];
   // const pendingRequests = [];
-  const householdId = 'household-1';
+  const householdId = useAppSelector(selectHouseholdId);
+  console.log(householdId);
 
   const members = mockedMembers.filter((m) => m.householdId === householdId);
   const tasksHousehold = mockedTasks.filter(

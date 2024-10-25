@@ -4,6 +4,7 @@ import {
   collection,
   doc,
   getDocs,
+  setDoc,
   updateDoc,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
@@ -31,12 +32,12 @@ export const createHousehold = createAppAsyncThunk<
   }
 
   try {
-    const householdRef = collection(db, 'households');
-    const newHouseholdRef = await addDoc(householdRef, household);
+    const householdRef = doc(collection(db, 'households'));
     const newHousehold: Household = {
-      id: newHouseholdRef.id,
+      id: householdRef.id,
       ...household,
     };
+    await setDoc(householdRef, newHousehold);
 
     const newMember = {
       ...member,
@@ -62,7 +63,13 @@ export const getHouseholds = createAsyncThunk<Household[]>(
     try {
       const householdsRef = await getDocs(collection(db, 'households'));
       const data: Household[] = [];
-      householdsRef.forEach((doc) => data.push(doc.data() as Household));
+
+      householdsRef.forEach((doc) => {
+        const householdData = doc.data() as Omit<Household, 'id'>; // Exclude 'id' from the type
+        // Add the document ID to the household data
+        data.push({ id: doc.id, ...householdData }); // This way, id won't overwrite
+      });
+
       return data;
     } catch (error) {
       const errorMessage = (error as Error).message || 'Unknown error';

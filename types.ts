@@ -55,6 +55,12 @@ export type Avatar = {
   color: string;
 };
 
+export type Request = {
+  id: string;
+  householdId: string;
+  memberId: string;
+};
+
 export type CreateScheduledTask = Omit<ScheduledTask, 'id'>;
 export type CreateCompletedTask = Omit<CompletedTask, 'id'>;
 export type CreateHousehold = Omit<Household, 'id'>;
