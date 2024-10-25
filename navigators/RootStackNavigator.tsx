@@ -89,10 +89,10 @@ export default function RootStackNavigator() {
             options={({ navigation }) => ({
               headerTitle: () => (
                 <View style={s.titleContainer}>
-                  <Text style={s.title}>Profile</Text>
+                  <Text style={s.title}>Profil</Text>
                   <IconButton
                     icon="account-edit-outline"
-                    size={24}
+                    size={35}
                     onPress={() => navigation.navigate('Home')}
                   />
                 </View>

@@ -57,18 +57,20 @@ export default function ProfileScreen({ navigation }: Props) {
       </View>
       <View style={s.footer}>
         <Button
+          style={{ width: '100%' }}
+          mode="elevated"
+          theme={{ roundness: 0 }}
           icon={({ color }) => (
-            <Icon source="close-circle-outline" size={36} color={color} />
+            <Icon source="close-circle-outline" size={50} color={color} />
           )}
-          mode="contained-tonal"
-          onPress={() => {
-            navigation.goBack();
-          }}
           labelStyle={{
-            fontSize: 24,
+            fontSize: 20,
             lineHeight: 30,
           }}
           contentStyle={{ height: 65, gap: 10 }}
+          onPress={() => {
+            navigation.goBack();
+          }}
         >
           Stäng
         </Button>
@@ -96,5 +98,8 @@ const s = StyleSheet.create({
   footer: {
     alignSelf: 'flex-end',
     width: '50%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: -10,
   },
 });
