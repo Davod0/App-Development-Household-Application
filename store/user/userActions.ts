@@ -5,8 +5,8 @@ import {
   signInWithEmailAndPassword,
   User,
 } from 'firebase/auth';
-import { EmailPassword } from '../../data';
 import { auth } from '../../firebase';
+import { EmailPassword } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 
 export const signUpUser = createAsyncThunk<User, EmailPassword>(

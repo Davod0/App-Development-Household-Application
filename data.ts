@@ -1,63 +1,12 @@
-export type EmailPassword = {
-  email: string;
-  password: string;
-};
-
-export type ScheduledTask = {
-  id: string;
-  memberId: string;
-  taskId: string;
-};
-
-export interface CreateScheduledTask {
-  memberId: string;
-  taskId: string;
-}
-
-export type CompletedTask = {
-  id: string;
-  memberId: string;
-  taskId: string;
-  dateDone: string;
-};
-
-export type CreateCompletedTask = Omit<CompletedTask, 'id'>;
-
-export type Task = {
-  id: string;
-  householdId: string;
-  name: string;
-  description: string;
-  weight: number;
-  frequency: number;
-  isArchived: boolean;
-};
-
-export type CreateTask = Omit<Task, 'id' | 'householdId' | 'isArchived'>;
-
-export type Member = {
-  id: string;
-  name: string;
-  userId: string;
-  householdId: string;
-  avatarId: AvatarName;
-  isOwner: boolean;
-  isAllowed: boolean;
-};
-
-export type Household = {
-  id: string;
-  name: string;
-  code: string;
-};
-
-export type CreateHousehold = Omit<Household, 'id'>;
-
-export type User = {
-  id: string;
-  firstName: string;
-  lastName: string;
-};
+import { avatarList } from './library/avatarList';
+import {
+  CompletedTask,
+  Household,
+  Member,
+  ScheduledTask,
+  Task,
+  User,
+} from './types';
 
 // Mocked Household data
 export const mockedHouseholds: Household[] = [
@@ -85,7 +34,7 @@ export const mockedMembers: Member[] = [
     name: 'Kalle',
     userId: 'user-0',
     householdId: 'household-1',
-    avatarId: 'fox',
+    avatar: avatarList['fox'],
     isOwner: true,
     isAllowed: true,
   },
@@ -94,7 +43,7 @@ export const mockedMembers: Member[] = [
     name: 'Magnus',
     userId: 'user-1',
     householdId: 'household-1',
-    avatarId: 'pig',
+    avatar: avatarList['pig'],
     isOwner: false,
     isAllowed: true,
   },
@@ -103,25 +52,7 @@ export const mockedMembers: Member[] = [
     name: 'Liam',
     userId: 'user-2',
     householdId: 'household-1',
-    avatarId: 'frog',
-    isOwner: false,
-    isAllowed: true,
-  },
-  {
-    id: 'member-2',
-    name: 'Liam',
-    userId: 'user-2',
-    householdId: 'household-2',
-    avatarId: 'pig',
-    isOwner: false,
-    isAllowed: true,
-  },
-  {
-    id: 'member-2',
-    name: 'Liam',
-    userId: 'user-2',
-    householdId: 'household-3',
-    avatarId: 'pig',
+    avatar: avatarList['frog'],
     isOwner: false,
     isAllowed: true,
   },
@@ -130,7 +61,7 @@ export const mockedMembers: Member[] = [
     name: 'Tony',
     userId: 'user-3',
     householdId: 'household-2',
-    avatarId: 'octopus',
+    avatar: avatarList['octopus'],
     isOwner: true,
     isAllowed: true,
   },
@@ -139,7 +70,7 @@ export const mockedMembers: Member[] = [
     name: 'Tony2',
     userId: 'user-3',
     householdId: 'household-2',
-    avatarId: 'chicken',
+    avatar: avatarList['chicken'],
     isOwner: true,
     isAllowed: true,
   },
@@ -148,7 +79,7 @@ export const mockedMembers: Member[] = [
     name: 'Olle',
     userId: 'user-5',
     householdId: 'household-1',
-    avatarId: 'dolphin',
+    avatar: avatarList['dolphin'],
     isOwner: false,
     isAllowed: true,
   },
@@ -157,7 +88,7 @@ export const mockedMembers: Member[] = [
     name: 'Anna',
     userId: 'user-6',
     householdId: 'household-2',
-    avatarId: 'owl',
+    avatar: avatarList['owl'],
     isOwner: false,
     isAllowed: true,
   },
@@ -166,7 +97,7 @@ export const mockedMembers: Member[] = [
     name: 'Stina',
     userId: 'user-7',
     householdId: 'household-2',
-    avatarId: 'unicorn',
+    avatar: avatarList['unicorn'],
     isOwner: false,
     isAllowed: true,
   },
@@ -177,11 +108,13 @@ export const mockedScheduledTasks: ScheduledTask[] = [
   {
     id: 'scheduled-task-1',
     memberId: 'member-1',
+    householdId: 'household-1',
     taskId: 'task-1',
   },
   {
     id: 'scheduled-task-2',
     memberId: 'member-3',
+    householdId: 'household-2',
     taskId: 'task-2',
   },
 ];
@@ -192,170 +125,57 @@ export const mockedCompletedTasks: CompletedTask[] = [
     id: '652dcd1b2c8f3a00169b68a5',
     memberId: 'member-1',
     taskId: 'task-14',
-    dateDone: new Date(2024, 9, 9).toUTCString(), // October 7, 2024
+    householdId: 'household-1',
+    dateDone: new Date(2024, 9, 23).toUTCString(), // October 7, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68a6',
     memberId: 'member-2',
     taskId: 'task-5',
+    householdId: 'household-1',
     dateDone: new Date(2024, 9, 8).toUTCString(), // October 8, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68a8',
     memberId: 'member-0',
     taskId: 'task-17',
+    householdId: 'household-1',
     dateDone: new Date(2024, 9, 10).toUTCString(), // October 10, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68a9',
     memberId: 'member-5',
     taskId: 'task-22',
+    householdId: 'household-1',
     dateDone: new Date(2024, 9, 11).toUTCString(), // October 11, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68b0',
     memberId: 'member-4',
     taskId: 'task-20',
+    householdId: 'household-1',
     dateDone: new Date(2024, 9, 15).toUTCString(), // October 12, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68b1',
     memberId: 'member-7',
     taskId: 'task-3',
+    householdId: 'household-1',
     dateDone: new Date(2024, 9, 13).toUTCString(), // October 13, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68b2',
     memberId: 'member-1',
     taskId: 'task-15',
+    householdId: 'household-1',
     dateDone: new Date(2024, 9, 14).toUTCString(), // October 14, 2024
   },
   {
     id: '652dcd1b2c8f3a00169b68b3',
     memberId: 'member-3',
     taskId: 'task-24',
+    householdId: 'household-1',
     dateDone: new Date(2024, 9, 15).toUTCString(), // October 15, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68b4',
-    memberId: 'member-4',
-    taskId: 'task-6',
-    dateDone: new Date(2024, 9, 16).toUTCString(), // October 16, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68b5',
-    memberId: 'member-2',
-    taskId: 'task-19',
-    dateDone: new Date(2024, 9, 17).toUTCString(), // October 17, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68b6',
-    memberId: 'member-6',
-    taskId: 'task-13',
-    dateDone: new Date(2024, 9, 18).toUTCString(), // October 18, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68b8',
-    memberId: 'member-7',
-    taskId: 'task-11',
-    dateDone: new Date(2024, 9, 8).toUTCString(), // October 8, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68b9',
-    memberId: 'member-0',
-    taskId: 'task-21',
-    dateDone: new Date(2024, 9, 9).toUTCString(), // October 9, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68bb',
-    memberId: 'member-3',
-    taskId: 'task-14',
-    dateDone: new Date(2024, 9, 11).toUTCString(), // October 11, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68bc',
-    memberId: 'member-6',
-    taskId: 'task-23',
-    dateDone: new Date(2024, 9, 12).toUTCString(), // October 12, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68bd',
-    memberId: 'member-4',
-    taskId: 'task-4',
-    dateDone: new Date(2024, 9, 13).toUTCString(), // October 13, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68be',
-    memberId: 'member-2',
-    taskId: 'task-10',
-    dateDone: new Date(2024, 9, 14).toUTCString(), // October 14, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68bf',
-    memberId: 'member-1',
-    taskId: 'task-27',
-    dateDone: new Date(2024, 9, 15).toUTCString(), // October 15, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68c0',
-    memberId: 'member-5',
-    taskId: 'task-7',
-    dateDone: new Date(2024, 9, 16).toUTCString(), // October 16, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68c1',
-    memberId: 'member-3',
-    taskId: 'task-18',
-    dateDone: new Date(2024, 9, 17).toUTCString(), // October 17, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68c2',
-    memberId: 'member-0',
-    taskId: 'task-25',
-    dateDone: new Date(2024, 9, 18).toUTCString(), // October 18, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68c3',
-    memberId: 'member-7',
-    taskId: 'task-1',
-    dateDone: new Date(2024, 9, 7).toUTCString(), // October 7, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68c4',
-    memberId: 'member-6',
-    taskId: 'task-16',
-    dateDone: new Date(2024, 9, 8).toUTCString(), // October 8, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68c5',
-    memberId: 'member-4',
-    taskId: 'task-26',
-    dateDone: new Date(2024, 9, 9).toUTCString(), // October 9, 2024
-  },
-  {
-    id: '652dcd1b2c8f3a00169b68c6',
-    memberId: 'member-0',
-    taskId: 'task-6',
-    dateDone: new Date(2024, 9, 21).toUTCString(), // October 20, 2024
-  },
-];
-
-// Mocked User data
-export const mockedUsers: User[] = [
-  {
-    id: 'user-1',
-    firstName: 'John',
-    lastName: 'Johnson',
-  },
-  {
-    id: 'user-2',
-    firstName: 'Jane',
-    lastName: 'Roberts',
-  },
-  {
-    id: 'user-3',
-    firstName: 'Sarah',
-    lastName: 'Doe',
   },
 ];
 
@@ -468,140 +288,23 @@ export const mockedTasks: Task[] = [
     frequency: 5,
     isArchived: false,
   },
-  {
-    id: 'task-16',
-    householdId: 'household-1',
-    name: 'Change bed linens',
-    description: 'Remove old bed linens, wash, and replace with fresh ones.',
-    weight: 3,
-    frequency: 14,
-    isArchived: false,
-  },
-  {
-    id: 'task-17',
-    householdId: 'household-2',
-    name: 'Sweep the driveway',
-    description: 'Sweep leaves and debris from the driveway.',
-    weight: 3,
-    frequency: 7,
-    isArchived: false,
-  },
-  {
-    id: 'task-18',
-    householdId: 'household-1',
-    name: 'Organize pantry',
-    description: 'Reorganize the pantry and check for expired items.',
-    weight: 4,
-    frequency: 30,
-    isArchived: false,
-  },
-  {
-    id: 'task-19',
-    householdId: 'household-1',
-    name: 'Clean gutters',
-    description: 'Clear out leaves and debris from the gutters.',
-    weight: 5,
-    frequency: 90,
-    isArchived: false,
-  },
-  {
-    id: 'task-20',
-    householdId: 'household-1',
-    name: 'Clean bathroom',
-    description: 'Scrub tiles, clean the sink, toilet, and shower.',
-    weight: 3,
-    frequency: 7,
-    isArchived: false,
-  },
-  {
-    id: 'task-21',
-    householdId: 'household-2',
-    name: 'Check smoke detectors',
-    description: 'Test all smoke detectors and replace batteries if needed.',
-    weight: 2,
-    frequency: 180,
-    isArchived: false,
-  },
-  {
-    id: 'task-22',
-    householdId: 'household-1',
-    name: 'Clean refrigerator',
-    description:
-      'Remove old food and clean the shelves inside the refrigerator.',
-    weight: 4,
-    frequency: 30,
-    isArchived: false,
-  },
-  {
-    id: 'task-23',
-    householdId: 'household-2',
-    name: 'Wash curtains',
-    description: 'Take down curtains and wash them.',
-    weight: 4,
-    frequency: 90,
-    isArchived: false,
-  },
-  {
-    id: 'task-24',
-    householdId: 'household-1',
-    name: 'Sweep porch',
-    description: 'Sweep dirt and debris off the porch area.',
-    weight: 2,
-    frequency: 7,
-    isArchived: true,
-  },
-  {
-    id: 'task-25',
-    householdId: 'household-1',
-    name: 'Organize garage',
-    description: 'Organize tools, clean the floor, and sort out storage boxes.',
-    weight: 5,
-    frequency: 60,
-    isArchived: false,
-  },
-  {
-    id: 'task-26',
-    householdId: 'household-1',
-    name: 'Wipe down appliances',
-    description: 'Clean the exterior of the microwave, oven, and fridge.',
-    weight: 2,
-    frequency: 7,
-    isArchived: false,
-  },
-  {
-    id: 'task-27',
-    householdId: 'household-1',
-    name: 'Trim hedges',
-    description: 'Trim the hedges around the front yard.',
-    weight: 4,
-    frequency: 30,
-    isArchived: false,
-  },
 ];
 
-export type AvatarName =
-  | 'fox'
-  | 'pig'
-  | 'frog'
-  | 'chicken'
-  | 'octopus'
-  | 'dolphin'
-  | 'owl'
-  | 'unicorn';
-
-interface AvatarProps {
-  icon: string;
-  color: string;
-}
-
-// export const avatarList2: Record<AvatarName, AvatarInfo> = {
-export const avatarList: { [key in AvatarName]: AvatarProps } = {
-  fox: { icon: '\uD83E\uDD8A', color: '#ffc242' },
-  pig: { icon: '\uD83D\uDC37', color: '#f4ccc7' },
-  frog: { icon: '\uD83D\uDC38', color: '#8bf15d' },
-  chicken: { icon: '\uD83D\uDC25', color: '#fffe60' },
-  octopus: { icon: '\uD83D\uDC19', color: '#d74b67' },
-  dolphin: { icon: '\uD83D\uDC2C', color: '#48c0e0' },
-  owl: { icon: '\uD83E\uDD89', color: '#a06b39' },
-  unicorn: { icon: '\uD83E\uDD84', color: '#ba72f8' },
-};
+// Mocked User data
+export const mockedUsers: User[] = [
+  {
+    id: 'user-1',
+    firstName: 'John',
+    lastName: 'Johnson',
+  },
+  {
+    id: 'user-2',
+    firstName: 'Jane',
+    lastName: 'Roberts',
+  },
+  {
+    id: 'user-3',
+    firstName: 'Sarah',
+    lastName: 'Doe',
+  },
+];

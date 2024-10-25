@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Member, mockedMembers } from '../../data';
+import { mockedMembers } from '../../data';
+import { Member } from '../../types';
 import {
   addMember,
   deleteMemberById,
@@ -56,6 +57,5 @@ const membersSlice = createSlice({
     });
   },
 });
-
 export const membersReducer = membersSlice.reducer;
 export const {} = membersSlice.actions;

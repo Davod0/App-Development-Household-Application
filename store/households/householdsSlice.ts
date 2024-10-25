@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Household } from '../../data';
+
+import { Household } from '../../types';
 import {
   createHousehold,
   getHouseholds,
   updateHouseholdName,
 } from './householdsActions';
-
 // state
 type HouseholdState = {
   list: Household[];

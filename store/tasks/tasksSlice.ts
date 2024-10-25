@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CreateTask, mockedTasks, Task } from '../../data';
+import { mockedTasks } from '../../data';
+import { CreateTask, Task } from '../../types';
 import {
   addTask,
   getSelectedHouseholdTasks,

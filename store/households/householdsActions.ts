@@ -6,12 +6,10 @@ import {
   getDocs,
   updateDoc,
 } from 'firebase/firestore';
-import { CreateHousehold, Household } from '../../data';
 import { db } from '../../firebase';
+import { CreateHousehold, CreateHouseholdMember, Household } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 import { addMember } from '../Members/membersAction';
-import { CreateHouseholdMember } from '../Members/memberSlice';
-
 export type CreateHouseholdWithMember = {
   household: CreateHousehold;
   member: CreateHouseholdMember;

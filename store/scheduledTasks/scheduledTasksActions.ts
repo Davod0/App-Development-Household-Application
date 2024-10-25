@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ScheduledTask, CreateScheduledTask } from '../../data';
 import {
   addDoc,
   collection,
@@ -9,6 +8,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { CreateScheduledTask, ScheduledTask } from '../../types';
 
 export const fetchScheduledTasks = createAsyncThunk<ScheduledTask[]>(
   'scheduledTasks/fetchAll',
