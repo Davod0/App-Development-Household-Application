@@ -59,12 +59,6 @@ const householdSlice = createSlice({
       state.errorMessage = action.payload as string;
     });
   },
-  // code for using thunks with firebase...
-  // extraReducers: (builder) => {
-  //   builder.addCase(addCompletedTask.fulfilled, (state, action) => {
-  //     state.push(action.payload);
-  //   });
-  // },
 });
 
 // export reducer and actions
