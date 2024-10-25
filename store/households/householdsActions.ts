@@ -1,60 +1,26 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { createAsyncThunk, unwrapResult } from '@reduxjs/toolkit';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  updateDoc,
+} from 'firebase/firestore';
 import { CreateHousehold, Household } from '../../data';
 import { db } from '../../firebase';
 import { createAppAsyncThunk } from '../hooks';
-import { addMember, CreateHouseholdMember } from '../Members/memberSlice';
+import { addMember } from '../Members/membersAction';
+import { CreateHouseholdMember } from '../Members/memberSlice';
 
 export type CreateHouseholdWithMember = {
   household: CreateHousehold;
   member: CreateHouseholdMember;
 };
 
-// export const addMember = createAsyncThunk<Member, CreateMembers>(
-//   'members/addMember',
-//   async (memberCreate, thunkApi) => {
-//     try {
-//       const memberRef = collection(
-//         doc(db, 'households', memberCreate.householdId),
-//         'members',
-//       );
-//       const newMemberRef = await addDoc(memberRef, memberCreate);
-
-//       return {
-//         id: newMemberRef.id,
-//         ...memberCreate,
-//       } as Member;
-//     } catch (error) {
-//       const errorMessage = (error as Error).message || 'Unknown error';
-//       return thunkApi.rejectWithValue(errorMessage);
-//     }
-//   },
-// );
-
-// export const createHousehold = createAppAsyncThunk<
-//   Household,
-//   CreateHouseholdWithMember
-// >('Household/createHousehold', async ({ household, member }, thunkApi) => {
-//   const state = thunkApi.getState();
-
-//   if (!state.user.currentUser) {
-//     return thunkApi.rejectWithValue('No logged in user');
-//   }
-//   const id = Date.now().toString();
-//   const newHousehold: Household = {
-//     id,
-//     ...household,
-//   };
-//   const newMember = {
-//     ...member,
-//     householdId: id,
-//   };
-
-//   // Dispatch the addMember action using thunkApi.dispatch
-//   thunkApi.dispatch(addMember(newMember));
-
-//   return newHousehold;
-// });
+interface UpdateHouseholdPayload {
+  householdId: string;
+  newName: string;
+}
 
 export const createHousehold = createAppAsyncThunk<
   Household,
@@ -79,7 +45,10 @@ export const createHousehold = createAppAsyncThunk<
       householdId: newHousehold.id,
     };
 
-    await thunkApi.dispatch(addMember(newMember));
+    const resultAction = await thunkApi.dispatch(addMember(newMember));
+    unwrapResult(resultAction);
+
+    console.log('householdId: ', household);
 
     // Return the created household object
     return newHousehold;
@@ -89,22 +58,36 @@ export const createHousehold = createAppAsyncThunk<
   }
 });
 
-export const getHouseholdsFromFirebase = createAsyncThunk<Household[]>(
-  'households/fetchHouseholds',
+export const getHouseholds = createAsyncThunk<Household[]>(
+  'households/getHouseholds',
   async (_, thunkApi) => {
     try {
-      const householdsRef = collection(db, 'households');
-
-      const querySnapshot = await getDocs(householdsRef);
-
-      const households: Household[] = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as Household[];
-
-      return households;
+      const householdsRef = await getDocs(collection(db, 'households'));
+      const data: Household[] = [];
+      householdsRef.forEach((doc) => data.push(doc.data() as Household));
+      return data;
     } catch (error) {
       const errorMessage = (error as Error).message || 'Unknown error';
+      return thunkApi.rejectWithValue(errorMessage);
+    }
+  },
+);
+
+export const updateHouseholdName = createAppAsyncThunk<
+  void,
+  UpdateHouseholdPayload
+>(
+  'households/updateHouseholdName',
+  async ({ householdId, newName }, thunkApi) => {
+    try {
+      const householdRef = doc(db, 'households', householdId);
+
+      await updateDoc(householdRef, { name: newName });
+
+      return;
+    } catch (error) {
+      const errorMessage =
+        (error as Error).message || 'Failed to update household name';
       return thunkApi.rejectWithValue(errorMessage);
     }
   },
