@@ -10,27 +10,42 @@ import {
 import { db } from '../../firebase';
 import { CreateMembers, Member } from '../../types';
 
-export const getAllMembersByHouseholdId = createAsyncThunk(
-  'members/getAllMembersByHouseholdId',
-  async (householdId: string, { rejectWithValue }) => {
+export const getAllMembers = createAsyncThunk(
+  'members/getAllMembers',
+  async (_, { rejectWithValue }) => {
     try {
-      const membersRef = collection(
-        doc(db, 'households', householdId),
-        'members',
-      );
-      const membersSnapshot = await getDocs(membersRef);
-      const members = membersSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      // Get all households
+      const householdsRef = collection(db, 'households');
+      const householdsSnapshot = await getDocs(householdsRef);
 
-      return members;
+      const allMembers: any[] = [];
+
+      // Iterate through each household to get its members
+      for (const householdDoc of householdsSnapshot.docs) {
+        const householdId = householdDoc.id;
+
+        // Query members for each household
+        const membersRef = collection(db, 'households', householdId, 'members');
+        const membersSnapshot = await getDocs(membersRef);
+
+        membersSnapshot.forEach((doc) => {
+          allMembers.push({
+            id: doc.id,
+            ...doc.data(),
+            householdId, // Add householdId to track which household this member belongs to
+          });
+        });
+      }
+
+      return allMembers;
     } catch (error) {
-      const errorMessage = (error as Error).message || 'Unknown error';
+      const errorMessage =
+        (error as Error).message || 'Failed to fetch members';
       return rejectWithValue(errorMessage);
     }
   },
 );
+
 export const addMember = createAsyncThunk<Member, CreateMembers>(
   'members/addMember',
   async (memberCreate, thunkApi) => {
