@@ -4,6 +4,7 @@ import { Household } from '../../types';
 import {
   createHousehold,
   getHouseholds,
+  getHouseholdsByUserId,
   updateHouseholdName,
 } from './householdsActions';
 // state
@@ -62,6 +63,14 @@ const householdSlice = createSlice({
     builder.addCase(updateHouseholdName.rejected, (state, action) => {
       state.isLoading = false;
       state.errorMessage = action.payload as string;
+    });
+    builder.addCase(getHouseholdsByUserId.fulfilled, (state, action) => {
+      console.log('households test: ', action.payload);
+      return { ...state, list: action.payload };
+    });
+    builder.addCase(getHouseholdsByUserId.rejected, (state, action) => {
+      state.errorMessage = action.payload as string;
+      state.isLoading = false;
     });
   },
 });

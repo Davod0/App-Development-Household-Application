@@ -66,8 +66,7 @@ export const addMember = createAsyncThunk<Member, CreateMembers>(
         id: memberRef.id,
         ...memberCreate,
       };
-
-      const newMemberRef = await setDoc(memberRef, newMember);
+      await setDoc(memberRef, newMember);
 
       return newMember;
     } catch (error) {

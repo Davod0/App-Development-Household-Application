@@ -1,11 +1,12 @@
 import { createAsyncThunk, unwrapResult } from '@reduxjs/toolkit';
 import {
-  addDoc,
   collection,
   doc,
   getDocs,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { CreateHousehold, CreateHouseholdMember, Household } from '../../types';
@@ -74,6 +75,33 @@ export const getHouseholds = createAsyncThunk<Household[]>(
     } catch (error) {
       const errorMessage = (error as Error).message || 'Unknown error';
       return thunkApi.rejectWithValue(errorMessage);
+    }
+  },
+);
+
+export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
+  'Household/getByUserId',
+  async (_, ThunkApi) => {
+    const state = ThunkApi.getState();
+    // state.user.currentUser?.uid
+    try {
+      const householdIds = state.members.list
+        .filter((member) => member.userId === state.user.currentUser?.uid)
+        .map((member) => member.householdId);
+
+      const snapshot = await getDocs(
+        query(
+          collection(db, 'households'),
+          where('householdId', 'in', householdIds),
+        ),
+      );
+      const data: Household[] = [];
+      snapshot.forEach((doc) => data.push(doc.data() as Household));
+      return data;
+    } catch (error) {
+      return ThunkApi.rejectWithValue(
+        `Error reading from database, completedTasks ${error}`,
+      );
     }
   },
 );

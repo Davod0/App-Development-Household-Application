@@ -1,17 +1,12 @@
-import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getHouseholds } from '../store/households/householdsActions';
+import { getHouseholdsByUserId } from '../store/households/householdsActions';
 import { setSelectedHouseholdId } from '../store/households/householdsSlice';
-import {
-  selectAllHouseholds,
-  selectHouseholdId,
-} from '../store/households/housholdsSelectors';
-import { getAllMembers } from '../store/Members/membersAction';
+import { selectAllHouseholds } from '../store/households/housholdsSelectors';
 import { selectAllMembers } from '../store/Members/membersSelectors';
 import { selectCurrentUser } from '../store/user/selectors';
 import { Household } from '../types';
@@ -26,14 +21,14 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   const loggedInUserId = user?.uid;
   const housholdsInRedux = useAppSelector(selectAllHouseholds);
 
-  useFocusEffect(
-    useCallback(() => {
-      if (user) {
-        dispatch(getHouseholds());
-        dispatch(getAllMembers());
-      }
-    }, [user]),
-  );
+  useEffect(() => {
+    if (user) {
+      dispatch(getHouseholdsByUserId());
+    }
+  }, [user]);
+
+  const households = useAppSelector(selectAllHouseholds);
+  console.log('households:', households);
 
   if (!user) {
     return (
@@ -43,12 +38,12 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
     );
   }
 
-  const userHouseholds = housholdsInRedux.filter((household) =>
-    members.some(
-      (member) =>
-        member.userId === loggedInUserId && member.householdId === household.id,
-    ),
-  );
+  // const userHouseholds = housholdsInRedux.filter((household) =>
+  //   members.some(
+  //     (member) =>
+  //       member.userId === loggedInUserId && member.householdId === household.id,
+  //   ),
+  // );
 
   const handlePress = (household: Household) => {
     dispatch(setSelectedHouseholdId(household.id));
@@ -63,8 +58,8 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   return (
     <ScrollView contentContainerStyle={s.container}>
       <View style={s.householdsContainer}>
-        {userHouseholds && userHouseholds.length > 0 ? (
-          userHouseholds.map((household) => (
+        {households && households.length > 0 ? (
+          households.map((household) => (
             <View style={s.household} key={household.id}>
               <Surface style={s.surface}>
                 <TouchableOpacity onPress={() => handlePress(household)}>
