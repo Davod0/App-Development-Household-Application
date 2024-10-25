@@ -10,7 +10,7 @@ type HouseholdState = {
 };
 const initialState: HouseholdState = {
   list: mockedHouseholds,
-  selectedHousehold: undefined,
+  selectedHousehold: { id: '2222', name: 'Mössen', code: 'code-1' },
 };
 
 // slice

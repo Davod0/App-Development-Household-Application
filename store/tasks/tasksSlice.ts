@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { mockedTasks } from '../../data';
 import { CreateTask, Task } from '../../types';
 import {
   addTask,
-  getSelectedHouseholdTasks,
   getTasks,
+  getTasksByHouseholdId,
   updateTask,
 } from './tasksAction';
 
@@ -15,7 +14,7 @@ export type TaskState = {
 };
 
 const initialState: TaskState = {
-  list: mockedTasks,
+  list: [],
 };
 
 // SLICE
@@ -40,8 +39,8 @@ const tasksSlice = createSlice({
     builder.addCase(getTasks.fulfilled, (_, action) => {
       return { list: action.payload };
     });
-    builder.addCase(getSelectedHouseholdTasks.fulfilled, (_, action) => {
-      return { list: action.payload };
+    builder.addCase(getTasksByHouseholdId.fulfilled, (state, action) => {
+      return { ...state, list: action.payload };
     });
     builder.addCase(
       updateTask.fulfilled,

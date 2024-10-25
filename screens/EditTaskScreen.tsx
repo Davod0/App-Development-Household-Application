@@ -5,7 +5,8 @@ import { Button, Dialog, Icon, Surface, TextInput } from 'react-native-paper';
 import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
 import { useAppDispatch } from '../store/hooks';
-import { Task } from '../types';
+import { updateTask } from '../store/tasks/tasksAction';
+import { CreateTask, Task } from '../types';
 
 // Define the route type for the screen
 type EditTaskScreenRouteProp = RouteProp<{ params: { task: Task } }, 'params'>;
@@ -13,6 +14,8 @@ type EditTaskScreenRouteProp = RouteProp<{ params: { task: Task } }, 'params'>;
 export default function EditTaskScreen() {
   const route = useRoute<EditTaskScreenRouteProp>();
   const { task } = route.params;
+
+  // const ta = useAppSelector(selectTaskFromID('LbdqNw97aXeymeklO76v'));
 
   const [name, setName] = useState(task.name);
   const [description, setDescription] = useState(task.description);
@@ -28,6 +31,14 @@ export default function EditTaskScreen() {
     console.log(frequency);
     console.log(weight);
     setUpdatedDialog(true);
+
+    const updates: CreateTask = {
+      name: name,
+      description: description,
+      frequency: frequency,
+      weight: weight,
+    };
+    dispatch(updateTask({ id: task.id, updates }));
   };
 
   return (

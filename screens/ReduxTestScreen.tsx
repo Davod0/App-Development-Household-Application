@@ -1,26 +1,24 @@
 import { ScrollView, StyleSheet } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
-import { getCompletedTasksByHouseholdId } from '../store/completedTasks/completedTasksActions';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { addTask, updateTask } from '../store/tasks/tasksAction';
 import {
-  selectTasks,
-  selectTasksFromHouseholdId,
-} from '../store/tasks/tasksSelectors';
+  addTask,
+  getTasksByHouseholdId,
+  updateTask,
+} from '../store/tasks/tasksAction';
+import { selectTasks } from '../store/tasks/tasksSelectors';
 import { CreateTask } from '../types';
 
 export default function ReduxTestScreen() {
   // const reduxTest = useAppSelector(selectAllCompletedTasks);
-  const taskTest = useAppSelector(selectTasks);
-  const tasksForHouseholdId = useAppSelector(
-    selectTasksFromHouseholdId('1111'),
-  );
+
+  const tasksForHouseholdId = useAppSelector(selectTasks);
 
   // test code to add a task to redux ...
   const dispatch = useAppDispatch();
   const newTask: CreateTask = {
-    name: 'Hunden',
-    description: 'Klappa hunden',
+    name: 'Katten',
+    description: 'Mata katten 2 gånger',
     frequency: 1,
     weight: 8,
   };
@@ -28,8 +26,8 @@ export default function ReduxTestScreen() {
   // code to test updating a task
   const handleUpdateTask = (taskId: string) => {
     const updates = {
-      name: 'Updated Hunden',
-      description: 'Updated description',
+      name: 'Updated Katten',
+      description: 'Updated: Mata katten 3 gånger',
       frequency: 4,
     };
     dispatch(updateTask({ id: taskId, updates }));
@@ -77,7 +75,7 @@ export default function ReduxTestScreen() {
       <Button
         mode="contained"
         onPress={() => {
-          dispatch(getCompletedTasksByHouseholdId('household-3'));
+          dispatch(getTasksByHouseholdId('2222'));
         }}
       >
         update

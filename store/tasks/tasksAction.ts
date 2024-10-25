@@ -2,8 +2,10 @@ import {
   collection,
   doc,
   getDocs,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { CreateTask, Task } from '../../types';
@@ -58,11 +60,13 @@ export const getTasks = createAppAsyncThunk<Task[]>(
 );
 
 // Hämtar alla tasks till ett hushåll, filtrerar på husfålls id
-export const getSelectedHouseholdTasks = createAppAsyncThunk<Task[], string>(
+export const getTasksByHouseholdId = createAppAsyncThunk<Task[], string>(
   'task/householdID/get',
-  async (_, thunkAPI) => {
+  async (householdId, thunkAPI) => {
     try {
-      const snapshot = await getDocs(collection(db, 'tasks'));
+      const snapshot = await getDocs(
+        query(collection(db, 'tasks'), where('householdId', '==', householdId)),
+      );
       const data: Task[] = [];
       snapshot.forEach((doc) => data.push(doc.data() as Task));
       return data;
