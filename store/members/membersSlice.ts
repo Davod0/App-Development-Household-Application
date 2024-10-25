@@ -5,7 +5,7 @@ import {
   deleteMemberById,
   getAllMembers,
   updateMember,
-} from './membersAction';
+} from './membersActions';
 
 interface MembersState {
   list: Member[];

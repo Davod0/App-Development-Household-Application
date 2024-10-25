@@ -5,9 +5,8 @@ import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getHouseholdsByUserId } from '../store/households/householdsActions';
-import { setSelectedHouseholdId } from '../store/households/householdsSlice';
-import { selectAllHouseholds } from '../store/households/housholdsSelectors';
-import { selectAllMembers } from '../store/Members/membersSelectors';
+import { selectAllHouseholds } from '../store/households/householdsSelectors';
+import { setSelectedHousehold } from '../store/households/householdsSlice';
 import { selectCurrentUser } from '../store/user/selectors';
 import { Household } from '../types';
 
@@ -17,18 +16,14 @@ type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 export default function YourHouseholdsScreen({ navigation }: Props) {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
-  const members = useAppSelector(selectAllMembers);
-  const loggedInUserId = user?.uid;
-  const housholdsInRedux = useAppSelector(selectAllHouseholds);
+  const households = useAppSelector(selectAllHouseholds);
+  console.log('households:', households);
 
   useEffect(() => {
     if (user) {
       dispatch(getHouseholdsByUserId());
     }
   }, [user]);
-
-  const households = useAppSelector(selectAllHouseholds);
-  console.log('households:', households);
 
   if (!user) {
     return (
@@ -38,15 +33,8 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
     );
   }
 
-  // const userHouseholds = housholdsInRedux.filter((household) =>
-  //   members.some(
-  //     (member) =>
-  //       member.userId === loggedInUserId && member.householdId === household.id,
-  //   ),
-  // );
-
   const handlePress = (household: Household) => {
-    dispatch(setSelectedHouseholdId(household.id));
+    dispatch(setSelectedHousehold(household));
     navigation.navigate('SelectedHouseholdNav');
   };
 
@@ -75,7 +63,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
             </View>
           ))
         ) : (
-          <Text style={s.emptyText}>Inga tillgängliga hushåll.</Text>
+          <Text style={s.emptyText}>Inga tillgängliga hushåll</Text>
         )}
       </View>
       <View style={s.footer}>

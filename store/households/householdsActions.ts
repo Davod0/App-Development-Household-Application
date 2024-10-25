@@ -11,7 +11,7 @@ import {
 import { db } from '../../firebase';
 import { CreateHousehold, CreateHouseholdMember, Household } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
-import { addMember } from '../Members/membersAction';
+import { addMember } from '../members/membersActions';
 export type CreateHouseholdWithMember = {
   household: CreateHousehold;
   member: CreateHouseholdMember;
@@ -84,11 +84,11 @@ export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
   async (_, ThunkApi) => {
     const state = ThunkApi.getState();
     // state.user.currentUser?.uid
-    try {
-      const householdIds = state.members.list
-        .filter((member) => member.userId === state.user.currentUser?.uid)
-        .map((member) => member.householdId);
+    const householdIds = state.members.list
+      .filter((member) => member.userId === state.user.currentUser?.uid)
+      .map((member) => member.householdId);
 
+    try {
       const snapshot = await getDocs(
         query(
           collection(db, 'households'),
@@ -97,6 +97,8 @@ export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
       );
       const data: Household[] = [];
       snapshot.forEach((doc) => data.push(doc.data() as Household));
+      console.log('in thunk:', data);
+
       return data;
     } catch (error) {
       return ThunkApi.rejectWithValue(

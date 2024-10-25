@@ -6,7 +6,7 @@ import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
 import { useAppSelector } from '../store/hooks';
-import { selectHouseholdId } from '../store/households/housholdsSelectors';
+import { selectHouseholdId } from '../store/households/householdsSelectors';
 import { Task } from '../types';
 
 type Props = MaterialTopTabScreenProps<

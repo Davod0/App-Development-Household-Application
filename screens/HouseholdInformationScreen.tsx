@@ -5,8 +5,8 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Card, Icon, List, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getAllMembers } from '../store/Members/membersAction';
-import { selectAllMembers } from '../store/Members/membersSelectors';
+import { getAllMembers } from '../store/members/membersActions';
+import { selectAllMembers } from '../store/members/membersSelectors';
 import { selectCurrentUser } from '../store/user/selectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
