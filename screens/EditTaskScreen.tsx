@@ -1,9 +1,11 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Dialog, Icon, Surface, TextInput } from 'react-native-paper';
 import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
+import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch } from '../store/hooks';
 import { updateTask } from '../store/tasks/tasksAction';
 import { CreateTask, Task } from '../types';
@@ -11,7 +13,9 @@ import { CreateTask, Task } from '../types';
 // Define the route type for the screen
 type EditTaskScreenRouteProp = RouteProp<{ params: { task: Task } }, 'params'>;
 
-export default function EditTaskScreen() {
+type Props = NativeStackScreenProps<RootStackParamList, 'EditTask'>;
+
+export default function EditTaskScreen({ navigation }: Props) {
   const route = useRoute<EditTaskScreenRouteProp>();
   const { task } = route.params;
 
@@ -83,17 +87,28 @@ export default function EditTaskScreen() {
           icon={({ color }) => (
             <Icon source="close-circle-outline" size={27} color={color} />
           )}
+          onPress={() => navigation.goBack()}
         >
           Stäng
         </Button>
       </View>
       <Dialog
         visible={showUpdatedDialog}
-        onDismiss={() => setUpdatedDialog(false)}
+        onDismiss={() => {
+          setUpdatedDialog(false);
+          navigation.goBack();
+        }}
       >
         <Dialog.Title>Sysslan har skapats</Dialog.Title>
         <Dialog.Actions>
-          <Button onPress={() => setUpdatedDialog(false)}>OK</Button>
+          <Button
+            onPress={() => {
+              setUpdatedDialog(false);
+              navigation.goBack();
+            }}
+          >
+            OK
+          </Button>
         </Dialog.Actions>
       </Dialog>
     </View>
