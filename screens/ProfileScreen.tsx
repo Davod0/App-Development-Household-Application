@@ -30,6 +30,7 @@ export default function ProfileScreen({ navigation }: Props) {
   }
 
   const avatar = member.avatar.icon;
+  const avatarColor = member.avatar.color;
   if (!avatar) {
     throw new Error('bad avatarId: ' + member.avatar);
   }
@@ -37,7 +38,22 @@ export default function ProfileScreen({ navigation }: Props) {
   return (
     <View style={s.container}>
       <View style={s.memberInfo}>
-        <Avatar.Text size={192} label={avatar} />
+        <View
+          style={{
+            backgroundColor: avatarColor,
+            width: 160,
+            height: 160,
+            borderRadius: 125,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar.Text
+            size={230}
+            label={avatar}
+            style={{ backgroundColor: 'transparent' }}
+          />
+        </View>
         <Text style={s.name}>{user.firstName + ' ' + user.lastName}</Text>
         <Button mode="contained" onPress={() => {}}>
           Byt Hushåll
