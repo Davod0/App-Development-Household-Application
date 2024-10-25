@@ -47,7 +47,7 @@ export default function RootStackNavigator() {
 
   return (
     <RootStack.Navigator
-      initialRouteName="YourHouseholds"
+      initialRouteName="Home"
       screenOptions={{ headerTitleAlign: 'center' }}
     >
       {user ? (
@@ -101,8 +101,14 @@ export default function RootStackNavigator() {
                 <Button
                   mode="contained"
                   onPress={() => navigation.navigate('Home')}
+                  style={{
+                    backgroundColor: '#000',
+                    borderRadius: 10,
+                    width: 120,
+                  }}
+                  labelStyle={{ fontSize: 16, color: 'lightgray' }}
                 >
-                  Logout
+                  Logga ut
                 </Button>
               ),
             })}
