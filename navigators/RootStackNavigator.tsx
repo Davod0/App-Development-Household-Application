@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
+import ArchivedTask from '../components/ArchiveTask';
 import ProfileIconButton from '../components/ProfileIconButton';
 import useSplashScreenVisibility from '../components/SplashScreenVisibility';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
@@ -49,7 +50,7 @@ export default function RootStackNavigator() {
 
   return (
     <RootStack.Navigator
-      initialRouteName="YourHouseholds"
+      initialRouteName="Home"
       screenOptions={{ headerTitleAlign: 'center' }}
     >
       {user ? (
@@ -129,7 +130,13 @@ export default function RootStackNavigator() {
             component={CreateTaskScreen}
             options={{ title: 'Skapa en ny syssla' }}
           />
-          <RootStack.Screen name="EditTask" component={EditTaskScreen} />
+          <RootStack.Screen
+            name="EditTask"
+            component={EditTaskScreen}
+            options={({ route }) => ({
+              headerRight: () => <ArchivedTask task={route.params.task} />,
+            })}
+          />
         </>
       ) : (
         <>
