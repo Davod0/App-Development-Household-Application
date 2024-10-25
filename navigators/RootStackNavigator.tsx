@@ -20,6 +20,7 @@ import { useUserAuthState } from '../store/user/hooks';
 import { selectCurrentUser } from '../store/user/selectors';
 import { Household } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
+import RequestsScreen from '../screens/RequestsScreen';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -36,6 +37,7 @@ export type RootStackParamList = {
   HouseholdInformation: { household: Household };
   YourHouseholds: undefined;
   ReduxTest: undefined;
+  Requests: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -126,6 +128,11 @@ export default function RootStackNavigator() {
             name="CreateTask"
             component={CreateTaskScreen}
             options={{ title: 'Skapa en ny syssla' }}
+          />
+          <RootStack.Screen
+            name="Requests"
+            component={RequestsScreen}
+            options={{ title: 'Förfrågningar' }}
           />
         </>
       ) : (
