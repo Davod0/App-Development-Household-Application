@@ -1,10 +1,12 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { Household } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { getHouseholds } from '../store/households/householdsActions';
 import { selectAllHouseholds } from '../store/households/housholdsSelectors';
 import { selectAllMembers } from '../store/Members/membersSelectors';
 import { selectCurrentUser } from '../store/user/selectors';
@@ -13,16 +15,17 @@ type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
 // kolla om inloggad antingen här eller på föregående sida dvs inloggningssidan?
 export default function YourHouseholdsScreen({ navigation }: Props) {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
   const members = useAppSelector(selectAllMembers);
   const loggedInUserId = user?.uid;
   const housholdsInRedux = useAppSelector(selectAllHouseholds);
 
-  // useFocusEffect(() => {
-  //   dispatch(getHouseholds());
-  //   dispatch(getAllMembers());
-  // });
+  useFocusEffect(() => {
+    // dispatch(getHouseholdsByUserEmail(user?.email));
+    dispatch(getHouseholds());
+    // dispatch(getAllMembers());
+  });
 
   if (!user) {
     return (
