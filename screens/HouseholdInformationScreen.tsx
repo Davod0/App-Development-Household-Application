@@ -1,9 +1,13 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useCallback } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Card, Icon, List, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { getAllMembers } from '../store/Members/membersAction';
 import { selectAllMembers } from '../store/Members/membersSelectors';
+import { selectCurrentUser } from '../store/user/selectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 
@@ -11,10 +15,22 @@ export default function HouseholdInformationScreen({
   navigation,
   route,
 }: Props) {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
   const members = useAppSelector(selectAllMembers);
   const { household } = route.params;
+
   const membersInHousehold = members.filter(
     (m) => m.householdId === household.id,
+  );
+  console.log(household.id);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (user) {
+        dispatch(getAllMembers());
+      }
+    }, [user]),
   );
 
   return (

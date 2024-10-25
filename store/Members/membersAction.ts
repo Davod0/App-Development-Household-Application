@@ -18,30 +18,40 @@ export const getAllMembers = createAsyncThunk(
       const householdsRef = collection(db, 'households');
       const householdsSnapshot = await getDocs(householdsRef);
 
-      const allMembers: any[] = [];
+      const memberPromises = householdsSnapshot.docs.map(
+        async (householdDoc) => {
+          const householdId = householdDoc.id;
 
-      // Iterate through each household to get its members
-      for (const householdDoc of householdsSnapshot.docs) {
-        const householdId = householdDoc.id;
+          const membersRef = collection(
+            db,
+            'households',
+            householdId,
+            'members',
+          );
+          const membersSnapshot = await getDocs(membersRef);
 
-        // Query members for each household
-        const membersRef = collection(db, 'households', householdId, 'members');
-        const membersSnapshot = await getDocs(membersRef);
+          // Map each member to include all properties of the `Member` type
+          return membersSnapshot.docs.map((memberDoc) => ({
+            id: memberDoc.id,
+            householdId,
+            name: memberDoc.data().name || '',
+            userId: memberDoc.data().userId || '',
+            avatar: memberDoc.data().avatar || '',
+            isOwner: memberDoc.data().isOwner || false,
+            isAllowed: memberDoc.data().isAllowed || false,
+          }));
+        },
+      );
 
-        membersSnapshot.forEach((doc) => {
-          allMembers.push({
-            id: doc.id,
-            ...doc.data(),
-            householdId, // Add householdId to track which household this member belongs to
-          });
-        });
-      }
+      const membersArray = await Promise.all(memberPromises);
+      const allMembers = membersArray.flat();
 
       return allMembers;
     } catch (error) {
-      const errorMessage =
-        (error as Error).message || 'Failed to fetch members';
-      return rejectWithValue(errorMessage);
+      console.error('Error fetching members:', error);
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Failed to fetch members',
+      );
     }
   },
 );
