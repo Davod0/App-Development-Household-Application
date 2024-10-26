@@ -9,12 +9,11 @@ import userReducer from './user/userSlice';
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    tasks: tasksReducer,
-    // household: householdReducer, // plural?
-    households: householdReducer, // plural?
-    completedTasks: completedTasksReducer,
-    scheduledTasks: scheduledTasksReducer,
     members: memberReducer,
+    households: householdReducer,
+    tasks: tasksReducer,
+    scheduledTasks: scheduledTasksReducer,
+    completedTasks: completedTasksReducer,
   },
 });
 

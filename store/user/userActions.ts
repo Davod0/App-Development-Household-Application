@@ -119,5 +119,3 @@ export const getMembersByCurrentUserId = createAppAsyncThunk<Member[]>(
     }
   },
 );
-
-// getUserData (hushåll, profiler, sysslor, avklarade)

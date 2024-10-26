@@ -33,12 +33,6 @@ const membersSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(updateMember.fulfilled, (state, action) => {
-        // const index = state.list.findIndex(
-        //   (member) => member.id === action.payload.id,
-        // );
-        // if (index !== -1) {
-        //   state.list[index] = action.payload;
-        // }
         const member = state.list.find((m) => m.id === action.payload.id);
         if (member) {
           Object.assign(member, action.payload);
@@ -48,7 +42,7 @@ const membersSlice = createSlice({
       .addCase(getMembersByHouseholdId.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getMembersByHouseholdId.fulfilled, (_, action) => {
+      .addCase(getMembersByHouseholdId.fulfilled, (state, action) => {
         return {
           list: action.payload,
           isLoading: false,

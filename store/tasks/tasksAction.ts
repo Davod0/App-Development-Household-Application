@@ -57,7 +57,8 @@ export const getTasks = createAppAsyncThunk<Task[]>(
   },
 );
 
-// Hämtar alla tasks till ett hushåll, filtrerar på husfålls id
+// Hämtar alla tasks till ett hushåll, filtrerar på hushålls id
+// FEL FIXA: VART FILTERAS BORT TASK DÅ ???
 export const getSelectedHouseholdTasks = createAppAsyncThunk<Task[], string>(
   'task/householdID/get',
   async (_, thunkAPI) => {
