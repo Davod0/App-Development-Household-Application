@@ -17,7 +17,7 @@ import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import RegisterScreen from '../screens/RegisterScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 import { useAppSelector } from '../store/hooks';
 import { useUserAuthState } from '../store/user/hooks';
@@ -32,7 +32,7 @@ export type RootStackParamList = {
   Login: undefined;
   Home: undefined;
   Profile: undefined;
-  Register: undefined;
+  SignUp: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
   Details: undefined;
@@ -153,8 +153,8 @@ export default function RootStackNavigator() {
             options={{ title: 'Logga in' }}
           />
           <RootStack.Screen
-            name="Register"
-            component={RegisterScreen}
+            name="SignUp"
+            component={SignUpScreen}
             options={{ title: 'Registrera dig' }}
           />
         </>

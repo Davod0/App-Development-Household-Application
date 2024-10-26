@@ -16,7 +16,7 @@ export default function LoginScreen({ navigation }: Props) {
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
   const loginErrorMessage = useAppSelector(
-    (state) => state.user.loginErrorMessage,
+    (state) => state.user.signInErrorMessage,
   );
   const isLoading = useAppSelector(selectUserAuthenticationIsLoading);
 
@@ -33,7 +33,7 @@ export default function LoginScreen({ navigation }: Props) {
 
   const navigateToRegister = () => {
     console.log('Register button pressed');
-    navigation.navigate('Register');
+    navigation.navigate('SignUp');
   };
 
   return (

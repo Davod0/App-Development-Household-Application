@@ -33,7 +33,7 @@ export default function Home({ navigation }: Props) {
         <Pressable onPress={() => navigation.navigate('Login')}>
           <Text style={styles.text}>Login</Text>
         </Pressable>
-        <Pressable onPress={() => navigation.navigate('Register')}>
+        <Pressable onPress={() => navigation.navigate('SignUp')}>
           <Text style={styles.text}>Register</Text>
         </Pressable>
         <Pressable onPress={() => navigation.navigate('TestStore')}>
