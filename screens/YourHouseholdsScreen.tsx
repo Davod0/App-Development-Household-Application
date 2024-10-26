@@ -7,7 +7,6 @@ import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getHouseholdsByUserId } from '../store/households/householdsActions';
 import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
-import { getMembersByHouseholdId } from '../store/members/membersActions';
 import { selectCurrentUser } from '../store/user/selectors';
 import { getMembersByCurrentUserId } from '../store/user/userActions';
 import { setSelectedHousehold } from '../store/user/userReducer';
@@ -21,6 +20,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   const user = useAppSelector(selectCurrentUser);
   const households = useAppSelector(selectAllHouseholdsByCurrentUser);
 
+  // testing...
   useFocusEffect(
     useCallback(() => {
       if (user) {
@@ -30,7 +30,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
             dispatch(getHouseholdsByUserId())
               .unwrap()
               .then(() => {
-                dispatch(getMembersByHouseholdId(''));
+                // dispatch(getMembersByHouseholdId(''));
               });
           });
       }
