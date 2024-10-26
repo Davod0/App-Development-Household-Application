@@ -4,7 +4,11 @@ import { Button, Card, Text } from 'react-native-paper';
 import { avatarList } from '../../library/avatarList';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { addMember, updateMember } from '../../store/members/membersActions';
+import {
+  addMember,
+  getMembersByHouseholdId,
+  updateMember,
+} from '../../store/members/membersActions';
 import { selectAllMembersBySelectedHousehold } from '../../store/members/membersSelectors';
 import { selectSelectedHousehold } from '../../store/user/selectors';
 import { AvatarName, CreateMember, Member } from '../../types';
@@ -65,20 +69,21 @@ export default function TestMembers({ navigation }: Props) {
         </>
       ) : (
         <>
+          <Text>Household name: {selectedHousehold.name}</Text>
+          <Text>HouseholdID: {selectedHousehold.id}</Text>
+
           <Button
             mode="contained"
             onPress={() => dispatch(addMember(newMember))}
           >
             add
           </Button>
-          {/* <Button
+          <Button
             mode="contained"
-            onPress={() => {
-              dispatch(getMembersByHouseholdId);
-            }}
+            onPress={() => dispatch(getMembersByHouseholdId())}
           >
-            update
-          </Button> */}
+            run thunk!
+          </Button>
 
           {membersForSelHousehold.length > 0 ? (
             membersForSelHousehold.map((member, index) => (
@@ -100,7 +105,7 @@ export default function TestMembers({ navigation }: Props) {
               </Card>
             ))
           ) : (
-            <Text>No tasks available for this household.</Text>
+            <Text>No members available for this household.</Text>
           )}
         </>
       )}

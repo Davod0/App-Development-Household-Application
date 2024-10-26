@@ -64,7 +64,6 @@ export default function TestCompTasks({ navigation }: Props) {
 
   return (
     <ScrollView contentContainerStyle={s.container}>
-      <Text variant="displaySmall">ReduxTestScreen</Text>
       {!selectedHousehold ? (
         <>
           <Text variant="bodyLarge">No selected household</Text>
@@ -77,6 +76,9 @@ export default function TestCompTasks({ navigation }: Props) {
         </>
       ) : (
         <>
+          <Text>Household name: {selectedHousehold.name}</Text>
+          <Text>HouseholdID: {selectedHousehold.id}</Text>
+
           <Button
             mode="contained"
             // change dispatch depending on what you are testing
