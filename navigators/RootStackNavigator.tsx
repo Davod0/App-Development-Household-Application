@@ -15,7 +15,7 @@ import TestUser from '../screens/debug/TestUser';
 import DetailsScreen from '../screens/DetailsScreen';
 import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
-import LoginScreen from '../screens/LoginScreen';
+import SignInScreen from '../screens/SignInScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
@@ -29,7 +29,7 @@ import { Household } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
 export type RootStackParamList = {
-  Login: undefined;
+  SignIn: undefined;
   Home: undefined;
   Profile: undefined;
   SignUp: undefined;
@@ -148,8 +148,8 @@ export default function RootStackNavigator() {
       ) : (
         <>
           <RootStack.Screen
-            name="Login"
-            component={LoginScreen}
+            name="SignIn"
+            component={SignInScreen}
             options={{ title: 'Logga in' }}
           />
           <RootStack.Screen

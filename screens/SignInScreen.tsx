@@ -9,9 +9,9 @@ import { signInUser } from '../store/user/userActions';
 import { selectUserAuthenticationIsLoading } from '../store/user/userSelectors';
 import { EmailPassword } from '../types';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
-export default function LoginScreen({ navigation }: Props) {
+export default function SignInScreen({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
