@@ -6,8 +6,13 @@ import {
 } from './completedTasksActions';
 
 // state
-type CompletedTasksState = CompletedTask[];
-const initialState: CompletedTasksState = [];
+type CompletedTasksState = {
+  list: CompletedTask[];
+  isLoading?: boolean;
+};
+const initialState: CompletedTasksState = {
+  list: [],
+};
 
 // slice
 const completedTasksSlice = createSlice({
@@ -16,12 +21,18 @@ const completedTasksSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(addCompletedTask.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(addCompletedTask.fulfilled, (state, action) => {
-        state.push(action.payload);
+        state.list.push(action.payload);
+        state.isLoading = false;
+      })
+      .addCase(getCompletedTasksByHouseholdId.pending, (state) => {
+        state.isLoading = true;
       })
       .addCase(getCompletedTasksByHouseholdId.fulfilled, (_, action) => {
-        // by using return the state is replaced
-        return action.payload;
+        return { list: action.payload, isLoading: false };
       });
   },
 });

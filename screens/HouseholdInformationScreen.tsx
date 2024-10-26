@@ -3,7 +3,8 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Card, Icon, List, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppSelector } from '../store/hooks';
-import { selectAllMembers } from '../store/Members/membersSelectors';
+import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
+import { selectSelectedHousehold } from '../store/user/selectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 
@@ -11,11 +12,14 @@ export default function HouseholdInformationScreen({
   navigation,
   route,
 }: Props) {
-  const members = useAppSelector(selectAllMembers);
-  const { household } = route.params;
+  const members = useAppSelector(selectAllMembersBySelectedHousehold);
+  const selectedHousehold = useAppSelector(selectSelectedHousehold);
+
   const membersInHousehold = members.filter(
-    (m) => m.householdId === household.id,
+    (m) => m.householdId === selectedHousehold?.id,
   );
+
+  console.log(members.length, membersInHousehold.length);
 
   return (
     <ScrollView contentContainerStyle={s.root}>
@@ -24,13 +28,13 @@ export default function HouseholdInformationScreen({
           <Text style={s.headline}>Din kod till hushållet:</Text>
           <Card style={s.box}>
             <Card.Content>
-              <Text style={s.text}>{household.code}</Text>
+              <Text style={s.text}>{selectedHousehold?.code}</Text>
             </Card.Content>
           </Card>
           <Text style={s.headline}>Namn till hushållet:</Text>
           <Card style={s.box}>
             <Card.Content style={{ height: 'auto', justifyContent: 'center' }}>
-              <Text style={s.text}>{household.name}</Text>
+              <Text style={s.text}>{selectedHousehold?.name}</Text>
             </Card.Content>
           </Card>
           <Text style={{ marginTop: 12, fontSize: 34 }}>Medlemmar:</Text>

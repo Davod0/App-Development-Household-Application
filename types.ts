@@ -55,12 +55,22 @@ export type Avatar = {
   color: string;
 };
 
+export type Request = {
+  id: string;
+  householdId: string;
+  memberId: string;
+};
+
 export type CreateScheduledTask = Omit<ScheduledTask, 'id'>;
 export type CreateCompletedTask = Omit<CompletedTask, 'id'>;
-export type CreateHousehold = Omit<Household, 'id'>;
 export type CreateTask = Omit<Task, 'id' | 'householdId' | 'isArchived'>;
-export type CreateMembers = Omit<Member, 'id'>;
+export type CreateMember = Omit<Member, 'id'>;
+export type CreateHousehold = Omit<Household, 'id'>;
 export type CreateHouseholdMember = Omit<Member, 'id' | 'householdId'>;
+export type CreateHouseholdWithMember = {
+  household: CreateHousehold;
+  member: CreateHouseholdMember;
+};
 
 export type AvatarName =
   | 'fox'

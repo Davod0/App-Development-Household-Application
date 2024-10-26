@@ -2,65 +2,58 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { Household } from '../../types';
 import {
-  createHousehold,
-  getHouseholds,
+  addHousehold,
+  getHouseholdsByUserId,
   updateHouseholdName,
 } from './householdsActions';
+
 // state
 type HouseholdState = {
   list: Household[];
-  selectedHousehold?: Household;
-  selectedHouseholdId?: string;
   isLoading?: boolean;
-  errorMessage?: string;
 };
 const initialState: HouseholdState = {
   list: [],
-  selectedHousehold: undefined,
-  selectedHouseholdId: undefined,
 };
 
 // slice
 const householdSlice = createSlice({
-  name: 'household',
+  name: 'households',
   initialState,
   reducers: {},
+
   extraReducers: (builder) => {
-    builder.addCase(createHousehold.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(createHousehold.fulfilled, (state, action) => {
-      state.list.push(action.payload);
-      state.isLoading = false;
-    });
-    builder.addCase(createHousehold.rejected, (state, action) => {
-      state.errorMessage = action.payload as string;
-      state.isLoading = false;
-      state.errorMessage = action.payload as string;
-    });
-    builder.addCase(getHouseholds.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.list = action.payload;
-      state.errorMessage = undefined;
-    });
-    builder.addCase(updateHouseholdName.pending, (state) => {
-      state.isLoading = true;
-      state.errorMessage = undefined;
-    });
-    builder.addCase(updateHouseholdName.fulfilled, (state, action) => {
-      const { householdId, newName } = action.meta.arg;
-      const household = state.list.find((h) => h.id === householdId);
-      if (household) {
-        household.name = newName;
-      }
-    });
-    builder.addCase(updateHouseholdName.rejected, (state, action) => {
-      state.isLoading = false;
-      state.errorMessage = action.payload as string;
-    });
+    builder
+      .addCase(addHousehold.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addHousehold.fulfilled, (state, action) => {
+        state.list.push(action.payload);
+        state.isLoading = false;
+      })
+      .addCase(getHouseholdsByUserId.fulfilled, (state, action) => {
+        return { ...state, list: action.payload };
+      })
+      .addCase(updateHouseholdName.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateHouseholdName.fulfilled, (state, action) => {
+        const household = state.list.find((h) => h.id === action.payload.id);
+        if (household) {
+          household.name = action.payload.name;
+        }
+        state.isLoading = false;
+      });
   },
 });
 
 // export reducer and actions
 export const householdReducer = householdSlice.reducer;
 export const {} = householdSlice.actions;
+
+// .addCase(getHouseholds.pending, (state) => {
+//   state.isLoading = true;
+// })
+// .addCase(getHouseholds.fulfilled, (state, action) => {
+//   return { list: action.payload, isLoading: false };
+// })

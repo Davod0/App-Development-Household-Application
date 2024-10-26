@@ -5,6 +5,8 @@ import { Badge, Button, Icon, Surface, Text } from 'react-native-paper';
 import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
+import { useAppSelector } from '../store/hooks';
+import { selectSelectedHousehold } from '../store/user/selectors';
 import { Task } from '../types';
 
 type Props = MaterialTopTabScreenProps<
@@ -12,18 +14,21 @@ type Props = MaterialTopTabScreenProps<
   'SelectedHousehold'
 >;
 
-//TODO: fix type
 export default function SelectedHouseholdScreen({ navigation }: Props) {
   //for testing...
   const currentUser = { isAdmin: true };
   // const currentUser = { isAdmin: false };
   const pendingRequests = ['a', 'b'];
   // const pendingRequests = [];
-  const householdId = 'household-1';
 
-  const members = mockedMembers.filter((m) => m.householdId === householdId);
+  const selectedHousehold = useAppSelector(selectSelectedHousehold);
+  console.log(selectedHousehold);
+
+  const members = mockedMembers.filter(
+    (m) => m.householdId === selectedHousehold?.id,
+  );
   const tasksHousehold = mockedTasks.filter(
-    (t) => t.householdId === householdId,
+    (t) => t.householdId === selectedHousehold?.id,
   );
 
   // useFocusEffect
