@@ -2,7 +2,11 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import { Request } from '../../types';
-import { addRequest } from './actions';
+import {
+  addRequest,
+  deleteRequest,
+  getRequestsBySelectedHouseholdId,
+} from './actions';
 
 type RequestsState = Request[];
 
@@ -14,9 +18,16 @@ const requestsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(addRequest.fulfilled, (state, action) => {
-      state.push(action.payload);
-    });
+    builder
+      .addCase(addRequest.fulfilled, (state, action) => {
+        state.push(action.payload);
+      })
+      .addCase(getRequestsBySelectedHouseholdId.fulfilled, (state, action) => {
+        return action.payload;
+      })
+      .addCase(deleteRequest.fulfilled, (state, action) => {
+        return state.filter((r) => r.id !== action.payload.id);
+      });
   },
 });
 
