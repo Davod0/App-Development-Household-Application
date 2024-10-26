@@ -2,7 +2,7 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { useEffect } from 'react';
 import { auth } from '../../firebase';
 import { useAppDispatch } from '../hooks';
-import { setUserOptimistically } from './userReducer';
+import { setUserOptimistically } from './userSlice';
 
 export function useUserAuthState() {
   const dispatch = useAppDispatch();

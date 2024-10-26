@@ -4,7 +4,7 @@ import { PropsWithChildren } from 'react';
 import { useColorScheme } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
 import { useAppSelector } from '../store/hooks';
-import { selectColorMode } from '../store/user/selectors';
+import { selectColorMode } from '../store/user/userSelectors';
 import { combinedDarkTheme, combinedLightTheme } from './theme';
 
 export type ColorMode = 'dark' | 'light' | 'auto';

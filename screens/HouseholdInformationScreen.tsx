@@ -4,7 +4,7 @@ import { Button, Card, Icon, List, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppSelector } from '../store/hooks';
 import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
-import { selectSelectedHousehold } from '../store/user/selectors';
+import { selectSelectedHousehold } from '../store/user/userSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 

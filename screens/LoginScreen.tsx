@@ -5,8 +5,8 @@ import { Button, Text, TextInput } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import LoadingIndicator from '../store/LoadingIndicator';
-import { selectUserAuthenticationIsLoading } from '../store/user/selectors';
 import { signInUser } from '../store/user/userActions';
+import { selectUserAuthenticationIsLoading } from '../store/user/userSelectors';
 import { EmailPassword } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;

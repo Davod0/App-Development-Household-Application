@@ -6,7 +6,7 @@ import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addMember, updateMember } from '../../store/members/membersActions';
 import { selectAllMembersBySelectedHousehold } from '../../store/members/membersSelectors';
-import { selectSelectedHousehold } from '../../store/user/selectors';
+import { selectSelectedHousehold } from '../../store/user/userSelectors';
 import { AvatarName, CreateMember, Member } from '../../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TestMembers'>;

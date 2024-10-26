@@ -24,7 +24,7 @@ import { useUserAuthState } from '../store/user/hooks';
 import {
   selectCurrentUser,
   selectSelectedHousehold,
-} from '../store/user/selectors';
+} from '../store/user/userSelectors';
 import { Household } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 

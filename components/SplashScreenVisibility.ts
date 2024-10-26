@@ -1,7 +1,7 @@
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { useAppSelector } from '../store/hooks';
-import { selectUserAuthenticationIsLoading } from '../store/user/selectors';
+import { selectUserAuthenticationIsLoading } from '../store/user/userSelectors';
 
 SplashScreen.preventAutoHideAsync();
 
