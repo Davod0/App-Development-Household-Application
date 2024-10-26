@@ -5,9 +5,10 @@ import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getHouseholdsByUserId } from '../store/households/householdsActions';
-import { selectAllHouseholds } from '../store/households/householdsSelectors';
-import { setSelectedHousehold } from '../store/households/householdsSlice';
+import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
 import { selectCurrentUser } from '../store/user/selectors';
+import { getMembersByCurrentUserId } from '../store/user/userActions';
+import { setSelectedHousehold } from '../store/user/userReducer';
 import { Household } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
@@ -16,31 +17,26 @@ type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 export default function YourHouseholdsScreen({ navigation }: Props) {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
-  const households = useAppSelector(selectAllHouseholds);
-  console.log('households:', households);
+  const households = useAppSelector(selectAllHouseholdsByCurrentUser);
 
   useEffect(() => {
     if (user) {
-      dispatch(getHouseholdsByUserId());
+      dispatch(getMembersByCurrentUserId())
+        .unwrap()
+        .then(() => {
+          dispatch(getHouseholdsByUserId());
+        });
     }
-  }, [user]);
+  }, [dispatch, user]);
 
-  if (!user) {
-    return (
-      <View>
-        <Text style={s.emptyText}>Error, användare inte inloggad</Text>
-      </View>
-    );
-  }
-
-  const handlePress = (household: Household) => {
+  const handlePressHousehold = (household: Household) => {
     dispatch(setSelectedHousehold(household));
     navigation.navigate('SelectedHouseholdNav');
   };
 
-  const handleHouseholdPress = (household: Household) => {
+  const handlePressInfo = (household: Household) => {
+    dispatch(setSelectedHousehold(household));
     navigation.navigate('HouseholdInformation', { household });
-    // funktionalitet ska implementeras i denna
   };
 
   return (
@@ -50,14 +46,16 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
           households.map((household) => (
             <View style={s.household} key={household.id}>
               <Surface style={s.surface}>
-                <TouchableOpacity onPress={() => handlePress(household)}>
-                  <Text style={s.text}>{household.name} 🏠</Text>
+                <TouchableOpacity
+                  onPress={() => handlePressHousehold(household)}
+                >
+                  <Text style={s.text}>{household.name}</Text>
                 </TouchableOpacity>
 
                 <IconButton
-                  icon="close-circle-outline"
+                  icon="information-outline"
                   size={24}
-                  onPress={() => handleHouseholdPress(household)}
+                  onPress={() => handlePressInfo(household)}
                 />
               </Surface>
             </View>

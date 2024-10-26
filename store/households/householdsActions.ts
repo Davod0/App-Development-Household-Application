@@ -1,4 +1,3 @@
-import { createAsyncThunk, unwrapResult } from '@reduxjs/toolkit';
 import {
   collection,
   doc,
@@ -9,29 +8,25 @@ import {
   where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { CreateHousehold, CreateHouseholdMember, Household } from '../../types';
+import {
+  CreateHousehold,
+  CreateHouseholdMember,
+  Household,
+  Member,
+} from '../../types';
 import { createAppAsyncThunk } from '../hooks';
-import { addMember } from '../members/membersActions';
 export type CreateHouseholdWithMember = {
   household: CreateHousehold;
   member: CreateHouseholdMember;
 };
 
-interface UpdateHouseholdPayload {
-  householdId: string;
-  newName: string;
-}
+// addHousehold
+// updateHousehold
 
-export const createHousehold = createAppAsyncThunk<
+export const addHousehold = createAppAsyncThunk<
   Household,
   CreateHouseholdWithMember
 >('Household/createHousehold', async ({ household, member }, thunkApi) => {
-  const state = thunkApi.getState();
-
-  if (!state.user.currentUser) {
-    return thunkApi.rejectWithValue('No logged-in user');
-  }
-
   try {
     const householdRef = doc(collection(db, 'households'));
     const newHousehold: Household = {
@@ -40,90 +35,78 @@ export const createHousehold = createAppAsyncThunk<
     };
     await setDoc(householdRef, newHousehold);
 
-    const newMember = {
+    // FIXME: same code as thunk members/add can we call that thunk from here?
+    const memberRef = doc(collection(db, 'members'));
+    const newMember: Member = {
       ...member,
+      id: memberRef.id,
       householdId: newHousehold.id,
     };
+    await setDoc(memberRef, newMember);
 
-    const resultAction = await thunkApi.dispatch(addMember(newMember));
-    unwrapResult(resultAction);
-
-    console.log('householdId: ', household);
-
-    // Return the created household object
     return newHousehold;
   } catch (error) {
-    const errorMessage = (error as Error).message || 'Unknown error';
-    return thunkApi.rejectWithValue(errorMessage);
+    return thunkApi.rejectWithValue(
+      `Error creating household or member: ${error}`,
+    );
   }
 });
 
-export const getHouseholds = createAsyncThunk<Household[]>(
-  'households/getHouseholds',
-  async (_, thunkApi) => {
-    try {
-      const householdsRef = await getDocs(collection(db, 'households'));
-      const data: Household[] = [];
-
-      householdsRef.forEach((doc) => {
-        const householdData = doc.data() as Omit<Household, 'id'>; // Exclude 'id' from the type
-        // Add the document ID to the household data
-        data.push({ id: doc.id, ...householdData }); // This way, id won't overwrite
-      });
-
-      return data;
-    } catch (error) {
-      const errorMessage = (error as Error).message || 'Unknown error';
-      return thunkApi.rejectWithValue(errorMessage);
-    }
-  },
-);
-
 export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
   'Household/getByUserId',
-  async (_, ThunkApi) => {
-    const state = ThunkApi.getState();
-    // state.user.currentUser?.uid
-    const householdIds = state.members.list
-      .filter((member) => member.userId === state.user.currentUser?.uid)
-      .map((member) => member.householdId);
+  async (_, thunkApi) => {
+    const state = thunkApi.getState();
+    const householdIds = state.user.memberProfiles.map(
+      (member) => member.householdId,
+    );
 
     try {
       const snapshot = await getDocs(
-        query(
-          collection(db, 'households'),
-          where('householdId', 'in', householdIds),
-        ),
+        query(collection(db, 'households'), where('id', 'in', householdIds)),
       );
       const data: Household[] = [];
       snapshot.forEach((doc) => data.push(doc.data() as Household));
-      console.log('in thunk:', data);
 
       return data;
     } catch (error) {
-      return ThunkApi.rejectWithValue(
-        `Error reading from database, completedTasks ${error}`,
+      return thunkApi.rejectWithValue(
+        `Error retrieving households for member: ${error}`,
       );
     }
   },
 );
 
-export const updateHouseholdName = createAppAsyncThunk<
-  void,
-  UpdateHouseholdPayload
->(
+export const updateHouseholdName = createAppAsyncThunk<Household, Household>(
   'households/updateHouseholdName',
-  async ({ householdId, newName }, thunkApi) => {
+  async (household, thunkApi) => {
     try {
-      const householdRef = doc(db, 'households', householdId);
-
-      await updateDoc(householdRef, { name: newName });
-
-      return;
+      await updateDoc(doc(db, 'households', household.id), {
+        name: household.name,
+      });
+      return household;
     } catch (error) {
-      const errorMessage =
-        (error as Error).message || 'Failed to update household name';
-      return thunkApi.rejectWithValue(errorMessage);
+      return thunkApi.rejectWithValue(`Error updating household: ${error}`);
     }
   },
 );
+
+// export const getHouseholds = createAsyncThunk<Household[]>(
+//   'households/getHouseholds',
+//   async (_, thunkApi) => {
+//     try {
+//       const householdsRef = await getDocs(collection(db, 'households'));
+//       const data: Household[] = [];
+
+//       householdsRef.forEach((doc) => {
+//         const householdData = doc.data() as Omit<Household, 'id'>; // Exclude 'id' from the type
+//         // Add the document ID to the household data
+//         data.push({ id: doc.id, ...householdData }); // This way, id won't overwrite
+//       });
+
+//       return data;
+//     } catch (error) {
+//       const errorMessage = (error as Error).message || 'Unknown error';
+//       return thunkApi.rejectWithValue(errorMessage);
+//     }
+//   },
+// );

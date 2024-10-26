@@ -6,7 +6,7 @@ import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
 import { useAppSelector } from '../store/hooks';
-import { selectHouseholdId } from '../store/households/householdsSelectors';
+import { selectSelectedHousehold } from '../store/user/selectors';
 import { Task } from '../types';
 
 type Props = MaterialTopTabScreenProps<
@@ -21,12 +21,15 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   // const currentUser = { isAdmin: false };
   const pendingRequests = ['a', 'b'];
   // const pendingRequests = [];
-  const householdId = useAppSelector(selectHouseholdId);
-  console.log(householdId);
 
-  const members = mockedMembers.filter((m) => m.householdId === householdId);
+  const selectedHousehold = useAppSelector(selectSelectedHousehold);
+  console.log(selectedHousehold);
+
+  const members = mockedMembers.filter(
+    (m) => m.householdId === selectedHousehold?.id,
+  );
   const tasksHousehold = mockedTasks.filter(
-    (t) => t.householdId === householdId,
+    (t) => t.householdId === selectedHousehold?.id,
   );
 
   // useFocusEffect

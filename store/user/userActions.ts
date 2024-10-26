@@ -5,8 +5,9 @@ import {
   signInWithEmailAndPassword,
   User,
 } from 'firebase/auth';
-import { auth } from '../../firebase';
-import { EmailPassword } from '../../types';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { auth, db } from '../../firebase';
+import { EmailPassword, Member } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 
 export const signUpUser = createAsyncThunk<User, EmailPassword>(
@@ -93,6 +94,28 @@ export const signInUser = createAppAsyncThunk<User, EmailPassword>(
       return thunkAPI.rejectWithValue(
         'Something went wrong, Could not register the user!:',
       );
+    }
+  },
+);
+
+export const getMembersByCurrentUserId = createAppAsyncThunk<Member[]>(
+  'members/getByCurrenUserId',
+  async (_, thunkApi) => {
+    const state = thunkApi.getState();
+
+    try {
+      const snapshot = await getDocs(
+        query(
+          collection(db, 'members'),
+          where('userId', '==', state.user.currentUser?.uid),
+        ),
+      );
+
+      const data: Member[] = [];
+      snapshot.forEach((doc) => data.push(doc.data() as Member));
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(`Error retrieving members: ${error}`);
     }
   },
 );

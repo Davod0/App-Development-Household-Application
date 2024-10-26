@@ -1,63 +1,59 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 import { Household } from '../../types';
 import {
-  createHousehold,
-  getHouseholds,
+  addHousehold,
   getHouseholdsByUserId,
   updateHouseholdName,
 } from './householdsActions';
+
 // state
 type HouseholdState = {
   list: Household[];
-  selectedHousehold?: Household;
   isLoading?: boolean;
 };
 const initialState: HouseholdState = {
   list: [],
-  selectedHousehold: undefined,
 };
 
 // slice
 const householdSlice = createSlice({
-  name: 'household',
+  name: 'households',
   initialState,
-  reducers: {
-    setSelectedHousehold: (state, action: PayloadAction<Household>) => {
-      state.selectedHousehold = action.payload;
-    },
-  },
+  reducers: {},
 
   extraReducers: (builder) => {
     builder
-      .addCase(createHousehold.pending, (state) => {
+      .addCase(addHousehold.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(createHousehold.fulfilled, (state, action) => {
+      .addCase(addHousehold.fulfilled, (state, action) => {
         state.list.push(action.payload);
         state.isLoading = false;
       })
-      .addCase(getHouseholds.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.list = action.payload;
+      .addCase(getHouseholdsByUserId.fulfilled, (state, action) => {
+        return { ...state, list: action.payload };
       })
       .addCase(updateHouseholdName.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(updateHouseholdName.fulfilled, (state, action) => {
-        const { householdId, newName } = action.meta.arg;
-        const household = state.list.find((h) => h.id === householdId);
+        const household = state.list.find((h) => h.id === action.payload.id);
         if (household) {
-          household.name = newName;
+          household.name = action.payload.name;
         }
-      })
-      .addCase(getHouseholdsByUserId.fulfilled, (state, action) => {
-        console.log('households test: ', action.payload);
-        return { ...state, list: action.payload };
+        state.isLoading = false;
       });
   },
 });
 
 // export reducer and actions
 export const householdReducer = householdSlice.reducer;
-export const { setSelectedHousehold } = householdSlice.actions;
+export const {} = householdSlice.actions;
+
+// .addCase(getHouseholds.pending, (state) => {
+//   state.isLoading = true;
+// })
+// .addCase(getHouseholds.fulfilled, (state, action) => {
+//   return { list: action.payload, isLoading: false };
+// })

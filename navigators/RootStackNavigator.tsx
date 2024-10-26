@@ -17,7 +17,10 @@ import TestScreenUsingStore from '../screens/TestScreenUsingStore';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 import { useAppSelector } from '../store/hooks';
 import { useUserAuthState } from '../store/user/hooks';
-import { selectCurrentUser } from '../store/user/selectors';
+import {
+  selectCurrentUser,
+  selectSelectedHousehold,
+} from '../store/user/selectors';
 import { Household } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
@@ -42,12 +45,13 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
   useUserAuthState();
-  const user = useAppSelector(selectCurrentUser);
   useSplashScreenVisibility();
+  const user = useAppSelector(selectCurrentUser);
+  const selectedHousehold = useAppSelector(selectSelectedHousehold);
 
   return (
     <RootStack.Navigator
-      initialRouteName="YourHouseholds"
+      initialRouteName="Home"
       screenOptions={{ headerTitleAlign: 'center' }}
     >
       {user ? (
@@ -72,7 +76,7 @@ export default function RootStackNavigator() {
             name="SelectedHouseholdNav"
             component={SelectedHouseholdTopTabNav}
             options={({ navigation }) => ({
-              title: 'HouseholdName',
+              title: selectedHousehold?.name,
               headerShadowVisible: false,
               headerRight: () => <ProfileIconButton navigation={navigation} />,
             })}
