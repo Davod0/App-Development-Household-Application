@@ -63,7 +63,7 @@ export const {} = membersSlice.actions;
 // .addCase(
 //   deleteMemberById.fulfilled,
 //   (state, action: PayloadAction<string>) => {
-//     state.list = state.list.filter(
+//     return state.list.filter(
 //       (member) => member.id !== action.payload,
 //     );
 //   },

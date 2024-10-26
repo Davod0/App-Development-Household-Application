@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { completedTasksReducer } from './completedTasks/completedTasksSlice';
 import { householdReducer } from './households/householdsSlice';
 import { memberReducer } from './members/membersSlice';
+import { requestsReducer } from './requests/slice';
 import { scheduledTasksReducer } from './scheduledTasks/scheduledTasksSlice';
 import { tasksReducer } from './tasks/tasksSlice';
 import userReducer from './user/userReducer';
@@ -10,11 +11,11 @@ export const store = configureStore({
   reducer: {
     user: userReducer,
     tasks: tasksReducer,
-    // household: householdReducer, // plural?
-    households: householdReducer, // plural?
+    members: memberReducer,
+    households: householdReducer,
     completedTasks: completedTasksReducer,
     scheduledTasks: scheduledTasksReducer,
-    members: memberReducer,
+    requests: requestsReducer,
   },
 });
 
