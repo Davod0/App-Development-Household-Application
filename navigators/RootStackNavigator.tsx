@@ -5,13 +5,18 @@ import ProfileIconButton from '../components/ProfileIconButton';
 import useSplashScreenVisibility from '../components/SplashScreenVisibility';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
+import HomeScreen from '../screens/debug/HomeScreen';
+import ReduxTestScreen from '../screens/debug/ReduxTestScreen';
+import TestCompTasks from '../screens/debug/TestCompTasks';
+import TestHouseholds from '../screens/debug/TestHouseholds';
+import TestMembers from '../screens/debug/TestMembers';
+import TestTasks from '../screens/debug/TestTasks';
+import TestUser from '../screens/debug/TestUser';
 import DetailsScreen from '../screens/DetailsScreen';
-import HomeScreen from '../screens/HomeScreen';
 import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import ReduxTestScreen from '../screens/ReduxTestScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import TestScreenUsingStore from '../screens/TestScreenUsingStore';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
@@ -39,6 +44,11 @@ export type RootStackParamList = {
   HouseholdInformation: { household: Household };
   YourHouseholds: undefined;
   ReduxTest: undefined;
+  TestUser: undefined;
+  TestTasks: undefined;
+  TestMembers: undefined;
+  TestHouseholds: undefined;
+  TestCompTasks: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -66,6 +76,11 @@ export default function RootStackNavigator() {
             })}
           />
           <RootStack.Screen name="ReduxTest" component={ReduxTestScreen} />
+          <RootStack.Screen name="TestUser" component={TestUser} />
+          <RootStack.Screen name="TestTasks" component={TestTasks} />
+          <RootStack.Screen name="TestMembers" component={TestMembers} />
+          <RootStack.Screen name="TestHouseholds" component={TestHouseholds} />
+          <RootStack.Screen name="TestCompTasks" component={TestCompTasks} />
           <RootStack.Screen
             name="Details"
             component={DetailsScreen}

@@ -14,7 +14,6 @@ type Props = MaterialTopTabScreenProps<
   'SelectedHousehold'
 >;
 
-//TODO: fix type
 export default function SelectedHouseholdScreen({ navigation }: Props) {
   //for testing...
   const currentUser = { isAdmin: true };

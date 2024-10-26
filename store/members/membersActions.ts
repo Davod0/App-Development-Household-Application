@@ -9,10 +9,10 @@ import {
   where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { CreateMembers, Member } from '../../types';
+import { CreateMember, Member } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 
-export const addMember = createAsyncThunk<Member, CreateMembers>(
+export const addMember = createAsyncThunk<Member, CreateMember>(
   'members/add',
   async (member, thunkApi) => {
     const memberRef = doc(collection(db, 'members'));
@@ -48,9 +48,9 @@ export const updateMember = createAppAsyncThunk<Member, Member>(
   },
 );
 
-export const getMembersByHouseholdId = createAppAsyncThunk<Member[], string>(
+export const getMembersByHouseholdId = createAppAsyncThunk<Member[]>(
   'members/getByHouseholdId',
-  async (householdId, thunkApi) => {
+  async (_, thunkApi) => {
     const state = thunkApi.getState();
     try {
       const snapshot = await getDocs(

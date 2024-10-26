@@ -8,17 +8,8 @@ import {
   where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
-import {
-  CreateHousehold,
-  CreateHouseholdMember,
-  Household,
-  Member,
-} from '../../types';
+import { CreateHouseholdWithMember, Household, Member } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
-export type CreateHouseholdWithMember = {
-  household: CreateHousehold;
-  member: CreateHouseholdMember;
-};
 
 // addHousehold
 // updateHousehold
