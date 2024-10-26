@@ -7,10 +7,10 @@ import {
 } from './membersActions';
 
 // state
-interface MembersState {
+type MembersState = {
   list: Member[];
   isLoading?: boolean;
-}
+};
 const initialState: MembersState = {
   list: [],
 };
