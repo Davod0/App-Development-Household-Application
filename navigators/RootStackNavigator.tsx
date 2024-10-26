@@ -10,6 +10,7 @@ import ReduxTestScreen from '../screens/debug/ReduxTestScreen';
 import TestCompTasks from '../screens/debug/TestCompTasks';
 import TestHouseholds from '../screens/debug/TestHouseholds';
 import TestMembers from '../screens/debug/TestMembers';
+import TestRequests from '../screens/debug/TestRequests';
 import TestTasks from '../screens/debug/TestTasks';
 import TestUser from '../screens/debug/TestUser';
 import DetailsScreen from '../screens/DetailsScreen';
@@ -49,6 +50,7 @@ export type RootStackParamList = {
   TestMembers: undefined;
   TestHouseholds: undefined;
   TestCompTasks: undefined;
+  TestRequests: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -81,6 +83,7 @@ export default function RootStackNavigator() {
           <RootStack.Screen name="TestMembers" component={TestMembers} />
           <RootStack.Screen name="TestHouseholds" component={TestHouseholds} />
           <RootStack.Screen name="TestCompTasks" component={TestCompTasks} />
+          <RootStack.Screen name="TestRequests" component={TestRequests} />
           <RootStack.Screen
             name="Details"
             component={DetailsScreen}
