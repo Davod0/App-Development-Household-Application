@@ -2,12 +2,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Card, Icon, List, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppSelector } from '../store/hooks';
 import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
-import {
-  selectCurrentUser,
-  selectSelectedHousehold,
-} from '../store/user/selectors';
+import { selectSelectedHousehold } from '../store/user/selectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 
@@ -15,14 +12,14 @@ export default function HouseholdInformationScreen({
   navigation,
   route,
 }: Props) {
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(selectCurrentUser);
   const members = useAppSelector(selectAllMembersBySelectedHousehold);
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
 
   const membersInHousehold = members.filter(
     (m) => m.householdId === selectedHousehold?.id,
   );
+
+  console.log(members.length, membersInHousehold.length);
 
   return (
     <ScrollView contentContainerStyle={s.root}>

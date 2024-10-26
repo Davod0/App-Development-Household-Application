@@ -51,11 +51,12 @@ export const updateMember = createAppAsyncThunk<Member, Member>(
 export const getMembersByHouseholdId = createAppAsyncThunk<Member[], string>(
   'members/getByHouseholdId',
   async (householdId, thunkApi) => {
+    const state = thunkApi.getState();
     try {
       const snapshot = await getDocs(
         query(
           collection(db, 'members'),
-          where('householId', '==', householdId),
+          where('householdId', '==', state.user.selectedHousehold?.id),
         ),
       );
 

@@ -1,11 +1,13 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getHouseholdsByUserId } from '../store/households/householdsActions';
 import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
+import { getMembersByHouseholdId } from '../store/members/membersActions';
 import { selectCurrentUser } from '../store/user/selectors';
 import { getMembersByCurrentUserId } from '../store/user/userActions';
 import { setSelectedHousehold } from '../store/user/userReducer';
@@ -19,15 +21,21 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   const user = useAppSelector(selectCurrentUser);
   const households = useAppSelector(selectAllHouseholdsByCurrentUser);
 
-  useEffect(() => {
-    if (user) {
-      dispatch(getMembersByCurrentUserId())
-        .unwrap()
-        .then(() => {
-          dispatch(getHouseholdsByUserId());
-        });
-    }
-  }, [dispatch, user]);
+  useFocusEffect(
+    useCallback(() => {
+      if (user) {
+        dispatch(getMembersByCurrentUserId())
+          .unwrap()
+          .then(() => {
+            dispatch(getHouseholdsByUserId())
+              .unwrap()
+              .then(() => {
+                dispatch(getMembersByHouseholdId(''));
+              });
+          });
+      }
+    }, [dispatch, user]),
+  );
 
   const handlePressHousehold = (household: Household) => {
     dispatch(setSelectedHousehold(household));
