@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { ScrollView, StyleSheet } from 'react-native';
-import { Button, Card, Text } from 'react-native-paper';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Button, Card, Icon, Text } from 'react-native-paper';
 import { avatarList } from '../../library/avatarList';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -55,6 +55,19 @@ export default function TestMembers({ navigation }: Props) {
     dispatch(updateMember(newMember));
   };
 
+  // check if a member belongs to the selectedHousehold
+  const checkMember = (memberId: string) => {
+    return (
+      <View style={{ paddingRight: 10 }}>
+        {selectedHousehold?.id === memberId ? (
+          <Icon source="check-circle-outline" size={20} color="green" />
+        ) : (
+          <Icon source="alert-circle" size={24} color="red" />
+        )}
+      </View>
+    );
+  };
+
   return (
     <ScrollView contentContainerStyle={s.container}>
       {!selectedHousehold ? (
@@ -88,7 +101,10 @@ export default function TestMembers({ navigation }: Props) {
           {membersForSelHousehold.length > 0 ? (
             membersForSelHousehold.map((member, index) => (
               <Card key={index}>
-                <Card.Title title={`Task ID: ${member.id}`} />
+                <Card.Title
+                  title={`Task ID: ${member.id}`}
+                  right={() => checkMember(member.householdId)}
+                />
                 <Card.Content>
                   <Text>Task name: {member.name}</Text>
                   <Text>Avatar: {member.avatar.icon}</Text>
