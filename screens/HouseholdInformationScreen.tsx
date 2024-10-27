@@ -19,7 +19,7 @@ export default function HouseholdInformationScreen({
     (m) => m.householdId === selectedHousehold?.id,
   );
 
-  console.log(members.length, membersInHousehold.length);
+  console.log('house info screen:', members.length, membersInHousehold.length);
 
   return (
     <ScrollView contentContainerStyle={s.root}>
