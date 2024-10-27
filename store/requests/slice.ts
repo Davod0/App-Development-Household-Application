@@ -1,5 +1,3 @@
-// state
-
 import { createSlice } from '@reduxjs/toolkit';
 import { Request } from '../../types';
 import {
@@ -9,8 +7,8 @@ import {
   rejectRequest,
 } from './actions';
 
+// state
 type RequestsState = Request[];
-
 const initialState: RequestsState = [];
 
 // slice
@@ -36,5 +34,5 @@ const requestsSlice = createSlice({
 });
 
 // export reducer and actions
-export const requestsReducer = requestsSlice.reducer;
-export const {} = requestsSlice.actions;
+// export const requestsReducer = requestsSlice.reducer;
+// export const {} = requestsSlice.actions;

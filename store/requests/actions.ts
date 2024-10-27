@@ -9,11 +9,12 @@ import {
   where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { CreateRequest, Request } from '../../types';
+import { Request } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 import { deleteMember } from '../members/membersActions';
 
-export const addRequest = createAppAsyncThunk<Request, CreateRequest>(
+type CreateRequest = Omit<Request, 'id'>;
+const addRequest = createAppAsyncThunk<Request, CreateRequest>(
   'requests/add',
   async (request, thunkApi) => {
     const newDocRef = doc(collection(db, 'requests'));
@@ -31,7 +32,7 @@ export const addRequest = createAppAsyncThunk<Request, CreateRequest>(
   },
 );
 
-export const getRequestsBySelectedHouseholdId = createAppAsyncThunk<Request[]>(
+const getRequestsBySelectedHouseholdId = createAppAsyncThunk<Request[]>(
   'requests/getBySelectedHouseholdId',
   async (_, thunkApi) => {
     const state = thunkApi.getState();
@@ -53,7 +54,7 @@ export const getRequestsBySelectedHouseholdId = createAppAsyncThunk<Request[]>(
   },
 );
 
-// export const deleteRequest = createAppAsyncThunk<Request, Request>(
+//  const deleteRequest = createAppAsyncThunk<Request, Request>(
 //   'requests/delete',
 //   async (request, thunkApi) => {
 //     try {
@@ -65,7 +66,7 @@ export const getRequestsBySelectedHouseholdId = createAppAsyncThunk<Request[]>(
 //   },
 // );
 
-export const acceptRequest = createAppAsyncThunk<Request, Request>(
+const acceptRequest = createAppAsyncThunk<Request, Request>(
   'requests/accept',
   async (request, thunkApi) => {
     try {
@@ -79,7 +80,7 @@ export const acceptRequest = createAppAsyncThunk<Request, Request>(
   },
 );
 
-export const rejectRequest = createAppAsyncThunk<Request, Request>(
+const rejectRequest = createAppAsyncThunk<Request, Request>(
   'requests/reject',
   async (request, thunkApi) => {
     try {
