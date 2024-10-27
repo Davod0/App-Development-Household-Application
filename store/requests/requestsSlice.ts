@@ -6,17 +6,18 @@ import {
 } from './requestsActions';
 
 // state
-type RequestState = {
+type RequestsState = {
   list: Request[];
-  isLoading?: boolean;
+  isLoading: boolean;
   errorMessage?: string;
 };
-const initialState: RequestState = {
+const initialState: RequestsState = {
   list: [],
+  isLoading: false,
 };
 
 // slice
-const requestSlice = createSlice({
+const requestsSlice = createSlice({
   name: 'requests',
   initialState,
   reducers: {},
@@ -46,5 +47,5 @@ const requestSlice = createSlice({
 });
 
 // export reducer and actions
-export const requestReducer = requestSlice.reducer;
-export const {} = requestSlice.actions;
+export const requestReducer = requestsSlice.reducer;
+export const {} = requestsSlice.actions;

@@ -7,8 +7,8 @@ import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getRequestsByHouseholdId } from '../store/request/requestsActions';
-import { selectAllRequests } from '../store/request/requestsSelectors';
+import { getRequestsByHouseholdId } from '../store/requests/requestsActions';
+import { selectAllRequests } from '../store/requests/requestsSelectors';
 import {
   selectCurrentUser,
   selectSelectedHousehold,

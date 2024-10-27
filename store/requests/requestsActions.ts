@@ -19,7 +19,7 @@ import { createAppAsyncThunk } from '../hooks';
 export const registerGoToHouseholdRequest = createAppAsyncThunk<
   Request,
   CreateRequestWithMember
->('Request/createRequest', async ({ request, member }, thunkApi) => {
+>('requests/create', async ({ request, member }, thunkApi) => {
   try {
     const memberRef = doc(collection(db, 'members'));
     const newMember: Member = {
@@ -45,7 +45,7 @@ export const registerGoToHouseholdRequest = createAppAsyncThunk<
 });
 
 export const getRequestsByHouseholdId = createAppAsyncThunk<Request[], string>(
-  'Request/getByHouseholdId',
+  'requests/getByHouseholdId',
   async (householdId, thunkApi) => {
     try {
       const snapshot = await getDocs(
@@ -66,20 +66,20 @@ export const getRequestsByHouseholdId = createAppAsyncThunk<Request[], string>(
   },
 );
 
-export const getHouseholds = createAsyncThunk<Household[]>(
-  'households/getHouseholds',
-  async (_, thunkApi) => {
-    try {
-      const householdsRef = await getDocs(collection(db, 'households'));
-      const data: Household[] = [];
-      householdsRef.forEach((doc) =>
-        data.push({ ...doc.data(), id: doc.id } as Household),
-      );
-      console.log('Fetched households data:', data); // Log fetched data for debugging
-      return data;
-    } catch (error) {
-      const errorMessage = (error as Error).message || 'Unknown error';
-      return thunkApi.rejectWithValue(errorMessage);
-    }
-  },
-);
+// export const getHouseholds = createAsyncThunk<Household[]>(
+//   'households/getHouseholds',
+//   async (_, thunkApi) => {
+//     try {
+//       const householdsRef = await getDocs(collection(db, 'households'));
+//       const data: Household[] = [];
+//       householdsRef.forEach((doc) =>
+//         data.push({ ...doc.data(), id: doc.id } as Household),
+//       );
+//       console.log('Fetched households data:', data); // Log fetched data for debugging
+//       return data;
+//     } catch (error) {
+//       const errorMessage = (error as Error).message || 'Unknown error';
+//       return thunkApi.rejectWithValue(errorMessage);
+//     }
+//   },
+// );

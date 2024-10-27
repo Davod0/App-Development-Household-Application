@@ -4,7 +4,7 @@ import { Button, Dialog, Text, TextInput } from 'react-native-paper';
 import { avatarList } from '../library/avatarList';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getHouseholdByCode } from '../store/households/householdsActions';
-import { registerGoToHouseholdRequest } from '../store/request/requestsActions';
+import { registerGoToHouseholdRequest } from '../store/requests/requestsActions';
 import { selectCurrentUser } from '../store/user/selectors';
 
 export default function JoinHouseholdScreen() {
