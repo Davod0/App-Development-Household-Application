@@ -44,37 +44,9 @@ export const registerGoToHouseholdRequest = createAppAsyncThunk<
   }
 });
 
-// export const getRequestsByHouseholdId = createAppAsyncThunk<Request[], void>(
-//   'Request/getByHouseholdId',
-//   async (_, thunkApi) => {
-//     const state = thunkApi.getState();
-//     const householdIds = state.households.list.map((household) => household.id);
-//     console.log('householdIds', householdIds);
-
-//     try {
-//       const snapshot = await getDocs(
-//         query(
-//           collection(db, 'requests'),
-//           where('householdId', 'in', householdIds),
-//         ),
-//       );
-//       const data: Request[] = [];
-//       snapshot.forEach((doc) => data.push(doc.data() as Request));
-
-//       return data;
-//     } catch (error) {
-//       return thunkApi.rejectWithValue(
-//         `Error retrieving requests for households: ${error}`,
-//       );
-//     }
-//   },
-// );
 export const getRequestsByHouseholdId = createAppAsyncThunk<Request[], string>(
   'Request/getByHouseholdId',
   async (householdId, thunkApi) => {
-    const state = thunkApi.getState();
-    // const householdId = state.households.selectedHousehold;
-
     try {
       const snapshot = await getDocs(
         query(

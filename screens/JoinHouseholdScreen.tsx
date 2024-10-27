@@ -61,7 +61,7 @@ export default function JoinHouseholdScreen() {
           mode="outlined"
           label={'Kod till hushållet'}
           value={houseCode}
-          onChangeText={(text) => setHouseCode(text)}
+          onChangeText={(text) => setHouseCode(text.toUpperCase())}
         />
         <Button mode="contained" style={s.button} onPress={handleSubmitCode}>
           Gå med i hushåll

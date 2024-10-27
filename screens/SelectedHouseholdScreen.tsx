@@ -26,8 +26,6 @@ export default function SelectedHouseholdScreen({ navigation, route }: Props) {
   // const currentUser = { isAdmin: false };
 
   const requests = useAppSelector(selectAllRequests);
-  console.log('Requests ', requests);
-
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
   const selectedHousehold = useAppSelector(selectSelectedHousehold);

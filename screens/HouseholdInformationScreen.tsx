@@ -41,7 +41,7 @@ export default function HouseholdInformationScreen({
   );
 
   const membersInHousehold = members.filter(
-    (m) => m.householdId === selectedHousehold?.id,
+    (m) => m.householdId === selectedHousehold?.id && m.isAllowed === true,
   );
 
   console.log(members.length, membersInHousehold.length);
