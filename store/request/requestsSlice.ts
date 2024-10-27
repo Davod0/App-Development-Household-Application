@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Request } from '../../types';
-import { registerGoToHouseholdRequest } from './requestsActions';
+import {
+  getRequestsByHouseholdId,
+  registerGoToHouseholdRequest,
+} from './requestsActions';
 
 // state
 type RequestState = {
@@ -26,9 +29,9 @@ const requestSlice = createSlice({
       state.isLoading = false;
       console.log('done');
     });
-    //       .addCase(getHouseholdsByUserId.fulfilled, (state, action) => {
-    //         return { ...state, list: action.payload };
-    //       })
+    builder.addCase(getRequestsByHouseholdId.fulfilled, (state, action) => {
+      return { ...state, list: action.payload };
+    });
     //       .addCase(updateHouseholdName.pending, (state) => {
     //         state.isLoading = true;
     //       })
@@ -45,10 +48,3 @@ const requestSlice = createSlice({
 // export reducer and actions
 export const requestReducer = requestSlice.reducer;
 export const {} = requestSlice.actions;
-
-// .addCase(getHouseholds.pending, (state) => {
-//   state.isLoading = true;
-// })
-// .addCase(getHouseholds.fulfilled, (state, action) => {
-//   return { list: action.payload, isLoading: false };
-// })
