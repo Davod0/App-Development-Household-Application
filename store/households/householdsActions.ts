@@ -1,3 +1,4 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   collection,
   doc,
@@ -62,6 +63,30 @@ export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
     } catch (error) {
       return thunkApi.rejectWithValue(
         `Error retrieving households for member: ${error}`,
+      );
+    }
+  },
+);
+
+export const getHouseholdByCode = createAsyncThunk<Household, string>(
+  'household/getByCode',
+  async (householdCode, thunkApi) => {
+    try {
+      const q = query(
+        collection(db, 'households'),
+        where('code', '==', householdCode),
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      const doc = querySnapshot.docs[0];
+      const householdData = { id: doc.id, ...doc.data() } as Household;
+      console.log('Household data:', householdData);
+      return householdData;
+    } catch (error) {
+      console.error('Error retrieving household:', error);
+      return thunkApi.rejectWithValue(
+        `Error retrieving household for code ${householdCode}: ${error}`,
       );
     }
   },

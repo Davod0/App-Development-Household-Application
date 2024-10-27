@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { completedTasksReducer } from './completedTasks/completedTasksSlice';
 import { householdReducer } from './households/householdsSlice';
 import { memberReducer } from './members/membersSlice';
-import { requestsReducer } from './requests/slice';
+import { requestReducer } from './request/requestsSlice';
 import { scheduledTasksReducer } from './scheduledTasks/scheduledTasksSlice';
 import { tasksReducer } from './tasks/tasksSlice';
 import userReducer from './user/userReducer';
@@ -15,7 +15,7 @@ export const store = configureStore({
     households: householdReducer,
     completedTasks: completedTasksReducer,
     scheduledTasks: scheduledTasksReducer,
-    requests: requestsReducer,
+    requests: requestReducer,
   },
 });
 
