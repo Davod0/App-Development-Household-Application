@@ -67,9 +67,15 @@ export type CreateTask = Omit<Task, 'id' | 'householdId' | 'isArchived'>;
 export type CreateMember = Omit<Member, 'id'>;
 export type CreateHousehold = Omit<Household, 'id'>;
 export type CreateHouseholdMember = Omit<Member, 'id' | 'householdId'>;
+export type CreateHouseholdMemberWithoutHouseholdId = Omit<Member, 'id'>;
 export type CreateHouseholdWithMember = {
   household: CreateHousehold;
   member: CreateHouseholdMember;
+};
+export type CreateRequest = Omit<Request, 'id' | 'memberId'>;
+export type CreateRequestWithMember = {
+  request: CreateRequest;
+  member: CreateHouseholdMemberWithoutHouseholdId;
 };
 
 export type AvatarName =
