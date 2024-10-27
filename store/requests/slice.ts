@@ -3,9 +3,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Request } from '../../types';
 import {
+  acceptRequest,
   addRequest,
-  deleteRequest,
   getRequestsBySelectedHouseholdId,
+  rejectRequest,
 } from './actions';
 
 type RequestsState = Request[];
@@ -25,7 +26,10 @@ const requestsSlice = createSlice({
       .addCase(getRequestsBySelectedHouseholdId.fulfilled, (state, action) => {
         return action.payload;
       })
-      .addCase(deleteRequest.fulfilled, (state, action) => {
+      .addCase(acceptRequest.fulfilled, (state, action) => {
+        return state.filter((r) => r.id !== action.payload.id);
+      })
+      .addCase(rejectRequest.fulfilled, (state, action) => {
         return state.filter((r) => r.id !== action.payload.id);
       });
   },

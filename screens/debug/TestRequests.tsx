@@ -6,9 +6,10 @@ import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addMember } from '../../store/members/membersActions';
 import {
+  acceptRequest,
   addRequest,
-  deleteRequest,
   getRequestsBySelectedHouseholdId,
+  rejectRequest,
 } from '../../store/requests/actions';
 import { selectAllRequestBySelectedHousehold } from '../../store/requests/selectors';
 import { selectSelectedHousehold } from '../../store/user/selectors';
@@ -93,8 +94,14 @@ export default function TestMembers({ navigation }: Props) {
                 </Card.Content>
                 <Card.Actions>
                   <Button
+                    mode="outlined"
+                    onPress={() => dispatch(rejectRequest(request))}
+                  >
+                    Delete
+                  </Button>
+                  <Button
                     mode="contained"
-                    onPress={() => dispatch(deleteRequest(request))}
+                    onPress={() => dispatch(acceptRequest(request))}
                   >
                     Delete
                   </Button>

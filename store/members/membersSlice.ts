@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Member } from '../../types';
 import {
   addMember,
+  deleteMember,
   getMembersByHouseholdId,
   updateMember,
 } from './membersActions';
@@ -53,18 +54,15 @@ const membersSlice = createSlice({
           list: action.payload,
           isLoading: false,
         };
+      })
+      .addCase(deleteMember.fulfilled, (state, action) => {
+        return {
+          ...state,
+          list: state.list.filter((m) => m.id !== action.payload),
+        };
       });
   },
 });
 
 export const memberReducer = membersSlice.reducer;
 export const {} = membersSlice.actions;
-
-// .addCase(
-//   deleteMemberById.fulfilled,
-//   (state, action: PayloadAction<string>) => {
-//     return state.list.filter(
-//       (member) => member.id !== action.payload,
-//     );
-//   },
-// )

@@ -5,11 +5,13 @@ import {
   getDocs,
   query,
   setDoc,
+  updateDoc,
   where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { CreateRequest, Request } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
+import { deleteMember } from '../members/membersActions';
 
 export const addRequest = createAppAsyncThunk<Request, CreateRequest>(
   'requests/add',
@@ -51,17 +53,41 @@ export const getRequestsBySelectedHouseholdId = createAppAsyncThunk<Request[]>(
   },
 );
 
-export const deleteRequest = createAppAsyncThunk<Request, Request>(
-  'requests/delete',
-  async (request, thunkApi) => {
-    console.log(request);
+// export const deleteRequest = createAppAsyncThunk<Request, Request>(
+//   'requests/delete',
+//   async (request, thunkApi) => {
+//     try {
+//       await deleteDoc(doc(db, 'requests', request.id));
+//       return request;
+//     } catch (error) {
+//       return thunkApi.rejectWithValue(`Error deleting requests: ${error}`);
+//     }
+//   },
+// );
 
+export const acceptRequest = createAppAsyncThunk<Request, Request>(
+  'requests/accept',
+  async (request, thunkApi) => {
     try {
-      const docRef = doc(db, 'requests', request.id);
-      await deleteDoc(docRef);
+      const memberRef = doc(db, 'members', request.memberId);
+      await updateDoc(memberRef, { isAllowed: true });
+      await deleteDoc(doc(db, 'requests', request.id));
       return request;
     } catch (error) {
-      return thunkApi.rejectWithValue(`Error deleting requests: ${error}`);
+      return thunkApi.rejectWithValue(`Error accepting requests: ${error}`);
+    }
+  },
+);
+
+export const rejectRequest = createAppAsyncThunk<Request, Request>(
+  'requests/reject',
+  async (request, thunkApi) => {
+    try {
+      await thunkApi.dispatch(deleteMember(request.memberId));
+      await deleteDoc(doc(db, 'requests', request.id));
+      return request;
+    } catch (error) {
+      return thunkApi.rejectWithValue(`Error rejecting requests: ${error}`);
     }
   },
 );
