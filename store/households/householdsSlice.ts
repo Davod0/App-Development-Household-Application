@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Household } from '../../types';
 import {
   addHousehold,
+  getHouseholdByCode,
   getHouseholdsByUserId,
   updateHouseholdName,
 } from './householdsActions';
@@ -11,6 +12,7 @@ import {
 type HouseholdState = {
   list: Household[];
   isLoading?: boolean;
+  selectedHousehold?: Household;
 };
 const initialState: HouseholdState = {
   list: [],
@@ -33,6 +35,14 @@ const householdSlice = createSlice({
       })
       .addCase(getHouseholdsByUserId.fulfilled, (state, action) => {
         return { ...state, list: action.payload };
+      })
+      .addCase(getHouseholdByCode.fulfilled, (state, action) => {
+        // state.selectedHousehold = action.payload;
+        if (typeof action.payload === 'string') {
+          console.log(action.payload); // Handle the 'No household found' message
+        } else {
+          state.selectedHousehold = action.payload;
+        }
       })
       .addCase(updateHouseholdName.pending, (state) => {
         state.isLoading = true;

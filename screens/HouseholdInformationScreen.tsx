@@ -1,10 +1,16 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useCallback } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Card, Icon, List, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { getMembersByHouseholdId } from '../store/members/membersActions';
 import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
-import { selectSelectedHousehold } from '../store/user/selectors';
+import {
+  selectCurrentUser,
+  selectSelectedHousehold,
+} from '../store/user/selectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 
@@ -12,11 +18,30 @@ export default function HouseholdInformationScreen({
   navigation,
   route,
 }: Props) {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
   const members = useAppSelector(selectAllMembersBySelectedHousehold);
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
 
+  // testing...
+  useFocusEffect(
+    useCallback(() => {
+      if (user) {
+        dispatch(getMembersByHouseholdId())
+          .unwrap()
+          .then(() => {
+            dispatch(getMembersByHouseholdId())
+              .unwrap()
+              .then(() => {
+                // dispatch(getMembersByHouseholdId(''));
+              });
+          });
+      }
+    }, [dispatch, user]),
+  );
+
   const membersInHousehold = members.filter(
-    (m) => m.householdId === selectedHousehold?.id,
+    (m) => m.householdId === selectedHousehold?.id && m.isAllowed === true,
   );
 
   console.log(members.length, membersInHousehold.length);
