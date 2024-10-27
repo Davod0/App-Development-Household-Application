@@ -67,51 +67,6 @@ export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
     }
   },
 );
-// export const getHouseholdsByCode = createAppAsyncThunk<Household>(
-//   'Household/getByCode',
-//   async (householdCode: string, thunkApi) => {
-//     const state = thunkApi.getState();
-//     const householdCode = state.households.list.map(
-//       (household) => household.name,
-//     );
-
-//     try {
-//       const snapshot = await getDocs(
-//         query(collection(db, 'households'), where('name', '==', householdCode)),
-//       );
-//       const data: Household[] = [];
-//       snapshot.forEach((doc) => data.push(doc.data() as Household));
-
-//       return data;
-//     } catch (error) {
-//       return thunkApi.rejectWithValue(
-//         `Error retrieving households for member: ${error}`,
-//       );
-//     }
-//   },
-// );
-
-// export const getHouseholdByCode = createAppAsyncThunk<Household | null, string>(
-//   'Household/getByCode',
-//   async (householdCode: string, thunkApi) => {
-//     try {
-//       const snapshot = await getDocs(
-//         query(collection(db, 'households'), where('name', '==', householdCode)),
-//       );
-
-//       // let data: Household | null = null;
-//       // snapshot.forEach((doc) => {
-//       //   data = doc.data() as Household;
-//       // });
-
-//       return snapshot;
-//     } catch (error) {
-//       return thunkApi.rejectWithValue(
-//         `Error retrieving household for code ${householdCode}: ${error}`,
-//       );
-//     }
-//   },
-// );
 
 export const getHouseholdByCode = createAsyncThunk<Household, string>(
   'household/getByCode',
@@ -123,11 +78,6 @@ export const getHouseholdByCode = createAsyncThunk<Household, string>(
       );
 
       const querySnapshot = await getDocs(q);
-
-      // if (querySnapshot.empty) {
-      //   console.log('No household found');
-      //   return 'No household found';
-      // }
 
       const doc = querySnapshot.docs[0];
       const householdData = { id: doc.id, ...doc.data() } as Household;
