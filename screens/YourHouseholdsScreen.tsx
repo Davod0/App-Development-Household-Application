@@ -39,7 +39,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
 
   const handlePressHousehold = (household: Household) => {
     dispatch(setSelectedHousehold(household));
-    navigation.navigate('SelectedHouseholdNav');
+    navigation.navigate('SelectedHouseholdNav', { household });
   };
 
   const handlePressInfo = (household: Household) => {

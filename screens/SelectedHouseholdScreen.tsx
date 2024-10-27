@@ -1,12 +1,18 @@
 import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
-import React from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Badge, Button, Icon, Surface, Text } from 'react-native-paper';
 import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
-import { useAppSelector } from '../store/hooks';
-import { selectSelectedHousehold } from '../store/user/selectors';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { getRequestsByHouseholdId } from '../store/request/requestsActions';
+import { selectAllRequests } from '../store/request/requestsSelectors';
+import {
+  selectCurrentUser,
+  selectSelectedHousehold,
+} from '../store/user/selectors';
 import { Task } from '../types';
 
 type Props = MaterialTopTabScreenProps<
@@ -14,12 +20,18 @@ type Props = MaterialTopTabScreenProps<
   'SelectedHousehold'
 >;
 
-export default function SelectedHouseholdScreen({ navigation }: Props) {
+export default function SelectedHouseholdScreen({ navigation, route }: Props) {
   //for testing...
   const currentUser = { isAdmin: true };
   // const currentUser = { isAdmin: false };
+
+  const requests = useAppSelector(selectAllRequests);
+  console.log('Requests ', requests);
+
   const pendingRequests = ['a', 'b'];
   // const pendingRequests = [];
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
 
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
   console.log(selectedHousehold);
@@ -32,6 +44,21 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   );
 
   // useFocusEffect
+  useFocusEffect(
+    useCallback(() => {
+      if (user) {
+        dispatch(getRequestsByHouseholdId())
+          .unwrap()
+          .then(() => {
+            dispatch(getRequestsByHouseholdId())
+              .unwrap()
+              .then(() => {
+                // dispatch(getMembersByHouseholdId(''));
+              });
+          });
+      }
+    }, [dispatch, user]),
+  );
 
   const today = todayAtMidnight();
   const completedTasks = mockedCompletedTasks
