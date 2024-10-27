@@ -7,6 +7,7 @@ import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getHouseholdsByUserId } from '../store/households/householdsActions';
 import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
+import { useHouseholdsdata } from '../store/user/hooks';
 import { getMembersByCurrentUserId } from '../store/user/userActions';
 import { selectCurrentUser } from '../store/user/userSelectors';
 import { setSelectedHousehold } from '../store/user/userSlice';

@@ -6,6 +6,7 @@ import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
 import { useAppSelector } from '../store/hooks';
+import { useHouseholdsdata } from '../store/user/hooks';
 import { selectSelectedHousehold } from '../store/user/userSelectors';
 import { Task } from '../types';
 
@@ -15,6 +16,8 @@ type Props = MaterialTopTabScreenProps<
 >;
 
 export default function SelectedHouseholdScreen({ navigation }: Props) {
+  useHouseholdsdata();
+
   //for testing...
   const currentUser = { isAdmin: true };
   // const currentUser = { isAdmin: false };
