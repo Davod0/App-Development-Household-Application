@@ -2,8 +2,10 @@ import {
   collection,
   doc,
   getDocs,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { CreateTask, Task } from '../../types';
@@ -57,18 +59,22 @@ export const getTasks = createAppAsyncThunk<Task[]>(
   },
 );
 
-// Hämtar alla tasks till ett hushåll, filtrerar på hushålls id
-// FEL FIXA: VART FILTERAS BORT TASK DÅ ???
-export const getSelectedHouseholdTasks = createAppAsyncThunk<Task[], string>(
+export const getSelectedHouseholdTasks = createAppAsyncThunk<Task[]>(
   'task/householdID/get',
-  async (_, thunkAPI) => {
+  async (_, thunkApi) => {
+    const state = thunkApi.getState();
     try {
-      const snapshot = await getDocs(collection(db, 'tasks'));
+      const snapshot = await getDocs(
+        query(
+          collection(db, 'tasks'),
+          where('householdId', '==', state.user.selectedHousehold?.id),
+        ),
+      );
       const data: Task[] = [];
       snapshot.forEach((doc) => data.push(doc.data() as Task));
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(
+      return thunkApi.rejectWithValue(
         `Error reading from database, tasks ${error}`,
       );
     }

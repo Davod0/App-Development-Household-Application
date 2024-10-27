@@ -101,7 +101,7 @@ export default function SignUpScreen({ navigation }: Props) {
           onPress={signUpAccount}
           disabled={isButtonDisabled}
         >
-          Registrera konto
+          Skapa konto
         </Button>
       </View>
     </View>

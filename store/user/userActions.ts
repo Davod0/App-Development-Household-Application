@@ -98,6 +98,11 @@ export const signInUser = createAppAsyncThunk<User, EmailPassword>(
   },
 );
 
+/**
+ * hämtar flera "members" (medlemmar) från databasen, där varje "member" egentligen är samma person men är associerad med flera hushåll.
+ *
+ * @returns {Promise<Member[]>} En lista av "Member"-objekt associerade med nuvarande användare.
+ */
 export const getMembersByCurrentUserId = createAppAsyncThunk<Member[]>(
   'members/getByCurrenUserId',
   async (_, thunkApi) => {
