@@ -1,4 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   addDoc,
   collection,
@@ -9,8 +8,9 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { CreateScheduledTask, ScheduledTask } from '../../types';
+import { createAppAsyncThunk } from '../hooks';
 
-export const fetchScheduledTasks = createAsyncThunk<ScheduledTask[]>(
+export const fetchScheduledTasks = createAppAsyncThunk<ScheduledTask[]>(
   'scheduledTasks/fetchAll',
   async () => {
     const tasksCollection = collection(db, 'scheduledTasks');
@@ -24,7 +24,7 @@ export const fetchScheduledTasks = createAsyncThunk<ScheduledTask[]>(
   },
 );
 
-export const addScheduledTaskAsync = createAsyncThunk<
+export const addScheduledTaskAsync = createAppAsyncThunk<
   ScheduledTask,
   CreateScheduledTask
 >('scheduledTasks/add', async (newTask) => {
@@ -37,7 +37,7 @@ export const addScheduledTaskAsync = createAsyncThunk<
   return { id: docRef.id, ...newTask };
 });
 
-export const updateScheduledTaskAsync = createAsyncThunk<
+export const updateScheduledTaskAsync = createAppAsyncThunk<
   ScheduledTask,
   ScheduledTask
 >('scheduledTasks/update', async (updatedTask) => {
@@ -52,7 +52,7 @@ export const updateScheduledTaskAsync = createAsyncThunk<
   return updatedTask;
 });
 
-export const deleteScheduledTaskAsync = createAsyncThunk(
+export const deleteScheduledTaskAsync = createAppAsyncThunk(
   'scheduledTasks/delete',
   async (taskId: string) => {
     const taskDocRef = doc(db, 'scheduledTasks', taskId);
