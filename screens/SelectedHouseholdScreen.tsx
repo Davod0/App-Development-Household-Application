@@ -28,13 +28,10 @@ export default function SelectedHouseholdScreen({ navigation, route }: Props) {
   const requests = useAppSelector(selectAllRequests);
   console.log('Requests ', requests);
 
-  const pendingRequests = ['a', 'b'];
-  // const pendingRequests = [];
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
-
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
-  console.log(selectedHousehold);
+  console.log('selectedHousehold:', selectedHousehold);
 
   const members = mockedMembers.filter(
     (m) => m.householdId === selectedHousehold?.id,
@@ -47,10 +44,10 @@ export default function SelectedHouseholdScreen({ navigation, route }: Props) {
   useFocusEffect(
     useCallback(() => {
       if (user) {
-        dispatch(getRequestsByHouseholdId())
+        dispatch(getRequestsByHouseholdId(selectedHousehold!.id))
           .unwrap()
           .then(() => {
-            dispatch(getRequestsByHouseholdId())
+            dispatch(getRequestsByHouseholdId(selectedHousehold!.id))
               .unwrap()
               .then(() => {
                 // dispatch(getMembersByHouseholdId(''));
@@ -142,10 +139,10 @@ export default function SelectedHouseholdScreen({ navigation, route }: Props) {
         <View
           style={{
             width: '100%',
-            flexDirection: pendingRequests.length > 0 ? 'row' : 'row-reverse',
+            flexDirection: requests.length > 0 ? 'row' : 'row-reverse',
           }}
         >
-          {pendingRequests.length > 0 && (
+          {requests.length > 0 && (
             <Button
               style={{ width: '50%' }}
               mode="elevated"
@@ -153,7 +150,7 @@ export default function SelectedHouseholdScreen({ navigation, route }: Props) {
               icon={({ color }) => (
                 <View>
                   <Badge style={{ marginBottom: -6 }} size={14}>
-                    {pendingRequests.length}
+                    {requests.length}
                   </Badge>
                   <Icon source="bell-outline" size={27} color={color} />
                 </View>

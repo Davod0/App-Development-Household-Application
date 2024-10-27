@@ -1,3 +1,4 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   collection,
   doc,
@@ -7,7 +8,12 @@ import {
   where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { CreateRequestWithMember, Member, Request } from '../../types';
+import {
+  CreateRequestWithMember,
+  Household,
+  Member,
+  Request,
+} from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 
 export const registerGoToHouseholdRequest = createAppAsyncThunk<
@@ -38,18 +44,42 @@ export const registerGoToHouseholdRequest = createAppAsyncThunk<
   }
 });
 
-export const getRequestsByHouseholdId = createAppAsyncThunk<Request[], void>(
+// export const getRequestsByHouseholdId = createAppAsyncThunk<Request[], void>(
+//   'Request/getByHouseholdId',
+//   async (_, thunkApi) => {
+//     const state = thunkApi.getState();
+//     const householdIds = state.households.list.map((household) => household.id);
+//     console.log('householdIds', householdIds);
+
+//     try {
+//       const snapshot = await getDocs(
+//         query(
+//           collection(db, 'requests'),
+//           where('householdId', 'in', householdIds),
+//         ),
+//       );
+//       const data: Request[] = [];
+//       snapshot.forEach((doc) => data.push(doc.data() as Request));
+
+//       return data;
+//     } catch (error) {
+//       return thunkApi.rejectWithValue(
+//         `Error retrieving requests for households: ${error}`,
+//       );
+//     }
+//   },
+// );
+export const getRequestsByHouseholdId = createAppAsyncThunk<Request[], string>(
   'Request/getByHouseholdId',
-  async (_, thunkApi) => {
+  async (householdId, thunkApi) => {
     const state = thunkApi.getState();
-    const householdIds = state.households.list.map((household) => household.id);
-    console.log('householdIds', householdIds);
+    // const householdId = state.households.selectedHousehold;
 
     try {
       const snapshot = await getDocs(
         query(
           collection(db, 'requests'),
-          where('householdId', 'in', householdIds),
+          where('householdId', '==', householdId),
         ),
       );
       const data: Request[] = [];
@@ -58,26 +88,26 @@ export const getRequestsByHouseholdId = createAppAsyncThunk<Request[], void>(
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(
-        `Error retrieving requests for households: ${error}`,
+        `Error retrieving requests for household: ${error}`,
       );
     }
   },
 );
 
-// export const getHouseholds = createAsyncThunk<Household[]>(
-//   'households/getHouseholds',
-//   async (_, thunkApi) => {
-//     try {
-//       const householdsRef = await getDocs(collection(db, 'households'));
-//       const data: Household[] = [];
-//       householdsRef.forEach((doc) =>
-//         data.push({ ...doc.data(), id: doc.id } as Household),
-//       );
-//       console.log('Fetched households data:', data); // Log fetched data for debugging
-//       return data;
-//     } catch (error) {
-//       const errorMessage = (error as Error).message || 'Unknown error';
-//       return thunkApi.rejectWithValue(errorMessage);
-//     }
-//   },
-// );
+export const getHouseholds = createAsyncThunk<Household[]>(
+  'households/getHouseholds',
+  async (_, thunkApi) => {
+    try {
+      const householdsRef = await getDocs(collection(db, 'households'));
+      const data: Household[] = [];
+      householdsRef.forEach((doc) =>
+        data.push({ ...doc.data(), id: doc.id } as Household),
+      );
+      console.log('Fetched households data:', data); // Log fetched data for debugging
+      return data;
+    } catch (error) {
+      const errorMessage = (error as Error).message || 'Unknown error';
+      return thunkApi.rejectWithValue(errorMessage);
+    }
+  },
+);
