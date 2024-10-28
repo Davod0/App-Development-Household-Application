@@ -55,12 +55,25 @@ export default function ProfileScreen({ navigation }: Props) {
           />
         </View>
         <Text style={s.name}>{user.firstName + ' ' + user.lastName}</Text>
-        <Button mode="contained" onPress={() => {}}>
+        <Button
+          mode="contained"
+          onPress={() => {}}
+          contentStyle={{ height: 70, width: 260 }}
+          style={{ borderRadius: 30 }}
+          labelStyle={{ fontSize: 18 }}
+        >
           Byt Hushåll
         </Button>
-        <Button mode="contained" onPress={() => {}}>
+        <Button
+          mode="contained"
+          onPress={() => {}}
+          contentStyle={{ height: 70, width: 260 }}
+          style={{ borderRadius: 30 }}
+          labelStyle={{ fontSize: 18 }}
+        >
           Hushålls info
         </Button>
+
         <SegmentedButtons
           style={{ position: 'absolute', bottom: 60, alignSelf: 'center' }}
           value={colorMode}
