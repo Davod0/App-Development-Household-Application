@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CreateTask, Task } from '../../types';
 import {
   addTask,
+  getSelectedHouseholdTasks,
   getTasks,
-  getTasksByHouseholdId,
   updateTask,
 } from './tasksAction';
 
@@ -39,7 +39,7 @@ const tasksSlice = createSlice({
     builder.addCase(getTasks.fulfilled, (_, action) => {
       return { list: action.payload };
     });
-    builder.addCase(getTasksByHouseholdId.fulfilled, (state, action) => {
+    builder.addCase(getSelectedHouseholdTasks.fulfilled, (state, action) => {
       return { ...state, list: action.payload };
     });
     builder.addCase(
