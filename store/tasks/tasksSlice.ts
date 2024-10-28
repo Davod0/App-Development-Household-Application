@@ -37,7 +37,7 @@ const tasksSlice = createSlice({
       state.list.push(action.payload);
     });
     builder.addCase(getTasks.fulfilled, (_, action) => {
-      return { list: action.payload };
+      // return { list: action.payload };
     });
     builder.addCase(getSelectedHouseholdTasks.fulfilled, (_, action) => {
       return { list: action.payload };

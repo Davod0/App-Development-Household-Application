@@ -11,7 +11,6 @@ export default function useSplashScreenVisibility() {
   useEffect(() => {
     const hide = async () => {
       if (userAuthIsLoading === false) {
-        console.log('HIDE SPLASH');
         setTimeout(() => {
           SplashScreen.hideAsync();
         }, 300);

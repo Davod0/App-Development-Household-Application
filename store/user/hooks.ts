@@ -24,8 +24,20 @@ export async function useUserAuthState() {
     return unsubscribe;
   }, [dispatch]);
 
-  // const members = useAppSelector(selectAllMembersBySelectedHousehold);
-  // members.map((m) => console.log(`members1: ${m.name}`));
+  {
+    /*
+    TEST
+    const members = useAppSelector(selectCurrentUserMemberProfiles);
+    members.map((m) =>
+      console.log(`M name from hook: ${m.name}| M H ID: ${m.householdId}`),
+    );
+    console.log(`_________________________________________________`);
+    const households = useAppSelector(selectAllHouseholdsByCurrentUser);
+    households.map((h) =>
+      console.log(`H name from hook: ${h.name}| H ID: ${h.id} `),
+    );
+  */
+  }
 }
 
 export async function useSelectedHouseholddata() {
@@ -41,4 +53,22 @@ export async function useSelectedHouseholddata() {
       fetchData();
     }, [dispatch]),
   );
+
+  {
+    /*
+      TEST
+  console.log(`_________________________________________________`);
+  const members = useAppSelector(selectAllMembersBySelectedHousehold);
+  members.map((m) =>
+    console.log(`M name from hook: ${m.name}| M H ID: ${m.householdId}`),
+  );
+  const tasks = useAppSelector(selectTasksForCurrentHousehold);
+  tasks.map((t) => console.log(`task name from hook: ${t.name}`));
+  const completedTasks = useAppSelector(selectCompletedTasksByHousehold);
+  completedTasks.map((ct) =>
+    console.log(`completedTasks ID from hook: ${ct.id}`),
+  );
+  console.log(`_________________________________________________`);
+  */
+  }
 }

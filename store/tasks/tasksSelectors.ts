@@ -1,4 +1,5 @@
 import { RootState } from '../store';
 
 // SELECTORS
-export const selectTasks = (state: RootState) => state.tasks.list;
+export const selectTasksForCurrentHousehold = (state: RootState) =>
+  state.tasks.list;

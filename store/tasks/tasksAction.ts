@@ -42,7 +42,6 @@ export const addTask = createAppAsyncThunk<Task, CreateTask>(
   },
 );
 
-// Hämtar alla tasks TODO: behövs inte i slutet
 export const getTasks = createAppAsyncThunk<Task[]>(
   'tasks/get',
   async (_, thunkAPI) => {

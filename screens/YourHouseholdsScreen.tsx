@@ -20,22 +20,22 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   const user = useAppSelector(selectCurrentUser);
   const households = useAppSelector(selectAllHouseholdsByCurrentUser);
 
-  // testing...
-  useFocusEffect(
-    useCallback(() => {
-      if (user) {
-        dispatch(getMembersByCurrentUserId())
-          .unwrap()
-          .then(() => {
-            dispatch(getHouseholdsByUserId())
-              .unwrap()
-              .then(() => {
-                // dispatch(getMembersByHouseholdId(''));
-              });
-          });
-      }
-    }, [dispatch, user]),
-  );
+  // // testing...
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (user) {
+  //       dispatch(getMembersByCurrentUserId())
+  //         .unwrap()
+  //         .then(() => {
+  //           dispatch(getHouseholdsByUserId())
+  //             .unwrap()
+  //             .then(() => {
+  //               // dispatch(getMembersByHouseholdId(''));
+  //             });
+  //         });
+  //     }
+  //   }, [dispatch, user]),
+  // );
 
   const handlePressHousehold = (household: Household) => {
     dispatch(setSelectedHousehold(household));
