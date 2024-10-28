@@ -103,7 +103,7 @@ export const signInUser = createAppAsyncThunk<User, EmailPassword>(
  * @returns {Promise<Member[]>} En lista av "Member"-objekt associerade med nuvarande användare.
  */
 export const getMembersByCurrentUserId = createAppAsyncThunk<Member[]>(
-  'members/getByCurrenUserId',
+  'user/getMembersByCurrenUserId',
   async (_, thunkApi) => {
     const state = thunkApi.getState();
 
