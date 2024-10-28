@@ -26,7 +26,7 @@ export default function CreateTaskScreen() {
     console.log(weight);
     console.log(frequency);
     setShowCreatedDialog(true);
-    // TODO: byt ut till en Thunk i framtiden
+
     dispatch(addTask({ name, description, frequency, weight }));
   };
 

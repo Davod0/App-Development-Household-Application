@@ -22,6 +22,17 @@ export default function Home({ navigation }: Props) {
   //   ),
   // );
 
+  // mockedData to EditTaskScreen
+  const task = {
+    id: '20',
+    householdId: '2020',
+    name: 'Katten',
+    description: 'Mata katten 2 gånger',
+    weight: 4,
+    frequency: 1,
+    isArchived: false,
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home Screen - testing </Text>
@@ -72,6 +83,9 @@ export default function Home({ navigation }: Props) {
       </Pressable>
       <Pressable onPress={() => navigation.navigate('SelectedHouseholdNav')}>
         <Text style={styles.text}>SelectedHousehold</Text>
+      </Pressable>
+      <Pressable onPress={() => navigation.navigate('EditTask', { task })}>
+        <Text style={styles.text}>EditTask</Text>
       </Pressable>
 
       {/* <Pressable onPress={() => navigation.navigate('Login')}><Text style={styles.text}>Login</Text></Pressable> */}
