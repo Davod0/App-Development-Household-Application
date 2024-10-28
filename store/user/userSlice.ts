@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { User } from 'firebase/auth';
@@ -6,6 +7,7 @@ import { Household, Member } from '../../types';
 import {
   getIsAllowedMembersByCurrentUserId,
   getIsNotAllowedMembersByCurrentUserId,
+  getMembersByCurrentUserId,
   signInUser,
   signUpUser,
 } from './userActions';
@@ -65,6 +67,16 @@ export const userSlice = createSlice({
         state.signInErrorMessage = action.payload;
         state.isLoading = false;
         console.log(`Error message from user reducer:2 ${action.payload}`);
+      })
+      .addCase(getMembersByCurrentUserId.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getMembersByCurrentUserId.fulfilled, (state, action) => {
+        return {
+          ...state,
+          memberProfiles: action.payload,
+          isLoading: false,
+        };
       })
       .addCase(getIsAllowedMembersByCurrentUserId.pending, (state) => {
         state.isLoading = true;

@@ -97,6 +97,28 @@ export const signInUser = createAppAsyncThunk<User, EmailPassword>(
   },
 );
 
+export const getMembersByCurrentUserId = createAppAsyncThunk<Member[]>(
+  'user/getMembersByCurrenUserId',
+  async (_, thunkApi) => {
+    const state = thunkApi.getState();
+
+    try {
+      const snapshot = await getDocs(
+        query(
+          collection(db, 'members'),
+          where('userId', '==', state.user.currentUser?.uid),
+        ),
+      );
+
+      const data: Member[] = [];
+      snapshot.forEach((doc) => data.push(doc.data() as Member));
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(Error retrieving members: ${error});
+    }
+  },
+);
+
 export const getIsAllowedMembersByCurrentUserId = createAppAsyncThunk<Member[]>(
   'members/getByCurrenUserId',
   async (_, thunkApi) => {

@@ -44,6 +44,30 @@ export const addHousehold = createAppAsyncThunk<
   }
 });
 
+export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
+  'Household/getByUserId',
+  async (_, thunkApi) => {
+    const state = thunkApi.getState();
+    const householdIds = state.user.memberProfiles.map(
+      (member) => member.householdId,
+    );
+
+    try {
+      const snapshot = await getDocs(
+        query(collection(db, 'households'), where('id', 'in', householdIds)),
+      );
+      const data: Household[] = [];
+      snapshot.forEach((doc) => data.push(doc.data() as Household));
+
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(
+        Error retrieving households for member: ${error},
+      );
+    }
+  },
+);
+
 export const getAllowedHouseholdsByUserId = createAppAsyncThunk<Household[]>(
   'Household/getByUserId',
   async (_, thunkApi) => {

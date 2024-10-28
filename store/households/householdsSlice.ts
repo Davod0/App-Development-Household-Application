@@ -4,8 +4,10 @@ import { Household } from '../../types';
 import {
   addHousehold,
   getAllowedHouseholdsByUserId,
+  getHouseholdsByUserId,
   getIsNotAllowedHouseholdsByMemberId,
   updateHouseholdName,
+  // eslint-disable-next-line import/namespace
 } from './householdsActions';
 
 // state
@@ -31,6 +33,9 @@ const householdsSlice = createSlice({
       .addCase(addHousehold.fulfilled, (state, action) => {
         state.list.push(action.payload);
         state.isLoading = false;
+      })
+      .addCase(getHouseholdsByUserId.fulfilled, (state, action) => {
+        return { ...state, list: action.payload };
       })
       .addCase(getAllowedHouseholdsByUserId.fulfilled, (state, action) => {
         return { ...state, list: action.payload };
