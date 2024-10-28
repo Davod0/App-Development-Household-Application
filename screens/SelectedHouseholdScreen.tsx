@@ -6,7 +6,8 @@ import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { selectAllRequests } from '../store/requests/requestsSelectors';
+
+import { selectAllRequestsOfSelectedHousehold } from '../store/requests/requestsSelectors';
 import { useSelectedHouseholddata } from '../store/user/hooks';
 import {
   selectCurrentUser,
@@ -28,7 +29,7 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   // const currentUser = { isAdmin: false };
 
   const dispatch = useAppDispatch();
-  const requests = useAppSelector(selectAllRequests);
+  const requests = useAppSelector(selectAllRequestsOfSelectedHousehold);
   const user = useAppSelector(selectCurrentUser);
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
   console.log('selectedHousehold:', selectedHousehold);

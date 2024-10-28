@@ -6,6 +6,7 @@ import { getCompletedTasksByHousehold } from '../completedTasks/completedTasksAc
 import { useAppDispatch } from '../hooks';
 import { getHouseholdsByUserId } from '../households/householdsActions';
 import { getMembersByHouseholdId } from '../members/membersActions';
+import { getRequestsBySelectedHouseholdId } from '../requests/requestsActions';
 import { getTasksBySelectedHousehold } from '../tasks/tasksAction';
 import { getMembersByCurrentUserId } from './userActions';
 import { setUserOptimistically } from './userSlice';
@@ -49,6 +50,7 @@ export async function useSelectedHouseholddata() {
         await dispatch(getMembersByHouseholdId());
         await dispatch(getTasksBySelectedHousehold());
         await dispatch(getCompletedTasksByHousehold());
+        await dispatch(getRequestsBySelectedHouseholdId());
       };
       fetchData();
     }, [dispatch]),
@@ -67,6 +69,12 @@ export async function useSelectedHouseholddata() {
   const completedTasks = useAppSelector(selectCompletedTasksByHousehold);
   completedTasks.map((ct) =>
     console.log(`completedTasks ID from hook: ${ct.id}`),
+  );
+  const requestsForSelectedHousehold = useAppSelector(
+    selectAllRequestsOfSelectedHousehold,
+  );
+  requestsForSelectedHousehold.map((r) =>
+    console.log(`requests ID from hook: ${r.id}`),
   );
   console.log(`_________________________________________________`);
   */
