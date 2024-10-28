@@ -1,11 +1,15 @@
 import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
-import React from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Badge, Button, Icon, Surface, Text } from 'react-native-paper';
 import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
+import { getSelectedHouseholdTasks } from '../store/completedTasks/completedTasksActions';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { getMembersBySelectedHousehold } from '../store/members/membersActions';
+import { getRequestsBySelectedHouseholdId } from '../store/requests/requestsActions';
 import { selectAllRequests } from '../store/requests/requestsSelectors';
 import {
   selectCurrentUser,
@@ -35,21 +39,16 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   );
 
   // useFocusEffect
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     if (user && selectedHousehold) {
-  //       dispatch(getRequestsByHouseholdId(selectedHousehold!.id))
-  //         .unwrap()
-  //         .then(() => {
-  //           dispatch(getRequestsByHouseholdId(selectedHousehold!.id))
-  //             .unwrap()
-  //             .then(() => {
-  //               dispatch(getMembersByHouseholdId());
-  //             });
-  //         });
-  //     }
-  //   }, [dispatch, user, selectedHousehold]),
-  // );
+  useFocusEffect(
+    useCallback(() => {
+      if (user && selectedHousehold) {
+        dispatch(getRequestsBySelectedHouseholdId());
+        dispatch(getSelectedHouseholdTasks());
+        dispatch(getMembersBySelectedHousehold());
+        dispatch(getSelectedHouseholdTasks());
+      }
+    }, [dispatch, user, selectedHousehold]),
+  );
 
   const members = mockedMembers.filter(
     (m) => m.householdId === selectedHousehold?.id,

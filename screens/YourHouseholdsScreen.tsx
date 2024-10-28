@@ -7,10 +7,7 @@ import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getHouseholdsByUserId } from '../store/households/householdsActions';
 import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
-import {
-  selectCurrentUser,
-  selectSelectedHousehold,
-} from '../store/user/selectors';
+import { selectCurrentUser } from '../store/user/selectors';
 import { getMembersByCurrentUserId } from '../store/user/userActions';
 import { setSelectedHousehold } from '../store/user/userReducer';
 import { Household } from '../types';
@@ -29,11 +26,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
         dispatch(getMembersByCurrentUserId())
           .unwrap()
           .then(() => {
-            dispatch(getHouseholdsByUserId())
-              .unwrap()
-              .then(() => {
-                // dispatch(getMembersByHouseholdId(''));
-              });
+            dispatch(getHouseholdsByUserId()).unwrap();
           });
       }
     }, [dispatch, user]),
