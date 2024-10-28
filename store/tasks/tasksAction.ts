@@ -17,12 +17,12 @@ export const addTask = createAppAsyncThunk<Task, CreateTask>(
   async (taskData, thunkApi) => {
     const state = thunkApi.getState();
     const newDocRef = doc(collection(db, 'tasks'));
-    if (!state.households.selectedHousehold) {
+    if (!state.user.selectedHousehold) {
       return thunkApi.rejectWithValue(
         `Error writing to database, no household selected`,
       );
     }
-    const householdId = state.households.selectedHousehold.id;
+    const householdId = state.user.selectedHousehold.id;
 
     const data: Task = {
       id: newDocRef.id,
