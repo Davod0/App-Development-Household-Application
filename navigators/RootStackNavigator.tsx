@@ -18,7 +18,6 @@ import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
-import TestScreenUsingStore from '../screens/TestScreenUsingStore';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 import { useAppSelector } from '../store/hooks';
 import { useUserAuthState } from '../store/user/hooks';
@@ -149,7 +148,6 @@ export default function RootStackNavigator() {
         </>
       ) : (
         <>
-          <RootStack.Screen name="TestStore" component={TestScreenUsingStore} />
           <RootStack.Screen
             name="Login"
             component={LoginScreen}

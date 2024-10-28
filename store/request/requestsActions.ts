@@ -1,4 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   collection,
   doc,
@@ -8,12 +7,7 @@ import {
   where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
-import {
-  CreateRequestWithMember,
-  Household,
-  Member,
-  Request,
-} from '../../types';
+import { CreateRequestWithMember, Member, Request } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 
 export const registerGoToHouseholdRequest = createAppAsyncThunk<
@@ -66,20 +60,30 @@ export const getRequestsByHouseholdId = createAppAsyncThunk<Request[], string>(
   },
 );
 
-export const getHouseholds = createAsyncThunk<Household[]>(
-  'households/getHouseholds',
-  async (_, thunkApi) => {
+export const getRequestsByUserId = createAppAsyncThunk<Request[], string>(
+  'Request/getByUserId',
+  async (userId, thunkApi) => {
     try {
-      const householdsRef = await getDocs(collection(db, 'households'));
-      const data: Household[] = [];
-      householdsRef.forEach((doc) =>
-        data.push({ ...doc.data(), id: doc.id } as Household),
+      // Get all members associated with the user
+      const memberSnapshot = await getDocs(
+        query(collection(db, 'member'), where('userId', '==', userId)),
       );
-      console.log('Fetched households data:', data); // Log fetched data for debugging
+
+      const memberIds = memberSnapshot.docs.map((doc) => doc.id);
+
+      // Get all requests where memberId is in the list of memberIds
+      const requestSnapshot = await getDocs(
+        query(collection(db, 'requests'), where('memberId', 'in', memberIds)),
+      );
+
+      const data: Request[] = [];
+      requestSnapshot.forEach((doc) => data.push(doc.data() as Request));
+
       return data;
     } catch (error) {
-      const errorMessage = (error as Error).message || 'Unknown error';
-      return thunkApi.rejectWithValue(errorMessage);
+      return thunkApi.rejectWithValue(
+        `Error retrieving requests for user: ${error}`,
+      );
     }
   },
 );

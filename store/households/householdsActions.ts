@@ -54,7 +54,11 @@ export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
 
     try {
       const snapshot = await getDocs(
-        query(collection(db, 'households'), where('id', 'in', householdIds)),
+        query(
+          collection(db, 'households'),
+          where('id', 'in', householdIds),
+          // where('isAllowed', '==', true),
+        ),
       );
       const data: Household[] = [];
       snapshot.forEach((doc) => data.push(doc.data() as Household));

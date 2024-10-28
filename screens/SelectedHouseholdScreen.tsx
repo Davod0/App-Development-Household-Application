@@ -30,6 +30,7 @@ export default function SelectedHouseholdScreen({ navigation, route }: Props) {
   const user = useAppSelector(selectCurrentUser);
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
   console.log('selectedHousehold:', selectedHousehold);
+  console.log('requests:', requests);
 
   const members = mockedMembers.filter(
     (m) => m.householdId === selectedHousehold?.id,

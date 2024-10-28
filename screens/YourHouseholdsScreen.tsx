@@ -7,6 +7,8 @@ import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getHouseholdsByUserId } from '../store/households/householdsActions';
 import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
+import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
+import { getRequestsByUserId } from '../store/request/requestsActions';
 import { selectCurrentUser } from '../store/user/selectors';
 import { getMembersByCurrentUserId } from '../store/user/userActions';
 import { setSelectedHousehold } from '../store/user/userReducer';
@@ -19,6 +21,12 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
   const households = useAppSelector(selectAllHouseholdsByCurrentUser);
+  // const members = useAppSelector(selectAllMembersBySelectedHousehold);
+
+  // const householdmembers = members.filter(() => )
+
+  // console.log('members:', members);
+  // console.log('households:', households);
 
   // testing...
   useFocusEffect(
@@ -30,6 +38,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
             dispatch(getHouseholdsByUserId())
               .unwrap()
               .then(() => {
+                dispatch(getRequestsByUserId(user.uid));
                 // dispatch(getMembersByHouseholdId(''));
               });
           });
