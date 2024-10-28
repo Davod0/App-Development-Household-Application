@@ -1,4 +1,5 @@
 import { useFocusEffect } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCallback, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
@@ -8,6 +9,7 @@ import {
   Text,
   TextInput,
 } from 'react-native-paper';
+import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getAllowedHouseholdsByUserId } from '../store/households/householdsActions';
 import { getMembersByHouseholdId } from '../store/members/membersActions';
@@ -19,7 +21,9 @@ import {
 import { selectCurrentUser } from '../store/user/selectors';
 import { getIsAllowedMembersByCurrentUserId } from '../store/user/userActions';
 
-export default function JoinHouseholdScreen() {
+type props = NativeStackScreenProps<RootStackParamList, 'JoinHousehold'>;
+
+export default function JoinHouseholdScreen({ navigation }: props) {
   const [houseCode, setHouseCode] = useState('');
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [showValidationDialog, setShowValidationDialog] = useState(false);
@@ -54,6 +58,7 @@ export default function JoinHouseholdScreen() {
     dispatch(addRequest(code));
     setShowConfirmationDialog(true);
     setHouseCode('');
+    navigation.navigate('YourHouseholds');
   };
 
   return (
