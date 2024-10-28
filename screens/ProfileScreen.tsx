@@ -62,6 +62,7 @@ export default function ProfileScreen({ navigation }: Props) {
           Hushålls info
         </Button>
         <SegmentedButtons
+          style={{ position: 'absolute', bottom: 60, alignSelf: 'center' }}
           value={colorMode}
           onValueChange={(value) => dispatch(setColorMode(value as ColorMode))}
           buttons={[
