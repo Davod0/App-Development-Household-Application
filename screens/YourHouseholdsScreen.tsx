@@ -92,7 +92,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
           ))
         ) : (
           <Surface style={s.noHouseholdSurface}>
-            <Text style={s.text}>Inga tillgängliga hushåll</Text>
+            <Text style={[s.text]}>Inga tillgängliga hushåll</Text>
           </Surface>
         )}
         {notAllowedHouseholds.length > 0 && (
@@ -101,7 +101,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
               <View style={s.household} key={household.id}>
                 <Surface style={[s.surface, s.pendingSurface]}>
                   <Text style={s.text}>
-                    {household.name}{' '}
+                    {household.name}
                     <Text style={{ fontSize: 12 }}>(Pending)</Text>
                   </Text>
                   <IconButton icon="information-outline" size={24} disabled />
@@ -167,7 +167,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
   },
   pendingSurface: {
-    backgroundColor: '#f0f0f0',
+    opacity: 0.6,
   },
   text: {
     fontSize: 25,
@@ -183,8 +183,8 @@ const s = StyleSheet.create({
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f8f8f8',
     margin: 12,
+    opacity: 0.6,
   },
   footer: {
     flexDirection: 'row',
