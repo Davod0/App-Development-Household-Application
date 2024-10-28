@@ -27,7 +27,6 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
     [],
   );
   const households = useAppSelector(selectAllHouseholdsByCurrentUser);
-  console.log('user:', user?.email);
 
   // // testing...
   // useFocusEffect(
@@ -35,9 +34,6 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   //     if (user) {
   //       dispatch(getMembersByCurrentUserId())
   //         .unwrap()
-  //         .then(() => {
-  //           dispatch(getHouseholdsByUserId())
-  //             .unwrap()
   //             .then(() => {
   //               // dispatch(getMembersByHouseholdId(''));
   //             });
