@@ -57,18 +57,18 @@ export default function ProfileScreen({ navigation }: Props) {
         <Text style={s.name}>{user.firstName + ' ' + user.lastName}</Text>
         <Button
           mode="contained"
-          onPress={() => {}}
+          onPress={() => navigation.navigate('YourHouseholds')}
           contentStyle={{ height: 70, width: 260 }}
-          style={{ borderRadius: 30 }}
+          style={{ borderRadius: 100 }}
           labelStyle={{ fontSize: 18 }}
         >
           Byt Hushåll
         </Button>
         <Button
           mode="contained"
-          onPress={() => {}}
+          onPress={() => navigation.navigate('HouseholdInformation')}
           contentStyle={{ height: 70, width: 260 }}
-          style={{ borderRadius: 30 }}
+          style={{ borderRadius: 100 }}
           labelStyle={{ fontSize: 18 }}
         >
           Hushålls info
