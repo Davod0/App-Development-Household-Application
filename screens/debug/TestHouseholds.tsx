@@ -63,6 +63,9 @@ export default function TestHouseholds({ navigation }: Props) {
         </>
       ) : (
         <>
+          <Text>Household name: {selectedHousehold.name}</Text>
+          <Text>HouseholdID: {selectedHousehold.id}</Text>
+
           <Button
             mode="contained"
             onPress={() => dispatch(addHousehold(newHouseholdWithMember))}

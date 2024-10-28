@@ -12,14 +12,13 @@ import {
 type HouseholdState = {
   list: Household[];
   isLoading?: boolean;
-  selectedHousehold?: Household;
 };
 const initialState: HouseholdState = {
   list: [],
 };
 
 // slice
-const householdSlice = createSlice({
+const householdsSlice = createSlice({
   name: 'households',
   initialState,
   reducers: {},
@@ -36,14 +35,14 @@ const householdSlice = createSlice({
       .addCase(getHouseholdsByUserId.fulfilled, (state, action) => {
         return { ...state, list: action.payload };
       })
-      .addCase(getHouseholdByCode.fulfilled, (state, action) => {
-        // state.selectedHousehold = action.payload;
-        if (typeof action.payload === 'string') {
-          console.log(action.payload); // Handle the 'No household found' message
-        } else {
-          state.selectedHousehold = action.payload;
-        }
-      })
+      // .addCase(getHouseholdByCode.fulfilled, (state, action) => {
+      //   // state.selectedHousehold = action.payload;
+      //   if (typeof action.payload === 'string') {
+      //     console.log(action.payload); // Handle the 'No household found' message
+      //   } else {
+      //     state.selectedHousehold = action.payload;
+      //   }
+      // })
       .addCase(updateHouseholdName.pending, (state) => {
         state.isLoading = true;
       })
@@ -58,8 +57,8 @@ const householdSlice = createSlice({
 });
 
 // export reducer and actions
-export const householdReducer = householdSlice.reducer;
-export const {} = householdSlice.actions;
+export const householdsReducer = householdsSlice.reducer;
+export const {} = householdsSlice.actions;
 
 // .addCase(getHouseholds.pending, (state) => {
 //   state.isLoading = true;
