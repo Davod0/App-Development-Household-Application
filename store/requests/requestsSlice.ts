@@ -46,7 +46,7 @@ const requestsSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(addRequest.rejected, (state, action) => {
-        state.errorMessage = action.payload as string;
+        state.errorMessage = action.payload;
         state.isLoading = false;
       })
       .addCase(acceptRequest.fulfilled, (state, action) => {
