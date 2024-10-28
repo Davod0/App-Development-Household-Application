@@ -6,12 +6,14 @@ import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { selectAllRequests } from '../store/requests/requestsSelectors';
+
+import { selectAllRequestsOfSelectedHousehold } from '../store/requests/requestsSelectors';
+import { useSelectedHouseholddata } from '../store/user/hooks';
 import {
   selectCurrentUser,
   selectCurrentUserMemberProfiles,
   selectSelectedHousehold,
-} from '../store/user/selectors';
+} from '../store/user/userSelectors';
 import { Task } from '../types';
 
 type Props = MaterialTopTabScreenProps<
@@ -20,12 +22,14 @@ type Props = MaterialTopTabScreenProps<
 >;
 
 export default function SelectedHouseholdScreen({ navigation }: Props) {
+  useSelectedHouseholddata();
+
   //for testing...
   const currentUser = { isAdmin: true };
   // const currentUser = { isAdmin: false };
 
   const dispatch = useAppDispatch();
-  const requests = useAppSelector(selectAllRequests);
+  const requests = useAppSelector(selectAllRequestsOfSelectedHousehold);
   const user = useAppSelector(selectCurrentUser);
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
   console.log('selectedHousehold:', selectedHousehold);
@@ -196,7 +200,6 @@ const s = StyleSheet.create({
     gap: 5,
   },
   taskItem: {
-    // justifyContent: 'space-between',
     fontSize: 20,
   },
   surface: {

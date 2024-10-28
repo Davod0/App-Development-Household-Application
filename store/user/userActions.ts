@@ -1,4 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FirebaseError } from 'firebase/app';
 import {
   createUserWithEmailAndPassword,
@@ -10,7 +9,7 @@ import { auth, db } from '../../firebase';
 import { EmailPassword, Member } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 
-export const signUpUser = createAsyncThunk<User, EmailPassword>(
+export const signUpUser = createAppAsyncThunk<User, EmailPassword>(
   'users/signUp-user',
   async (emailPassword, thunkAPI) => {
     try {

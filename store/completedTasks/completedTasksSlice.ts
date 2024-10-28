@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { CompletedTask } from '../../types';
 import {
   addCompletedTask,
+  getCompletedTasksByHousehold,
   getCompletedTasksByHouseholdId,
 } from './completedTasksActions';
 
@@ -32,6 +33,12 @@ const completedTasksSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getCompletedTasksByHouseholdId.fulfilled, (_, action) => {
+        return { list: action.payload, isLoading: false };
+      })
+      .addCase(getCompletedTasksByHousehold.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCompletedTasksByHousehold.fulfilled, (_, action) => {
         return { list: action.payload, isLoading: false };
       });
   },

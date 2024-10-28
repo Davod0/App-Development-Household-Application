@@ -8,12 +8,13 @@ import {
   getAllowedHouseholdsByUserId,
   getIsNotAllowedHouseholdsByMemberId,
 } from '../store/households/householdsActions';
-import { selectCurrentUser } from '../store/user/selectors';
+import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
 import {
   getIsAllowedMembersByCurrentUserId,
   getIsNotAllowedMembersByCurrentUserId,
 } from '../store/user/userActions';
-import { setSelectedHousehold } from '../store/user/userReducer';
+import { selectCurrentUser } from '../store/user/userSelectors';
+import { setSelectedHousehold } from '../store/user/userSlice';
 import { Household } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
@@ -25,6 +26,24 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   const [notAllowedHouseholds, setNotAllowedHouseholds] = useState<Household[]>(
     [],
   );
+  const households = useAppSelector(selectAllHouseholdsByCurrentUser);
+
+  // // testing...
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (user) {
+  //       dispatch(getMembersByCurrentUserId())
+  //         .unwrap()
+  //         .then(() => {
+  //           dispatch(getHouseholdsByUserId())
+  //             .unwrap()
+  //             .then(() => {
+  //               // dispatch(getMembersByHouseholdId(''));
+  //             });
+  //         });
+  //     }
+  //   }, [dispatch, user]),
+  // );
 
   useEffect(() => {
     if (user) {

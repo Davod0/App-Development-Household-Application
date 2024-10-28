@@ -2,8 +2,10 @@ import {
   collection,
   doc,
   getDocs,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { CreateTask, Task } from '../../types';
@@ -40,7 +42,6 @@ export const addTask = createAppAsyncThunk<Task, CreateTask>(
   },
 );
 
-// Hämtar alla tasks TODO: behövs inte i slutet
 export const getTasks = createAppAsyncThunk<Task[]>(
   'tasks/get',
   async (_, thunkAPI) => {
@@ -57,18 +58,22 @@ export const getTasks = createAppAsyncThunk<Task[]>(
   },
 );
 
-// Hämtar alla tasks till ett hushåll, filtrerar på husfålls id
-// FIXME: ingen filtrering utförs!
-export const getSelectedHouseholdTasks = createAppAsyncThunk<Task[], string>(
+export const getTasksBySelectedHousehold = createAppAsyncThunk<Task[]>(
   'task/householdID/get',
-  async (_, thunkAPI) => {
+  async (_, thunkApi) => {
+    const state = thunkApi.getState();
     try {
-      const snapshot = await getDocs(collection(db, 'tasks'));
+      const snapshot = await getDocs(
+        query(
+          collection(db, 'tasks'),
+          where('householdId', '==', state.user.selectedHousehold?.id),
+        ),
+      );
       const data: Task[] = [];
       snapshot.forEach((doc) => data.push(doc.data() as Task));
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(
+      return thunkApi.rejectWithValue(
         `Error reading from database, tasks ${error}`,
       );
     }

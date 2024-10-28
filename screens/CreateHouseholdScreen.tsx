@@ -7,7 +7,7 @@ import { generateRandomCode } from '../library/utils';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { addHousehold } from '../store/households/householdsActions';
-import { selectCurrentUser } from '../store/user/selectors';
+import { selectCurrentUser } from '../store/user/userSelectors';
 
 type props = NativeStackScreenProps<RootStackParamList, 'CreateHouseHold'>;
 

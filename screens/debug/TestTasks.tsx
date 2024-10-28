@@ -4,9 +4,13 @@ import { Button, Card, Text } from 'react-native-paper';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { getCompletedTasksByHouseholdId } from '../../store/completedTasks/completedTasksActions';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { addTask, updateTask } from '../../store/tasks/tasksAction';
+import {
+  addTask,
+  getTasksBySelectedHousehold,
+  updateTask,
+} from '../../store/tasks/tasksAction';
 import { selectTasks } from '../../store/tasks/tasksSelectors';
-import { selectSelectedHousehold } from '../../store/user/selectors';
+import { selectSelectedHousehold } from '../../store/user/userSelectors';
 import { CreateTask } from '../../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TestTasks'>;
@@ -32,7 +36,7 @@ export default function TestTasks({ navigation }: Props) {
 
   /** DEFINE YOUR OBJECT */
   const newTask: CreateTask = {
-    name: 'Hunden',
+    name: 'Hunden🐕',
     description: 'Klappa hunden',
     frequency: 1,
     weight: 8,
@@ -41,7 +45,7 @@ export default function TestTasks({ navigation }: Props) {
   // code to test updating a task
   const handleUpdateTask = (taskId: string) => {
     const updates = {
-      name: 'Updated Hunden',
+      name: 'Updated Hunden 🦖',
       description: 'Updated description',
       frequency: 4,
     };
@@ -82,7 +86,13 @@ export default function TestTasks({ navigation }: Props) {
               dispatch(getCompletedTasksByHouseholdId(selectedHousehold.id));
             }}
           >
-            update
+            update(completed tasks)
+          </Button>
+          <Button
+            mode="contained"
+            onPress={() => dispatch(getTasksBySelectedHousehold)}
+          >
+            get tasks
           </Button>
 
           {tasksForHouseholdId.length > 0 ? (

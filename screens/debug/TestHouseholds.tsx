@@ -10,7 +10,7 @@ import {
   updateHouseholdName,
 } from '../../store/households/householdsActions';
 import { selectAllHouseholdsByCurrentUser } from '../../store/households/householdsSelectors';
-import { selectSelectedHousehold } from '../../store/user/selectors';
+import { selectSelectedHousehold } from '../../store/user/userSelectors';
 import {
   CreateHousehold,
   CreateHouseholdMember,

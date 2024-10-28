@@ -18,8 +18,8 @@ import {
   selectRequestError,
   selectRequestIsLoading,
 } from '../store/requests/requestsSelectors';
-import { selectCurrentUser } from '../store/user/selectors';
 import { getIsAllowedMembersByCurrentUserId } from '../store/user/userActions';
+import { selectCurrentUser } from '../store/user/userSelectors';
 
 type props = NativeStackScreenProps<RootStackParamList, 'JoinHousehold'>;
 
