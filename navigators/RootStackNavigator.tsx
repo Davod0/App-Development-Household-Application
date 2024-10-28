@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
+import ArchivedTask from '../components/ArchiveTask';
 import ProfileIconButton from '../components/ProfileIconButton';
 import useSplashScreenVisibility from '../components/SplashScreenVisibility';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
@@ -14,6 +15,7 @@ import TestRequests from '../screens/debug/TestRequests';
 import TestTasks from '../screens/debug/TestTasks';
 import TestUser from '../screens/debug/TestUser';
 import DetailsScreen from '../screens/DetailsScreen';
+import EditTaskScreen from '../screens/EditTaskScreen';
 import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -27,7 +29,7 @@ import {
   selectCurrentUser,
   selectSelectedHousehold,
 } from '../store/user/selectors';
-import { Household } from '../types';
+import { Household, Task } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
 export type RootStackParamList = {
@@ -50,6 +52,7 @@ export type RootStackParamList = {
   TestMembers: undefined;
   TestHouseholds: undefined;
   TestCompTasks: undefined;
+  EditTask: { task: Task };
   TestRequests: undefined;
 };
 
@@ -149,10 +152,21 @@ export default function RootStackNavigator() {
             component={CreateTaskScreen}
             options={{ title: 'Skapa en ny syssla' }}
           />
+          <RootStack.Screen
+            name="EditTask"
+            component={EditTaskScreen}
+            options={({ route }) => ({
+              headerRight: () => <ArchivedTask task={route.params.task} />,
+            })}
+          />
         </>
       ) : (
         <>
-          <RootStack.Screen name="TestStore" component={TestScreenUsingStore} />
+          <RootStack.Screen
+            name="TestStore"
+            component={TestScreenUsingStore}
+            options={{ title: 'Uppdatera' }}
+          />
           <RootStack.Screen
             name="Login"
             component={LoginScreen}
