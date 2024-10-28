@@ -4,25 +4,22 @@ import { Button, Card, Text } from 'react-native-paper';
 import { avatarList } from '../../library/avatarList';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { addMember } from '../../store/members/membersActions';
+
 import {
   acceptRequest,
-  addRequest,
   getRequestsBySelectedHouseholdId,
   rejectRequest,
-} from '../../store/requests/actions';
-import { selectAllRequestBySelectedHousehold } from '../../store/requests/selectors';
+} from '../../store/requests/requestsActions';
+import { selectAllRequests } from '../../store/requests/requestsSelectors';
 import { selectSelectedHousehold } from '../../store/user/selectors';
-import { AvatarName, CreateMember, CreateRequest } from '../../types';
+import { AvatarName, CreateMember } from '../../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TestRequests'>;
 
 export default function TestMembers({ navigation }: Props) {
   const dispatch = useAppDispatch();
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
-  const requestsForSelHousehold = useAppSelector(
-    selectAllRequestBySelectedHousehold,
-  );
+  const requestsForSelHousehold = useAppSelector(selectAllRequests);
 
   // only used to generate a random avatar
   const nameArray: AvatarName[] = [
@@ -46,15 +43,15 @@ export default function TestMembers({ navigation }: Props) {
   };
 
   const handleAdd = () => {
-    dispatch(addMember(newMember))
-      .unwrap()
-      .then((member) => {
-        const newRequest: CreateRequest = {
-          memberId: member.id,
-          householdId: selectedHousehold?.id!,
-        };
-        dispatch(addRequest(newRequest));
-      });
+    // dispatch(addMember(newMember))
+    //   .unwrap()
+    //   .then((member) => {
+    //     const newRequest: CreateRequest = {
+    //       memberId: member.id,
+    //       householdId: selectedHousehold?.id!,
+    //     };
+    //     dispatch(addRequest(newRequest));
+    //   });
   };
 
   return (
@@ -103,7 +100,7 @@ export default function TestMembers({ navigation }: Props) {
                     mode="contained"
                     onPress={() => dispatch(acceptRequest(request))}
                   >
-                    Delete
+                    Accept
                   </Button>
                 </Card.Actions>
               </Card>
