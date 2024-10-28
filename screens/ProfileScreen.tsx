@@ -1,12 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
-import {
-  Avatar,
-  Button,
-  Icon,
-  SegmentedButtons,
-  Text,
-} from 'react-native-paper';
+import { Avatar, Button, SegmentedButtons, Text } from 'react-native-paper';
 import { mockedHouseholds, mockedMembers, mockedUsers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -55,15 +49,7 @@ export default function ProfileScreen({ navigation }: Props) {
           />
         </View>
         <Text style={s.name}>{user.firstName + ' ' + user.lastName}</Text>
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate('YourHouseholds')}
-          contentStyle={{ height: 70, width: 260 }}
-          style={{ borderRadius: 100 }}
-          labelStyle={{ fontSize: 18 }}
-        >
-          Byt Hushåll
-        </Button>
+
         <Button
           mode="contained"
           onPress={() => {
@@ -84,6 +70,13 @@ export default function ProfileScreen({ navigation }: Props) {
           Hushålls info
         </Button>
 
+        <Text
+          style={{ position: 'absolute', bottom: 130, alignSelf: 'center' }}
+          variant="displaySmall"
+        >
+          Välj thema för appen
+        </Text>
+
         <SegmentedButtons
           style={{ position: 'absolute', bottom: 60, alignSelf: 'center' }}
           value={colorMode}
@@ -94,26 +87,6 @@ export default function ProfileScreen({ navigation }: Props) {
             { value: 'auto', label: 'Enhetens' },
           ]}
         />
-      </View>
-      <View style={s.footer}>
-        <Button
-          style={{ width: '100%' }}
-          mode="elevated"
-          theme={{ roundness: 0 }}
-          icon={({ color }) => (
-            <Icon source="close-circle-outline" size={50} color={color} />
-          )}
-          labelStyle={{
-            fontSize: 20,
-            lineHeight: 30,
-          }}
-          contentStyle={{ height: 65, gap: 10 }}
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          Stäng
-        </Button>
       </View>
     </View>
   );
