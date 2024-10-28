@@ -57,8 +57,13 @@ export default function Home({ navigation }: Props) {
       <Pressable onPress={() => navigation.navigate('Profile')}>
         <Text style={styles.text}>Profile</Text>
       </Pressable>
-      <Pressable onPress={() => navigation.navigate('Details')}>
-        <Text style={styles.text}>Details</Text>
+      <Pressable
+        onPress={() =>
+          //TODO: hårdkodat en task för testning
+          navigation.navigate('TaskInfo', { taskId: '27nD4KD3RSsNTkadScU6' })
+        }
+      >
+        <Text style={styles.text}>TaskInfo</Text>
       </Pressable>
       <Pressable onPress={() => navigation.navigate('CreateHouseHold')}>
         <Text style={styles.text}>CreateHouseHold</Text>

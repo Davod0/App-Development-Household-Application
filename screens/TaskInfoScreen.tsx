@@ -4,12 +4,17 @@ import { StyleSheet, View } from 'react-native';
 import { Button, Icon, Surface, Text } from 'react-native-paper';
 import { mockedTasks } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { useAppSelector } from '../store/hooks';
+import { selectTaskFromTaskID } from '../store/tasks/tasksSelectors';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'TaskInfo'>;
 
-export default function DetailsScreen({ navigation }: Props) {
-  const taskId = 'task-1';
-  const task = mockedTasks.find((t) => t.id === taskId);
+export default function TaskInfoScreen({ navigation, route }: Props) {
+  const taskId1 = 'task-1';
+  const task1 = mockedTasks.find((t) => t.id === taskId1);
+
+  const { taskId } = route.params;
+  const task = useAppSelector(selectTaskFromTaskID(taskId));
 
   const handleSave = () => {};
 
@@ -34,7 +39,7 @@ export default function DetailsScreen({ navigation }: Props) {
             </Text>
             <View style={s.frequencyCircle}>
               <Text variant="titleMedium" style={{ color: '#fff' }}>
-                {task?.frequency}
+                {task1?.frequency}
               </Text>
             </View>
             <Text variant="headlineSmall" style={s.frequencyText}>
@@ -54,7 +59,7 @@ export default function DetailsScreen({ navigation }: Props) {
             </Text>
           </View>
           <View style={s.valueCircle}>
-            <Text variant="headlineSmall">{task?.weight}</Text>
+            <Text variant="headlineSmall">{task1?.weight}</Text>
           </View>
         </View>
       </Surface>
