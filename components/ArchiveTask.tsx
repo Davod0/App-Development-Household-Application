@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Dialog, IconButton, Portal, Text } from 'react-native-paper';
 import { Task } from '../types';
 
@@ -15,8 +15,12 @@ export default function ArchivedTask({ task }: ArchivedTaskProps) {
 
   const archiveTask = () => {
     setArchived(true);
-    console.log(archived);
   };
+
+  // TODO: för att se om isArchived ändras till true
+  useEffect(() => {
+    console.log(archived);
+  }, [archived]);
 
   return (
     <>

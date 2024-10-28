@@ -100,7 +100,7 @@ export default function EditTaskScreen({ navigation }: Props) {
           navigation.goBack();
         }}
       >
-        <Dialog.Title>Sysslan har skapats</Dialog.Title>
+        <Dialog.Title>Sysslan har Uppdaterats</Dialog.Title>
         <Dialog.Actions>
           <Button
             onPress={() => {
