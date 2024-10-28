@@ -1,16 +1,15 @@
 import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
-import { useFocusEffect } from '@react-navigation/native';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Badge, Button, Icon, Surface, Text } from 'react-native-paper';
 import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getRequestsByHouseholdId } from '../store/requests/requestsActions';
 import { selectAllRequests } from '../store/requests/requestsSelectors';
 import {
   selectCurrentUser,
+  selectCurrentUserMemberProfiles,
   selectSelectedHousehold,
 } from '../store/user/selectors';
 import { Task } from '../types';
@@ -20,39 +19,43 @@ type Props = MaterialTopTabScreenProps<
   'SelectedHousehold'
 >;
 
-export default function SelectedHouseholdScreen({ navigation, route }: Props) {
+export default function SelectedHouseholdScreen({ navigation }: Props) {
   //for testing...
   const currentUser = { isAdmin: true };
   // const currentUser = { isAdmin: false };
 
-  const requests = useAppSelector(selectAllRequests);
   const dispatch = useAppDispatch();
+  const requests = useAppSelector(selectAllRequests);
   const user = useAppSelector(selectCurrentUser);
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
   console.log('selectedHousehold:', selectedHousehold);
+
+  const member = useAppSelector(selectCurrentUserMemberProfiles).find(
+    (p) => p.householdId === selectedHousehold?.id,
+  );
+
+  // useFocusEffect
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (user && selectedHousehold) {
+  //       dispatch(getRequestsByHouseholdId(selectedHousehold!.id))
+  //         .unwrap()
+  //         .then(() => {
+  //           dispatch(getRequestsByHouseholdId(selectedHousehold!.id))
+  //             .unwrap()
+  //             .then(() => {
+  //               dispatch(getMembersByHouseholdId());
+  //             });
+  //         });
+  //     }
+  //   }, [dispatch, user, selectedHousehold]),
+  // );
 
   const members = mockedMembers.filter(
     (m) => m.householdId === selectedHousehold?.id,
   );
   const tasksHousehold = mockedTasks.filter(
     (t) => t.householdId === selectedHousehold?.id,
-  );
-
-  // useFocusEffect
-  useFocusEffect(
-    useCallback(() => {
-      if (user) {
-        dispatch(getRequestsByHouseholdId(selectedHousehold!.id))
-          .unwrap()
-          .then(() => {
-            dispatch(getRequestsByHouseholdId(selectedHousehold!.id))
-              .unwrap()
-              .then(() => {
-                // dispatch(getMembersByHouseholdId(''));
-              });
-          });
-      }
-    }, [dispatch, user]),
   );
 
   const today = todayAtMidnight();
@@ -133,7 +136,7 @@ export default function SelectedHouseholdScreen({ navigation, route }: Props) {
           </Pressable>
         ))}
       </ScrollView>
-      {currentUser.isAdmin && (
+      {member?.isOwner && (
         <View
           style={{
             width: '100%',

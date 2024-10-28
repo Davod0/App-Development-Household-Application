@@ -17,17 +17,15 @@ import { Household } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
-// kolla om inloggad antingen här eller på föregående sida dvs inloggningssidan?
 export default function YourHouseholdsScreen({ navigation }: Props) {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
   const households = useAppSelector(selectAllHouseholdsByCurrentUser);
-  const selectedHousehold = useAppSelector(selectSelectedHousehold);
 
   // testing...
   useFocusEffect(
     useCallback(() => {
-      if (user && selectedHousehold) {
+      if (user) {
         dispatch(getMembersByCurrentUserId())
           .unwrap()
           .then(() => {
@@ -38,7 +36,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
               });
           });
       }
-    }, [dispatch, user, selectedHousehold]),
+    }, [dispatch, user]),
   );
 
   const handlePressHousehold = (household: Household) => {
