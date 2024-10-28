@@ -7,14 +7,16 @@ import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getHouseholdsByUserId } from '../store/households/householdsActions';
 import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
-import { selectCurrentUser } from '../store/user/selectors';
+import {
+  selectCurrentUser,
+  selectSelectedHousehold,
+} from '../store/user/selectors';
 import { getMembersByCurrentUserId } from '../store/user/userActions';
 import { setSelectedHousehold } from '../store/user/userReducer';
 import { Household } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
-// kolla om inloggad antingen här eller på föregående sida dvs inloggningssidan?
 export default function YourHouseholdsScreen({ navigation }: Props) {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);

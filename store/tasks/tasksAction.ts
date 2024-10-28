@@ -60,7 +60,8 @@ export const getTasks = createAppAsyncThunk<Task[]>(
 );
 
 // Hämtar alla tasks till ett hushåll, filtrerar på husfålls id
-export const getTasksByHouseholdId = createAppAsyncThunk<Task[], string>(
+// FIXME: ingen filtrering utförs!
+export const getSelectedHouseholdTasks = createAppAsyncThunk<Task[], string>(
   'task/householdID/get',
   async (householdId, thunkAPI) => {
     try {

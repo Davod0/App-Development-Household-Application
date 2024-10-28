@@ -23,6 +23,9 @@ export default function TestUser({ navigation }: Props) {
         </>
       ) : (
         <>
+          <Text>Household name: {selectedHousehold.name}</Text>
+          <Text>HouseholdID: {selectedHousehold.id}</Text>
+
           <Text>Do something</Text>
         </>
       )}

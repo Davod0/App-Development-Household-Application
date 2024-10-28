@@ -1,6 +1,6 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   collection,
+  deleteDoc,
   doc,
   getDocs,
   query,
@@ -12,7 +12,7 @@ import { db } from '../../firebase';
 import { CreateMember, Member } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 
-export const addMember = createAsyncThunk<Member, CreateMember>(
+export const addMember = createAppAsyncThunk<Member, CreateMember>(
   'members/add',
   async (member, thunkApi) => {
     const memberRef = doc(collection(db, 'members'));
@@ -70,17 +70,21 @@ export const getMembersByHouseholdId = createAppAsyncThunk<Member[]>(
 );
 
 /* 
-lämna ett hushåll är VG-kvar
-kommer ge lite komplikationer, vad ska vi göra med completedTasks och scheduledTasks som är 
-kopplade till denna medlem som kommer raderas? vi kommer förmodligen behöva göra en "cascading delete". 
+  lämna ett hushåll är VG-kvar
+  kommer ge lite komplikationer, vad ska vi göra med completedTasks och scheduledTasks som är 
+  kopplade till denna medlem som kommer raderas? vi kommer förmodligen behöva göra en "cascading delete". 
+
+  kanske behöver denna ändå ifall man vill neka en request så kommer man ha en användare som 
+  inte är kopplad till något hushåll, den ska vara ofarlig att radera.
 */
-// export const deleteMemberById = createAsyncThunk<void, string>(
-//   'members/deleteById',
-//   async (memberId, thunkApi) => {
-//     try {
-// await deleteDoc(doc(db, 'members', memberId));
-//     } catch (error) {
-//       return thunkApi.rejectWithValue(`Error deleting member: ${error}`);
-//     }
-//   },
-// );
+export const deleteMember = createAppAsyncThunk<string, string>(
+  'members/delete',
+  async (memberId, thunkApi) => {
+    try {
+      await deleteDoc(doc(db, 'members', memberId));
+      return memberId;
+    } catch (error) {
+      return thunkApi.rejectWithValue(`Error deleting member: ${error}`);
+    }
+  },
+);
