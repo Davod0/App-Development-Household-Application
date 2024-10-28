@@ -32,7 +32,7 @@ export default function TestTasks({ navigation }: Props) {
 
   /** DEFINE YOUR OBJECT */
   const newTask: CreateTask = {
-    name: 'Hunden',
+    name: 'Hunden🐕',
     description: 'Klappa hunden',
     frequency: 1,
     weight: 8,
@@ -41,7 +41,7 @@ export default function TestTasks({ navigation }: Props) {
   // code to test updating a task
   const handleUpdateTask = (taskId: string) => {
     const updates = {
-      name: 'Updated Hunden',
+      name: 'Updated Hunden 🦖',
       description: 'Updated description',
       frequency: 4,
     };
