@@ -27,6 +27,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
     [],
   );
   const households = useAppSelector(selectAllHouseholdsByCurrentUser);
+  console.log('user:', user?.email);
 
   // // testing...
   // useFocusEffect(
