@@ -30,26 +30,27 @@ export const addCompletedTask = createAppAsyncThunk<
   }
 });
 
-export const getCompletedTasksByHouseholdId = createAppAsyncThunk<
-  CompletedTask[],
-  string
->('completedTasks/getByHouseholdId', async (householdId, thunkAPI) => {
-  try {
-    const snapshot = await getDocs(
-      query(
-        collection(db, 'completedTasks'),
-        where('householdId', '==', householdId),
-      ),
-    );
-    const data: CompletedTask[] = [];
-    snapshot.forEach((doc) => data.push(doc.data() as CompletedTask));
-    return data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(
-      `Error reading from database, completedTasks ${error}`,
-    );
-  }
-});
+export const getSelectedHouseholdTasks = createAppAsyncThunk<CompletedTask[]>(
+  'completedTasks/getByHouseholdId',
+  async (_, thunkAPI) => {
+    const state = thunkAPI.getState();
+    try {
+      const snapshot = await getDocs(
+        query(
+          collection(db, 'completedTasks'),
+          where('householdId', '==', state.user.selectedHousehold?.id),
+        ),
+      );
+      const data: CompletedTask[] = [];
+      snapshot.forEach((doc) => data.push(doc.data() as CompletedTask));
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        `Error reading from database, completedTasks ${error}`,
+      );
+    }
+  },
+);
 
 // TODO: remove, I don't think this thunk is ever needed
 // export const getAllCompletedTasks = createAppAsyncThunk<CompletedTask[]>(

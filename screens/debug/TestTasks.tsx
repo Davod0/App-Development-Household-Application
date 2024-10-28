@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
-import { getCompletedTasksByHouseholdId } from '../../store/completedTasks/completedTasksActions';
+import { getSelectedHouseholdTasks } from '../../store/completedTasks/completedTasksActions';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addTask, updateTask } from '../../store/tasks/tasksAction';
 import { selectTasks } from '../../store/tasks/tasksSelectors';
@@ -79,7 +79,7 @@ export default function TestTasks({ navigation }: Props) {
           <Button
             mode="contained"
             onPress={() => {
-              dispatch(getCompletedTasksByHouseholdId(selectedHousehold.id));
+              dispatch(getSelectedHouseholdTasks(selectedHousehold.id));
             }}
           >
             update

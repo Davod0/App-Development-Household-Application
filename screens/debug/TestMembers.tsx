@@ -6,7 +6,7 @@ import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   addMember,
-  getMembersByHouseholdId,
+  getMembersBySelectedHousehold,
   updateMember,
 } from '../../store/members/membersActions';
 import { selectAllMembersBySelectedHousehold } from '../../store/members/membersSelectors';
@@ -93,7 +93,7 @@ export default function TestMembers({ navigation }: Props) {
           </Button>
           <Button
             mode="contained"
-            onPress={() => dispatch(getMembersByHouseholdId())}
+            onPress={() => dispatch(getMembersBySelectedHousehold())}
           >
             run thunk!
           </Button>

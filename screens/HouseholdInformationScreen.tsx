@@ -5,7 +5,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Card, Icon, List, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getMembersByHouseholdId } from '../store/members/membersActions';
+import { getMembersBySelectedHousehold } from '../store/members/membersActions';
 import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
 import {
   selectCurrentUser,
@@ -27,10 +27,10 @@ export default function HouseholdInformationScreen({
   useFocusEffect(
     useCallback(() => {
       if (user) {
-        dispatch(getMembersByHouseholdId())
+        dispatch(getMembersBySelectedHousehold())
           .unwrap()
           .then(() => {
-            dispatch(getMembersByHouseholdId())
+            dispatch(getMembersBySelectedHousehold())
               .unwrap()
               .then(() => {
                 // dispatch(getMembersByHouseholdId(''));

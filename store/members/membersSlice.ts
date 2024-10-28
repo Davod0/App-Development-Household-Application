@@ -3,7 +3,7 @@ import { Member } from '../../types';
 import {
   addMember,
   deleteMember,
-  getMembersByHouseholdId,
+  getMembersBySelectedHousehold,
   updateMember,
 } from './membersActions';
 
@@ -46,10 +46,10 @@ const membersSlice = createSlice({
         }
         state.isLoading = false;
       })
-      .addCase(getMembersByHouseholdId.pending, (state) => {
+      .addCase(getMembersBySelectedHousehold.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getMembersByHouseholdId.fulfilled, (_, action) => {
+      .addCase(getMembersBySelectedHousehold.fulfilled, (_, action) => {
         return {
           list: action.payload,
           isLoading: false,
