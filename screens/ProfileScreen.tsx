@@ -7,7 +7,7 @@ import {
   SegmentedButtons,
   Text,
 } from 'react-native-paper';
-import { mockedMembers, mockedUsers } from '../data';
+import { mockedHouseholds, mockedMembers, mockedUsers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { selectColorMode } from '../store/user/selectors';
@@ -66,7 +66,17 @@ export default function ProfileScreen({ navigation }: Props) {
         </Button>
         <Button
           mode="contained"
-          onPress={() => navigation.navigate('HouseholdInformation')}
+          onPress={() => {
+            const household = mockedHouseholds.find(
+              (h) => h.id === member.householdId,
+            );
+            if (!household) {
+              throw new Error(
+                'Household not found for member: ' + member.userId,
+              );
+            }
+            navigation.navigate('HouseholdInformation', { household });
+          }}
           contentStyle={{ height: 70, width: 260 }}
           style={{ borderRadius: 100 }}
           labelStyle={{ fontSize: 18 }}
