@@ -59,7 +59,6 @@ export default function TestTasks({ navigation }: Props) {
 
   return (
     <ScrollView contentContainerStyle={s.container}>
-      <Text variant="displaySmall">ReduxTestScreen</Text>
       {!selectedHousehold ? (
         <>
           <Text variant="bodyLarge">No selected household</Text>
@@ -72,6 +71,8 @@ export default function TestTasks({ navigation }: Props) {
         </>
       ) : (
         <>
+          <Text>Household name: {selectedHousehold.name}</Text>
+          <Text>HouseholdID: {selectedHousehold.id}</Text>
           <Button mode="contained" onPress={() => dispatch(addTask(newTask))}>
             add
           </Button>

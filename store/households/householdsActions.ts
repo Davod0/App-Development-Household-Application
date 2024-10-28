@@ -106,7 +106,7 @@ export const updateHouseholdName = createAppAsyncThunk<Household, Household>(
   },
 );
 
-// export const getHouseholds = createAsyncThunk<Household[]>(
+// export const getHouseholds = createAppAsyncThunk<Household[]>(
 //   'households/getHouseholds',
 //   async (_, thunkApi) => {
 //     try {
