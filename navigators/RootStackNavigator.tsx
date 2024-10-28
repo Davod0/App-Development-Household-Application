@@ -2,8 +2,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
 import ArchivedTask from '../components/ArchiveTask';
+import DoubleHeaderIcon from '../components/DoubleHeaderIcon';
 import ProfileIconButton from '../components/ProfileIconButton';
 import useSplashScreenVisibility from '../components/SplashScreenVisibility';
+import { sliceStringToLengthAddEllipsis } from '../library/utils';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
 import HomeScreen from '../screens/debug/HomeScreen';
@@ -77,7 +79,11 @@ export default function RootStackNavigator() {
             options={({ navigation }) => ({
               title: 'HouseholdName',
               headerShadowVisible: false,
-              headerRight: () => <ProfileIconButton navigation={navigation} />,
+              headerRight: () => (
+                <ProfileIconButton
+                  navigateToProfile={() => navigation.navigate('Profile')}
+                />
+              ),
             })}
           />
           <RootStack.Screen name="ReduxTest" component={ReduxTestScreen} />
@@ -97,9 +103,18 @@ export default function RootStackNavigator() {
             name="SelectedHouseholdNav"
             component={SelectedHouseholdTopTabNav}
             options={({ navigation }) => ({
-              title: selectedHousehold?.name,
+              title: sliceStringToLengthAddEllipsis(
+                selectedHousehold?.name,
+                23,
+              ),
               headerShadowVisible: false,
-              headerRight: () => <ProfileIconButton navigation={navigation} />,
+              headerRight: () => (
+                <DoubleHeaderIcon
+                  //FIXME: add navigation to edit household
+                  navigateToEditHousehold={() => navigation.navigate('Profile')}
+                  navigateToProfile={() => navigation.navigate('Profile')}
+                />
+              ),
             })}
           />
 

@@ -4,6 +4,7 @@ import PieChartAllTasks from '../../components/PieChartAllTasks';
 import PieChartOneTask from '../../components/PieChartOneTask';
 import { mockedTasks } from '../../data';
 import { todayAtMidnight } from '../../library/dateFunctions';
+import { sliceStringToLengthAddEllipsis } from '../../library/utils';
 import { Task } from '../../types';
 
 export default function CurrentWeek() {
@@ -13,10 +14,7 @@ export default function CurrentWeek() {
   const renderItem = (item: Task) => (
     <View style={s.item}>
       <PieChartOneTask task={item} />
-      <Text>
-        {item.name.slice(0, 14).trim()}
-        {item.name.length > 14 ? '...' : ''}
-      </Text>
+      <Text>{sliceStringToLengthAddEllipsis(item.name, 14)}</Text>
     </View>
   );
   return (

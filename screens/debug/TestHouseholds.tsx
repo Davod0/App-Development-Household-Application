@@ -44,7 +44,7 @@ export default function TestHouseholds({ navigation }: Props) {
   const handelUpdate = (household: Household) => {
     const updates = {
       ...household,
-      name: 'another family',
+      name: 'another family with a really long name',
     };
     dispatch(updateHouseholdName(updates));
   };
