@@ -38,8 +38,14 @@ export default function CreateHouseholdScreen({ navigation }: props) {
           isAllowed: true,
         },
       }),
-    );
-    navigation.navigate('YourHouseholds');
+    )
+      .unwrap()
+      .then(() => {
+        navigation.navigate('YourHouseholds');
+      })
+      .catch((error) => {
+        console.error('Error while creating household', error);
+      });
   };
 
   return (

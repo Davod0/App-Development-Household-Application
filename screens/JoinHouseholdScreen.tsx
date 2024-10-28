@@ -9,7 +9,7 @@ import {
   TextInput,
 } from 'react-native-paper';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getHouseholdsByUserId } from '../store/households/householdsActions';
+import { getAllowedHouseholdsByUserId } from '../store/households/householdsActions';
 import { getMembersByHouseholdId } from '../store/members/membersActions';
 import { addRequest } from '../store/requests/requestsActions';
 import {
@@ -17,7 +17,7 @@ import {
   selectRequestIsLoading,
 } from '../store/requests/requestsSelectors';
 import { selectCurrentUser } from '../store/user/selectors';
-import { getMembersByCurrentUserId } from '../store/user/userActions';
+import { getIsAllowedMembersByCurrentUserId } from '../store/user/userActions';
 
 export default function JoinHouseholdScreen() {
   const [houseCode, setHouseCode] = useState('');
@@ -32,10 +32,10 @@ export default function JoinHouseholdScreen() {
   useFocusEffect(
     useCallback(() => {
       if (user) {
-        dispatch(getMembersByCurrentUserId())
+        dispatch(getIsAllowedMembersByCurrentUserId())
           .unwrap()
           .then(() => {
-            dispatch(getHouseholdsByUserId())
+            dispatch(getAllowedHouseholdsByUserId())
               .unwrap()
               .then(() => {
                 dispatch(getMembersByHouseholdId());

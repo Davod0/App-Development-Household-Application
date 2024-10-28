@@ -4,7 +4,8 @@ import { User } from 'firebase/auth';
 import { ColorMode } from '../../theme/ThemeProvider';
 import { Household, Member } from '../../types';
 import {
-  getMembersByCurrentUserId,
+  getIsAllowedMembersByCurrentUserId,
+  getIsNotAllowedMembersByCurrentUserId,
   signInUser,
   signUpUser,
 } from './userActions';
@@ -67,16 +68,32 @@ export const userSlice = createSlice({
         state.isLoading = false;
         console.log(`Error message from user reducer:2 ${action.payload}`);
       })
-      .addCase(getMembersByCurrentUserId.pending, (state) => {
+      .addCase(getIsAllowedMembersByCurrentUserId.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getMembersByCurrentUserId.fulfilled, (state, action) => {
-        return {
-          ...state,
-          memberProfiles: action.payload,
-          isLoading: false,
-        };
-      });
+      .addCase(
+        getIsAllowedMembersByCurrentUserId.fulfilled,
+        (state, action) => {
+          return {
+            ...state,
+            memberProfiles: action.payload,
+            isLoading: false,
+          };
+        },
+      )
+      .addCase(getIsNotAllowedMembersByCurrentUserId.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(
+        getIsNotAllowedMembersByCurrentUserId.fulfilled,
+        (state, action) => {
+          return {
+            ...state,
+            memberProfiles: action.payload,
+            isLoading: false,
+          };
+        },
+      );
   },
 });
 

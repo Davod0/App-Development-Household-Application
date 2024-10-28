@@ -3,8 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Household } from '../../types';
 import {
   addHousehold,
-  getHouseholdByCode,
-  getHouseholdsByUserId,
+  getAllowedHouseholdsByUserId,
   updateHouseholdName,
 } from './householdsActions';
 
@@ -32,7 +31,7 @@ const householdsSlice = createSlice({
         state.list.push(action.payload);
         state.isLoading = false;
       })
-      .addCase(getHouseholdsByUserId.fulfilled, (state, action) => {
+      .addCase(getAllowedHouseholdsByUserId.fulfilled, (state, action) => {
         return { ...state, list: action.payload };
       })
       // .addCase(getHouseholdByCode.fulfilled, (state, action) => {

@@ -44,7 +44,7 @@ export const addHousehold = createAppAsyncThunk<
   }
 });
 
-export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
+export const getAllowedHouseholdsByUserId = createAppAsyncThunk<Household[]>(
   'Household/getByUserId',
   async (_, thunkApi) => {
     const state = thunkApi.getState();
@@ -54,11 +54,7 @@ export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
 
     try {
       const snapshot = await getDocs(
-        query(
-          collection(db, 'households'),
-          where('id', 'in', householdIds),
-          // where('isAllowed', '==', true),
-        ),
+        query(collection(db, 'households'), where('id', 'in', householdIds)),
       );
       const data: Household[] = [];
       snapshot.forEach((doc) => data.push(doc.data() as Household));
@@ -71,6 +67,28 @@ export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
     }
   },
 );
+
+export const getIsNotAllowedHouseholdsByMemberId = createAppAsyncThunk<
+  Household[],
+  Member[]
+>('Household/getByUserId', async (membersList, thunkApi) => {
+  // const state = thunkApi.getState();
+  const householdIds = membersList.map((member) => member.householdId);
+
+  try {
+    const snapshot = await getDocs(
+      query(collection(db, 'households'), where('id', 'in', householdIds)),
+    );
+    const data: Household[] = [];
+    snapshot.forEach((doc) => data.push(doc.data() as Household));
+
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue(
+      `Error retrieving households for member: ${error}`,
+    );
+  }
+});
 
 export const getHouseholdByCode = createAsyncThunk<Household, string>(
   'household/getByCode',
