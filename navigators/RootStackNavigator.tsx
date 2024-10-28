@@ -18,30 +18,27 @@ import DetailsScreen from '../screens/DetailsScreen';
 import EditTaskScreen from '../screens/EditTaskScreen';
 import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
-import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import RegisterScreen from '../screens/RegisterScreen';
-import TestScreenUsingStore from '../screens/TestScreenUsingStore';
+import SignInScreen from '../screens/SignInScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 import { useAppSelector } from '../store/hooks';
 import { useUserAuthState } from '../store/user/hooks';
 import {
   selectCurrentUser,
   selectSelectedHousehold,
-} from '../store/user/selectors';
+} from '../store/user/userSelectors';
 import { Household, Task } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
 export type RootStackParamList = {
-  Login: undefined;
+  SignIn: undefined;
   Home: undefined;
   Profile: undefined;
-  Register: undefined;
-  TestStore: undefined;
+  SignUp: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
   Details: undefined;
-  // SelectedHouseholdNav: NavigatorScreenParams<TopTabNavigatorParamList>;
   SelectedHouseholdNav: undefined;
   CreateTask: undefined;
   HouseholdInformation: { household: Household };
@@ -163,18 +160,13 @@ export default function RootStackNavigator() {
       ) : (
         <>
           <RootStack.Screen
-            name="TestStore"
-            component={TestScreenUsingStore}
-            options={{ title: 'Uppdatera' }}
-          />
-          <RootStack.Screen
-            name="Login"
-            component={LoginScreen}
+            name="SignIn"
+            component={SignInScreen}
             options={{ title: 'Logga in' }}
           />
           <RootStack.Screen
-            name="Register"
-            component={RegisterScreen}
+            name="SignUp"
+            component={SignUpScreen}
             options={{ title: 'Registrera dig' }}
           />
         </>

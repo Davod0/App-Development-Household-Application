@@ -14,9 +14,8 @@ export default function CreateTaskScreen() {
   const [showCreatedDialog, setShowCreatedDialog] = useState(false);
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const dispatch = useAppDispatch();
-  // const user = useAppSelector(selectCurrentUser);
 
-  const handleCreateTask = () => {
+  const handleCreateTask = async () => {
     if (!name) {
       setShowConfirmationDialog(true);
       return;
@@ -26,8 +25,8 @@ export default function CreateTaskScreen() {
     console.log(weight);
     console.log(frequency);
     setShowCreatedDialog(true);
-
-    dispatch(addTask({ name, description, frequency, weight }));
+    await dispatch(addTask({ name, description, frequency, weight })).unwrap();
+    // navigate
   };
 
   return (

@@ -6,7 +6,7 @@ import { getCompletedTasksByHouseholdId } from '../../store/completedTasks/compl
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addTask, updateTask } from '../../store/tasks/tasksAction';
 import { selectTasks } from '../../store/tasks/tasksSelectors';
-import { selectSelectedHousehold } from '../../store/user/selectors';
+import { selectSelectedHousehold } from '../../store/user/userSelectors';
 import { CreateTask } from '../../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TestCompTasks'>;
