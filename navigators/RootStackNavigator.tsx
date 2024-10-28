@@ -28,7 +28,7 @@ import {
   selectCurrentUser,
   selectSelectedHousehold,
 } from '../store/user/selectors';
-import { Household } from '../types';
+import { Household, Task } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
 export type RootStackParamList = {
@@ -51,7 +51,7 @@ export type RootStackParamList = {
   TestMembers: undefined;
   TestHouseholds: undefined;
   TestCompTasks: undefined;
-  EditTask: undefined;
+  EditTask: { task: Task };
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();

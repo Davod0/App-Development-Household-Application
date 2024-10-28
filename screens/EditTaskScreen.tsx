@@ -34,6 +34,7 @@ export default function EditTaskScreen({ navigation }: Props) {
     console.log(description);
     console.log(frequency);
     console.log(weight);
+    console.log(task.isArchived);
     setUpdatedDialog(true);
 
     const updates: CreateTask = {
