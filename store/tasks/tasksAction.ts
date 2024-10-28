@@ -58,7 +58,7 @@ export const getTasks = createAppAsyncThunk<Task[]>(
   },
 );
 
-export const getSelectedHouseholdTasks = createAppAsyncThunk<Task[]>(
+export const getTasksBySelectedHousehold = createAppAsyncThunk<Task[]>(
   'task/householdID/get',
   async (_, thunkApi) => {
     const state = thunkApi.getState();

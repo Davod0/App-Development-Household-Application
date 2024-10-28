@@ -40,9 +40,8 @@ export default function ReduxTestScreen({ navigation }: Props) {
         ScheduledTasks
       </Button>
       <Button
-        disabled // not implemented yet
         mode="contained"
-        onPress={() => navigation.navigate('TestCompTasks')}
+        onPress={() => navigation.navigate('TestRequests')}
       >
         Requests
       </Button>

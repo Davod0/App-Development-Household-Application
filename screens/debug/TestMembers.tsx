@@ -1,10 +1,14 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { ScrollView, StyleSheet } from 'react-native';
-import { Button, Card, Text } from 'react-native-paper';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Button, Card, Icon, Text } from 'react-native-paper';
 import { avatarList } from '../../library/avatarList';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { addMember, updateMember } from '../../store/members/membersActions';
+import {
+  addMember,
+  getMembersByHouseholdId,
+  updateMember,
+} from '../../store/members/membersActions';
 import { selectAllMembersBySelectedHousehold } from '../../store/members/membersSelectors';
 import { selectSelectedHousehold } from '../../store/user/userSelectors';
 import { AvatarName, CreateMember, Member } from '../../types';
@@ -51,6 +55,19 @@ export default function TestMembers({ navigation }: Props) {
     dispatch(updateMember(newMember));
   };
 
+  // check if a member belongs to the selectedHousehold
+  const checkMember = (memberId: string) => {
+    return (
+      <View style={{ paddingRight: 10 }}>
+        {selectedHousehold?.id === memberId ? (
+          <Icon source="check-circle-outline" size={20} color="green" />
+        ) : (
+          <Icon source="alert-circle" size={24} color="red" />
+        )}
+      </View>
+    );
+  };
+
   return (
     <ScrollView contentContainerStyle={s.container}>
       {!selectedHousehold ? (
@@ -65,25 +82,29 @@ export default function TestMembers({ navigation }: Props) {
         </>
       ) : (
         <>
+          <Text>Household name: {selectedHousehold.name}</Text>
+          <Text>HouseholdID: {selectedHousehold.id}</Text>
+
           <Button
             mode="contained"
             onPress={() => dispatch(addMember(newMember))}
           >
             add
           </Button>
-          {/* <Button
+          <Button
             mode="contained"
-            onPress={() => {
-              dispatch(getMembersByHouseholdId);
-            }}
+            onPress={() => dispatch(getMembersByHouseholdId())}
           >
-            update
-          </Button> */}
+            run thunk!
+          </Button>
 
           {membersForSelHousehold.length > 0 ? (
             membersForSelHousehold.map((member, index) => (
               <Card key={index}>
-                <Card.Title title={`Task ID: ${member.id}`} />
+                <Card.Title
+                  title={`Task ID: ${member.id}`}
+                  right={() => checkMember(member.householdId)}
+                />
                 <Card.Content>
                   <Text>Task name: {member.name}</Text>
                   <Text>Avatar: {member.avatar.icon}</Text>
@@ -100,7 +121,7 @@ export default function TestMembers({ navigation }: Props) {
               </Card>
             ))
           ) : (
-            <Text>No tasks available for this household.</Text>
+            <Text>No members available for this household.</Text>
           )}
         </>
       )}

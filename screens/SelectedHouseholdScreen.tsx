@@ -5,9 +5,14 @@ import { Badge, Button, Icon, Surface, Text } from 'react-native-paper';
 import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { selectAllRequests } from '../store/requests/requestsSelectors';
 import { useSelectedHouseholddata } from '../store/user/hooks';
-import { selectSelectedHousehold } from '../store/user/userSelectors';
+import {
+  selectCurrentUser,
+  selectCurrentUserMemberProfiles,
+  selectSelectedHousehold,
+} from '../store/user/userSelectors';
 import { Task } from '../types';
 
 type Props = MaterialTopTabScreenProps<
@@ -21,10 +26,33 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   //for testing...
   const currentUser = { isAdmin: true };
   // const currentUser = { isAdmin: false };
-  const pendingRequests = ['a', 'b'];
-  // const pendingRequests = [];
 
+  const dispatch = useAppDispatch();
+  const requests = useAppSelector(selectAllRequests);
+  const user = useAppSelector(selectCurrentUser);
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
+  console.log('selectedHousehold:', selectedHousehold);
+
+  const member = useAppSelector(selectCurrentUserMemberProfiles).find(
+    (p) => p.householdId === selectedHousehold?.id,
+  );
+
+  // useFocusEffect
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (user && selectedHousehold) {
+  //       dispatch(getRequestsByHouseholdId(selectedHousehold!.id))
+  //         .unwrap()
+  //         .then(() => {
+  //           dispatch(getRequestsByHouseholdId(selectedHousehold!.id))
+  //             .unwrap()
+  //             .then(() => {
+  //               dispatch(getMembersByHouseholdId());
+  //             });
+  //         });
+  //     }
+  //   }, [dispatch, user, selectedHousehold]),
+  // );
 
   const members = mockedMembers.filter(
     (m) => m.householdId === selectedHousehold?.id,
@@ -32,8 +60,6 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   const tasksHousehold = mockedTasks.filter(
     (t) => t.householdId === selectedHousehold?.id,
   );
-
-  // useFocusEffect
 
   const today = todayAtMidnight();
   const completedTasks = mockedCompletedTasks
@@ -113,14 +139,14 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
           </Pressable>
         ))}
       </ScrollView>
-      {currentUser.isAdmin && (
+      {member?.isOwner && (
         <View
           style={{
             width: '100%',
-            flexDirection: pendingRequests.length > 0 ? 'row' : 'row-reverse',
+            flexDirection: requests.length > 0 ? 'row' : 'row-reverse',
           }}
         >
-          {pendingRequests.length > 0 && (
+          {requests.length > 0 && (
             <Button
               style={{ width: '50%' }}
               mode="elevated"
@@ -128,7 +154,7 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
               icon={({ color }) => (
                 <View>
                   <Badge style={{ marginBottom: -6 }} size={14}>
-                    {pendingRequests.length}
+                    {requests.length}
                   </Badge>
                   <Icon source="bell-outline" size={27} color={color} />
                 </View>
