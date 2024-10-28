@@ -62,14 +62,14 @@ export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(
-        Error retrieving households for member: ${error},
+        `Error retrieving households for member: ${error},`,
       );
     }
   },
 );
 
 export const getAllowedHouseholdsByUserId = createAppAsyncThunk<Household[]>(
-  'Household/getByUserId',
+  'Household/getAllowedByUserId',
   async (_, thunkApi) => {
     const state = thunkApi.getState();
     const householdIds = state.user.memberProfiles.map(

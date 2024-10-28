@@ -114,7 +114,7 @@ export const getMembersByCurrentUserId = createAppAsyncThunk<Member[]>(
       snapshot.forEach((doc) => data.push(doc.data() as Member));
       return data;
     } catch (error) {
-      return thunkApi.rejectWithValue(Error retrieving members: ${error});
+      return thunkApi.rejectWithValue(`Error retrieving members: ${error}`);
     }
   },
 );

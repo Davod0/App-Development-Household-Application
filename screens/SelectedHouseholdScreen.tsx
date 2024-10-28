@@ -6,7 +6,6 @@ import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-
 import { selectAllRequestsOfSelectedHousehold } from '../store/requests/requestsSelectors';
 import { useSelectedHouseholddata } from '../store/user/hooks';
 import {
