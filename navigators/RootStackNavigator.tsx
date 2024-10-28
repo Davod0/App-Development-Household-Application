@@ -36,7 +36,6 @@ export type RootStackParamList = {
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
   Details: undefined;
-  // SelectedHouseholdNav: NavigatorScreenParams<TopTabNavigatorParamList>;
   SelectedHouseholdNav: undefined;
   CreateTask: undefined;
   HouseholdInformation: { household: Household };

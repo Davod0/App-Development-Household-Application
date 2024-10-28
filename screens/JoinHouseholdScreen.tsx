@@ -8,7 +8,6 @@ export default function JoinHouseholdScreen() {
   const [showValidationDialog, setShowValidationDialog] = useState(false);
 
   const handleSubmitCode = () => {
-    // quick check to see if input field is empty
     if (!houseCode) {
       setShowValidationDialog(true);
       return;

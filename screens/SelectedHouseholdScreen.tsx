@@ -6,7 +6,7 @@ import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
 import { useAppSelector } from '../store/hooks';
-import { useHouseholdsdata } from '../store/user/hooks';
+import { useSelectedHouseholddata } from '../store/user/hooks';
 import { selectSelectedHousehold } from '../store/user/userSelectors';
 import { Task } from '../types';
 
@@ -16,7 +16,7 @@ type Props = MaterialTopTabScreenProps<
 >;
 
 export default function SelectedHouseholdScreen({ navigation }: Props) {
-  useHouseholdsdata();
+  useSelectedHouseholddata();
 
   //for testing...
   const currentUser = { isAdmin: true };
@@ -173,7 +173,6 @@ const s = StyleSheet.create({
     gap: 5,
   },
   taskItem: {
-    // justifyContent: 'space-between',
     fontSize: 20,
   },
   surface: {

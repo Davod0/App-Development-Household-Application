@@ -1,10 +1,10 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { auth } from '../../firebase';
 import { getCompletedTasksByHousehold } from '../completedTasks/completedTasksActions';
-import { useAppDispatch, useAppSelector } from '../hooks';
+import { useAppDispatch } from '../hooks';
 import { getHouseholdsByUserId } from '../households/householdsActions';
-import { selectAllHouseholdsByCurrentUser } from '../households/householdsSelectors';
 import { getMembersByHouseholdId } from '../members/membersActions';
 import { getSelectedHouseholdTasks } from '../tasks/tasksAction';
 import { getMembersByCurrentUserId } from './userActions';
@@ -16,8 +16,8 @@ export async function useUserAuthState() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       dispatch(setUserOptimistically(user?.toJSON() as User));
       if (user) {
-        await dispatch(getMembersByCurrentUserId());
-        await dispatch(getHouseholdsByUserId());
+        await dispatch(getMembersByCurrentUserId()).unwrap();
+        await dispatch(getHouseholdsByUserId()).unwrap();
       }
       console.log(`User from useUserAuthState: ${user?.email}`);
     });
@@ -28,19 +28,17 @@ export async function useUserAuthState() {
   // members.map((m) => console.log(`members1: ${m.name}`));
 }
 
-export async function useHouseholdsdata() {
+export async function useSelectedHouseholddata() {
   const dispatch = useAppDispatch();
-  const userHouseholds = useAppSelector(selectAllHouseholdsByCurrentUser);
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(getMembersByHouseholdId());
-      await dispatch(getSelectedHouseholdTasks());
-      await dispatch(getCompletedTasksByHousehold());
-    };
-    fetchData();
-  }, [dispatch, userHouseholds]);
-  console.log(`__________________________`);
-  console.log(`userHouseholds: ${userHouseholds}`);
-  userHouseholds.map((h) => console.log(`household: ${h.name}`));
-  console.log(`__________________________`);
+  // const selectedHousehold = useAppSelector(selectSelectedHousehold);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        await dispatch(getMembersByHouseholdId());
+        await dispatch(getSelectedHouseholdTasks());
+        await dispatch(getCompletedTasksByHousehold());
+      };
+      fetchData();
+    }, [dispatch]),
+  );
 }

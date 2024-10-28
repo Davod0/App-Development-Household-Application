@@ -50,8 +50,7 @@ export const userSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(signUpUser.rejected, (state, action) => {
-        // TODO: fix as string?!
-        state.signUpErrorMessage = action.payload as string;
+        state.signUpErrorMessage = action.payload;
         state.isLoading = false;
         console.log(`Error message from user reducer: ${action.payload}`);
       })
@@ -62,8 +61,7 @@ export const userSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(signInUser.rejected, (state, action) => {
-        // TODO: fix as string?!
-        state.signInErrorMessage = action.payload as string;
+        state.signInErrorMessage = action.payload;
         state.isLoading = false;
         console.log(`Error message from user reducer:2 ${action.payload}`);
       })
