@@ -110,7 +110,14 @@ export default function JoinHouseholdScreen({ navigation }: props) {
           )}
         </Dialog.Content>
         <Dialog.Actions>
-          <Button onPress={() => setShowConfirmationDialog(false)}>OK</Button>
+          <Button
+            onPress={() => {
+              setShowConfirmationDialog(false);
+              navigation.navigate('YourHouseholds');
+            }}
+          >
+            OK
+          </Button>
         </Dialog.Actions>
       </Dialog>
     </View>
