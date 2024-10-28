@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Button, Dialog, IconButton, Portal, Text } from 'react-native-paper';
 import { Task } from '../types';
@@ -9,6 +10,7 @@ type ArchivedTaskProps = {
 export default function ArchivedTask({ task }: ArchivedTaskProps) {
   const [visible, setVisible] = useState(false);
   const [archived, setArchived] = useState(task.isArchived);
+  const navigation = useNavigation();
 
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
@@ -48,6 +50,7 @@ export default function ArchivedTask({ task }: ArchivedTaskProps) {
               onPress={() => {
                 archiveTask();
                 hideDialog();
+                navigation.goBack();
               }}
               textColor="white"
               style={{

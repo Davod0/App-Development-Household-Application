@@ -4,7 +4,11 @@ import { Button, Card, Text } from 'react-native-paper';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { getCompletedTasksByHouseholdId } from '../../store/completedTasks/completedTasksActions';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { addTask, updateTask } from '../../store/tasks/tasksAction';
+import {
+  addTask,
+  getTasksBySelectedHousehold,
+  updateTask,
+} from '../../store/tasks/tasksAction';
 import { selectTasks } from '../../store/tasks/tasksSelectors';
 import { selectSelectedHousehold } from '../../store/user/selectors';
 import { CreateTask } from '../../types';
@@ -82,7 +86,13 @@ export default function TestTasks({ navigation }: Props) {
               dispatch(getCompletedTasksByHouseholdId(selectedHousehold.id));
             }}
           >
-            update
+            update(completed tasks)
+          </Button>
+          <Button
+            mode="contained"
+            onPress={() => dispatch(getTasksBySelectedHousehold)}
+          >
+            get tasks
           </Button>
 
           {tasksForHouseholdId.length > 0 ? (

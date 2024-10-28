@@ -43,30 +43,34 @@ export const addTask = createAppAsyncThunk<Task, CreateTask>(
 );
 
 // Hämtar alla tasks TODO: behövs inte i slutet
-export const getTasks = createAppAsyncThunk<Task[]>(
-  'tasks/get',
-  async (_, thunkAPI) => {
-    try {
-      const snapshot = await getDocs(collection(db, 'tasks'));
-      const data: Task[] = [];
-      snapshot.forEach((doc) => data.push(doc.data() as Task));
-      return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        `Error reading from database, tasks ${error}`,
-      );
-    }
-  },
-);
+// export const getTasks = createAppAsyncThunk<Task[]>(
+//   'tasks/get',
+//   async (_, thunkAPI) => {
+//     try {
+//       const snapshot = await getDocs(collection(db, 'tasks'));
+//       const data: Task[] = [];
+//       snapshot.forEach((doc) => data.push(doc.data() as Task));
+//       return data;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(
+//         `Error reading from database, tasks ${error}`,
+//       );
+//     }
+//   },
+// );
 
 // Hämtar alla tasks till ett hushåll, filtrerar på husfålls id
-// FIXME: ingen filtrering utförs!
-export const getSelectedHouseholdTasks = createAppAsyncThunk<Task[], string>(
+// TODO: fixat?
+export const getTasksBySelectedHousehold = createAppAsyncThunk<Task[]>(
   'task/householdID/get',
-  async (householdId, thunkAPI) => {
+  async (_, thunkAPI) => {
+    const state = thunkAPI.getState();
     try {
       const snapshot = await getDocs(
-        query(collection(db, 'tasks'), where('householdId', '==', householdId)),
+        query(
+          collection(db, 'tasks'),
+          where('householdId', '==', state.user.selectedHousehold?.id),
+        ),
       );
       const data: Task[] = [];
       snapshot.forEach((doc) => data.push(doc.data() as Task));

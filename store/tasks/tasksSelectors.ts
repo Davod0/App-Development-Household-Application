@@ -8,6 +8,7 @@ export const selectTasks = (state: RootState) => state.tasks.list;
 //     tasks.filter((task) => task.householdId === householdID),
 //   );
 
+// TODO: används inte just nu
 export const selectTasksFromHouseholdId =
   (householdID: string) => (state: RootState) =>
     state.tasks.list.filter((tasks) => tasks.householdId === householdID);
