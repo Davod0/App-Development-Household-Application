@@ -58,7 +58,6 @@ export default function JoinHouseholdScreen({ navigation }: props) {
     dispatch(addRequest(code));
     setShowConfirmationDialog(true);
     setHouseCode('');
-    // navigation.navigate('YourHouseholds');
   };
 
   return (
