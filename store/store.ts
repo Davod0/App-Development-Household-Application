@@ -5,7 +5,7 @@ import { membersReducer } from './members/membersSlice';
 import { requestsReducer } from './requests/requestsSlice';
 import { scheduledTasksReducer } from './scheduledTasks/scheduledTasksSlice';
 import { tasksReducer } from './tasks/tasksSlice';
-import userReducer from './user/userReducer';
+import userReducer from './user/userSlice';
 
 export const store = configureStore({
   reducer: {

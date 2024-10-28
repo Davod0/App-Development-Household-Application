@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppSelector } from '../../store/hooks';
-import { selectSelectedHousehold } from '../../store/user/selectors';
+import { selectSelectedHousehold } from '../../store/user/userSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TestUser'>;
 

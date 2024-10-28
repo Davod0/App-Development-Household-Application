@@ -1,15 +1,12 @@
-import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getHouseholdsByUserId } from '../store/households/householdsActions';
 import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
-import { selectCurrentUser } from '../store/user/selectors';
-import { getMembersByCurrentUserId } from '../store/user/userActions';
-import { setSelectedHousehold } from '../store/user/userReducer';
+import { selectCurrentUser } from '../store/user/userSelectors';
+import { setSelectedHousehold } from '../store/user/userSlice';
 import { Household } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
@@ -19,18 +16,22 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   const user = useAppSelector(selectCurrentUser);
   const households = useAppSelector(selectAllHouseholdsByCurrentUser);
 
-  // testing...
-  useFocusEffect(
-    useCallback(() => {
-      if (user) {
-        dispatch(getMembersByCurrentUserId())
-          .unwrap()
-          .then(() => {
-            dispatch(getHouseholdsByUserId()).unwrap();
-          });
-      }
-    }, [dispatch, user]),
-  );
+  // // testing...
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (user) {
+  //       dispatch(getMembersByCurrentUserId())
+  //         .unwrap()
+  //         .then(() => {
+  //           dispatch(getHouseholdsByUserId())
+  //             .unwrap()
+  //             .then(() => {
+  //               // dispatch(getMembersByHouseholdId(''));
+  //             });
+  //         });
+  //     }
+  //   }, [dispatch, user]),
+  // );
 
   const handlePressHousehold = (household: Household) => {
     dispatch(setSelectedHousehold(household));
