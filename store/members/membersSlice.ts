@@ -64,5 +64,5 @@ const membersSlice = createSlice({
   },
 });
 
-export const memberReducer = membersSlice.reducer;
+export const membersReducer = membersSlice.reducer;
 export const {} = membersSlice.actions;

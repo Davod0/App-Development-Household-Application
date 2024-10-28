@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { completedTasksReducer } from './completedTasks/completedTasksSlice';
-import { householdReducer as householdsReducer } from './households/householdsSlice';
-import { memberReducer as membersReducer } from './members/membersSlice';
-import { requestReducer as requestsReducer } from './requests/requestsSlice';
+import { householdsReducer } from './households/householdsSlice';
+import { membersReducer } from './members/membersSlice';
+import { requestsReducer } from './requests/requestsSlice';
 import { scheduledTasksReducer } from './scheduledTasks/scheduledTasksSlice';
 import { tasksReducer } from './tasks/tasksSlice';
 import userReducer from './user/userReducer';
