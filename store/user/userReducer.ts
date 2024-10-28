@@ -2,7 +2,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { User } from 'firebase/auth';
 import { ColorMode } from '../../theme/ThemeProvider';
-import { signInUser, signUpUser } from './userActions';
+import { Household, Member } from '../../types';
+import {
+  getMembersByCurrentUserId,
+  signInUser,
+  signUpUser,
+} from './userActions';
 
 type userState = {
   currentUser?: User;
@@ -10,15 +15,18 @@ type userState = {
   registerErrorMessage?: string;
   loginErrorMessage?: string;
   theme: ColorMode;
+  memberProfiles: Member[];
+  selectedHousehold?: Household;
 };
 const initialState: userState = {
   currentUser: undefined,
   isLoading: true,
   theme: 'auto',
+  memberProfiles: [],
 };
 
 export const userSlice = createSlice({
-  name: 'users',
+  name: 'user',
   initialState,
   reducers: {
     setUserOptimistically: (state, action: PayloadAction<User>) => {
@@ -28,35 +36,50 @@ export const userSlice = createSlice({
     setColorMode: (state, action: PayloadAction<ColorMode>) => {
       state.theme = action.payload;
     },
+    setSelectedHousehold: (state, action: PayloadAction<Household>) => {
+      state.selectedHousehold = action.payload;
+    },
   },
 
   extraReducers: async (builder) => {
-    builder.addCase(signUpUser.pending, (state, action) => {
-      state.isLoading = true;
-    });
-    builder.addCase(signUpUser.fulfilled, (state, action) => {
-      state.isLoading = false;
-    });
-    builder.addCase(signUpUser.rejected, (state, action) => {
-      // TODO: fix as string?!
-      state.registerErrorMessage = action.payload as string;
-      state.isLoading = false;
-      console.log(`Error message from user reducer:1 ${action.payload}`);
-    });
-    builder.addCase(signInUser.pending, (state, action) => {
-      state.isLoading = true;
-    });
-    builder.addCase(signInUser.fulfilled, (state, action) => {
-      state.isLoading = false;
-    });
-    builder.addCase(signInUser.rejected, (state, action) => {
-      // TODO: fix as string?!
-      state.loginErrorMessage = action.payload as string;
-      state.isLoading = false;
-      console.log(`Error message from user reducer:2 ${action.payload}`);
-    });
+    builder
+      .addCase(signUpUser.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(signUpUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(signUpUser.rejected, (state, action) => {
+        // TODO: fix as string?!
+        state.registerErrorMessage = action.payload as string;
+        state.isLoading = false;
+        console.log(`Error message from user reducer: ${action.payload}`);
+      })
+      .addCase(signInUser.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(signInUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+      })
+      .addCase(signInUser.rejected, (state, action) => {
+        // TODO: fix as string?!
+        state.loginErrorMessage = action.payload as string;
+        state.isLoading = false;
+        console.log(`Error message from user reducer:2 ${action.payload}`);
+      })
+      .addCase(getMembersByCurrentUserId.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getMembersByCurrentUserId.fulfilled, (state, action) => {
+        return {
+          ...state,
+          memberProfiles: action.payload,
+          isLoading: false,
+        };
+      });
   },
 });
 
-export const { setUserOptimistically, setColorMode } = userSlice.actions;
+export const { setUserOptimistically, setColorMode, setSelectedHousehold } =
+  userSlice.actions;
 export default userSlice.reducer;

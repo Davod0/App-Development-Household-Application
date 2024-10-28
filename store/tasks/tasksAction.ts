@@ -15,12 +15,12 @@ export const addTask = createAppAsyncThunk<Task, CreateTask>(
   async (taskData, thunkApi) => {
     const state = thunkApi.getState();
     const newDocRef = doc(collection(db, 'tasks'));
-    if (!state.households.selectedHousehold) {
+    if (!state.user.selectedHousehold) {
       return thunkApi.rejectWithValue(
         `Error writing to database, no household selected`,
       );
     }
-    const householdId = state.households.selectedHousehold.id;
+    const householdId = state.user.selectedHousehold.id;
 
     const data: Task = {
       id: newDocRef.id,
@@ -58,6 +58,7 @@ export const getTasks = createAppAsyncThunk<Task[]>(
 );
 
 // Hämtar alla tasks till ett hushåll, filtrerar på husfålls id
+// FIXME: ingen filtrering utförs!
 export const getSelectedHouseholdTasks = createAppAsyncThunk<Task[], string>(
   'task/householdID/get',
   async (_, thunkAPI) => {

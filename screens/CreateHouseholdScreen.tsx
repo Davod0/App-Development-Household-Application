@@ -6,7 +6,7 @@ import { avatarList } from '../library/avatarList';
 import { generateRandomCode } from '../library/utils';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { createHousehold } from '../store/households/householdsActions';
+import { addHousehold } from '../store/households/householdsActions';
 import { selectCurrentUser } from '../store/user/selectors';
 
 type props = NativeStackScreenProps<RootStackParamList, 'CreateHouseHold'>;
@@ -25,7 +25,7 @@ export default function CreateHouseholdScreen({ navigation }: props) {
 
     const householdCode = generateRandomCode();
     dispatch(
-      createHousehold({
+      addHousehold({
         household: {
           name: hounseholdName,
           code: householdCode,

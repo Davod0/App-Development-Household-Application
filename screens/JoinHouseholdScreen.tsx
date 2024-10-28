@@ -1,20 +1,58 @@
-import { useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Dialog, Text, TextInput } from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Button,
+  Dialog,
+  Text,
+  TextInput,
+} from 'react-native-paper';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { getHouseholdsByUserId } from '../store/households/householdsActions';
+import { getMembersByHouseholdId } from '../store/members/membersActions';
+import { addRequest } from '../store/requests/requestsActions';
+import {
+  selectRequestError,
+  selectRequestIsLoading,
+} from '../store/requests/requestsSelectors';
+import { selectCurrentUser } from '../store/user/selectors';
+import { getMembersByCurrentUserId } from '../store/user/userActions';
 
 export default function JoinHouseholdScreen() {
   const [houseCode, setHouseCode] = useState('');
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [showValidationDialog, setShowValidationDialog] = useState(false);
+  const dispatch = useAppDispatch();
+  const requestIsLoading = useAppSelector(selectRequestIsLoading);
+  const requestError = useAppSelector(selectRequestError);
+  const user = useAppSelector(selectCurrentUser);
+
+  // testing...
+  useFocusEffect(
+    useCallback(() => {
+      if (user) {
+        dispatch(getMembersByCurrentUserId())
+          .unwrap()
+          .then(() => {
+            dispatch(getHouseholdsByUserId())
+              .unwrap()
+              .then(() => {
+                dispatch(getMembersByHouseholdId());
+              });
+          });
+      }
+    }, [dispatch, user, showConfirmationDialog]),
+  );
 
   const handleSubmitCode = () => {
-    // quick check to see if input field is empty
     if (!houseCode) {
       setShowValidationDialog(true);
       return;
     }
+    const code = houseCode.trim().toUpperCase();
+    dispatch(addRequest(code));
     setShowConfirmationDialog(true);
-    console.log(houseCode);
     setHouseCode('');
   };
 
@@ -26,9 +64,14 @@ export default function JoinHouseholdScreen() {
           mode="outlined"
           label={'Kod till hushållet'}
           value={houseCode}
-          onChangeText={(text) => setHouseCode(text)}
+          onChangeText={setHouseCode}
         />
-        <Button mode="contained" style={s.button} onPress={handleSubmitCode}>
+        <Button
+          mode="contained"
+          style={s.button}
+          disabled={requestIsLoading}
+          onPress={handleSubmitCode}
+        >
           Gå med i hushåll
         </Button>
       </View>
@@ -45,9 +88,21 @@ export default function JoinHouseholdScreen() {
         visible={showConfirmationDialog}
         onDismiss={() => setShowConfirmationDialog(false)}
       >
-        <Dialog.Title>Förfrågan har registrerats</Dialog.Title>
+        <Dialog.Title>
+          {!!requestError ? 'Något gick fel...' : 'Förfrågan har registrerats'}
+        </Dialog.Title>
         <Dialog.Content>
-          <Text>Ägaren måste godkänna din förfrågan</Text>
+          {requestIsLoading ? (
+            <ActivityIndicator animating />
+          ) : (
+            <>
+              {!!requestError ? (
+                <Text>{requestError}</Text>
+              ) : (
+                <Text>Ägaren måste godkänna din förfrågan</Text>
+              )}
+            </>
+          )}
         </Dialog.Content>
         <Dialog.Actions>
           <Button onPress={() => setShowConfirmationDialog(false)}>OK</Button>

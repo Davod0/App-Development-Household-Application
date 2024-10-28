@@ -1,40 +1,68 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { mockedHouseholds } from '../../data';
+
 import { Household } from '../../types';
-import { createHousehold } from './householdsActions';
+import {
+  addHousehold,
+  getHouseholdByCode,
+  getHouseholdsByUserId,
+  updateHouseholdName,
+} from './householdsActions';
 
 // state
 type HouseholdState = {
   list: Household[];
-  selectedHousehold?: Household;
+  isLoading?: boolean;
 };
 const initialState: HouseholdState = {
-  list: mockedHouseholds,
-  selectedHousehold: undefined,
+  list: [],
 };
 
 // slice
-const householdSlice = createSlice({
-  name: 'household',
+const householdsSlice = createSlice({
+  name: 'households',
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(createHousehold.fulfilled, (state, action) => {
-      state.list.push(action.payload);
-    });
 
-    //  builder.addCase(createHousehold2.fulfilled, (state, action) => {
-    //    state.list.push(action.payload.member);
-    //  });
+  extraReducers: (builder) => {
+    builder
+      .addCase(addHousehold.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addHousehold.fulfilled, (state, action) => {
+        state.list.push(action.payload);
+        state.isLoading = false;
+      })
+      .addCase(getHouseholdsByUserId.fulfilled, (state, action) => {
+        return { ...state, list: action.payload };
+      })
+      // .addCase(getHouseholdByCode.fulfilled, (state, action) => {
+      //   // state.selectedHousehold = action.payload;
+      //   if (typeof action.payload === 'string') {
+      //     console.log(action.payload); // Handle the 'No household found' message
+      //   } else {
+      //     state.selectedHousehold = action.payload;
+      //   }
+      // })
+      .addCase(updateHouseholdName.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateHouseholdName.fulfilled, (state, action) => {
+        const household = state.list.find((h) => h.id === action.payload.id);
+        if (household) {
+          household.name = action.payload.name;
+        }
+        state.isLoading = false;
+      });
   },
-  // code for using thunks with firebase...
-  // extraReducers: (builder) => {
-  //   builder.addCase(addCompletedTask.fulfilled, (state, action) => {
-  //     state.push(action.payload);
-  //   });
-  // },
 });
 
 // export reducer and actions
-export const householdReducer = householdSlice.reducer;
-export const {} = householdSlice.actions;
+export const householdsReducer = householdsSlice.reducer;
+export const {} = householdsSlice.actions;
+
+// .addCase(getHouseholds.pending, (state) => {
+//   state.isLoading = true;
+// })
+// .addCase(getHouseholds.fulfilled, (state, action) => {
+//   return { list: action.payload, isLoading: false };
+// })

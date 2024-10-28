@@ -2,9 +2,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { signOut } from 'firebase/auth';
 import { Button, Pressable, StyleSheet, View } from 'react-native';
 import { Surface, Text } from 'react-native-paper';
-import { mockedHouseholds } from '../data';
-import { auth } from '../firebase';
-import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { mockedHouseholds } from '../../data';
+import { auth } from '../../firebase';
+import { RootStackParamList } from '../../navigators/RootStackNavigator';
 // import { mockedHouseholds, mockedMembers } from '../data';
 // import { useAppSelector } from '../store/hooks';
 

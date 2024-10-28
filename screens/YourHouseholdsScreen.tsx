@@ -1,68 +1,77 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React, { useCallback } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
-import { useAppSelector } from '../store/hooks';
-import { selectAllHouseholds } from '../store/households/housholdsSelectors';
-import { selectAllMembers } from '../store/Members/membersSelectors';
-import { selectCurrentUser } from '../store/user/selectors';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { getHouseholdsByUserId } from '../store/households/householdsActions';
+import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
+import {
+  selectCurrentUser,
+  selectSelectedHousehold,
+} from '../store/user/selectors';
+import { getMembersByCurrentUserId } from '../store/user/userActions';
+import { setSelectedHousehold } from '../store/user/userReducer';
 import { Household } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
-// kolla om inloggad antingen här eller på föregående sida dvs inloggningssidan?
 export default function YourHouseholdsScreen({ navigation }: Props) {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
-  const members = useAppSelector(selectAllMembers);
-  const loggedInUserId = user?.uid;
-  const ReduxHousholds = useAppSelector(selectAllHouseholds);
-  if (!user) {
-    return (
-      <View>
-        <Text style={s.emptyText}>Error, användare inte inloggad</Text>
-      </View>
-    );
-  }
+  const households = useAppSelector(selectAllHouseholdsByCurrentUser);
 
-  const userHouseholds = ReduxHousholds.filter((household) =>
-    members.some(
-      (member) =>
-        member.userId === loggedInUserId && member.householdId === household.id,
-    ),
+  // testing...
+  useFocusEffect(
+    useCallback(() => {
+      if (user) {
+        dispatch(getMembersByCurrentUserId())
+          .unwrap()
+          .then(() => {
+            dispatch(getHouseholdsByUserId())
+              .unwrap()
+              .then(() => {
+                // dispatch(getMembersByHouseholdId(''));
+              });
+          });
+      }
+    }, [dispatch, user]),
   );
 
-  const handleHouseholdPress = (household: Household) => {
-    navigation.navigate('HouseholdInformation', { household });
+  const handlePressHousehold = (household: Household) => {
+    dispatch(setSelectedHousehold(household));
+    navigation.navigate('SelectedHouseholdNav');
   };
 
-  const handleDeletePress = () => {
-    navigation.navigate('Profile');
-    // funktionalitet ska implementeras i denna
+  const handlePressInfo = (household: Household) => {
+    dispatch(setSelectedHousehold(household));
+    navigation.navigate('HouseholdInformation', { household });
   };
 
   return (
     <ScrollView contentContainerStyle={s.container}>
       <View style={s.householdsContainer}>
-        {userHouseholds && userHouseholds.length > 0 ? (
-          userHouseholds.map((household) => (
+        {households && households.length > 0 ? (
+          households.map((household) => (
             <View style={s.household} key={household.id}>
               <Surface style={s.surface}>
                 <TouchableOpacity
-                  onPress={() => handleHouseholdPress(household)}
+                  onPress={() => handlePressHousehold(household)}
                 >
-                  <Text style={s.text}>{household.name} 🏠</Text>
+                  <Text style={s.text}>{household.name}</Text>
                 </TouchableOpacity>
 
                 <IconButton
-                  icon="close-circle-outline"
+                  icon="information-outline"
                   size={24}
-                  onPress={handleDeletePress}
+                  onPress={() => handlePressInfo(household)}
                 />
               </Surface>
             </View>
           ))
         ) : (
-          <Text style={s.emptyText}>Inga tillgängliga hushåll.</Text>
+          <Text style={s.emptyText}>Inga tillgängliga hushåll</Text>
         )}
       </View>
       <View style={s.footer}>

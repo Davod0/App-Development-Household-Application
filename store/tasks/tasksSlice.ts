@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { mockedTasks } from '../../data';
 import { CreateTask, Task } from '../../types';
 import {
   addTask,
@@ -15,7 +14,7 @@ export type TaskState = {
 };
 
 const initialState: TaskState = {
-  list: mockedTasks,
+  list: [],
 };
 
 // SLICE

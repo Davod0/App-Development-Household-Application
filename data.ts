@@ -6,6 +6,7 @@ import {
   ScheduledTask,
   Task,
   User,
+  Request,
 } from './types';
 
 // Mocked Household data
@@ -24,6 +25,14 @@ export const mockedHouseholds: Household[] = [
     id: 'household-3',
     name: 'Hällentorp Family',
     code: 'GE246',
+  },
+];
+
+export const mockedRequests: Request[] = [
+  {
+    id: '1',
+    householdId: '0sIkt8WkukyBTVsVf57j',
+    memberId: '',
   },
 ];
 

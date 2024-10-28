@@ -1,9 +1,16 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useCallback } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Card, Icon, List, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
-import { useAppSelector } from '../store/hooks';
-import { selectAllMembers } from '../store/Members/membersSelectors';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { getMembersByHouseholdId } from '../store/members/membersActions';
+import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
+import {
+  selectCurrentUser,
+  selectSelectedHousehold,
+} from '../store/user/selectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 
@@ -11,11 +18,33 @@ export default function HouseholdInformationScreen({
   navigation,
   route,
 }: Props) {
-  const members = useAppSelector(selectAllMembers);
-  const { household } = route.params;
-  const membersInHousehold = members.filter(
-    (m) => m.householdId === household.id,
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
+  const members = useAppSelector(selectAllMembersBySelectedHousehold);
+  const selectedHousehold = useAppSelector(selectSelectedHousehold);
+
+  // testing...
+  useFocusEffect(
+    useCallback(() => {
+      if (user) {
+        dispatch(getMembersByHouseholdId())
+          .unwrap()
+          .then(() => {
+            dispatch(getMembersByHouseholdId())
+              .unwrap()
+              .then(() => {
+                // dispatch(getMembersByHouseholdId(''));
+              });
+          });
+      }
+    }, [dispatch, user]),
   );
+
+  const membersInHousehold = members.filter(
+    (m) => m.householdId === selectedHousehold?.id && m.isAllowed === true,
+  );
+
+  // console.log('house info screen:', members.length, membersInHousehold.length);
 
   return (
     <ScrollView contentContainerStyle={s.root}>
@@ -24,13 +53,13 @@ export default function HouseholdInformationScreen({
           <Text style={s.headline}>Din kod till hushållet:</Text>
           <Card style={s.box}>
             <Card.Content>
-              <Text style={s.text}>{household.code}</Text>
+              <Text style={s.text}>{selectedHousehold?.code}</Text>
             </Card.Content>
           </Card>
           <Text style={s.headline}>Namn till hushållet:</Text>
           <Card style={s.box}>
             <Card.Content style={{ height: 'auto', justifyContent: 'center' }}>
-              <Text style={s.text}>{household.name}</Text>
+              <Text style={s.text}>{selectedHousehold?.name}</Text>
             </Card.Content>
           </Card>
           <Text style={{ marginTop: 12, fontSize: 34 }}>Medlemmar:</Text>

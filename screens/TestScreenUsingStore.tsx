@@ -37,12 +37,13 @@ export default function TestScreenUsingStore() {
   };
 
   return (
-    <View>
+    <View style={{ paddingHorizontal: 10 }}>
       <Text style={{ fontSize: 30 }}>Test Screen</Text>
       <Text style={{ fontSize: 30, paddingBottom: 10, paddingTop: 10 }}>
         Sign Up
       </Text>
       <TextInput
+        keyboardType="email-address"
         value={email}
         onChangeText={setEmail}
         placeholder="Enter your email"
@@ -58,6 +59,7 @@ export default function TestScreenUsingStore() {
         Sign In
       </Text>
       <TextInput
+        keyboardType="email-address"
         value={email}
         onChangeText={setEmail}
         placeholder="Enter your email address"
