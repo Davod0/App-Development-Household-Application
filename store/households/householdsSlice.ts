@@ -4,6 +4,7 @@ import { Household } from '../../types';
 import {
   addHousehold,
   getAllowedHouseholdsByUserId,
+  getIsNotAllowedHouseholdsByMemberId,
   updateHouseholdName,
 } from './householdsActions';
 
@@ -34,14 +35,12 @@ const householdsSlice = createSlice({
       .addCase(getAllowedHouseholdsByUserId.fulfilled, (state, action) => {
         return { ...state, list: action.payload };
       })
-      // .addCase(getHouseholdByCode.fulfilled, (state, action) => {
-      //   // state.selectedHousehold = action.payload;
-      //   if (typeof action.payload === 'string') {
-      //     console.log(action.payload); // Handle the 'No household found' message
-      //   } else {
-      //     state.selectedHousehold = action.payload;
-      //   }
-      // })
+      .addCase(
+        getIsNotAllowedHouseholdsByMemberId.fulfilled,
+        (state, action) => {
+          return { ...state, list: action.payload };
+        },
+      )
       .addCase(updateHouseholdName.pending, (state) => {
         state.isLoading = true;
       })

@@ -71,7 +71,7 @@ export const getAllowedHouseholdsByUserId = createAppAsyncThunk<Household[]>(
 export const getIsNotAllowedHouseholdsByMemberId = createAppAsyncThunk<
   Household[],
   Member[]
->('Household/getByUserId', async (membersList, thunkApi) => {
+>('Household/getByMemberId', async (membersList, thunkApi) => {
   // const state = thunkApi.getState();
   const householdIds = membersList.map((member) => member.householdId);
 
