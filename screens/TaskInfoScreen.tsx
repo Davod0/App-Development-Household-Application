@@ -5,7 +5,7 @@ import { Button, Icon, Surface, Text, useTheme } from 'react-native-paper';
 import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { selectTaskFromTaskID } from '../store/tasks/tasksSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TaskInfo'>;
@@ -14,9 +14,12 @@ export default function TaskInfoScreen({ navigation, route }: Props) {
   const { colors } = useTheme();
   const { taskId } = route.params;
   const task = useAppSelector(selectTaskFromTaskID(taskId));
-  console.log(task);
+  const dispatch = useAppDispatch();
 
-  const handleSave = () => {};
+  const handleCheckTask = () => {
+    // dispatch()
+    navigation.goBack();
+  };
 
   if (!task) {
     return <Text>Kunde inte hitta sysslan ....</Text>;
@@ -44,7 +47,7 @@ export default function TaskInfoScreen({ navigation, route }: Props) {
           icon={({ color }) => (
             <Icon source="check-outline" size={27} color={color} />
           )}
-          onPress={handleSave}
+          onPress={handleCheckTask}
         >
           <Text style={s.buttonText}>Utförd</Text>
         </Button>
