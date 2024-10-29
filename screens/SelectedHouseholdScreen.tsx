@@ -1,34 +1,65 @@
 import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Badge, Button, Icon, Surface } from 'react-native-paper';
-import {
-  avatarList,
-  mockedCompletedTasks,
-  mockedMembers,
-  mockedTasks,
-  Task,
-} from '../data';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Badge, Button, Icon, Surface, Text } from 'react-native-paper';
+import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+
+import { selectAllRequestsOfSelectedHousehold } from '../store/requests/requestsSelectors';
+import { useSelectedHouseholddata } from '../store/user/hooks';
+import {
+  selectCurrentUser,
+  selectCurrentUserMemberProfiles,
+  selectSelectedHousehold,
+} from '../store/user/userSelectors';
+import { Task } from '../types';
 
 type Props = MaterialTopTabScreenProps<
   TopTabNavigatorParamList,
   'SelectedHousehold'
 >;
 
-//TODO: fix type
 export default function SelectedHouseholdScreen({ navigation }: Props) {
+  useSelectedHouseholddata();
+
   //for testing...
   const currentUser = { isAdmin: true };
   // const currentUser = { isAdmin: false };
-  const pendingRequests = ['a', 'b'];
-  // const pendingRequests = [];
-  const householdId = 'household-1';
 
-  const members = mockedMembers.filter((m) => m.householdId === householdId);
+  const dispatch = useAppDispatch();
+  const requests = useAppSelector(selectAllRequestsOfSelectedHousehold);
+  const user = useAppSelector(selectCurrentUser);
+  const selectedHousehold = useAppSelector(selectSelectedHousehold);
+  console.log('selectedHousehold:', selectedHousehold);
+
+  const member = useAppSelector(selectCurrentUserMemberProfiles).find(
+    (p) => p.householdId === selectedHousehold?.id,
+  );
+
+  // useFocusEffect
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (user && selectedHousehold) {
+  //       dispatch(getRequestsByHouseholdId(selectedHousehold!.id))
+  //         .unwrap()
+  //         .then(() => {
+  //           dispatch(getRequestsByHouseholdId(selectedHousehold!.id))
+  //             .unwrap()
+  //             .then(() => {
+  //               dispatch(getMembersByHouseholdId());
+  //             });
+  //         });
+  //     }
+  //   }, [dispatch, user, selectedHousehold]),
+  // );
+
+  const members = mockedMembers.filter(
+    (m) => m.householdId === selectedHousehold?.id,
+  );
   const tasksHousehold = mockedTasks.filter(
-    (t) => t.householdId === householdId,
+    (t) => t.householdId === selectedHousehold?.id,
   );
 
   const today = todayAtMidnight();
@@ -44,12 +75,12 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
 
     if (memberIds.length > 0) {
       const memberAvatars = memberIds.map(
-        (mId) => members.find((m) => m.id === mId)?.avatarId!,
+        (mId) => members.find((m) => m.id === mId)?.avatar!,
       );
       return (
         <>
           {memberAvatars.map((x, idx) => (
-            <Text key={idx}>{avatarList[x].icon}</Text>
+            <Text key={idx}>{x.icon}</Text>
           ))}
         </>
       );
@@ -109,23 +140,22 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
           </Pressable>
         ))}
       </ScrollView>
-      {currentUser.isAdmin && (
+      {member?.isOwner && (
         <View
           style={{
             width: '100%',
-            flexDirection: pendingRequests.length > 0 ? 'row' : 'row-reverse',
+            flexDirection: requests.length > 0 ? 'row' : 'row-reverse',
           }}
         >
-          {pendingRequests.length > 0 && (
+          {requests.length > 0 && (
             <Button
               style={{ width: '50%' }}
               mode="elevated"
-              textColor="black"
               theme={{ roundness: 0 }}
               icon={({ color }) => (
                 <View>
                   <Badge style={{ marginBottom: -6 }} size={14}>
-                    {pendingRequests.length}
+                    {requests.length}
                   </Badge>
                   <Icon source="bell-outline" size={27} color={color} />
                 </View>
@@ -143,7 +173,6 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
           <Button
             style={{ width: '50%' }}
             mode="elevated"
-            textColor="black"
             theme={{ roundness: 0 }}
             icon={({ color }) => (
               <Icon source="plus-circle-outline" size={27} color={color} />
@@ -167,23 +196,10 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
 
 const s = StyleSheet.create({
   container: {
-    // flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // backgroundColor: '#008080aa',
     gap: 5,
   },
   taskItem: {
-    // justifyContent: 'space-between',
     fontSize: 20,
-  },
-  header: {
-    marginTop: -13,
-    // flex: 1,
-    // justifyContent: 'center',
-    alignItems: 'center',
-    // backgroundColor: '#008080aa',
-    flexDirection: 'row',
   },
   surface: {
     flexDirection: 'row',

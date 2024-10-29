@@ -1,27 +1,45 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
-import { Button, Icon, TextInput } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { Button, Dialog, Icon, TextInput } from 'react-native-paper';
+import { avatarList } from '../library/avatarList';
+import { generateRandomCode } from '../library/utils';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { addHousehold } from '../store/households/householdsActions';
+import { selectCurrentUser } from '../store/user/userSelectors';
 
 type props = NativeStackScreenProps<RootStackParamList, 'CreateHouseHold'>;
 
 export default function CreateHouseholdScreen({ navigation }: props) {
-  const [name, setName] = useState('');
-
-  const validateHouseHoldName = () => {
-    if (!name) {
-      Alert.alert('Validation error', 'Household name kan inte vara tomt.');
-      return false;
-    }
-    return true;
-  };
+  const [showDialog, setShowDialog] = useState(false);
+  const [hounseholdName, setHounseholdName] = useState('');
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
 
   const createHouseHold = () => {
-    if (validateHouseHoldName()) {
-      console.log('Household name is right. We can create household.');
-      navigation.navigate('Home');
+    if (!hounseholdName) {
+      setShowDialog(true);
+      return;
     }
+
+    const householdCode = generateRandomCode();
+    dispatch(
+      addHousehold({
+        household: {
+          name: hounseholdName,
+          code: householdCode,
+        },
+        member: {
+          name: user?.email ?? 'Ägarens namn',
+          userId: user!.uid,
+          avatar: avatarList['fox'],
+          isOwner: true,
+          isAllowed: true,
+        },
+      }),
+    );
+    navigation.navigate('YourHouseholds');
   };
 
   return (
@@ -30,8 +48,8 @@ export default function CreateHouseholdScreen({ navigation }: props) {
         <TextInput
           mode="outlined"
           label={'Namn'}
-          value={name}
-          onChangeText={(text) => setName(text)}
+          value={hounseholdName}
+          onChangeText={(text) => setHounseholdName(text)}
           theme={{ roundness: 10 }}
           style={{ height: 60, justifyContent: 'center' }}
         />
@@ -49,7 +67,6 @@ export default function CreateHouseholdScreen({ navigation }: props) {
             <Icon source="close-circle-outline" size={36} color={color} />
           )}
           mode="elevated"
-          textColor="black"
           theme={{ roundness: 0 }}
           onPress={() => {
             navigation.goBack();
@@ -63,6 +80,12 @@ export default function CreateHouseholdScreen({ navigation }: props) {
           Stäng
         </Button>
       </View>
+      <Dialog visible={showDialog} onDismiss={() => setShowDialog(false)}>
+        <Dialog.Title>Hushållsnamn kan inte vara tomt.</Dialog.Title>
+        <Dialog.Actions>
+          <Button onPress={() => setShowDialog(false)}>OK</Button>
+        </Dialog.Actions>
+      </Dialog>
     </View>
   );
 }

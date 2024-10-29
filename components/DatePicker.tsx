@@ -4,14 +4,30 @@ import { Surface, Text } from 'react-native-paper';
 
 type Props = {
   frequency: number;
-  setFrequency: any;
+  setFrequency?: any;
+  isReadOnly?: boolean;
 };
 
-export default function DatePicker({ frequency, setFrequency }: Props) {
+export default function DatePicker({
+  frequency,
+  setFrequency,
+  isReadOnly = false,
+}: Props) {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const days = Array.from({ length: 31 }, (_, i) => i + 1); // Genererar nummer 1 till 31
 
-  return isDatePickerOpen ? (
+  return isReadOnly ? (
+    <Surface style={[s.RecurringDate, s.baseStyle]}>
+      <Text style={s.titleText}>Återkommer:</Text>
+      <View style={s.container}>
+        <Text style={s.displayText}>Var</Text>
+        <View style={s.dateValueContainer}>
+          <Text style={s.dateValue}>{frequency}</Text>
+        </View>
+        <Text style={s.displayText}>dag</Text>
+      </View>
+    </Surface>
+  ) : isDatePickerOpen ? (
     <Surface style={[s.RecurringValue, s.baseStyle]}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {days.map((day) => (

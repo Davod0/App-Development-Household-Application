@@ -1,21 +1,32 @@
 import { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
-import { Button, Surface, TextInput } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { Button, Dialog, Surface, TextInput } from 'react-native-paper';
 import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
+import { useAppDispatch } from '../store/hooks';
+import { addTask } from '../store/tasks/tasksAction';
 
 export default function CreateTaskScreen() {
-  const [title, setTitle] = useState('');
+  const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [frequency, setFrequency] = useState(0);
   const [weight, setWeight] = useState(0);
+  const [showCreatedDialog, setShowCreatedDialog] = useState(false);
+  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
+  const dispatch = useAppDispatch();
 
-  const handleCreateTask = () => {
-    console.log(title);
+  const handleCreateTask = async () => {
+    if (!name) {
+      setShowConfirmationDialog(true);
+      return;
+    }
+    console.log(name);
     console.log(description);
     console.log(weight);
     console.log(frequency);
-    Alert.alert('En syssla är skapad');
+    setShowCreatedDialog(true);
+    await dispatch(addTask({ name, description, frequency, weight })).unwrap();
+    // navigate
   };
 
   return (
@@ -24,8 +35,8 @@ export default function CreateTaskScreen() {
         <TextInput
           placeholder="Titel"
           placeholderTextColor="#bdbdbd"
-          value={title}
-          onChangeText={setTitle}
+          value={name}
+          onChangeText={setName}
         />
       </Surface>
       <Surface>
@@ -48,6 +59,24 @@ export default function CreateTaskScreen() {
       <Button mode="contained" onPress={handleCreateTask}>
         Skapa
       </Button>
+      <Dialog
+        visible={showCreatedDialog}
+        onDismiss={() => setShowCreatedDialog(false)}
+      >
+        <Dialog.Title>Sysslan har skapats</Dialog.Title>
+        <Dialog.Actions>
+          <Button onPress={() => setShowCreatedDialog(false)}>OK</Button>
+        </Dialog.Actions>
+      </Dialog>
+      <Dialog
+        visible={showConfirmationDialog}
+        onDismiss={() => setShowConfirmationDialog(false)}
+      >
+        <Dialog.Title>Du måste skriva ett namn på sysslan</Dialog.Title>
+        <Dialog.Actions>
+          <Button onPress={() => setShowConfirmationDialog(false)}>OK</Button>
+        </Dialog.Actions>
+      </Dialog>
     </View>
   );
 }

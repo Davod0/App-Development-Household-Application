@@ -1,34 +1,49 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { CompletedTask } from '../../types';
 import {
-  CompletedTask,
-  CreateCompletedTask,
-  mockedCompletedTasks,
-} from '../../data';
+  addCompletedTask,
+  getCompletedTasksByHousehold,
+  getCompletedTasksByHouseholdId,
+} from './completedTasksActions';
 
 // state
-type CompletedTasksState = CompletedTask[];
-const initialState: CompletedTasksState = mockedCompletedTasks;
+type CompletedTasksState = {
+  list: CompletedTask[];
+  isLoading?: boolean;
+};
+const initialState: CompletedTasksState = {
+  list: [],
+};
 
 // slice
 const completedTasksSlice = createSlice({
   name: 'completedTasks',
   initialState,
-  reducers: {
-    addCompletedTask: (state, action: PayloadAction<CreateCompletedTask>) => {
-      state.push({
-        id: Date.now().toString(),
-        ...action.payload,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(addCompletedTask.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addCompletedTask.fulfilled, (state, action) => {
+        state.list.push(action.payload);
+        state.isLoading = false;
+      })
+      .addCase(getCompletedTasksByHouseholdId.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCompletedTasksByHouseholdId.fulfilled, (_, action) => {
+        return { list: action.payload, isLoading: false };
+      })
+      .addCase(getCompletedTasksByHousehold.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCompletedTasksByHousehold.fulfilled, (_, action) => {
+        return { list: action.payload, isLoading: false };
       });
-    },
   },
-  // code for using thunks with firebase...
-  // extraReducers: (builder) => {
-  //   builder.addCase(addCompletedTask.fulfilled, (state, action) => {
-  //     state.push(action.payload);
-  //   });
-  // },
 });
 
 // export reducer and actions
 export const completedTasksReducer = completedTasksSlice.reducer;
-export const { addCompletedTask } = completedTasksSlice.actions;
+export const {} = completedTasksSlice.actions;

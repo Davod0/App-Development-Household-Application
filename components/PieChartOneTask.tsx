@@ -1,5 +1,6 @@
 import { PieChart } from 'react-native-gifted-charts';
-import { avatarList, Task } from '../data';
+import { avatarList } from '../library/avatarList';
+import { Task } from '../types';
 
 type Props = { task: Task };
 

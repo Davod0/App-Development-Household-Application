@@ -1,10 +1,5 @@
 import { PieChart } from 'react-native-gifted-charts';
-import {
-  avatarList,
-  mockedCompletedTasks,
-  mockedMembers,
-  mockedTasks,
-} from '../data';
+import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { startDayCurrentWeek } from '../library/dateFunctions';
 
 type Props = {
@@ -49,11 +44,11 @@ export default function PieChartAllTasks({ startDate, endDate }: Props) {
 
   const overallData: { value: number; color: string; text: string }[] = [];
   for (let memberId of chartData.keys()) {
-    let avatarInfo = members.find((m) => m.id === memberId)?.avatarId!;
+    let avatarInfo = members.find((m) => m.id === memberId)?.avatar!;
     overallData.push({
       value: chartData.get(memberId)!,
-      color: avatarList[avatarInfo].color,
-      text: avatarList[avatarInfo].icon,
+      color: avatarInfo.color,
+      text: avatarInfo.icon,
     });
   }
   return (

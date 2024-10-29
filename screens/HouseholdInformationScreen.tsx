@@ -1,35 +1,65 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Card, Icon, List, Text } from 'react-native-paper';
-import { Household, mockedMembers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
+import { useSelectedHouseholddata } from '../store/user/hooks';
+import {
+  selectCurrentUser,
+  selectSelectedHousehold,
+} from '../store/user/userSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 
-export default function HouseholdInformationScreen(
-  { navigation }: Props,
-  household: Household,
-) {
-  // console.log(household);
+export default function HouseholdInformationScreen({
+  navigation,
+  route,
+}: Props) {
+  useSelectedHouseholddata();
 
-  // const household = mockedHouseholds[0];
-  const membersInHousehold = mockedMembers.filter(
-    (m) => m.householdId === household.id,
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
+  const members = useAppSelector(selectAllMembersBySelectedHousehold);
+  const selectedHousehold = useAppSelector(selectSelectedHousehold);
+
+  // testing...
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (user) {
+  //       dispatch(getMembersByHouseholdId())
+  //         .unwrap()
+  //         .then(() => {
+  //           dispatch(getMembersByHouseholdId())
+  //             .unwrap()
+  //             .then(() => {
+  //               // dispatch(getMembersByHouseholdId(''));
+  //             });
+  //         });
+  //     }
+  //   }, [dispatch, user]),
+  // );
+
+  const membersInHousehold = members.filter(
+    (m) => m.householdId === selectedHousehold?.id && m.isAllowed === true,
   );
+
+  // console.log('house info screen:', members.length, membersInHousehold.length);
+
   return (
     <ScrollView contentContainerStyle={s.root}>
       <ScrollView>
         <View style={{ padding: 14 }}>
-          <Text style={s.text}>Din kod till hushållet:</Text>
+          <Text style={s.headline}>Din kod till hushållet:</Text>
           <Card style={s.box}>
-            <Card.Content style={{ height: 80 }}>
-              <Text style={s.text}>{household.code}</Text>
+            <Card.Content>
+              <Text style={s.text}>{selectedHousehold?.code}</Text>
             </Card.Content>
           </Card>
-          <Text style={s.text}>Namn till hushållet:</Text>
+          <Text style={s.headline}>Namn till hushållet:</Text>
           <Card style={s.box}>
-            <Card.Content style={{ height: 80 }}>
-              <Text style={s.text}>{household.name}</Text>
+            <Card.Content style={{ height: 'auto', justifyContent: 'center' }}>
+              <Text style={s.text}>{selectedHousehold?.name}</Text>
             </Card.Content>
           </Card>
           <Text style={{ marginTop: 12, fontSize: 34 }}>Medlemmar:</Text>
@@ -54,10 +84,12 @@ export default function HouseholdInformationScreen(
                   <List.Item
                     key={member.id}
                     style={{ width: '50%' }}
+                    titleStyle={{ textAlign: 'center' }}
                     title={member.name}
                     left={(props) => (
                       <List.Icon {...props} icon="account-circle" />
                     )}
+                    onPress={() => navigation.navigate('Profile')}
                   />
                 ))
               ) : (
@@ -71,7 +103,6 @@ export default function HouseholdInformationScreen(
         <Button
           style={{ width: '100%' }}
           mode="elevated"
-          textColor="black"
           theme={{ roundness: 0 }}
           icon={({ color }) => (
             <Icon source="close-circle-outline" size={27} color={color} />
@@ -98,6 +129,10 @@ const s = StyleSheet.create({
     justifyContent: 'space-between',
   },
   text: {
+    justifyContent: 'center',
+    fontSize: 24,
+  },
+  headline: {
     marginTop: 12,
     fontSize: 24,
   },

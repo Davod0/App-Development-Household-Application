@@ -2,13 +2,13 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, HelperText, Text, TextInput } from 'react-native-paper';
-import { EmailPassword } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { signUpUser } from '../store/user/userActions';
+import { EmailPassword } from '../types';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Register'>;
-export default function RegisterScreen({ navigation }: Props) {
+type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
+export default function SignUpScreen({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -16,7 +16,7 @@ export default function RegisterScreen({ navigation }: Props) {
   const [passwordInitialDisplay, setPasswordInitialDisplay] = useState(false);
   const dispatch = useAppDispatch();
   const registerErrorMessage = useAppSelector(
-    (state) => state.user.registerErrorMessage,
+    (state) => state.user.signUpErrorMessage,
   );
 
   const emailHasErrors = () => {
@@ -101,7 +101,7 @@ export default function RegisterScreen({ navigation }: Props) {
           onPress={signUpAccount}
           disabled={isButtonDisabled}
         >
-          Registrera konto
+          Skapa konto
         </Button>
       </View>
     </View>

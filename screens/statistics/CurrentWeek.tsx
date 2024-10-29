@@ -2,10 +2,13 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import PieChartAllTasks from '../../components/PieChartAllTasks';
 import PieChartOneTask from '../../components/PieChartOneTask';
-import { mockedTasks, Task } from '../../data';
+import { mockedTasks } from '../../data';
 import { todayAtMidnight } from '../../library/dateFunctions';
+import { useSelectedHouseholddata } from '../../store/user/hooks';
+import { Task } from '../../types';
 
 export default function CurrentWeek() {
+  useSelectedHouseholddata();
   const householdId = 'household-1';
   const tasks = mockedTasks.filter((t) => t.householdId === householdId);
 

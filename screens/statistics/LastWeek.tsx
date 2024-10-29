@@ -1,8 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
-import { avatarList, mockedTasks } from '../../data';
+import { mockedTasks } from '../../data';
+import { avatarList } from '../../library/avatarList';
+import { useSelectedHouseholddata } from '../../store/user/hooks';
 
 export default function LastWeek() {
+  useSelectedHouseholddata();
   const householdId = 'household-1';
   const tasks = mockedTasks.filter((t) => t.householdId === householdId);
   // const completedTasks = mockedCompletedTasks.filter(

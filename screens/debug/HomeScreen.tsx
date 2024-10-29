@@ -1,26 +1,28 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { signOut } from 'firebase/auth';
-import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
-import { Surface } from 'react-native-paper';
-import { mockedHouseholds } from '../data';
-import { auth } from '../firebase';
-import { RootStackParamList } from '../navigators/RootStackNavigator';
-// import { mockedHouseholds, mockedMembers } from '../data';
-// import { useAppSelector } from '../store/hooks';
+import { Button, Pressable, StyleSheet, View } from 'react-native';
+import { Surface, Text } from 'react-native-paper';
+import { mockedHouseholds } from '../../data';
+import { auth } from '../../firebase';
+import { RootStackParamList } from '../../navigators/RootStackNavigator';
+import { useAppSelector } from '../../store/hooks';
+import { selectTasksForCurrentHousehold } from '../../store/tasks/tasksSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 export default function Home({ navigation }: Props) {
-  // const households = useAppSelector((state) => state.household.list);
-  // const members = useAppSelector((state) => state.members.filter());
-  // const householdMembers = useAppSelector(selectMembersByHousehold);
-  // const userMembers = useAppSelector(selectMembersByUser);
+  const tasks = useAppSelector(selectTasksForCurrentHousehold);
+  const taskForTestingTaskInfoScreen = tasks[0];
 
-  // const userHouseholds = mockedHouseholds.filter((household) =>
-  //   mockedMembers.some(
-  //     (member) =>
-  //       member.userId === loggedInUserId && member.householdId === household.id,
-  //   ),
-  // );
+  // mockedData to EditTaskScreen
+  const task = {
+    id: '20',
+    householdId: '2020',
+    name: 'Katten',
+    description: 'Mata katten 2 gånger',
+    weight: 4,
+    frequency: 1,
+    isArchived: false,
+  };
 
   return (
     <View style={styles.container}>
@@ -30,14 +32,11 @@ export default function Home({ navigation }: Props) {
         elevation={2}
       >
         <Text>Need to change in RootStackNavigator to test these screens.</Text>
-        <Pressable onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.text}>Login</Text>
+        <Pressable onPress={() => navigation.navigate('SignIn')}>
+          <Text style={styles.text}>Sign in</Text>
         </Pressable>
-        <Pressable onPress={() => navigation.navigate('Register')}>
-          <Text style={styles.text}>Register</Text>
-        </Pressable>
-        <Pressable onPress={() => navigation.navigate('TestStore')}>
-          <Text style={styles.text}>TestStore</Text>
+        <Pressable onPress={() => navigation.navigate('SignUp')}>
+          <Text style={styles.text}>Sign up</Text>
         </Pressable>
       </Surface>
       <Pressable onPress={() => navigation.navigate('ReduxTest')}>
@@ -46,8 +45,16 @@ export default function Home({ navigation }: Props) {
       <Pressable onPress={() => navigation.navigate('Profile')}>
         <Text style={styles.text}>Profile</Text>
       </Pressable>
-      <Pressable onPress={() => navigation.navigate('Details')}>
-        <Text style={styles.text}>Details</Text>
+      <Pressable
+        onPress={() =>
+          navigation.navigate('TaskInfo', {
+            taskId: taskForTestingTaskInfoScreen
+              ? taskForTestingTaskInfoScreen.id
+              : '',
+          })
+        }
+      >
+        <Text style={styles.text}>TaskInfo</Text>
       </Pressable>
       <Pressable onPress={() => navigation.navigate('CreateHouseHold')}>
         <Text style={styles.text}>CreateHouseHold</Text>
@@ -73,6 +80,9 @@ export default function Home({ navigation }: Props) {
       <Pressable onPress={() => navigation.navigate('SelectedHouseholdNav')}>
         <Text style={styles.text}>SelectedHousehold</Text>
       </Pressable>
+      <Pressable onPress={() => navigation.navigate('EditTask', { task })}>
+        <Text style={styles.text}>EditTask</Text>
+      </Pressable>
 
       {/* <Pressable onPress={() => navigation.navigate('Login')}><Text style={styles.text}>Login</Text></Pressable> */}
       <Button
@@ -88,7 +98,6 @@ export default function Home({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -1,16 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { completedTasksReducer } from './completedTasks/completedTasksSlice';
-import householdReducer from './householdReducer';
-import taskReducer from './taskReducer';
-import userReducer from './user/userReducer';
+import { householdsReducer } from './households/householdsSlice';
+import { membersReducer } from './members/membersSlice';
+import { requestsReducer } from './requests/requestsSlice';
+import { scheduledTasksReducer } from './scheduledTasks/scheduledTasksSlice';
+import { tasksReducer } from './tasks/tasksSlice';
+import userReducer from './user/userSlice';
 
 export const store = configureStore({
   reducer: {
-    user: userReducer, // singular?
-    task: taskReducer, // plural?
-    household: householdReducer, // plural?
+    user: userReducer,
+    tasks: tasksReducer,
+    members: membersReducer,
+    households: householdsReducer,
     completedTasks: completedTasksReducer,
-    // members // selector för att filtrera på exempelvis det valda hushållet
+    scheduledTasks: scheduledTasksReducer,
+    requests: requestsReducer,
   },
 });
 

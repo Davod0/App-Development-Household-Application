@@ -1,84 +1,110 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
-import { Household } from '../data';
+import ArchivedTask from '../components/ArchiveTask';
+import ProfileIconButton from '../components/ProfileIconButton';
+import useSplashScreenVisibility from '../components/SplashScreenVisibility';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
-import DetailsScreen from '../screens/DetailsScreen';
-import HomeScreen from '../screens/HomeScreen';
+import HomeScreen from '../screens/debug/HomeScreen';
+import ReduxTestScreen from '../screens/debug/ReduxTestScreen';
+import TestCompTasks from '../screens/debug/TestCompTasks';
+import TestHouseholds from '../screens/debug/TestHouseholds';
+import TestMembers from '../screens/debug/TestMembers';
+import TestRequests from '../screens/debug/TestRequests';
+import TestTasks from '../screens/debug/TestTasks';
+import TestUser from '../screens/debug/TestUser';
+import EditTaskScreen from '../screens/EditTaskScreen';
 import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
-import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import ReduxTestScreen from '../screens/ReduxTestScreen';
-import RegisterScreen from '../screens/RegisterScreen';
-import TestScreenUsingStore from '../screens/TestScreenUsingStore';
+import SignInScreen from '../screens/SignInScreen';
+import SignUpScreen from '../screens/SignUpScreen';
+import TaskInfoScreen from '../screens/TaskInfoScreen';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 import { useAppSelector } from '../store/hooks';
 import { useUserAuthState } from '../store/user/hooks';
-import { selectCurrentUser } from '../store/user/selectors';
+import {
+  selectCurrentUser,
+  selectSelectedHousehold,
+} from '../store/user/userSelectors';
+import { Household, Task } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
 export type RootStackParamList = {
-  Login: undefined;
+  SignIn: undefined;
   Home: undefined;
   Profile: undefined;
-  Register: undefined;
-  TestStore: undefined;
+  SignUp: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
-  Details: undefined;
+  TaskInfo: { taskId: string };
   // SelectedHouseholdNav: NavigatorScreenParams<TopTabNavigatorParamList>;
   SelectedHouseholdNav: undefined;
   CreateTask: undefined;
   HouseholdInformation: { household: Household };
   YourHouseholds: undefined;
   ReduxTest: undefined;
+  TestUser: undefined;
+  TestTasks: undefined;
+  TestMembers: undefined;
+  TestHouseholds: undefined;
+  TestCompTasks: undefined;
+  EditTask: { task: Task };
+  TestRequests: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootStackNavigator() {
   useUserAuthState();
+  useSplashScreenVisibility();
   const user = useAppSelector(selectCurrentUser);
+  const selectedHousehold = useAppSelector(selectSelectedHousehold);
 
   return (
     <RootStack.Navigator
-      initialRouteName="Login"
+      initialRouteName="Home"
       screenOptions={{ headerTitleAlign: 'center' }}
     >
       {user ? (
         <>
-          <RootStack.Screen name="Home" component={HomeScreen} />
+          <RootStack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={({ navigation }) => ({
+              title: 'HouseholdName',
+              headerShadowVisible: false,
+              headerRight: () => <ProfileIconButton navigation={navigation} />,
+            })}
+          />
           <RootStack.Screen name="ReduxTest" component={ReduxTestScreen} />
-          <RootStack.Screen name="Details" component={DetailsScreen} />
+          <RootStack.Screen name="TestUser" component={TestUser} />
+          <RootStack.Screen name="TestTasks" component={TestTasks} />
+          <RootStack.Screen name="TestMembers" component={TestMembers} />
+          <RootStack.Screen name="TestHouseholds" component={TestHouseholds} />
+          <RootStack.Screen name="TestCompTasks" component={TestCompTasks} />
+          <RootStack.Screen name="TestRequests" component={TestRequests} />
+          <RootStack.Screen
+            name="TaskInfo"
+            component={TaskInfoScreen}
+            options={{ title: 'Information om syssla' }}
+          />
 
           <RootStack.Screen
             name="SelectedHouseholdNav"
             component={SelectedHouseholdTopTabNav}
             options={({ navigation }) => ({
-              title: 'HouseholdName',
+              title: selectedHousehold?.name,
               headerShadowVisible: false,
-              headerRight: () => (
-                <IconButton
-                  icon="account-outline"
-                  size={24}
-                  onPress={() => navigation.navigate('Profile')}
-                />
-              ),
+              headerRight: () => <ProfileIconButton navigation={navigation} />,
             })}
           />
 
           <RootStack.Screen
             name="CreateHouseHold"
             component={CreateHouseholdScreen}
-            options={{
-              headerTitle: () => (
-                <View style={s.titleContainer}>
-                  <Text style={s.title}>Skapa hushåll</Text>
-                </View>
-              ),
-            }}
+            options={{ title: 'Skapa hushåll' }}
           />
           <RootStack.Screen
             name="Profile"
@@ -107,72 +133,42 @@ export default function RootStackNavigator() {
           <RootStack.Screen
             name="JoinHousehold"
             component={JoinHouseholdScreen}
-            options={{
-              headerTitle: () => (
-                <View style={s.titleContainer}>
-                  <Text style={s.title}>Gå med i hushåll</Text>
-                </View>
-              ),
-            }}
+            options={{ title: 'Gå med i hushåll' }}
           />
           <RootStack.Screen
             name="YourHouseholds"
             component={YourHouseholdsScreen}
-            options={{
-              headerTitle: () => (
-                <View style={s.titleContainer}>
-                  <Text style={s.title}>Dina hushåll</Text>
-                </View>
-              ),
-            }}
+            options={{ title: 'Dina hushåll' }}
           />
           <RootStack.Screen
             name="HouseholdInformation"
             component={HouseholdInformationScreen}
-            options={{
-              headerTitle: () => (
-                <View style={s.titleContainer}>
-                  <Text style={s.title}>Hushållsinformation</Text>
-                </View>
-              ),
-            }}
+            options={{ title: 'Hushållsinformation' }}
           />
           <RootStack.Screen
             name="CreateTask"
             component={CreateTaskScreen}
-            options={{
-              headerTitle: () => (
-                <View style={s.titleContainer}>
-                  <Text style={s.title}>Skapa en ny syssla</Text>
-                </View>
-              ),
-            }}
+            options={{ title: 'Skapa en ny syssla' }}
+          />
+          <RootStack.Screen
+            name="EditTask"
+            component={EditTaskScreen}
+            options={({ route }) => ({
+              headerRight: () => <ArchivedTask task={route.params.task} />,
+            })}
           />
         </>
       ) : (
         <>
-          <RootStack.Screen name="TestStore" component={TestScreenUsingStore} />
           <RootStack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{
-              headerTitle: () => (
-                <View style={s.titleContainer}>
-                  <Text style={s.title}>Logga in</Text>
-                </View>
-              ),
-            }}
+            name="SignIn"
+            component={SignInScreen}
+            options={{ title: 'Logga in' }}
           />
           <RootStack.Screen
-            name="Register"
-            component={RegisterScreen}
-            options={{
-              headerTitle: () => (
-                <View>
-                  <Text style={s.title}>Registrera dig</Text>
-                </View>
-              ),
-            }}
+            name="SignUp"
+            component={SignUpScreen}
+            options={{ title: 'Registrera dig' }}
           />
         </>
       )}

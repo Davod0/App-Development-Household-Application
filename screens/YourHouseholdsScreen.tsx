@@ -1,76 +1,82 @@
-import Entypo from '@expo/vector-icons/Entypo';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Button, Surface, Text } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Household, mockedHouseholds, mockedMembers } from '../data';
+import React from 'react';
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
+import { selectCurrentUser } from '../store/user/userSelectors';
+import { setSelectedHousehold } from '../store/user/userSlice';
+import { Household } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
-// kolla om inloggad antingen här eller på föregående sida dvs inloggningssidan?
-const isLoggedIn = true;
-const loggedInUserId = 'user-2';
-
 export default function YourHouseholdsScreen({ navigation }: Props) {
-  if (!isLoggedIn) {
-    return (
-      <View>
-        <Text>Error, användare inte inloggad</Text>
-      </View>
-    );
-  }
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
+  const households = useAppSelector(selectAllHouseholdsByCurrentUser);
 
-  const userHouseholds = mockedHouseholds.filter((household) =>
-    mockedMembers.some(
-      (member) =>
-        member.userId === loggedInUserId && member.householdId === household.id,
-    ),
-  );
+  // // testing...
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (user) {
+  //       dispatch(getMembersByCurrentUserId())
+  //         .unwrap()
+  //         .then(() => {
+  //           dispatch(getHouseholdsByUserId())
+  //             .unwrap()
+  //             .then(() => {
+  //               // dispatch(getMembersByHouseholdId(''));
+  //             });
+  //         });
+  //     }
+  //   }, [dispatch, user]),
+  // );
 
-  console.log(userHouseholds);
-
-  const handleHouseholdPress = (household: Household) => {
-    navigation.navigate('HouseholdInformation', { household });
+  const handlePressHousehold = (household: Household) => {
+    dispatch(setSelectedHousehold(household));
+    navigation.navigate('SelectedHouseholdNav');
   };
-  const handleDeletePress = () => {
-    navigation.navigate('Profile');
-    // funktionalitet ska implementeras i denna
+
+  const handlePressInfo = (household: Household) => {
+    dispatch(setSelectedHousehold(household));
+    navigation.navigate('HouseholdInformation', { household });
   };
 
   return (
-    <SafeAreaView style={s.container}>
-      {/* ta bort hushåll, eventuellt "säker på tabort?" först */}
+    <ScrollView contentContainerStyle={s.container}>
       <View style={s.householdsContainer}>
-        {userHouseholds.map((household) => (
-          <View style={s.household} key={household.id}>
-            <Surface style={s.surface}>
-              <TouchableOpacity onPress={() => handleHouseholdPress(household)}>
-                <Text style={s.text}>{household.name} 🏠</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleDeletePress()}>
-                <Entypo
-                  style={s.entypo}
-                  name="circle-with-cross"
-                  size={35}
-                  color="black"
+        {households && households.length > 0 ? (
+          households.map((household) => (
+            <View style={s.household} key={household.id}>
+              <Surface style={s.surface}>
+                <TouchableOpacity
+                  onPress={() => handlePressHousehold(household)}
+                >
+                  <Text style={s.text}>{household.name}</Text>
+                </TouchableOpacity>
+
+                <IconButton
+                  icon="information-outline"
+                  size={24}
+                  onPress={() => handlePressInfo(household)}
                 />
-              </TouchableOpacity>
-            </Surface>
-          </View>
-        ))}
+              </Surface>
+            </View>
+          ))
+        ) : (
+          <Text style={s.emptyText}>Inga tillgängliga hushåll</Text>
+        )}
       </View>
       <View style={s.footer}>
         <Button
           style={{ width: '50%' }}
           mode="elevated"
-          textColor="black"
           theme={{ roundness: 0 }}
           labelStyle={{
             fontSize: 20,
-            lineHeight: 30,
           }}
-          contentStyle={{ height: 65, gap: 10 }}
+          contentStyle={{ height: 65 }}
           onPress={() => {
             navigation.navigate('CreateHouseHold');
           }}
@@ -80,13 +86,11 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
         <Button
           style={{ width: '50%' }}
           mode="elevated"
-          textColor="black"
           theme={{ roundness: 0 }}
           labelStyle={{
             fontSize: 20,
-            lineHeight: 30,
           }}
-          contentStyle={{ height: 65, gap: 10 }}
+          contentStyle={{ height: 65 }}
           onPress={(member) => {
             navigation.navigate('JoinHousehold');
           }}
@@ -95,7 +99,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
           Gå med i hushåll
         </Button>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
@@ -106,6 +110,7 @@ const s = StyleSheet.create({
   },
   householdsContainer: {
     flex: 1,
+    marginTop: 17,
   },
   household: {
     margin: 12,
@@ -116,12 +121,17 @@ const s = StyleSheet.create({
     padding: 'auto',
     justifyContent: 'space-between',
     flexDirection: 'row',
+    height: 60,
+    alignItems: 'center',
   },
   text: {
     fontSize: 25,
+    marginLeft: 10,
   },
-  entypo: {
-    margin: 'auto',
+  emptyText: {
+    fontSize: 25,
+    textAlign: 'center',
+    marginTop: 12,
   },
   footer: {
     flexDirection: 'row',

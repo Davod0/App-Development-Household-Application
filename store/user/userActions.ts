@@ -1,15 +1,15 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FirebaseError } from 'firebase/app';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   User,
 } from 'firebase/auth';
-import { EmailPassword } from '../../data';
-import { auth } from '../../firebase';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { auth, db } from '../../firebase';
+import { EmailPassword, Member } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 
-export const signUpUser = createAsyncThunk<User, EmailPassword>(
+export const signUpUser = createAppAsyncThunk<User, EmailPassword>(
   'users/signUp-user',
   async (emailPassword, thunkAPI) => {
     try {
@@ -41,7 +41,7 @@ export const signUpUser = createAsyncThunk<User, EmailPassword>(
             errorMessage = 'Fel lösenord angivet. Försök igen.';
             break;
           default:
-            errorMessage = 'Ett okänt fel uppstod. Försök igen senare.';
+            errorMessage = 'Ett okänt fel uppstod. Försök igen senare.' + error;
         }
 
         return thunkAPI.rejectWithValue(errorMessage);
@@ -93,6 +93,33 @@ export const signInUser = createAppAsyncThunk<User, EmailPassword>(
       return thunkAPI.rejectWithValue(
         'Something went wrong, Could not register the user!:',
       );
+    }
+  },
+);
+
+/**
+ * hämtar flera "members" (medlemmar) från databasen, där varje "member" egentligen är samma person men är associerad med flera hushåll.
+ *
+ * @returns {Promise<Member[]>} En lista av "Member"-objekt associerade med nuvarande användare.
+ */
+export const getMembersByCurrentUserId = createAppAsyncThunk<Member[]>(
+  'user/getMembersByCurrenUserId',
+  async (_, thunkApi) => {
+    const state = thunkApi.getState();
+
+    try {
+      const snapshot = await getDocs(
+        query(
+          collection(db, 'members'),
+          where('userId', '==', state.user.currentUser?.uid),
+        ),
+      );
+
+      const data: Member[] = [];
+      snapshot.forEach((doc) => data.push(doc.data() as Member));
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(`Error retrieving members: ${error}`);
     }
   },
 );
