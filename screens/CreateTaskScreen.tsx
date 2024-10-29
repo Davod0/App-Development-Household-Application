@@ -29,10 +29,7 @@ export default function CreateTaskScreen({ navigation }: Props) {
     console.log(weight);
     console.log(frequency);
     setShowCreatedDialog(true);
-    const task = await dispatch(
-      addTask({ name, description, frequency, weight }),
-    ).unwrap();
-    console.log(task);
+    await dispatch(addTask({ name, description, frequency, weight })).unwrap();
 
     // navigate
   };
