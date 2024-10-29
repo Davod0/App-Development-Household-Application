@@ -11,11 +11,11 @@ import {
   selectRequestError,
   selectRequestIsLoading,
 } from '../store/requests/requestsSelectors';
-import { useSelectedHouseholddata } from '../store/user/hooks';
+import { useSelectedHouseholdData } from '../store/user/hooks';
 import { Member } from '../types';
 
 export default function ShowRequestsScreen() {
-  useSelectedHouseholddata();
+  useSelectedHouseholdData();
   const dispatch = useAppDispatch();
   const loading = useAppSelector(selectRequestIsLoading);
   const error = useAppSelector(selectRequestError);

@@ -53,6 +53,9 @@ export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
     );
 
     try {
+      if (householdIds.length === 0) {
+        throw new Error('Not in any households yet.');
+      }
       const snapshot = await getDocs(
         query(collection(db, 'households'), where('id', 'in', householdIds)),
       );

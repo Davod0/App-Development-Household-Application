@@ -18,19 +18,16 @@ import EditTaskScreen from '../screens/EditTaskScreen';
 import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ShowRequestsScreen from '../screens/ShowRequestsScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import TaskInfoScreen from '../screens/TaskInfoScreen';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 import { useAppSelector } from '../store/hooks';
 import { useUserAuthState } from '../store/user/hooks';
-import {
-  selectCurrentUser,
-  selectSelectedHousehold,
-} from '../store/user/userSelectors';
+import { selectCurrentUser } from '../store/user/userSelectors';
 import { Household, Task } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
-import ShowRequestsScreen from '../screens/ShowRequestsScreen';
 
 export type RootStackParamList = {
   SignIn: undefined;
@@ -62,7 +59,6 @@ export default function RootStackNavigator() {
   useUserAuthState();
   useSplashScreenVisibility();
   const user = useAppSelector(selectCurrentUser);
-  const selectedHousehold = useAppSelector(selectSelectedHousehold);
 
   return (
     <RootStack.Navigator
@@ -77,7 +73,11 @@ export default function RootStackNavigator() {
             options={({ navigation }) => ({
               title: 'HouseholdName',
               headerShadowVisible: false,
-              headerRight: () => <ProfileIconButton navigation={navigation} />,
+              headerRight: () => (
+                <ProfileIconButton
+                  navigateToProfile={() => navigation.navigate('Profile')}
+                />
+              ),
             })}
           />
           <RootStack.Screen name="ReduxTest" component={ReduxTestScreen} />
@@ -96,11 +96,7 @@ export default function RootStackNavigator() {
           <RootStack.Screen
             name="SelectedHouseholdNav"
             component={SelectedHouseholdTopTabNav}
-            options={({ navigation }) => ({
-              title: selectedHousehold?.name,
-              headerShadowVisible: false,
-              headerRight: () => <ProfileIconButton navigation={navigation} />,
-            })}
+            options={{ headerShadowVisible: false }}
           />
 
           <RootStack.Screen
