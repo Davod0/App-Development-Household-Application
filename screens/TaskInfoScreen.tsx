@@ -13,19 +13,19 @@ import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { selectMemberForUserInSelectedHousehold } from '../store/members/membersSelectors';
 import { selectTaskFromTaskID } from '../store/tasks/tasksSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TaskInfo'>;
 
 export default function TaskInfoScreen({ navigation, route }: Props) {
   const { colors } = useTheme();
-  // const task = useAppSelector(selectTaskFromTaskID(route.params.taskId));
   const { taskId } = route.params;
   const task = useAppSelector(selectTaskFromTaskID(taskId));
+  const isMemberOwner = useAppSelector(selectMemberForUserInSelectedHousehold);
   const dispatch = useAppDispatch();
 
-  // TODO: Behöver kontrollera ifall en användare är en admin/ägare
-  const isMemberOwner = true;
+  console.log(isMemberOwner?.isOwner);
 
   const handleCheckTask = () => {
     // dispatch()
@@ -33,7 +33,7 @@ export default function TaskInfoScreen({ navigation, route }: Props) {
   };
 
   useLayoutEffect(() => {
-    if (task && isMemberOwner) {
+    if (task && isMemberOwner?.isOwner) {
       navigation.setOptions({
         headerRight: () => (
           <IconButton
