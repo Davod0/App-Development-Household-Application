@@ -4,22 +4,25 @@ import { Button, Card, Text } from 'react-native-paper';
 import { avatarList } from '../../library/avatarList';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-
 import {
   acceptRequest,
   getRequestsBySelectedHouseholdId,
   rejectRequest,
 } from '../../store/requests/requestsActions';
-import { selectAllRequests } from '../../store/requests/requestsSelectors';
-import { selectSelectedHousehold } from '../../store/user/selectors';
+import { selectAllRequestsOfSelectedHousehold } from '../../store/requests/requestsSelectors';
+import { useSelectedHouseholddata } from '../../store/user/hooks';
+import { selectSelectedHousehold } from '../../store/user/userSelectors';
 import { AvatarName, CreateMember } from '../../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TestRequests'>;
 
-export default function TestMembers({ navigation }: Props) {
+export default function TestRequest({ navigation }: Props) {
   const dispatch = useAppDispatch();
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
-  const requestsForSelHousehold = useAppSelector(selectAllRequests);
+  const requestsForSelHousehold = useAppSelector(
+    selectAllRequestsOfSelectedHousehold,
+  );
+  useSelectedHouseholddata();
 
   // only used to generate a random avatar
   const nameArray: AvatarName[] = [

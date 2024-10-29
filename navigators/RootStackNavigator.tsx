@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
+import ArchivedTask from '../components/ArchiveTask';
 import ProfileIconButton from '../components/ProfileIconButton';
 import useSplashScreenVisibility from '../components/SplashScreenVisibility';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
@@ -14,33 +15,31 @@ import TestRequests from '../screens/debug/TestRequests';
 import TestTasks from '../screens/debug/TestTasks';
 import TestUser from '../screens/debug/TestUser';
 import DetailsScreen from '../screens/DetailsScreen';
+import EditTaskScreen from '../screens/EditTaskScreen';
 import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
-import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import RegisterScreen from '../screens/RegisterScreen';
-import TestScreenUsingStore from '../screens/TestScreenUsingStore';
+import SignInScreen from '../screens/SignInScreen';
+import SignUpScreen from '../screens/SignUpScreen';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 import { useAppSelector } from '../store/hooks';
 import { useUserAuthState } from '../store/user/hooks';
 import {
   selectCurrentUser,
   selectSelectedHousehold,
-} from '../store/user/selectors';
-import { Household } from '../types';
+} from '../store/user/userSelectors';
+import { Household, Task } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 import ShowRequestsScreen from '../screens/ShowRequestsScreen';
 
 export type RootStackParamList = {
-  Login: undefined;
+  SignIn: undefined;
   Home: undefined;
   Profile: undefined;
-  Register: undefined;
-  TestStore: undefined;
+  SignUp: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
   Details: undefined;
-  // SelectedHouseholdNav: NavigatorScreenParams<TopTabNavigatorParamList>;
   SelectedHouseholdNav: undefined;
   CreateTask: undefined;
   HouseholdInformation: { household: Household };
@@ -52,6 +51,7 @@ export type RootStackParamList = {
   TestMembers: undefined;
   TestHouseholds: undefined;
   TestCompTasks: undefined;
+  EditTask: { task: Task };
   TestRequests: undefined;
 };
 
@@ -152,22 +152,29 @@ export default function RootStackNavigator() {
             options={{ title: 'Skapa en ny syssla' }}
           />
           <RootStack.Screen
+<<<<<<< HEAD
             name="ShowRequests"
             component={ShowRequestsScreen}
             options={{ title: 'Visar förfrågningar' }}
+=======
+            name="EditTask"
+            component={EditTaskScreen}
+            options={({ route }) => ({
+              headerRight: () => <ArchivedTask task={route.params.task} />,
+            })}
+>>>>>>> origin
           />
         </>
       ) : (
         <>
-          <RootStack.Screen name="TestStore" component={TestScreenUsingStore} />
           <RootStack.Screen
-            name="Login"
-            component={LoginScreen}
+            name="SignIn"
+            component={SignInScreen}
             options={{ title: 'Logga in' }}
           />
           <RootStack.Screen
-            name="Register"
-            component={RegisterScreen}
+            name="SignUp"
+            component={SignUpScreen}
             options={{ title: 'Registrera dig' }}
           />
         </>

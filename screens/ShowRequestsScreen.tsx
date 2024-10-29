@@ -6,7 +6,7 @@ import {
   rejectRequest,
 } from '../store/requests/requestsActions';
 import {
-  selectAllRequests,
+  selectAllRequestsOfSelectedHousehold,
   selectRequestIsLoading,
   selectRequestError,
 } from '../store/requests/requestsSelectors';
@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 export default function ShowRequestsScreen() {
   const dispatch = useAppDispatch();
-  const requests = useAppSelector(selectAllRequests);
+  const requests = useAppSelector(selectAllRequestsOfSelectedHousehold);
   const loading = useAppSelector(selectRequestIsLoading);
   const error = useAppSelector(selectRequestError);
 

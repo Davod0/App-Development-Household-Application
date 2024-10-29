@@ -2,13 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CreateTask, Task } from '../../types';
 import {
   addTask,
-  getSelectedHouseholdTasks,
   getTasks,
+  getTasksBySelectedHousehold,
   updateTask,
 } from './tasksAction';
 
-// STATE
-// TODO: är ett objekt just nu ifall ni vill ha andra saker i den
 export type TaskState = {
   list: Task[];
 };
@@ -39,7 +37,7 @@ const tasksSlice = createSlice({
     builder.addCase(getTasks.fulfilled, (_, action) => {
       return { list: action.payload };
     });
-    builder.addCase(getSelectedHouseholdTasks.fulfilled, (_, action) => {
+    builder.addCase(getTasksBySelectedHousehold.fulfilled, (_, action) => {
       return { list: action.payload };
     });
     builder.addCase(

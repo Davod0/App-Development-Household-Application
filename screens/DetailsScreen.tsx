@@ -4,10 +4,14 @@ import { StyleSheet, View } from 'react-native';
 import { Button, Icon, Surface, Text } from 'react-native-paper';
 import { mockedTasks } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { useSelectedHouseholddata } from '../store/user/hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
 export default function DetailsScreen({ navigation }: Props) {
+  useSelectedHouseholddata();
+
+  //TABORT MOKCED DATA
   const taskId = 'task-1';
   const task = mockedTasks.find((t) => t.id === taskId);
 
