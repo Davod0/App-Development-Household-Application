@@ -48,7 +48,9 @@ export default function Home({ navigation }: Props) {
       <Pressable
         onPress={() =>
           navigation.navigate('TaskInfo', {
-            taskId: taskForTestingTaskInfoScreen.id,
+            taskId: taskForTestingTaskInfoScreen
+              ? taskForTestingTaskInfoScreen.id
+              : '',
           })
         }
       >
