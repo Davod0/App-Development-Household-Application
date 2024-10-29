@@ -18,6 +18,7 @@ export default function TestUser({ navigation }: Props) {
   return (
     <ScrollView contentContainerStyle={s.container}>
       <Text>e-mail: {user?.email}</Text>
+      <Text>uid: {user?.uid}</Text>
       {!selectedHousehold ? (
         <>
           <Text variant="bodyLarge">No selected household</Text>
