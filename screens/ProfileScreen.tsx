@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { signOut } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, Button, SegmentedButtons, Text } from 'react-native-paper';
 import { mockedMembers } from '../data';
@@ -8,7 +8,10 @@ import { auth } from '../firebase';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { useSelectedHouseholddata } from '../store/user/hooks';
-import { selectColorMode } from '../store/user/userSelectors';
+import {
+  selectColorMode,
+  selectCurrentUser,
+} from '../store/user/userSelectors';
 import { setColorMode } from '../store/user/userSlice';
 import { ColorMode } from '../theme/ThemeProvider';
 
@@ -17,19 +20,11 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 export default function ProfileScreen({ navigation }: Props) {
   useSelectedHouseholddata();
   const colorMode = useAppSelector(selectColorMode);
+  const user = useAppSelector(selectCurrentUser)!;
   const dispatch = useAppDispatch();
 
   const userId = 'user-1';
   const member = mockedMembers.find((m) => m.userId === userId);
-
-  const [email, setEmail] = useState<string | null>(null);
-
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (user) {
-      setEmail(user.email);
-    }
-  }, []);
 
   useEffect(() => {
     navigation.setOptions({
@@ -89,7 +84,7 @@ export default function ProfileScreen({ navigation }: Props) {
         <Text variant="displaySmall">____________________</Text>
 
         <Text variant="headlineSmall">Gmail</Text>
-        <Text style={s.emailText}>{email || 'Ingen e-post tillgänglig'}</Text>
+        <Text style={s.emailText}>{user.email}</Text>
 
         <Text
           style={{ position: 'absolute', bottom: 130, alignSelf: 'center' }}
