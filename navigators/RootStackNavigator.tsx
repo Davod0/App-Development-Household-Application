@@ -152,17 +152,16 @@ export default function RootStackNavigator() {
             options={{ title: 'Skapa en ny syssla' }}
           />
           <RootStack.Screen
-<<<<<<< HEAD
             name="ShowRequests"
             component={ShowRequestsScreen}
             options={{ title: 'Visar förfrågningar' }}
-=======
+          />
+          <RootStack.Screen
             name="EditTask"
             component={EditTaskScreen}
             options={({ route }) => ({
               headerRight: () => <ArchivedTask task={route.params.task} />,
             })}
->>>>>>> origin
           />
         </>
       ) : (
