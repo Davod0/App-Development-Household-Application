@@ -42,6 +42,7 @@ export default function ShowRequestsScreen() {
           <View
             style={{ padding: 10, borderBottomWidth: 1, borderColor: '#ccc' }}
           >
+            {/* handle display member.name IF item.memberiD === member.iD */}
             <Text style={{ fontSize: 18 }}>Request from: {item.memberId}</Text>
             <Text style={{ color: '#666' }}>
               Household ID: {item.householdId}
