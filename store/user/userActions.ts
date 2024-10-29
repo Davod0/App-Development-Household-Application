@@ -1,4 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FirebaseError } from 'firebase/app';
 import {
   createUserWithEmailAndPassword,
@@ -10,7 +9,7 @@ import { auth, db } from '../../firebase';
 import { EmailPassword, Member } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 
-export const signUpUser = createAsyncThunk<User, EmailPassword>(
+export const signUpUser = createAppAsyncThunk<User, EmailPassword>(
   'users/signUp-user',
   async (emailPassword, thunkAPI) => {
     try {
@@ -98,8 +97,13 @@ export const signInUser = createAppAsyncThunk<User, EmailPassword>(
   },
 );
 
+/**
+ * hämtar flera "members" (medlemmar) från databasen, där varje "member" egentligen är samma person men är associerad med flera hushåll.
+ *
+ * @returns {Promise<Member[]>} En lista av "Member"-objekt associerade med nuvarande användare.
+ */
 export const getMembersByCurrentUserId = createAppAsyncThunk<Member[]>(
-  'members/getByCurrenUserId',
+  'user/getMembersByCurrenUserId',
   async (_, thunkApi) => {
     const state = thunkApi.getState();
 
@@ -119,5 +123,3 @@ export const getMembersByCurrentUserId = createAppAsyncThunk<Member[]>(
     }
   },
 );
-
-// getUserData (hushåll, profiler, sysslor, avklarade)

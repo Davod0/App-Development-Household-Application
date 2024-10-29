@@ -16,8 +16,8 @@ import {
   selectRequestError,
   selectRequestIsLoading,
 } from '../store/requests/requestsSelectors';
-import { selectCurrentUser } from '../store/user/selectors';
 import { getMembersByCurrentUserId } from '../store/user/userActions';
+import { selectCurrentUser } from '../store/user/userSelectors';
 
 export default function JoinHouseholdScreen() {
   const [houseCode, setHouseCode] = useState('');

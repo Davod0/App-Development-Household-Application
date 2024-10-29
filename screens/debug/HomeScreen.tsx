@@ -41,14 +41,11 @@ export default function Home({ navigation }: Props) {
         elevation={2}
       >
         <Text>Need to change in RootStackNavigator to test these screens.</Text>
-        <Pressable onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.text}>Login</Text>
+        <Pressable onPress={() => navigation.navigate('SignIn')}>
+          <Text style={styles.text}>Sign in</Text>
         </Pressable>
-        <Pressable onPress={() => navigation.navigate('Register')}>
-          <Text style={styles.text}>Register</Text>
-        </Pressable>
-        <Pressable onPress={() => navigation.navigate('TestStore')}>
-          <Text style={styles.text}>TestStore</Text>
+        <Pressable onPress={() => navigation.navigate('SignUp')}>
+          <Text style={styles.text}>Sign up</Text>
         </Pressable>
       </Surface>
       <Pressable onPress={() => navigation.navigate('ReduxTest')}>
