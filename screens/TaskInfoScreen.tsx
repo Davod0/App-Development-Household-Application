@@ -1,7 +1,14 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Icon, Surface, Text, useTheme } from 'react-native-paper';
+import {
+  Button,
+  Icon,
+  IconButton,
+  Surface,
+  Text,
+  useTheme,
+} from 'react-native-paper';
 import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
@@ -12,14 +19,30 @@ type Props = NativeStackScreenProps<RootStackParamList, 'TaskInfo'>;
 
 export default function TaskInfoScreen({ navigation, route }: Props) {
   const { colors } = useTheme();
+  // const task = useAppSelector(selectTaskFromTaskID(route.params.taskId));
   const { taskId } = route.params;
   const task = useAppSelector(selectTaskFromTaskID(taskId));
   const dispatch = useAppDispatch();
+  // const isMemberOwner = useAppSelector(state => selectCurrentUser(state))
+  const isMemberOwner = true;
 
   const handleCheckTask = () => {
     // dispatch()
     navigation.goBack();
   };
+
+  useLayoutEffect(() => {
+    if (task && isMemberOwner) {
+      navigation.setOptions({
+        headerRight: () => (
+          <IconButton
+            icon="pencil"
+            onPress={() => navigation.navigate('EditTask', { task })}
+          />
+        ),
+      });
+    }
+  }, [navigation, isMemberOwner, task]);
 
   if (!task) {
     return <Text>Kunde inte hitta sysslan ....</Text>;
@@ -76,7 +99,6 @@ const s = StyleSheet.create({
   descriptionText: {
     fontSize: 15,
   },
-
   buttonContainer: {
     flexDirection: 'row',
     alignItems: 'center',
