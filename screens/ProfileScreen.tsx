@@ -1,7 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Avatar, Button, SegmentedButtons, Text } from 'react-native-paper';
-import { mockedHouseholds, mockedMembers, mockedUsers } from '../data';
+import { Avatar, SegmentedButtons, Text } from 'react-native-paper';
+import { mockedMembers, mockedUsers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { selectColorMode } from '../store/user/selectors';
@@ -14,7 +15,7 @@ export default function ProfileScreen({ navigation }: Props) {
   const colorMode = useAppSelector(selectColorMode);
   const dispatch = useAppDispatch();
 
-  const userId = 'user-2';
+  const userId = 'user-1';
   const user = mockedUsers.find((u) => u.id === userId);
   const member = mockedMembers.find((m) => m.userId === userId);
   // const members = useAppSelector(selectMembersByUser);
@@ -48,27 +49,11 @@ export default function ProfileScreen({ navigation }: Props) {
             style={{ backgroundColor: 'transparent' }}
           />
         </View>
-        <Text style={s.name}>{user.firstName + ' ' + user.lastName}</Text>
+        <Text style={s.name}>{member.name}</Text>
 
-        <Button
-          mode="contained"
-          onPress={() => {
-            const household = mockedHouseholds.find(
-              (h) => h.id === member.householdId,
-            );
-            if (!household) {
-              throw new Error(
-                'Household not found for member: ' + member.userId,
-              );
-            }
-            navigation.navigate('HouseholdInformation', { household });
-          }}
-          contentStyle={{ height: 70, width: 260 }}
-          style={{ borderRadius: 100 }}
-          labelStyle={{ fontSize: 18 }}
-        >
-          Hushålls info
-        </Button>
+        <Text variant="displaySmall">____________________</Text>
+
+        <Text variant="headlineSmall">Gmail</Text>
 
         <Text
           style={{ position: 'absolute', bottom: 130, alignSelf: 'center' }}
@@ -107,6 +92,7 @@ const s = StyleSheet.create({
   },
   name: {
     fontSize: 32,
+    marginTop: 20,
   },
   footer: {
     alignSelf: 'flex-end',
