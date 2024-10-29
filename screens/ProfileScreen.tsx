@@ -1,8 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, SegmentedButtons, Text } from 'react-native-paper';
-import { mockedMembers, mockedUsers } from '../data';
+import { mockedMembers } from '../data';
+import { auth } from '../firebase';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { selectColorMode } from '../store/user/selectors';
@@ -16,11 +17,18 @@ export default function ProfileScreen({ navigation }: Props) {
   const dispatch = useAppDispatch();
 
   const userId = 'user-1';
-  const user = mockedUsers.find((u) => u.id === userId);
   const member = mockedMembers.find((m) => m.userId === userId);
-  // const members = useAppSelector(selectMembersByUser);
 
-  if (!user || !member) {
+  const [email, setEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user) {
+      setEmail(user.email);
+    }
+  }, []);
+
+  if (!member) {
     throw new Error('bad userId: ' + userId);
   }
 
@@ -54,12 +62,13 @@ export default function ProfileScreen({ navigation }: Props) {
         <Text variant="displaySmall">____________________</Text>
 
         <Text variant="headlineSmall">Gmail</Text>
+        <Text style={s.emailText}>{email || 'Ingen e-post tillgänglig'}</Text>
 
         <Text
           style={{ position: 'absolute', bottom: 130, alignSelf: 'center' }}
           variant="displaySmall"
         >
-          Välj thema för appen
+          Välj tema för appen
         </Text>
 
         <SegmentedButtons
@@ -94,11 +103,9 @@ const s = StyleSheet.create({
     fontSize: 32,
     marginTop: 20,
   },
-  footer: {
-    alignSelf: 'flex-end',
-    width: '50%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: -10,
+  emailText: {
+    fontSize: 20,
+    color: '#555',
+    marginVertical: 10,
   },
 });
