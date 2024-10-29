@@ -29,7 +29,8 @@ export function sliceStringToLengthAddEllipsis(
   str: string | undefined,
   len: number,
 ) {
-  if (str && str.length > len)
-    return str.slice(0, len - 3).trim() + (str.length > len - 3 ? '...' : '');
-  return '';
+  if (!str) return '';
+  return str.length > len
+    ? str.slice(0, len - 3).trim() + (str.length > len - 3 ? '...' : '')
+    : str;
 }
