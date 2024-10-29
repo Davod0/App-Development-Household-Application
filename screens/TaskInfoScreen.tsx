@@ -12,9 +12,11 @@ import {
 import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { addCompletedTask } from '../store/completedTasks/completedTasksActions';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { selectMemberForUserInSelectedHousehold } from '../store/members/membersSelectors';
 import { selectTaskFromTaskID } from '../store/tasks/tasksSelectors';
+import { CreateCompletedTask } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TaskInfo'>;
 
@@ -28,7 +30,13 @@ export default function TaskInfoScreen({ navigation, route }: Props) {
   console.log(member?.isOwner);
 
   const handleCheckTask = () => {
-    // dispatch()
+    const compTask: CreateCompletedTask = {
+      taskId: task!.id,
+      householdId: task!.householdId,
+      memberId: member!.id,
+      dateDone: new Date().toUTCString(),
+    };
+    dispatch(addCompletedTask(compTask));
     navigation.goBack();
   };
 
