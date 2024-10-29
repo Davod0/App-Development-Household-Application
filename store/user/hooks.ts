@@ -44,7 +44,7 @@ export async function useUserAuthState() {
   }
 }
 
-export async function useSelectedHouseholddata() {
+export async function useSelectedHouseholdData() {
   const dispatch = useAppDispatch();
   // const selectedHousehold = useAppSelector(selectSelectedHousehold);
   useFocusEffect(
