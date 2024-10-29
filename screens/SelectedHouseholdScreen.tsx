@@ -1,16 +1,13 @@
 import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
-import { useFocusEffect } from '@react-navigation/native';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Badge, Button, Icon, Surface, Text } from 'react-native-paper';
 import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
-import { getSelectedHouseholdTasks } from '../store/completedTasks/completedTasksActions';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 
-import { getMembersBySelectedHousehold } from '../store/members/membersActions';
-import { getRequestsBySelectedHouseholdId } from '../store/requests/requestsActions';
+import { sliceStringToLengthAddEllipsis } from '../library/utils';
 import { selectAllRequestsOfSelectedHousehold } from '../store/requests/requestsSelectors';
 import { useSelectedHouseholddata } from '../store/user/hooks';
 import {
@@ -40,18 +37,6 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
 
   const member = useAppSelector(selectCurrentUserMemberProfiles).find(
     (p) => p.householdId === selectedHousehold?.id,
-  );
-
-  // useFocusEffect
-  useFocusEffect(
-    useCallback(() => {
-      if (user && selectedHousehold) {
-        dispatch(getRequestsBySelectedHouseholdId());
-        dispatch(getSelectedHouseholdTasks());
-        dispatch(getMembersBySelectedHousehold());
-        dispatch(getSelectedHouseholdTasks());
-      }
-    }, [dispatch, user, selectedHousehold]),
   );
 
   const members = mockedMembers.filter(

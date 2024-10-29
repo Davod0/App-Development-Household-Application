@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Household } from '../../types';
 import {
   addHousehold,
-  getHouseholdByCode,
   getHouseholdsByUserId,
   updateHouseholdName,
 } from './householdsActions';
