@@ -7,7 +7,8 @@ import {
   selectUserAuthenticationIsLoading,
 } from '../store/user/selectors';
 import { signInUser, signUpUser } from '../store/user/userActions';
-import { EmailPassword } from '../types';
+import { EmailPassword, Request } from '../types';
+import { addRequest } from '../store/requests/requestsActions';
 
 export default function TestScreenUsingStore() {
   const dispatch = useAppDispatch();
@@ -36,6 +37,16 @@ export default function TestScreenUsingStore() {
     setPassword('');
   };
 
+  const handleRequest = () => {
+    const request: Request = {
+      id: '',
+      householdId: '',
+      memberId: '',
+    };
+    const requestId = JSON.stringify(request);
+    dispatch(addRequest(requestId));
+  };
+
   return (
     <View style={{ paddingHorizontal: 10 }}>
       <Text style={{ fontSize: 30 }}>Test Screen</Text>
@@ -54,6 +65,7 @@ export default function TestScreenUsingStore() {
         placeholder="Enter your password"
       />
       <Button title="Sign up" onPress={handleSignUpUser} />
+      <Button title="request data" onPress={handleRequest} />
 
       <Text style={{ fontSize: 30, paddingBottom: 10, paddingTop: 40 }}>
         Sign In
