@@ -2,18 +2,20 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Icon, Surface, Text } from 'react-native-paper';
-import { mockedTasks } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
-import { useSelectedHouseholddata } from '../store/user/hooks';
+import { useAppSelector } from '../store/hooks';
+import { selectTaskFromID } from '../store/tasks/tasksSelectors';
+import { useSelectedHouseholdData } from '../store/user/hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
-export default function DetailsScreen({ navigation }: Props) {
-  useSelectedHouseholddata();
+export default function DetailsScreen({ navigation, route }: Props) {
+  useSelectedHouseholdData();
+  const task = useAppSelector(selectTaskFromID(route.params.taskId));
 
   //TABORT MOKCED DATA
-  const taskId = 'task-1';
-  const task = mockedTasks.find((t) => t.id === taskId);
+  // const taskId = 'task-1';
+  // const task = mockedTasks.find((t) => t.id === taskId);
 
   const handleSave = () => {};
 

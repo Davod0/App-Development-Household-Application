@@ -17,3 +17,5 @@ export const selectTasksFromHouseholdId =
 
 export const selectTaskFromID = (taskID: string) => (state: RootState) =>
   state.tasks.list.find((task) => task.id === taskID);
+
+export const selectTaskIsLoading = (state: RootState) => state.tasks.isLoading;

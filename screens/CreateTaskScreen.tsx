@@ -25,7 +25,11 @@ export default function CreateTaskScreen() {
     console.log(weight);
     console.log(frequency);
     setShowCreatedDialog(true);
-    await dispatch(addTask({ name, description, frequency, weight })).unwrap();
+    const task = await dispatch(
+      addTask({ name, description, frequency, weight }),
+    ).unwrap();
+    console.log(task);
+
     // navigate
   };
 

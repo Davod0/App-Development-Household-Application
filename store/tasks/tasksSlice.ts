@@ -9,10 +9,12 @@ import {
 
 export type TaskState = {
   list: Task[];
+  isLoading: boolean;
 };
 
 const initialState: TaskState = {
   list: [],
+  isLoading: false,
 };
 
 // SLICE
@@ -34,11 +36,14 @@ const tasksSlice = createSlice({
     builder.addCase(addTask.fulfilled, (state, action) => {
       state.list.push(action.payload);
     });
-    builder.addCase(getTasks.fulfilled, (_, action) => {
-      return { list: action.payload };
+    builder.addCase(getTasks.fulfilled, (state, action) => {
+      return { ...state, list: action.payload };
+    });
+    builder.addCase(getTasksBySelectedHousehold.pending, (state) => {
+      state.isLoading = true;
     });
     builder.addCase(getTasksBySelectedHousehold.fulfilled, (_, action) => {
-      return { list: action.payload };
+      return { isLoading: false, list: action.payload };
     });
     builder.addCase(
       updateTask.fulfilled,

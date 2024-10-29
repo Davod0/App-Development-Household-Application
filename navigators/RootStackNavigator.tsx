@@ -24,10 +24,7 @@ import SignUpScreen from '../screens/SignUpScreen';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 import { useAppSelector } from '../store/hooks';
 import { useUserAuthState } from '../store/user/hooks';
-import {
-  selectCurrentUser,
-  selectSelectedHousehold,
-} from '../store/user/userSelectors';
+import { selectCurrentUser } from '../store/user/userSelectors';
 import { Household, Task } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
@@ -38,7 +35,7 @@ export type RootStackParamList = {
   SignUp: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
-  Details: undefined;
+  Details: { taskId: string };
   SelectedHouseholdNav: undefined;
   CreateTask: undefined;
   HouseholdInformation: { household: Household };
@@ -59,7 +56,6 @@ export default function RootStackNavigator() {
   useUserAuthState();
   useSplashScreenVisibility();
   const user = useAppSelector(selectCurrentUser);
-  const selectedHousehold = useAppSelector(selectSelectedHousehold);
 
   return (
     <RootStack.Navigator
