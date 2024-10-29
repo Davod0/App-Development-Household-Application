@@ -10,10 +10,11 @@ import {
 // state
 type MembersState = {
   list: Member[];
-  isLoading?: boolean;
+  isLoading: boolean;
 };
 const initialState: MembersState = {
   list: [],
+  isLoading: false,
 };
 
 // slice
