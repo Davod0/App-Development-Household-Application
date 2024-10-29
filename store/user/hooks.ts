@@ -6,9 +6,8 @@ import { getCompletedTasksByHousehold } from '../completedTasks/completedTasksAc
 import { useAppDispatch } from '../hooks';
 import { getHouseholdsByUserId } from '../households/householdsActions';
 import { getMembersBySelectedHousehold } from '../members/membersActions';
-import { getRequestsBySelectedHouseholdId } from '../requests/requestsActions';
 import { getTasksBySelectedHousehold } from '../tasks/tasksAction';
-import { getMembersByCurrentUserId } from './userActions';
+import { getMembersByCurrentUserId, getRequestsByUserId } from './userActions';
 import { setUserOptimistically } from './userSlice';
 
 export async function useUserAuthState() {
@@ -18,9 +17,11 @@ export async function useUserAuthState() {
       dispatch(setUserOptimistically(user?.toJSON() as User));
       if (user) {
         const members = await dispatch(getMembersByCurrentUserId()).unwrap();
-        // added this check to prevent trying to get housholds when there won't be any
+        // added this check to prevent trying to get housholds/requests when
+        // there won't be any
         if (members.length > 0) {
           await dispatch(getHouseholdsByUserId()).unwrap();
+          await dispatch(getRequestsByUserId()).unwrap();
         }
       }
       console.log(`User from useUserAuthState: ${user?.email}`);
@@ -53,7 +54,6 @@ export async function useSelectedHouseholdData() {
         await dispatch(getMembersBySelectedHousehold());
         await dispatch(getTasksBySelectedHousehold());
         await dispatch(getCompletedTasksByHousehold());
-        await dispatch(getRequestsBySelectedHouseholdId());
       };
       fetchData();
     }, [dispatch]),
