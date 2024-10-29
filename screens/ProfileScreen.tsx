@@ -1,10 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { signOut } from 'firebase/auth';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Avatar, Button, SegmentedButtons, Text } from 'react-native-paper';
+import { Avatar, SegmentedButtons, Text } from 'react-native-paper';
 import { mockedMembers } from '../data';
-import { auth } from '../firebase';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { useSelectedHouseholddata } from '../store/user/hooks';
@@ -26,21 +24,6 @@ export default function ProfileScreen({ navigation }: Props) {
   const userId = 'user-1';
   const member = mockedMembers.find((m) => m.userId === userId);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Button
-          onPress={handleLogout}
-          mode="text"
-          style={s.logoutButton}
-          labelStyle={{ fontSize: 20 }}
-        >
-          Logga ut
-        </Button>
-      ),
-    });
-  }, [navigation]);
-
   if (!member) {
     throw new Error('bad userId: ' + userId);
   }
@@ -50,15 +33,6 @@ export default function ProfileScreen({ navigation }: Props) {
   if (!avatar) {
     throw new Error('bad avatarId: ' + member.avatar);
   }
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigation.navigate('Home');
-    } catch (error) {
-      console.error('Error logging out:', error);
-    }
-  };
 
   return (
     <View style={s.container}>
