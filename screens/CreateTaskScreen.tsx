@@ -1,16 +1,20 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Dialog, Surface, TextInput } from 'react-native-paper';
 import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
+import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch } from '../store/hooks';
 import { addTask } from '../store/tasks/tasksAction';
 
-export default function CreateTaskScreen() {
+type Props = NativeStackScreenProps<RootStackParamList, 'CreateTask'>;
+
+export default function CreateTaskScreen({ navigation }: Props) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [frequency, setFrequency] = useState(0);
-  const [weight, setWeight] = useState(0);
+  const [frequency, setFrequency] = useState(1);
+  const [weight, setWeight] = useState(1);
   const [showCreatedDialog, setShowCreatedDialog] = useState(false);
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const dispatch = useAppDispatch();
@@ -65,11 +69,21 @@ export default function CreateTaskScreen() {
       </Button>
       <Dialog
         visible={showCreatedDialog}
-        onDismiss={() => setShowCreatedDialog(false)}
+        onDismiss={() => {
+          setShowCreatedDialog(false);
+          navigation.goBack();
+        }}
       >
         <Dialog.Title>Sysslan har skapats</Dialog.Title>
         <Dialog.Actions>
-          <Button onPress={() => setShowCreatedDialog(false)}>OK</Button>
+          <Button
+            onPress={() => {
+              setShowCreatedDialog(false);
+              navigation.goBack();
+            }}
+          >
+            OK
+          </Button>
         </Dialog.Actions>
       </Dialog>
       <Dialog

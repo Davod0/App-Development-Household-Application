@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CreateTask, Task } from '../../types';
 import {
   addTask,
-  getTasks,
   getTasksBySelectedHousehold,
   updateTask,
 } from './tasksAction';
@@ -36,15 +35,19 @@ const tasksSlice = createSlice({
     builder.addCase(addTask.fulfilled, (state, action) => {
       state.list.push(action.payload);
     });
-    builder.addCase(getTasks.fulfilled, (state, action) => {
-      return { ...state, list: action.payload };
-    });
+    // builder.addCase(getTasks.fulfilled, (_, action) => {
+    //   return { list: action.payload };
+    // });
     builder.addCase(getTasksBySelectedHousehold.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(getTasksBySelectedHousehold.fulfilled, (_, action) => {
-      return { isLoading: false, list: action.payload };
+      return { list: action.payload, isLoading: false };
     });
+    builder.addCase(getTasksBySelectedHousehold.rejected, (state) => {
+      state.isLoading = false;
+    });
+
     builder.addCase(
       updateTask.fulfilled,
       (state, action: PayloadAction<Task>) => {

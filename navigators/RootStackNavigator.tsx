@@ -14,13 +14,14 @@ import TestMembers from '../screens/debug/TestMembers';
 import TestRequests from '../screens/debug/TestRequests';
 import TestTasks from '../screens/debug/TestTasks';
 import TestUser from '../screens/debug/TestUser';
-import DetailsScreen from '../screens/DetailsScreen';
 import EditTaskScreen from '../screens/EditTaskScreen';
 import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ShowRequestsScreen from '../screens/ShowRequestsScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import TaskInfoScreen from '../screens/TaskInfoScreen';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 import { useAppSelector } from '../store/hooks';
 import { useUserAuthState } from '../store/user/hooks';
@@ -35,12 +36,14 @@ export type RootStackParamList = {
   SignUp: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
-  Details: { taskId: string };
+  TaskInfo: { taskId: string };
+  // SelectedHouseholdNav: NavigatorScreenParams<TopTabNavigatorParamList>;
   SelectedHouseholdNav: undefined;
   CreateTask: undefined;
   HouseholdInformation: { household: Household };
   YourHouseholds: undefined;
   ReduxTest: undefined;
+  ShowRequests: undefined;
   TestUser: undefined;
   TestTasks: undefined;
   TestMembers: undefined;
@@ -85,8 +88,8 @@ export default function RootStackNavigator() {
           <RootStack.Screen name="TestCompTasks" component={TestCompTasks} />
           <RootStack.Screen name="TestRequests" component={TestRequests} />
           <RootStack.Screen
-            name="Details"
-            component={DetailsScreen}
+            name="TaskInfo"
+            component={TaskInfoScreen}
             options={{ title: 'Information om syssla' }}
           />
 
@@ -144,6 +147,11 @@ export default function RootStackNavigator() {
             name="CreateTask"
             component={CreateTaskScreen}
             options={{ title: 'Skapa en ny syssla' }}
+          />
+          <RootStack.Screen
+            name="ShowRequests"
+            component={ShowRequestsScreen}
+            options={{ title: 'Visar förfrågningar' }}
           />
           <RootStack.Screen
             name="EditTask"
