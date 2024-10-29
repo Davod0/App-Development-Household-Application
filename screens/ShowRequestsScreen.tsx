@@ -1,33 +1,50 @@
-import React, { useEffect } from 'react';
-import { View, Text, FlatList, Button, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Button, FlatList, Text, View } from 'react-native';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
 import {
-  getRequestsBySelectedHouseholdId,
   acceptRequest,
   rejectRequest,
 } from '../store/requests/requestsActions';
 import {
   selectAllRequestsOfSelectedHousehold,
-  selectRequestIsLoading,
   selectRequestError,
+  selectRequestIsLoading,
 } from '../store/requests/requestsSelectors';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useSelectedHouseholddata } from '../store/user/hooks';
+import { Member } from '../types';
 
 export default function ShowRequestsScreen() {
+  useSelectedHouseholddata();
   const dispatch = useAppDispatch();
-  const requests = useAppSelector(selectAllRequestsOfSelectedHousehold);
   const loading = useAppSelector(selectRequestIsLoading);
   const error = useAppSelector(selectRequestError);
+  const requests = useAppSelector(selectAllRequestsOfSelectedHousehold);
+  const members = useAppSelector(selectAllMembersBySelectedHousehold);
+  const [filteredMembers, setFilteredMembers] = useState<Member[]>([]);
 
   useEffect(() => {
-    dispatch(getRequestsBySelectedHouseholdId());
-  }, [dispatch]);
+    if (requests && members) {
+      const memberIdsInRequests = requests.map((request) => request.memberId);
+      const filtered = members.filter((member) =>
+        memberIdsInRequests.includes(member.id),
+      );
+      setFilteredMembers(filtered);
+    }
+  }, [requests, members]);
 
-  const handleAccept = (request: any) => {
-    dispatch(acceptRequest(request));
+  const handleAccept = (memberId: string) => {
+    const matchingRequest = requests.find(
+      (request) => request.memberId === memberId,
+    );
+    if (matchingRequest) {
+      dispatch(acceptRequest(matchingRequest));
+    }
   };
 
-  const handleReject = (request: any) => {
-    dispatch(rejectRequest(request));
+  const handleReject = (memberId: string) => {
+    const matchingRequest = requests.find((r) => r.memberId === memberId);
+    if (matchingRequest) dispatch(rejectRequest(matchingRequest));
   };
 
   if (loading) return <ActivityIndicator size="large" color="#0000ff" />;
@@ -36,22 +53,21 @@ export default function ShowRequestsScreen() {
   return requests && requests.length > 0 ? (
     <View style={{ flex: 1, padding: 16 }}>
       <FlatList
-        data={requests}
+        data={filteredMembers}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View
             style={{ padding: 10, borderBottomWidth: 1, borderColor: '#ccc' }}
           >
-            {/* handle display member.name IF item.memberiD === member.iD */}
-            <Text style={{ fontSize: 18 }}>Request from: {item.memberId}</Text>
+            <Text style={{ fontSize: 18 }}>Request from: {item.name}</Text>
             <Text style={{ color: '#666' }}>
               Household ID: {item.householdId}
             </Text>
             <View style={{ flexDirection: 'row', marginTop: 10 }}>
-              <Button title="Accept" onPress={() => handleAccept(item)} />
+              <Button title="Accept" onPress={() => handleAccept(item.id)} />
               <Button
                 title="Reject"
-                onPress={() => handleReject(item)}
+                onPress={() => handleReject(item.id)}
                 color="red"
               />
             </View>
@@ -61,7 +77,7 @@ export default function ShowRequestsScreen() {
     </View>
   ) : (
     <View>
-      <Text>Finns inga förfrågningar, fuckfejs!</Text>
+      <Text>Finns inga förfrågningar!</Text>
     </View>
   );
 }
