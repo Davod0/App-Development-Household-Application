@@ -9,10 +9,11 @@ import {
 // state
 type CompletedTasksState = {
   list: CompletedTask[];
-  isLoading?: boolean;
+  isLoading: boolean;
 };
 const initialState: CompletedTasksState = {
   list: [],
+  isLoading: false,
 };
 
 // slice
