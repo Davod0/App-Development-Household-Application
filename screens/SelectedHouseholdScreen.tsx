@@ -1,39 +1,64 @@
 import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { Badge, Button, Icon, Surface, Text } from 'react-native-paper';
-import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
+import { mockedCompletedTasks, mockedMembers } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 
-import { sliceStringToLengthAddEllipsis } from '../library/utils';
-import { selectAllRequestsOfSelectedHousehold } from '../store/requests/requestsSelectors';
-import { useSelectedHouseholddata } from '../store/user/hooks';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { selectMemberForUserInSelectedHousehold } from '../store/members/membersSelectors';
 import {
-  selectCurrentUser,
+  selectAllRequestsOfSelectedHousehold,
+  selectRequestIsLoading,
+} from '../store/requests/requestsSelectors';
+import {
+  selectTaskIsLoading,
+  selectTasks,
+} from '../store/tasks/tasksSelectors';
+import { useSelectedHouseholdData } from '../store/user/hooks';
+import {
   selectCurrentUserMemberProfiles,
   selectSelectedHousehold,
 } from '../store/user/userSelectors';
 import { Task } from '../types';
 
-type Props = MaterialTopTabScreenProps<
-  TopTabNavigatorParamList,
-  'SelectedHousehold'
+// type Props = MaterialTopTabScreenProps<
+//   TopTabNavigatorParamList,
+//   'SelectedHousehold'
+// >;
+
+type Props = CompositeScreenProps<
+  MaterialTopTabScreenProps<TopTabNavigatorParamList, 'SelectedHousehold'>,
+  NativeStackScreenProps<RootStackParamList>
 >;
 
 export default function SelectedHouseholdScreen({ navigation }: Props) {
-  useSelectedHouseholddata();
+  useSelectedHouseholdData();
+  const dispatch = useAppDispatch();
+  const selectedHousehold = useAppSelector(selectSelectedHousehold);
+  const memberForSelectedHousehold = useAppSelector(
+    selectMemberForUserInSelectedHousehold,
+  );
+  const requests = useAppSelector(selectAllRequestsOfSelectedHousehold);
+  const tasksIsLoading = useAppSelector(selectTaskIsLoading);
+  const requestsIsLoading = useAppSelector(selectRequestIsLoading);
+  const isLoading = () => {
+    return tasksIsLoading || requestsIsLoading;
+  };
 
   //for testing...
   const currentUser = { isAdmin: true };
   // const currentUser = { isAdmin: false };
-
-  const dispatch = useAppDispatch();
-  const requests = useAppSelector(selectAllRequestsOfSelectedHousehold);
-  const user = useAppSelector(selectCurrentUser);
-  const selectedHousehold = useAppSelector(selectSelectedHousehold);
-  console.log('selectedHousehold:', selectedHousehold);
 
   const member = useAppSelector(selectCurrentUserMemberProfiles).find(
     (p) => p.householdId === selectedHousehold?.id,
@@ -42,9 +67,10 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   const members = mockedMembers.filter(
     (m) => m.householdId === selectedHousehold?.id,
   );
-  const tasksHousehold = mockedTasks.filter(
-    (t) => t.householdId === selectedHousehold?.id,
-  );
+  const tasksHousehold = useAppSelector(selectTasks);
+  // mockedTasks.filter(
+  //   (t) => t.householdId === selectedHousehold?.id,
+  // );
 
   const today = todayAtMidnight();
   const completedTasks = mockedCompletedTasks
@@ -52,6 +78,7 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
     .filter((t) => new Date(Date.parse(t.dateDone)) >= todayAtMidnight());
   // .filter((t) => t.dateDone >= startDayCurrentWeek(today));
 
+  // FIXME: make to a component
   const renderTaskBadges = (task: Task) => {
     const memberIds = completedTasks
       .filter((t) => t.taskId === task.id)
@@ -114,9 +141,15 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   };
   return (
     <>
+      {isLoading() && <ActivityIndicator animating size={'large'} />}
       <ScrollView style={s.container}>
         {tasksHousehold.map((task) => (
-          <Pressable key={task.id} onPress={() => {}}>
+          <Pressable
+            key={task.id}
+            onPress={() => {
+              navigation.navigate('Details', { taskId: task.id });
+            }}
+          >
             <Surface style={s.surface}>
               <Text style={s.taskItem}>{task.name}</Text>
               <Text style={s.taskItem}>{renderTaskBadges(task)}</Text>
@@ -167,7 +200,7 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
             }}
             contentStyle={{ height: 65, gap: 10 }}
             onPress={() => {
-              navigation.goBack();
+              navigation.navigate('CreateTask');
             }}
           >
             Skapa syssla
