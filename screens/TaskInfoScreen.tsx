@@ -23,7 +23,8 @@ export default function TaskInfoScreen({ navigation, route }: Props) {
   const { taskId } = route.params;
   const task = useAppSelector(selectTaskFromTaskID(taskId));
   const dispatch = useAppDispatch();
-  // const isMemberOwner = useAppSelector(state => selectCurrentUser(state))
+
+  // TODO: Behöver kontrollera ifall en användare är en admin/ägare
   const isMemberOwner = true;
 
   const handleCheckTask = () => {
