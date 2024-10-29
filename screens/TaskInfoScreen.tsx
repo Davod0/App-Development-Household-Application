@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import {
   Button,
@@ -22,18 +22,18 @@ export default function TaskInfoScreen({ navigation, route }: Props) {
   const { colors } = useTheme();
   const { taskId } = route.params;
   const task = useAppSelector(selectTaskFromTaskID(taskId));
-  const isMemberOwner = useAppSelector(selectMemberForUserInSelectedHousehold);
+  const member = useAppSelector(selectMemberForUserInSelectedHousehold);
   const dispatch = useAppDispatch();
 
-  console.log(isMemberOwner?.isOwner);
+  console.log(member?.isOwner);
 
   const handleCheckTask = () => {
     // dispatch()
     navigation.goBack();
   };
 
-  useLayoutEffect(() => {
-    if (task && isMemberOwner?.isOwner) {
+  useEffect(() => {
+    if (task && member?.isOwner) {
       navigation.setOptions({
         headerRight: () => (
           <IconButton
@@ -43,7 +43,7 @@ export default function TaskInfoScreen({ navigation, route }: Props) {
         ),
       });
     }
-  }, [navigation, isMemberOwner, task]);
+  }, [navigation, member, task]);
 
   if (!task) {
     return <Text>Kunde inte hitta sysslan ....</Text>;
