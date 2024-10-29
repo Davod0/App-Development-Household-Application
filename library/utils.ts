@@ -1,8 +1,8 @@
 /**
- * A proper modulo function that ony gives positive answers.
+ * A proper modulo function that only return positive numbers.
  * @param n number to take the modulo on
  * @param m the modulo base
- * @returns a positive answer [0 .. m-1]
+ * @returns a positive number [0 .. m-1]
  */
 export function mod(n: number, m: number): number {
   return ((n % m) + m) % m;
