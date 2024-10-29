@@ -12,8 +12,8 @@ import {
 type userState = {
   currentUser?: User;
   isLoading: boolean;
-  registerErrorMessage?: string;
-  loginErrorMessage?: string;
+  signUpErrorMessage?: string;
+  signInErrorMessage?: string;
   theme: ColorMode;
   memberProfiles: Member[];
   selectedHousehold?: Household;
@@ -50,8 +50,7 @@ export const userSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(signUpUser.rejected, (state, action) => {
-        // TODO: fix as string?!
-        state.registerErrorMessage = action.payload as string;
+        state.signUpErrorMessage = action.payload;
         state.isLoading = false;
         console.log(`Error message from user reducer: ${action.payload}`);
       })
@@ -62,8 +61,7 @@ export const userSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(signInUser.rejected, (state, action) => {
-        // TODO: fix as string?!
-        state.loginErrorMessage = action.payload as string;
+        state.signInErrorMessage = action.payload;
         state.isLoading = false;
         console.log(`Error message from user reducer:2 ${action.payload}`);
       })

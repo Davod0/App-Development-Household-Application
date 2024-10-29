@@ -7,13 +7,15 @@ import { mockedMembers } from '../data';
 import { auth } from '../firebase';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { selectColorMode } from '../store/user/selectors';
-import { setColorMode } from '../store/user/userReducer';
+import { useSelectedHouseholddata } from '../store/user/hooks';
+import { selectColorMode } from '../store/user/userSelectors';
+import { setColorMode } from '../store/user/userSlice';
 import { ColorMode } from '../theme/ThemeProvider';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
 export default function ProfileScreen({ navigation }: Props) {
+  useSelectedHouseholddata();
   const colorMode = useAppSelector(selectColorMode);
   const dispatch = useAppDispatch();
 

@@ -5,18 +5,18 @@ import { Button, Text, TextInput } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import LoadingIndicator from '../store/LoadingIndicator';
-import { selectUserAuthenticationIsLoading } from '../store/user/selectors';
 import { signInUser } from '../store/user/userActions';
+import { selectUserAuthenticationIsLoading } from '../store/user/userSelectors';
 import { EmailPassword } from '../types';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
-export default function LoginScreen({ navigation }: Props) {
+export default function SignInScreen({ navigation }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
   const loginErrorMessage = useAppSelector(
-    (state) => state.user.loginErrorMessage,
+    (state) => state.user.signInErrorMessage,
   );
   const isLoading = useAppSelector(selectUserAuthenticationIsLoading);
 
@@ -33,7 +33,7 @@ export default function LoginScreen({ navigation }: Props) {
 
   const navigateToRegister = () => {
     console.log('Register button pressed');
-    navigation.navigate('Register');
+    navigation.navigate('SignUp');
   };
 
   return (
