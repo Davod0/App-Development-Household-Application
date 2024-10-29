@@ -1,3 +1,9 @@
+export type PieChartData = {
+  value: number;
+  color: string;
+  text: string;
+};
+
 export type Household = {
   id: string;
   name: string;

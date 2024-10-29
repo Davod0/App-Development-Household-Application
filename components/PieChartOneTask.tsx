@@ -1,10 +1,15 @@
 import { PieChart } from 'react-native-gifted-charts';
 import { avatarList } from '../library/avatarList';
-import { Task } from '../types';
+import { selectCompletedTasksByHousehold } from '../store/completedTasks/completedTasksSelectors';
+import { useAppSelector } from '../store/hooks';
+import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
+import { useSelectedHouseholdData } from '../store/user/hooks';
+import { PieChartData, Task } from '../types';
 
 type Props = { task: Task };
 
 export default function PieChartOneTask({ task }: Props) {
+  useSelectedHouseholdData();
   /* 
      När applikationen startas ska alla hushåll som tillhör just den user som är inloggade hämtas från databasen.
      Och om en user går till screenen där alla user's hushåll visas,
@@ -21,6 +26,33 @@ export default function PieChartOneTask({ task }: Props) {
       Hämta alla Members för just det hushållet som är valt.
       Kolla vilken Member har gjort hur mycket av varje Task under veckan/dagen/månaden
   */
+
+  const members = useAppSelector(selectAllMembersBySelectedHousehold);
+  const completedTasks = useAppSelector(selectCompletedTasksByHousehold);
+
+  const membersWithCompletedTaskCount = members.map((member) => {
+    const memberCompletedTasks = completedTasks.filter(
+      (comTask) => comTask.memberId === member.id,
+    );
+    return {
+      member,
+      completedTaskCount: memberCompletedTasks.length,
+    };
+  });
+
+  membersWithCompletedTaskCount.map((memberWithComTask) =>
+    console.log(
+      `Member name:${memberWithComTask.member.name}| Number of comTask: ${memberWithComTask.completedTaskCount}`,
+    ),
+  );
+
+  const pieChartData: PieChartData[] = membersWithCompletedTaskCount.map(
+    (item) => ({
+      value: item.completedTaskCount,
+      color: item.member.avatar.color,
+      text: item.member.avatar.icon,
+    }),
+  );
 
   // test data
   const data = [
