@@ -1,10 +1,8 @@
 import { RootState } from '../store';
-import { selectSelectedHousehold } from '../user/userSelectors';
+import { selectCurrentUser } from '../user/userSelectors';
 
 export const selectAllMembersBySelectedHousehold = (state: RootState) =>
   state.members.list;
 
 export const selectMemberForUserInSelectedHousehold = (state: RootState) =>
-  state.members.list.find(
-    (m) => m.householdId === selectSelectedHousehold(state)?.id,
-  );
+  state.members.list.find((m) => m.userId === selectCurrentUser(state)?.uid);
