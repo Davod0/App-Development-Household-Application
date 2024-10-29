@@ -5,7 +5,7 @@ import LoadingIndicator from '../store/LoadingIndicator';
 import {
   selectCurrentUser,
   selectUserAuthenticationIsLoading,
-} from '../store/user/selectors';
+} from '../store/user/userSelectors';
 import { signInUser, signUpUser } from '../store/user/userActions';
 import { EmailPassword, Request } from '../types';
 
