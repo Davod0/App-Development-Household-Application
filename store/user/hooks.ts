@@ -51,6 +51,7 @@ export async function useSelectedHouseholddata() {
         await dispatch(getTasksBySelectedHousehold());
         await dispatch(getCompletedTasksByHousehold());
         await dispatch(getRequestsBySelectedHouseholdId());
+        getRequestsBySelectedHouseholdId;
       };
       fetchData();
     }, [dispatch]),
