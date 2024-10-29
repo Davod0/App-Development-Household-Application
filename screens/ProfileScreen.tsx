@@ -59,7 +59,7 @@ export default function ProfileScreen({ navigation }: Props) {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigation.navigate('Login');
+      navigation.navigate('Home');
     } catch (error) {
       console.error('Error logging out:', error);
     }
