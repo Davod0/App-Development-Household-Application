@@ -3,14 +3,21 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppSelector } from '../../store/hooks';
-import { selectSelectedHousehold } from '../../store/user/userSelectors';
+import { useUserAuthState } from '../../store/user/hooks';
+import {
+  selectCurrentUser,
+  selectSelectedHousehold,
+} from '../../store/user/userSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TestUser'>;
 
 export default function TestUser({ navigation }: Props) {
+  useUserAuthState();
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
+  const user = useAppSelector(selectCurrentUser);
   return (
     <ScrollView contentContainerStyle={s.container}>
+      <Text>e-mail: {user?.email}</Text>
       {!selectedHousehold ? (
         <>
           <Text variant="bodyLarge">No selected household</Text>
@@ -25,8 +32,6 @@ export default function TestUser({ navigation }: Props) {
         <>
           <Text>Household name: {selectedHousehold.name}</Text>
           <Text>HouseholdID: {selectedHousehold.id}</Text>
-
-          <Text>Do something</Text>
         </>
       )}
     </ScrollView>
