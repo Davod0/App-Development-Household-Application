@@ -147,7 +147,7 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
           <Pressable
             key={task.id}
             onPress={() => {
-              navigation.navigate('Details', { taskId: task.id });
+              navigation.navigate('TaskInfo', { taskId: task.id });
             }}
           >
             <Surface style={s.surface}>
@@ -182,7 +182,9 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
                 lineHeight: 30,
               }}
               contentStyle={{ height: 65, gap: 10 }}
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate('ShowRequests');
+              }}
             >
               Förfrågningar
             </Button>

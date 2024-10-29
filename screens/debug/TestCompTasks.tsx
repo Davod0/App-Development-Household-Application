@@ -90,7 +90,7 @@ export default function TestCompTasks({ navigation }: Props) {
           <Button
             mode="contained"
             onPress={() => {
-              dispatch(getSelectedHouseholdTasks('household-3'));
+              dispatch(getSelectedHouseholdTasks());
             }}
           >
             update

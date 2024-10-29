@@ -83,7 +83,7 @@ export default function TestTasks({ navigation }: Props) {
           <Button
             mode="contained"
             onPress={() => {
-              dispatch(getSelectedHouseholdTasks(selectedHousehold.id));
+              dispatch(getSelectedHouseholdTasks());
             }}
           >
             update(completed tasks)
