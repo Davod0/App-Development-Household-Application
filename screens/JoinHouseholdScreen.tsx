@@ -10,7 +10,7 @@ import {
 } from 'react-native-paper';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getHouseholdsByUserId } from '../store/households/householdsActions';
-import { getMembersByHouseholdId } from '../store/members/membersActions';
+import { getMembersBySelectedHousehold } from '../store/members/membersActions';
 import { addRequest } from '../store/requests/requestsActions';
 import {
   selectRequestError,
@@ -38,7 +38,7 @@ export default function JoinHouseholdScreen() {
             dispatch(getHouseholdsByUserId())
               .unwrap()
               .then(() => {
-                dispatch(getMembersByHouseholdId());
+                dispatch(getMembersBySelectedHousehold());
               });
           });
       }

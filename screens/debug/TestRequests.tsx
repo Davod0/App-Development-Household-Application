@@ -10,7 +10,7 @@ import {
   rejectRequest,
 } from '../../store/requests/requestsActions';
 import { selectAllRequestsOfSelectedHousehold } from '../../store/requests/requestsSelectors';
-import { useSelectedHouseholddata } from '../../store/user/hooks';
+import { useSelectedHouseholdData } from '../../store/user/hooks';
 import { selectSelectedHousehold } from '../../store/user/userSelectors';
 import { AvatarName, CreateMember } from '../../types';
 
@@ -22,7 +22,7 @@ export default function TestRequest({ navigation }: Props) {
   const requestsForSelHousehold = useAppSelector(
     selectAllRequestsOfSelectedHousehold,
   );
-  useSelectedHouseholddata();
+  useSelectedHouseholdData();
 
   // only used to generate a random avatar
   const nameArray: AvatarName[] = [

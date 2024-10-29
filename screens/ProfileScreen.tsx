@@ -10,7 +10,7 @@ import {
 import { mockedMembers, mockedUsers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { useSelectedHouseholddata } from '../store/user/hooks';
+import { useSelectedHouseholdData } from '../store/user/hooks';
 import { selectColorMode } from '../store/user/userSelectors';
 import { setColorMode } from '../store/user/userSlice';
 import { ColorMode } from '../theme/ThemeProvider';
@@ -18,7 +18,7 @@ import { ColorMode } from '../theme/ThemeProvider';
 type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
 export default function ProfileScreen({ navigation }: Props) {
-  useSelectedHouseholddata();
+  useSelectedHouseholdData();
   const colorMode = useAppSelector(selectColorMode);
   const dispatch = useAppDispatch();
 

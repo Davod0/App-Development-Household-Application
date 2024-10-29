@@ -68,6 +68,9 @@ export default function Home({ navigation }: Props) {
       <Pressable onPress={() => navigation.navigate('YourHouseholds')}>
         <Text style={styles.text}>YourHouseholds</Text>
       </Pressable>
+      <Pressable onPress={() => navigation.navigate('ShowRequests')}>
+        <Text style={styles.text}>ShowRequests</Text>
+      </Pressable>
       <Pressable
         onPress={() =>
           navigation.navigate('HouseholdInformation', {

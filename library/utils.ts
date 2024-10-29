@@ -17,3 +17,20 @@ export const generateRandomCode = () => {
   }
   return result;
 };
+
+/**
+ * A function that will slice off the end of a long string, and add ellipsis (...) to the
+ * end if the string is sliced.
+ * @param str a text string that can be undefined
+ * @param len the max length you want the text to be
+ * @returns a string that is max len characters long or an empty string if str is undefined.
+ */
+export function sliceStringToLengthAddEllipsis(
+  str: string | undefined,
+  len: number,
+) {
+  if (!str) return '';
+  return str.length > len
+    ? str.slice(0, len - 3).trim() + (str.length > len - 3 ? '...' : '')
+    : str;
+}

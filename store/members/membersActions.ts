@@ -48,8 +48,8 @@ export const updateMember = createAppAsyncThunk<Member, Member>(
   },
 );
 
-export const getMembersByHouseholdId = createAppAsyncThunk<Member[]>(
-  'members/getByHouseholdId',
+export const getMembersBySelectedHousehold = createAppAsyncThunk<Member[]>(
+  'members/getBySelectedHousehold',
   async (_, thunkApi) => {
     const state = thunkApi.getState();
     try {
