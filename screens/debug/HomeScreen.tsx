@@ -5,22 +5,13 @@ import { Surface, Text } from 'react-native-paper';
 import { mockedHouseholds } from '../../data';
 import { auth } from '../../firebase';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
-// import { mockedHouseholds, mockedMembers } from '../data';
-// import { useAppSelector } from '../store/hooks';
+import { useAppSelector } from '../../store/hooks';
+import { selectTasksForCurrentHousehold } from '../../store/tasks/tasksSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 export default function Home({ navigation }: Props) {
-  // const households = useAppSelector((state) => state.household.list);
-  // const members = useAppSelector((state) => state.members.filter());
-  // const householdMembers = useAppSelector(selectMembersByHousehold);
-  // const userMembers = useAppSelector(selectMembersByUser);
-
-  // const userHouseholds = mockedHouseholds.filter((household) =>
-  //   mockedMembers.some(
-  //     (member) =>
-  //       member.userId === loggedInUserId && member.householdId === household.id,
-  //   ),
-  // );
+  const tasks = useAppSelector(selectTasksForCurrentHousehold);
+  const taskForTestingTaskInfoScreen = tasks[0];
 
   // mockedData to EditTaskScreen
   const task = {
@@ -55,7 +46,11 @@ export default function Home({ navigation }: Props) {
         <Text style={styles.text}>Profile</Text>
       </Pressable>
       <Pressable
-        onPress={() => navigation.navigate('TaskInfo', { taskId: '' })}
+        onPress={() =>
+          navigation.navigate('TaskInfo', {
+            taskId: taskForTestingTaskInfoScreen.id,
+          })
+        }
       >
         <Text style={styles.text}>TaskInfo</Text>
       </Pressable>
