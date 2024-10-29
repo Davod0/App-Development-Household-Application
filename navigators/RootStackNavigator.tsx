@@ -30,6 +30,7 @@ import {
 } from '../store/user/userSelectors';
 import { Household, Task } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
+import ShowRequestsScreen from '../screens/ShowRequestsScreen';
 
 export type RootStackParamList = {
   SignIn: undefined;
@@ -45,6 +46,7 @@ export type RootStackParamList = {
   HouseholdInformation: { household: Household };
   YourHouseholds: undefined;
   ReduxTest: undefined;
+  ShowRequests: undefined;
   TestUser: undefined;
   TestTasks: undefined;
   TestMembers: undefined;
@@ -149,6 +151,11 @@ export default function RootStackNavigator() {
             name="CreateTask"
             component={CreateTaskScreen}
             options={{ title: 'Skapa en ny syssla' }}
+          />
+          <RootStack.Screen
+            name="ShowRequests"
+            component={ShowRequestsScreen}
+            options={{ title: 'Visar förfrågningar' }}
           />
           <RootStack.Screen
             name="EditTask"
