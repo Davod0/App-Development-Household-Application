@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { View, Text, FlatList, Button, ActivityIndicator } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   getRequestsBySelectedHouseholdId,
   acceptRequest,
@@ -12,20 +11,12 @@ import {
   selectRequestError,
 } from '../store/requests/requestsSelectors';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AppDispatch, RootState } from '../store/store';
 
 export default function ShowRequestsScreen() {
   const dispatch = useAppDispatch();
   const requests = useAppSelector(selectAllRequests);
   const loading = useAppSelector(selectRequestIsLoading);
   const error = useAppSelector(selectRequestError);
-
-  // const createAppAsyncThunk = createAsyncThunk.withTypes<{
-  //   state: RootState;
-  //   dispatch: AppDispatch;
-  //   rejectValue: string;
-  // }>();
 
   useEffect(() => {
     dispatch(getRequestsBySelectedHouseholdId());
@@ -69,7 +60,7 @@ export default function ShowRequestsScreen() {
     </View>
   ) : (
     <View>
-      <Text>No requests found.</Text>
+      <Text>Finns inga förfrågningar, fuckfejs!</Text>
     </View>
   );
 }
