@@ -148,9 +148,7 @@ export const getRequestsByUserId = createAppAsyncThunk<Request[], string>(
 
       return data;
     } catch (error: any) {
-      return thunkApi.rejectWithValue(
-        `retrieving requests for user: ${error.message || error}`,
-      );
+      return thunkApi.rejectWithValue(`Error while getting requests: ${error}`);
     }
   },
 );
