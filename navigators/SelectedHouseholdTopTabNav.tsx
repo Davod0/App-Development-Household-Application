@@ -16,7 +16,6 @@ import LastWeek from '../screens/statistics/LastWeek';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { updateSelectedHouseholdName } from '../store/households/householdsActions';
 import { selectMemberForUserInSelectedHousehold } from '../store/members/membersSelectors';
-import { useSelectedHousehold } from '../store/user/hooks';
 import { selectSelectedHousehold } from '../store/user/userSelectors';
 import { RootStackParamList } from './RootStackNavigator';
 
@@ -41,7 +40,7 @@ export default function SelectedHouseholdTopTabNav({ navigation }: Props) {
     selectMemberForUserInSelectedHousehold,
   );
   const dispatch = useAppDispatch();
-  useSelectedHousehold();
+  // useSelectedHousehold();
 
   useEffect(() => {
     navigation.setOptions({
