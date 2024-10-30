@@ -5,33 +5,21 @@ import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
-import { selectCurrentUser } from '../store/user/userSelectors';
+import {
+  useSelectedHouseholdData,
+  useUserAuthState,
+} from '../store/user/hooks';
 import { setSelectedHousehold } from '../store/user/userSlice';
 import { Household } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
 export default function YourHouseholdsScreen({ navigation }: Props) {
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(selectCurrentUser);
-  const households = useAppSelector(selectAllHouseholdsByCurrentUser);
+  useUserAuthState();
+  useSelectedHouseholdData();
 
-  // // testing...
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     if (user) {
-  //       dispatch(getMembersByCurrentUserId())
-  //         .unwrap()
-  //         .then(() => {
-  //           dispatch(getHouseholdsByUserId())
-  //             .unwrap()
-  //             .then(() => {
-  //               // dispatch(getMembersByHouseholdId(''));
-  //             });
-  //         });
-  //     }
-  //   }, [dispatch, user]),
-  // );
+  const dispatch = useAppDispatch();
+  const households = useAppSelector(selectAllHouseholdsByCurrentUser);
 
   const handlePressHousehold = (household: Household) => {
     dispatch(setSelectedHousehold(household));

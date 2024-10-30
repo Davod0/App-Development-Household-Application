@@ -1,53 +1,68 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import {
-  Avatar,
-  Button,
-  Icon,
-  SegmentedButtons,
-  Text,
-} from 'react-native-paper';
-import { mockedMembers, mockedUsers } from '../data';
+import { Avatar, SegmentedButtons, Text } from 'react-native-paper';
+import { mockedMembers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { useSelectedHouseholddata } from '../store/user/hooks';
-import { selectColorMode } from '../store/user/userSelectors';
+import {
+  selectColorMode,
+  selectCurrentUser,
+} from '../store/user/userSelectors';
+
+import { useSelectedHouseholdData } from '../store/user/hooks';
 import { setColorMode } from '../store/user/userSlice';
 import { ColorMode } from '../theme/ThemeProvider';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
 export default function ProfileScreen({ navigation }: Props) {
-  useSelectedHouseholddata();
+  useSelectedHouseholdData();
   const colorMode = useAppSelector(selectColorMode);
+  const user = useAppSelector(selectCurrentUser)!;
   const dispatch = useAppDispatch();
 
-  const userId = 'user-2';
-  const user = mockedUsers.find((u) => u.id === userId);
-  const member = mockedMembers.find((m) => m.userId === userId);
-  // const members = useAppSelector(selectMembersByUser);
-
-  if (!user || !member) {
-    throw new Error('bad userId: ' + userId);
-  }
+  const userId = 'user-1';
+  const member = mockedMembers.find((m) => m.userId === userId)!;
 
   const avatar = member.avatar.icon;
-  if (!avatar) {
-    throw new Error('bad avatarId: ' + member.avatar);
-  }
+  const avatarColor = member.avatar.color;
 
   return (
     <View style={s.container}>
       <View style={s.memberInfo}>
-        <Avatar.Text size={192} label={avatar} />
-        <Text style={s.name}>{user.firstName + ' ' + user.lastName}</Text>
-        <Button mode="contained" onPress={() => {}}>
-          Byt Hushåll
-        </Button>
-        <Button mode="contained" onPress={() => {}}>
-          Hushålls info
-        </Button>
+        <View
+          style={{
+            backgroundColor: avatarColor,
+            width: 160,
+            height: 160,
+            borderRadius: 125,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar.Text
+            size={230}
+            label={avatar}
+            style={{ backgroundColor: 'transparent' }}
+          />
+        </View>
+        <Text style={s.name}>{member.name}</Text>
+
+        <Text variant="displaySmall">____________________</Text>
+
+        <Text variant="headlineSmall">Gmail</Text>
+        <Text style={s.emailText}>{user.email}</Text>
+
+        <Text
+          style={{ position: 'absolute', bottom: 130, alignSelf: 'center' }}
+          variant="headlineLarge"
+        >
+          Välj tema för appen
+        </Text>
+
         <SegmentedButtons
+          style={{ position: 'absolute', bottom: 60, alignSelf: 'center' }}
           value={colorMode}
           onValueChange={(value) => dispatch(setColorMode(value as ColorMode))}
           buttons={[
@@ -56,24 +71,6 @@ export default function ProfileScreen({ navigation }: Props) {
             { value: 'auto', label: 'Enhetens' },
           ]}
         />
-      </View>
-      <View style={s.footer}>
-        <Button
-          icon={({ color }) => (
-            <Icon source="close-circle-outline" size={36} color={color} />
-          )}
-          mode="contained-tonal"
-          onPress={() => {
-            navigation.goBack();
-          }}
-          labelStyle={{
-            fontSize: 24,
-            lineHeight: 30,
-          }}
-          contentStyle={{ height: 65, gap: 10 }}
-        >
-          Stäng
-        </Button>
       </View>
     </View>
   );
@@ -94,9 +91,14 @@ const s = StyleSheet.create({
   },
   name: {
     fontSize: 32,
+    marginTop: 20,
   },
-  footer: {
-    alignSelf: 'flex-end',
-    width: '50%',
+  emailText: {
+    fontSize: 20,
+    color: '#555',
+    marginVertical: 10,
+  },
+  logoutButton: {
+    marginRight: 10,
   },
 });
