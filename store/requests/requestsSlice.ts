@@ -25,16 +25,11 @@ const requestsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // .addCase(registerGoToHouseholdRequest.pending, (state) => {
-      //   state.isLoading = true;
-      // })
-      // .addCase(registerGoToHouseholdRequest.fulfilled, (state, action) => {
-      //   state.list.push(action.payload);
-      //   state.isLoading = false;
-      //   console.log('done');
-      // })
+      .addCase(getRequestsBySelectedHouseholdId.pending, (state, action) => {
+        state.isLoading = true;
+      })
       .addCase(getRequestsBySelectedHouseholdId.fulfilled, (state, action) => {
-        return { ...state, list: action.payload };
+        return { isLoading: false, list: action.payload };
       })
       .addCase(addRequest.pending, (state) => {
         state.errorMessage = undefined;

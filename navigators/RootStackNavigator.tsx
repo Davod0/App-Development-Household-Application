@@ -65,7 +65,7 @@ export default function RootStackNavigator() {
 
   return (
     <RootStack.Navigator
-      initialRouteName="Home"
+      initialRouteName="YourHouseholds"
       screenOptions={{ headerTitleAlign: 'center' }}
     >
       {user ? (
@@ -148,7 +148,16 @@ export default function RootStackNavigator() {
           <RootStack.Screen
             name="YourHouseholds"
             component={YourHouseholdsScreen}
-            options={{ title: 'Dina hushåll' }}
+            options={({ navigation }) => ({
+              title: 'Dina hushåll',
+              headerRight: () => (
+                <IconButton
+                  icon="xml"
+                  size={24}
+                  onPress={() => navigation.navigate('Home')}
+                />
+              ),
+            })}
           />
           <RootStack.Screen
             name="HouseholdInformation"
