@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { getSelectedHouseholdTasks } from '../../store/completedTasks/completedTasksActions';
-import { selectCompletedTasksByHousehold } from '../../store/completedTasks/completedTasksSelectors';
+import { selectCompletedTasksBySelectedHousehold } from '../../store/completedTasks/completedTasksSelectors';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addTask, updateTask } from '../../store/tasks/tasksAction';
 import { selectSelectedHousehold } from '../../store/user/userSelectors';
@@ -14,7 +14,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'TestCompTasks'>;
 export default function TestCompTasks({ navigation }: Props) {
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
   const competedTasksForHousehold = useAppSelector(
-    selectCompletedTasksByHousehold,
+    selectCompletedTasksBySelectedHousehold,
   );
 
   const dispatch = useAppDispatch();
