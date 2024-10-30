@@ -5,7 +5,7 @@ import { auth } from '../../firebase';
 import { getCompletedTasksByHousehold } from '../completedTasks/completedTasksActions';
 import { useAppDispatch } from '../hooks';
 import { getHouseholdsByUserId } from '../households/householdsActions';
-import { getMembersByHouseholdId } from '../members/membersActions';
+import { getMembersBySelectedHousehold } from '../members/membersActions';
 import { getRequestsBySelectedHouseholdId } from '../requests/requestsActions';
 import { getTasksBySelectedHousehold } from '../tasks/tasksAction';
 import { getMembersByCurrentUserId } from './userActions';
@@ -17,8 +17,11 @@ export async function useUserAuthState() {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       dispatch(setUserOptimistically(user?.toJSON() as User));
       if (user) {
-        await dispatch(getMembersByCurrentUserId()).unwrap();
-        await dispatch(getHouseholdsByUserId()).unwrap();
+        const members = await dispatch(getMembersByCurrentUserId()).unwrap();
+        // added this check to prevent trying to get housholds when there won't be any
+        if (members.length > 0) {
+          await dispatch(getHouseholdsByUserId()).unwrap();
+        }
       }
       console.log(`User from useUserAuthState: ${user?.email}`);
     });
@@ -41,13 +44,13 @@ export async function useUserAuthState() {
   }
 }
 
-export async function useSelectedHouseholddata() {
+export async function useSelectedHouseholdData() {
   const dispatch = useAppDispatch();
   // const selectedHousehold = useAppSelector(selectSelectedHousehold);
   useFocusEffect(
     useCallback(() => {
       const fetchData = async () => {
-        await dispatch(getMembersByHouseholdId());
+        await dispatch(getMembersBySelectedHousehold());
         await dispatch(getTasksBySelectedHousehold());
         await dispatch(getCompletedTasksByHousehold());
         await dispatch(getRequestsBySelectedHouseholdId());

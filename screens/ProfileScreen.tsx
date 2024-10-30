@@ -5,18 +5,19 @@ import { Avatar, SegmentedButtons, Text } from 'react-native-paper';
 import { mockedMembers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { useSelectedHouseholddata } from '../store/user/hooks';
 import {
   selectColorMode,
   selectCurrentUser,
 } from '../store/user/userSelectors';
+
+import { useSelectedHouseholdData } from '../store/user/hooks';
 import { setColorMode } from '../store/user/userSlice';
 import { ColorMode } from '../theme/ThemeProvider';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
 export default function ProfileScreen({ navigation }: Props) {
-  useSelectedHouseholddata();
+  useSelectedHouseholdData();
   const colorMode = useAppSelector(selectColorMode);
   const user = useAppSelector(selectCurrentUser)!;
   const dispatch = useAppDispatch();

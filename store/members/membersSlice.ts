@@ -3,17 +3,18 @@ import { Member } from '../../types';
 import {
   addMember,
   deleteMember,
-  getMembersByHouseholdId,
+  getMembersBySelectedHousehold,
   updateMember,
 } from './membersActions';
 
 // state
 type MembersState = {
   list: Member[];
-  isLoading?: boolean;
+  isLoading: boolean;
 };
 const initialState: MembersState = {
   list: [],
+  isLoading: false,
 };
 
 // slice
@@ -40,10 +41,11 @@ const membersSlice = createSlice({
         }
         state.isLoading = false;
       })
-      .addCase(getMembersByHouseholdId.pending, (state) => {
+      .addCase(getMembersBySelectedHousehold.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getMembersByHouseholdId.fulfilled, (state, action) => {
+      .addCase(getMembersBySelectedHousehold.fulfilled, (_, action) => {
+        // .addCase(getMembersByHouseholdId.fulfilled, (state, action) => {
         return {
           list: action.payload,
           isLoading: false,

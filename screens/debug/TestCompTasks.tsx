@@ -2,10 +2,10 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
-import { getCompletedTasksByHouseholdId } from '../../store/completedTasks/completedTasksActions';
+import { getSelectedHouseholdTasks } from '../../store/completedTasks/completedTasksActions';
+import { selectCompletedTasksByHousehold } from '../../store/completedTasks/completedTasksSelectors';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addTask, updateTask } from '../../store/tasks/tasksAction';
-import { selectTasks } from '../../store/tasks/tasksSelectors';
 import { selectSelectedHousehold } from '../../store/user/userSelectors';
 import { CreateTask } from '../../types';
 
@@ -13,7 +13,9 @@ type Props = NativeStackScreenProps<RootStackParamList, 'TestCompTasks'>;
 
 export default function TestCompTasks({ navigation }: Props) {
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
-  const tasksForHouseholdId = useAppSelector(selectTasks);
+  const competedTasksForHousehold = useAppSelector(
+    selectCompletedTasksByHousehold,
+  );
 
   const dispatch = useAppDispatch();
   /** DEFINE YOUR OBJECT */
@@ -90,7 +92,7 @@ export default function TestCompTasks({ navigation }: Props) {
           <Button
             mode="contained"
             onPress={() => {
-              dispatch(getCompletedTasksByHouseholdId('household-3'));
+              dispatch(getSelectedHouseholdTasks());
             }}
           >
             update
@@ -108,27 +110,26 @@ export default function TestCompTasks({ navigation }: Props) {
       ))} */}
 
           {/* == task test == */}
-          {tasksForHouseholdId.length > 0 ? (
-            tasksForHouseholdId.map((task, index) => (
+          {competedTasksForHousehold.length > 0 ? (
+            competedTasksForHousehold.map((compTask, index) => (
               <Card key={index}>
-                <Card.Title title={`Task ID: ${task.id}`} />
+                <Card.Title title={`ID: ${compTask.id}`} />
                 <Card.Content>
-                  <Text>Task name: {task.name}</Text>
-                  <Text>Description: {task.description}</Text>
-                  <Text>Frequency: {task.frequency}</Text>
-                  <Text>Household ID: {task.householdId}</Text>
-                  <Text>IsArchived: {task.isArchived ? '🥲' : '🐛'}</Text>
+                  <Text>Task ID: {compTask.taskId}</Text>
+                  <Text>Date: {compTask.dateDone}</Text>
+                  <Text>Member ID: {compTask.memberId}</Text>
+                  <Text>Household ID: {compTask.householdId}</Text>
                 </Card.Content>
                 <Card.Actions>
                   <Button
                     mode="outlined"
-                    onPress={() => handleUpdateTask(task.id)}
+                    onPress={() => handleUpdateTask(compTask.id)}
                   >
                     Update Task
                   </Button>
                   <Button
                     mode="contained"
-                    onPress={() => handleDeleteTask(task.id)}
+                    onPress={() => handleDeleteTask(compTask.id)}
                   >
                     Delete Task 🥲
                   </Button>

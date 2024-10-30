@@ -4,21 +4,19 @@ import PieChartAllTasks from '../../components/PieChartAllTasks';
 import PieChartOneTask from '../../components/PieChartOneTask';
 import { mockedTasks } from '../../data';
 import { todayAtMidnight } from '../../library/dateFunctions';
-import { useSelectedHouseholddata } from '../../store/user/hooks';
+import { sliceStringToLengthAddEllipsis } from '../../library/utils';
+import { useSelectedHouseholdData } from '../../store/user/hooks';
 import { Task } from '../../types';
 
 export default function CurrentWeek() {
-  useSelectedHouseholddata();
+  useSelectedHouseholdData();
   const householdId = 'household-1';
   const tasks = mockedTasks.filter((t) => t.householdId === householdId);
 
   const renderItem = (item: Task) => (
     <View style={s.item}>
       <PieChartOneTask task={item} />
-      <Text>
-        {item.name.slice(0, 14).trim()}
-        {item.name.length > 14 ? '...' : ''}
-      </Text>
+      <Text>{sliceStringToLengthAddEllipsis(item.name, 14)}</Text>
     </View>
   );
   return (

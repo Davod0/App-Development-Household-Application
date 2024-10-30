@@ -4,11 +4,17 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useEffect } from 'react';
+import DoubleHeaderIcon from '../components/DoubleHeaderIcon';
+import ProfileIconButton from '../components/ProfileIconButton';
 import { SubHeaderStatsScreens } from '../components/SubHeaderStatsScreens';
+import { sliceStringToLengthAddEllipsis } from '../library/utils';
 import SelectedHouseholdScreen from '../screens/SelectedHouseholdScreen';
 import CurrentWeek from '../screens/statistics/CurrentWeek';
 import LastWeek from '../screens/statistics/LastWeek';
+import { useAppSelector } from '../store/hooks';
+import { selectMemberForUserInSelectedHousehold } from '../store/members/membersSelectors';
+import { selectSelectedHousehold } from '../store/user/userSelectors';
 import { RootStackParamList } from './RootStackNavigator';
 
 export type TopTabNavigatorParamList = {
@@ -24,7 +30,33 @@ type Props = CompositeScreenProps<
   MaterialTopTabScreenProps<TopTabNavigatorParamList>
 >;
 
-export default function SelectedHouseholdTopTabNav(props: Props) {
+export default function SelectedHouseholdTopTabNav({ navigation }: Props) {
+  const selectedHousehold = useAppSelector(selectSelectedHousehold);
+  const memberForSelectedHousehold = useAppSelector(
+    selectMemberForUserInSelectedHousehold,
+  );
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: sliceStringToLengthAddEllipsis(selectedHousehold?.name, 23),
+      headerRight: () => (
+        <>
+          {!!memberForSelectedHousehold?.isOwner ? (
+            <DoubleHeaderIcon
+              //FIXME: add navigation to edit household
+              navigateToEditHousehold={() => navigation.navigate('Profile')}
+              navigateToProfile={() => navigation.navigate('Profile')}
+            />
+          ) : (
+            <ProfileIconButton
+              navigateToProfile={() => navigation.navigate('Profile')}
+            />
+          )}
+        </>
+      ),
+    });
+  }, [navigation, selectedHousehold, memberForSelectedHousehold]);
+
   return (
     <Tab.Navigator
       initialRouteName="SelectedHousehold"
