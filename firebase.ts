@@ -13,6 +13,15 @@ const firebaseConfig = {
   appId: '1:1084251965186:web:aad9371bc24596042a641b',
 };
 
+// const firebaseConfig = {
+//   apiKey: 'AIzaSyC7PjAoNtdm73-NzFJk28JP2xfFZNxCTOQ',
+//   authDomain: 'suvnet23-bankvalet.firebaseapp.com',
+//   projectId: 'suvnet23-bankvalet',
+//   storageBucket: 'suvnet23-bankvalet.appspot.com',
+//   messagingSenderId: '378442800150',
+//   appId: '1:378442800150:web:f9049da775c9bcae3ae937',
+// };
+
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = initializeAuth(app, {

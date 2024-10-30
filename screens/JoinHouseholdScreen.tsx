@@ -1,6 +1,5 @@
-import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
   ActivityIndicator,
@@ -11,43 +10,24 @@ import {
 } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getAllowedHouseholdsByUserId } from '../store/households/householdsActions';
-import { getMembersByHouseholdId } from '../store/members/membersActions';
 import { addRequest } from '../store/requests/requestsActions';
 import {
   selectRequestError,
   selectRequestIsLoading,
 } from '../store/requests/requestsSelectors';
-import { getIsAllowedMembersByCurrentUserId } from '../store/user/userActions';
+import { useSelectedHouseholddata } from '../store/user/hooks';
 import { selectCurrentUser } from '../store/user/userSelectors';
 
 type props = NativeStackScreenProps<RootStackParamList, 'JoinHousehold'>;
 
 export default function JoinHouseholdScreen({ navigation }: props) {
+  useSelectedHouseholddata();
   const [houseCode, setHouseCode] = useState('');
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [showValidationDialog, setShowValidationDialog] = useState(false);
   const dispatch = useAppDispatch();
   const requestIsLoading = useAppSelector(selectRequestIsLoading);
   const requestError = useAppSelector(selectRequestError);
-  const user = useAppSelector(selectCurrentUser);
-
-  // testing...
-  useFocusEffect(
-    useCallback(() => {
-      if (user) {
-        dispatch(getIsAllowedMembersByCurrentUserId())
-          .unwrap()
-          .then(() => {
-            dispatch(getAllowedHouseholdsByUserId())
-              .unwrap()
-              .then(() => {
-                dispatch(getMembersByHouseholdId());
-              });
-          });
-      }
-    }, [dispatch, user, showConfirmationDialog]),
-  );
 
   const handleSubmitCode = () => {
     if (!houseCode) {

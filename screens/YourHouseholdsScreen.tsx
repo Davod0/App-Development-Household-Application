@@ -10,6 +10,12 @@ import {
 } from '../store/households/householdsActions';
 import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
 import {
+  selectAllIsAllowedMembers,
+  selectAllMembersBySelectedHousehold,
+} from '../store/members/membersSelectors';
+import { selectAllRequestsOfSelectedHousehold } from '../store/requests/requestsSelectors';
+import { useSelectedHouseholddata } from '../store/user/hooks';
+import {
   getIsAllowedMembersByCurrentUserId,
   getIsNotAllowedMembersByCurrentUserId,
 } from '../store/user/userActions';
@@ -21,58 +27,95 @@ type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
 export default function YourHouseholdsScreen({ navigation }: Props) {
   const dispatch = useAppDispatch();
+  useSelectedHouseholddata();
   const user = useAppSelector(selectCurrentUser);
   const [allowedHouseholds, setAllowedHouseholds] = useState<Household[]>([]);
   const [notAllowedHouseholds, setNotAllowedHouseholds] = useState<Household[]>(
     [],
   );
   const households = useAppSelector(selectAllHouseholdsByCurrentUser);
+  const allMembers = useAppSelector(selectAllMembersBySelectedHousehold);
+  const allAllowedMembers = useAppSelector(selectAllIsAllowedMembers);
+  const requests = useAppSelector(selectAllRequestsOfSelectedHousehold);
+  // console.log('households:', households);
+  // console.log('allMembers:', allMembers);
+  // console.log('allAllowedMembers:', allAllowedMembers);
+  // console.log('requests:', requests);
 
   // // testing...
   // useFocusEffect(
   //   useCallback(() => {
   //     if (user) {
-  //       dispatch(getMembersByCurrentUserId())
-  //         .unwrap()
-  //             .then(() => {
-  //               // dispatch(getMembersByHouseholdId(''));
-  //             });
-  //         });
+  //       dispatch(getMembersByCurrentUserId()).unwrap();
+  //       // .then(() => {
+  //       // dispatch(getMembersByHouseholdId(''));
+  //       // });
+  //       // });
   //     }
   //   }, [dispatch, user]),
   // );
 
-  useEffect(() => {
-    if (user) {
-      dispatch(getIsAllowedMembersByCurrentUserId())
-        .unwrap()
-        .then(() => {
-          dispatch(getAllowedHouseholdsByUserId())
-            .unwrap()
-            .then((households) => {
-              setAllowedHouseholds(households);
-            });
-        })
-        .catch((error) => {
-          console.error('Error fetching data:', error);
-        });
+  // useEffect(() => {
+  //   if (user) {
+  //     dispatch(getIsAllowedMembersByCurrentUserId())
+  //       .unwrap()
+  //       .then(() => {
+  //         dispatch(getAllowedHouseholdsByUserId())
+  //           .unwrap()
+  //           .then((households) => {
+  //             setAllowedHouseholds(households);
+  //           });
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error fetching data:', error);
+  //       });
 
-      dispatch(getIsNotAllowedMembersByCurrentUserId())
-        .unwrap()
-        .then((members) => {
-          dispatch(getIsNotAllowedHouseholdsByMemberId(members))
-            .unwrap()
-            .then((households) => {
-              setNotAllowedHouseholds(households);
-            })
-            .catch(() => {
-              setNotAllowedHouseholds([]);
-            });
-        })
-        .catch((error) => {
-          console.error('Error fetching data:', error);
-        });
-    }
+  //     dispatch(getIsNotAllowedMembersByCurrentUserId())
+  //       .unwrap()
+  //       .then((members) => {
+  //         dispatch(getIsNotAllowedHouseholdsByMemberId(members))
+  //           .unwrap()
+  //           .then((households) => {
+  //             setNotAllowedHouseholds(households);
+  //           })
+  //           .catch(() => {
+  //             setNotAllowedHouseholds([]);
+  //           });
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error fetching data:', error);
+  //       });
+  //   }
+  // }, [dispatch, user]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (user) {
+          await dispatch(getIsAllowedMembersByCurrentUserId()).unwrap();
+          const allowedHouseholds = await dispatch(
+            getAllowedHouseholdsByUserId(),
+          ).unwrap();
+          setAllowedHouseholds(allowedHouseholds);
+
+          const members = await dispatch(
+            getIsNotAllowedMembersByCurrentUserId(),
+          ).unwrap();
+          try {
+            const notAllowedHouseholds = await dispatch(
+              getIsNotAllowedHouseholdsByMemberId(members),
+            ).unwrap();
+            setNotAllowedHouseholds(notAllowedHouseholds);
+          } catch {
+            setNotAllowedHouseholds([]);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, [dispatch, user]);
 
   const handlePressHousehold = (household: Household) => {
