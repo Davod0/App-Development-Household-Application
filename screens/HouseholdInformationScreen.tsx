@@ -4,7 +4,7 @@ import { Button, Card, Icon, List, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
-import { useSelectedHouseholddata } from '../store/user/hooks';
+import { useSelectedHouseholdData } from '../store/user/hooks';
 import {
   selectCurrentUser,
   selectSelectedHousehold,
@@ -16,7 +16,7 @@ export default function HouseholdInformationScreen({
   navigation,
   route,
 }: Props) {
-  useSelectedHouseholddata();
+  useSelectedHouseholdData();
 
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);

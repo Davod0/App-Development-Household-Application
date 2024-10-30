@@ -10,9 +10,9 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { avatarList } from '../../library/avatarList';
-import { Household, Member, Request } from '../../types';
+import { CreateMember, Household, Request } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
-import { deleteMember } from '../members/membersActions';
+import { addMember, deleteMember } from '../members/membersActions';
 
 export const addRequest = createAppAsyncThunk<Request, string>(
   'requests/add',
@@ -23,36 +23,51 @@ export const addRequest = createAppAsyncThunk<Request, string>(
       const snapshot = await getDocs(
         query(collection(db, 'households'), where('code', '==', code)),
       );
-      if (snapshot.size < 1) {
+      if (snapshot.empty) {
         throw new Error('Koden finns inte, du angav: "' + code + '"');
       }
-      let household: Household;
-      snapshot.forEach((doc) => {
-        household = doc.data() as Household;
-      });
+      let household: Household = snapshot.docs[0].data() as Household;
+      // snapshot.forEach((doc) => {
+      //   household = doc.data() as Household;
+      // });
 
-      // check if the user already have an active request
-      if (state.user.memberProfiles.length > 0) {
-        const userMemberIds = state.user.memberProfiles.map(
-          (member) => member.id,
+      // check if the user already have an active request for the household
+      if (state.user.requestsByCurrentUser.length > 0) {
+        const userMemberIds = state.user.requestsByCurrentUser.filter(
+          (request) => request.householdId === household.id,
         );
-        const snapshot2 = await getDocs(
-          query(
-            collection(db, 'requests'),
-            where('memberId', 'in', userMemberIds),
-          ),
-        );
-        if (snapshot2.size > 0) {
+
+        // const snapshot2 = await getDocs(
+        //   query(
+        //     collection(db, 'requests'),
+        //     where('memberId', 'in', userMemberIds),
+        //   ),
+        // );
+        // if (snapshot2.size > 0) {
+        if (userMemberIds.length > 0) {
           throw new Error(
             'Du har redan en aktiv förfrågan till hushållet med kod: ' + code,
           );
         }
       }
 
+      // check if there is room for another member in the household
+      const memberSnapshot = await getDocs(
+        query(
+          collection(db, 'members'),
+          where('householdId', '==', household.id),
+        ),
+      );
+      if (memberSnapshot.size >= 8) {
+        throw new Error(
+          'Det finns inte plats för fler medlemmar i detta hushållet.',
+        );
+      }
+
       // create a member
-      const memberRef = doc(collection(db, 'members'));
-      const newMember: Member = {
-        id: memberRef.id,
+      // const memberRef = doc(collection(db, 'members'));
+      const newMember: CreateMember = {
+        // id: memberRef.id,
         householdId: household!.id,
         name: state.user.currentUser!.email!,
         userId: state.user.currentUser!.uid,
@@ -60,14 +75,15 @@ export const addRequest = createAppAsyncThunk<Request, string>(
         isOwner: false,
         isAllowed: false,
       };
-      await setDoc(memberRef, newMember);
+      // await setDoc(memberRef, newMember);
+      const member = await thunkApi.dispatch(addMember(newMember)).unwrap();
 
       // create the request
       const newDocRef = doc(collection(db, 'requests'));
       const newRequest: Request = {
         id: newDocRef.id,
         householdId: household!.id,
-        memberId: newMember.id,
+        memberId: member.id,
       };
 
       await setDoc(newDocRef, newRequest);

@@ -2,41 +2,50 @@ import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs';
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Badge, Button, Icon, Surface, Text } from 'react-native-paper';
-import { mockedCompletedTasks, mockedMembers, mockedTasks } from '../data';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppSelector } from '../store/hooks';
+
+import { CompositeScreenProps } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { mockedTasks } from '../data';
+import { RootStackParamList } from '../navigators/RootStackNavigator';
+import { selectCompletedTasksByHousehold } from '../store/completedTasks/completedTasksSelectors';
+import {
+  selectAllMembersBySelectedHousehold,
+  selectMemberForUserInSelectedHousehold,
+} from '../store/members/membersSelectors';
 import { selectAllRequestsOfSelectedHousehold } from '../store/requests/requestsSelectors';
-import { useSelectedHouseholddata } from '../store/user/hooks';
+import { selectTasks } from '../store/tasks/tasksSelectors';
+import { useSelectedHouseholdData } from '../store/user/hooks';
 import {
   selectCurrentUser,
-  selectCurrentUserMemberProfiles,
   selectSelectedHousehold,
 } from '../store/user/userSelectors';
 import { Task } from '../types';
 
-type Props = MaterialTopTabScreenProps<
-  TopTabNavigatorParamList,
-  'SelectedHousehold'
+// type Props = MaterialTopTabScreenProps<
+//   TopTabNavigatorParamList,
+//   'SelectedHousehold'
+// >;
+
+type Props = CompositeScreenProps<
+  MaterialTopTabScreenProps<TopTabNavigatorParamList, 'SelectedHousehold'>,
+  NativeStackScreenProps<RootStackParamList>
 >;
 
 export default function SelectedHouseholdScreen({ navigation }: Props) {
-  useSelectedHouseholddata();
+  useSelectedHouseholdData();
 
-  //for testing...
-  const currentUser = { isAdmin: true };
-  // const currentUser = { isAdmin: false };
-
-  const dispatch = useAppDispatch();
   const requests = useAppSelector(selectAllRequestsOfSelectedHousehold);
   const user = useAppSelector(selectCurrentUser);
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
   console.log('selectedHousehold:', selectedHousehold);
   console.log('requests:', requests);
 
-  const member = useAppSelector(selectCurrentUserMemberProfiles).find(
-    (p) => p.householdId === selectedHousehold?.id,
-  );
+  // const member = useAppSelector(selectCurrentUserMemberProfiles).find(
+  //   (p) => p.householdId === selectedHousehold?.id,
+  // );
 
   // useFocusEffect
   // useFocusEffect(
@@ -55,25 +64,33 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   //   }, [dispatch, user, selectedHousehold]),
   // );
 
-  const members = mockedMembers.filter(
-    (m) => m.householdId === selectedHousehold?.id,
-  );
   const tasksHousehold = mockedTasks.filter(
     (t) => t.householdId === selectedHousehold?.id,
   );
 
+  const member = useAppSelector(selectMemberForUserInSelectedHousehold);
+  const members = useAppSelector(selectAllMembersBySelectedHousehold);
+  const tasks = useAppSelector(selectTasks);
+  const competedTasks = useAppSelector(selectCompletedTasksByHousehold);
+
   const today = todayAtMidnight();
-  const completedTasks = mockedCompletedTasks
-    .filter((t) => members.some((m) => m.id === t.memberId))
-    .filter((t) => new Date(Date.parse(t.dateDone)) >= todayAtMidnight());
+  const completedTasks = competedTasks
+    .filter((compTask) => members.some((m) => m.id === compTask.memberId))
+    .filter(
+      (compTask) =>
+        new Date(Date.parse(compTask.dateDone)) >= todayAtMidnight(),
+    );
   // .filter((t) => t.dateDone >= startDayCurrentWeek(today));
 
+  // FIXME: make to a component
   const renderTaskBadges = (task: Task) => {
+    // get memberIds of everyone who have completed this task
     const memberIds = completedTasks
       .filter((t) => t.taskId === task.id)
       .map((t) => t.memberId);
 
     if (memberIds.length > 0) {
+      // get the avatars
       const memberAvatars = memberIds.map(
         (mId) => members.find((m) => m.id === mId)?.avatar!,
       );
@@ -86,7 +103,7 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
       );
     } else {
       // we need to find when this task was done in the past
-      const pastCompletionsOfThisTask = mockedCompletedTasks
+      const pastCompletionsOfThisTask = competedTasks
         .filter(
           (t) =>
             t.taskId === task.id && members.some((m) => m.id === t.memberId),
@@ -131,8 +148,13 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   return (
     <>
       <ScrollView style={s.container}>
-        {tasksHousehold.map((task) => (
-          <Pressable key={task.id} onPress={() => {}}>
+        {tasks.map((task) => (
+          <Pressable
+            key={task.id}
+            onPress={() => {
+              navigation.navigate('TaskInfo', { taskId: task.id });
+            }}
+          >
             <Surface style={s.surface}>
               <Text style={s.taskItem}>{task.name}</Text>
               <Text style={s.taskItem}>{renderTaskBadges(task)}</Text>
@@ -165,7 +187,9 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
                 lineHeight: 30,
               }}
               contentStyle={{ height: 65, gap: 10 }}
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate('ShowRequests');
+              }}
             >
               Förfrågningar
             </Button>
@@ -183,7 +207,7 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
             }}
             contentStyle={{ height: 65, gap: 10 }}
             onPress={() => {
-              navigation.goBack();
+              navigation.navigate('CreateTask');
             }}
           >
             Skapa syssla

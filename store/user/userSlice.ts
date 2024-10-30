@@ -3,7 +3,8 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { User } from 'firebase/auth';
 import { ColorMode } from '../../theme/ThemeProvider';
-import { Household, Member } from '../../types';
+import { Household, Member, Request } from '../../types';
+import { getRequestsByUserId } from '../requests/requestsActions';
 import {
   getIsAllowedMembersByCurrentUserId,
   getIsNotAllowedMembersByCurrentUserId,
@@ -19,6 +20,7 @@ type userState = {
   signInErrorMessage?: string;
   theme: ColorMode;
   memberProfiles: Member[];
+  requestsByCurrentUser: Request[];
   selectedHousehold?: Household;
 };
 const initialState: userState = {
@@ -26,6 +28,7 @@ const initialState: userState = {
   isLoading: true,
   theme: 'auto',
   memberProfiles: [],
+  requestsByCurrentUser: [],
 };
 
 export const userSlice = createSlice({
@@ -103,7 +106,17 @@ export const userSlice = createSlice({
             isLoading: false,
           };
         },
-      );
+      )
+      .addCase(getRequestsByUserId.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(getRequestsByUserId.fulfilled, (state, action) => {
+        return {
+          ...state,
+          requestsByCurrentUser: action.payload,
+          isLoading: false,
+        };
+      });
   },
 });
 

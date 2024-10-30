@@ -48,11 +48,14 @@ export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
   'Household/getByUserId',
   async (_, thunkApi) => {
     const state = thunkApi.getState();
-    const householdIds = state.user.memberProfiles.map(
-      (member) => member.householdId,
-    );
+    const householdIds = state.user.memberProfiles
+      .filter((m) => m.isAllowed)
+      .map((member) => member.householdId);
 
     try {
+      if (householdIds.length === 0) {
+        throw new Error('Not in any households yet.');
+      }
       const snapshot = await getDocs(
         query(collection(db, 'households'), where('id', 'in', householdIds)),
       );

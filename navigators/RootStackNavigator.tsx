@@ -1,9 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { signOut } from 'firebase/auth';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
 import ArchivedTask from '../components/ArchiveTask';
 import ProfileIconButton from '../components/ProfileIconButton';
 import useSplashScreenVisibility from '../components/SplashScreenVisibility';
+import { auth } from '../firebase';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
 import HomeScreen from '../screens/debug/HomeScreen';
@@ -14,20 +17,18 @@ import TestMembers from '../screens/debug/TestMembers';
 import TestRequests from '../screens/debug/TestRequests';
 import TestTasks from '../screens/debug/TestTasks';
 import TestUser from '../screens/debug/TestUser';
-import DetailsScreen from '../screens/DetailsScreen';
 import EditTaskScreen from '../screens/EditTaskScreen';
 import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ShowRequestsScreen from '../screens/ShowRequestsScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import TaskInfoScreen from '../screens/TaskInfoScreen';
 import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 import { useAppSelector } from '../store/hooks';
 import { useUserAuthState } from '../store/user/hooks';
-import {
-  selectCurrentUser,
-  selectSelectedHousehold,
-} from '../store/user/userSelectors';
+import { selectCurrentUser } from '../store/user/userSelectors';
 import { Household, Task } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
@@ -38,12 +39,14 @@ export type RootStackParamList = {
   SignUp: undefined;
   CreateHouseHold: undefined;
   JoinHousehold: undefined;
-  Details: undefined;
+  TaskInfo: { taskId: string };
+  // SelectedHouseholdNav: NavigatorScreenParams<TopTabNavigatorParamList>;
   SelectedHouseholdNav: undefined;
   CreateTask: undefined;
   HouseholdInformation: { household: Household };
   YourHouseholds: undefined;
   ReduxTest: undefined;
+  ShowRequests: undefined;
   TestUser: undefined;
   TestTasks: undefined;
   TestMembers: undefined;
@@ -59,11 +62,10 @@ export default function RootStackNavigator() {
   useUserAuthState();
   useSplashScreenVisibility();
   const user = useAppSelector(selectCurrentUser);
-  const selectedHousehold = useAppSelector(selectSelectedHousehold);
 
   return (
     <RootStack.Navigator
-      initialRouteName="Home"
+      initialRouteName="YourHouseholds"
       screenOptions={{ headerTitleAlign: 'center' }}
     >
       {user ? (
@@ -74,7 +76,11 @@ export default function RootStackNavigator() {
             options={({ navigation }) => ({
               title: 'HouseholdName',
               headerShadowVisible: false,
-              headerRight: () => <ProfileIconButton navigation={navigation} />,
+              headerRight: () => (
+                <ProfileIconButton
+                  navigateToProfile={() => navigation.navigate('Profile')}
+                />
+              ),
             })}
           />
           <RootStack.Screen name="ReduxTest" component={ReduxTestScreen} />
@@ -85,19 +91,15 @@ export default function RootStackNavigator() {
           <RootStack.Screen name="TestCompTasks" component={TestCompTasks} />
           <RootStack.Screen name="TestRequests" component={TestRequests} />
           <RootStack.Screen
-            name="Details"
-            component={DetailsScreen}
+            name="TaskInfo"
+            component={TaskInfoScreen}
             options={{ title: 'Information om syssla' }}
           />
 
           <RootStack.Screen
             name="SelectedHouseholdNav"
             component={SelectedHouseholdTopTabNav}
-            options={({ navigation }) => ({
-              title: selectedHousehold?.name,
-              headerShadowVisible: false,
-              headerRight: () => <ProfileIconButton navigation={navigation} />,
-            })}
+            options={{ headerShadowVisible: false }}
           />
 
           <RootStack.Screen
@@ -111,10 +113,10 @@ export default function RootStackNavigator() {
             options={({ navigation }) => ({
               headerTitle: () => (
                 <View style={s.titleContainer}>
-                  <Text style={s.title}>Profile</Text>
+                  <Text style={s.title}>Profil</Text>
                   <IconButton
                     icon="account-edit-outline"
-                    size={24}
+                    size={35}
                     onPress={() => navigation.navigate('Home')}
                   />
                 </View>
@@ -122,9 +124,18 @@ export default function RootStackNavigator() {
               headerRight: () => (
                 <Button
                   mode="contained"
-                  onPress={() => navigation.navigate('Home')}
+                  onPress={() => {
+                    signOut(auth);
+                    navigation.navigate('Home');
+                  }}
+                  style={{
+                    backgroundColor: '#000',
+                    borderRadius: 10,
+                    width: 120,
+                  }}
+                  labelStyle={{ fontSize: 16, color: 'lightgray' }}
                 >
-                  Logout
+                  Logga ut
                 </Button>
               ),
             })}
@@ -137,7 +148,16 @@ export default function RootStackNavigator() {
           <RootStack.Screen
             name="YourHouseholds"
             component={YourHouseholdsScreen}
-            options={{ title: 'Dina hushåll' }}
+            options={({ navigation }) => ({
+              title: 'Dina hushåll',
+              headerRight: () => (
+                <IconButton
+                  icon="xml"
+                  size={24}
+                  onPress={() => navigation.navigate('Home')}
+                />
+              ),
+            })}
           />
           <RootStack.Screen
             name="HouseholdInformation"
@@ -148,6 +168,11 @@ export default function RootStackNavigator() {
             name="CreateTask"
             component={CreateTaskScreen}
             options={{ title: 'Skapa en ny syssla' }}
+          />
+          <RootStack.Screen
+            name="ShowRequests"
+            component={ShowRequestsScreen}
+            options={{ title: 'Visar förfrågningar' }}
           />
           <RootStack.Screen
             name="EditTask"

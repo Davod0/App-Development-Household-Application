@@ -3,16 +3,17 @@ import { CompletedTask } from '../../types';
 import {
   addCompletedTask,
   getCompletedTasksByHousehold,
-  getCompletedTasksByHouseholdId,
+  getSelectedHouseholdTasks,
 } from './completedTasksActions';
 
 // state
 type CompletedTasksState = {
   list: CompletedTask[];
-  isLoading?: boolean;
+  isLoading: boolean;
 };
 const initialState: CompletedTasksState = {
   list: [],
+  isLoading: false,
 };
 
 // slice
@@ -29,10 +30,10 @@ const completedTasksSlice = createSlice({
         state.list.push(action.payload);
         state.isLoading = false;
       })
-      .addCase(getCompletedTasksByHouseholdId.pending, (state) => {
+      .addCase(getSelectedHouseholdTasks.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getCompletedTasksByHouseholdId.fulfilled, (_, action) => {
+      .addCase(getSelectedHouseholdTasks.fulfilled, (_, action) => {
         return { list: action.payload, isLoading: false };
       })
       .addCase(getCompletedTasksByHousehold.pending, (state) => {

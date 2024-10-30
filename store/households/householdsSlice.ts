@@ -7,16 +7,16 @@ import {
   getHouseholdsByUserId,
   getIsNotAllowedHouseholdsByMemberId,
   updateHouseholdName,
-  // eslint-disable-next-line import/namespace
 } from './householdsActions';
 
 // state
 type HouseholdState = {
   list: Household[];
-  isLoading?: boolean;
+  isLoading: boolean;
 };
 const initialState: HouseholdState = {
   list: [],
+  isLoading: false,
 };
 
 // slice
@@ -34,8 +34,14 @@ const householdsSlice = createSlice({
         state.list.push(action.payload);
         state.isLoading = false;
       })
+      .addCase(getHouseholdsByUserId.pending, (state, action) => {
+        state.isLoading = true;
+      })
       .addCase(getHouseholdsByUserId.fulfilled, (state, action) => {
-        return { ...state, list: action.payload };
+        return { isLoading: false, list: action.payload };
+      })
+      .addCase(getHouseholdsByUserId.rejected, (state, action) => {
+        state.isLoading = false;
       })
       .addCase(getAllowedHouseholdsByUserId.fulfilled, (state, action) => {
         return { ...state, list: action.payload };

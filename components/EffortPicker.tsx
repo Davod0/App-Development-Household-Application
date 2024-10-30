@@ -4,14 +4,36 @@ import { Surface, Text, useTheme } from 'react-native-paper';
 
 type Props = {
   weight: number;
-  setWeight: any;
+  setWeight?: any;
+  isReadOnly?: boolean;
 };
 
-export default function EffortPicker({ weight, setWeight }: Props) {
+export default function EffortPicker({
+  weight,
+  setWeight,
+  isReadOnly = false,
+}: Props) {
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const theme = useTheme();
 
-  return isPickerOpen ? (
+  return isReadOnly ? (
+    <Surface style={[s.RecurringValue, s.baseStyle]}>
+      <View style={s.padding}>
+        <Text style={s.titleText}>Värde:</Text>
+        <Text>Hur energikrävande är sysslan?</Text>
+      </View>
+      <View style={s.padding}>
+        <View
+          style={[
+            s.valueNumberContainer,
+            { backgroundColor: theme.colors.onPrimary },
+          ]}
+        >
+          <Text style={s.valueNumber}>{weight}</Text>
+        </View>
+      </View>
+    </Surface>
+  ) : isPickerOpen ? (
     <Surface style={[s.RecurringValue, s.baseStyle]}>
       {[1, 2, 4, 6, 8].map((value, index) => (
         <Pressable

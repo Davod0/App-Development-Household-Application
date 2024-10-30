@@ -1,14 +1,11 @@
-import { NavigationProp } from '@react-navigation/native';
 import * as React from 'react';
 import { IconButton } from 'react-native-paper';
 
-type ProfileIconButtonProps = {
-  navigation: NavigationProp<any>;
+type Props = {
+  navigateToProfile: () => void;
 };
 
-const ProfileIconButton: React.FC<ProfileIconButtonProps> = ({
-  navigation,
-}) => (
+const ProfileIconButton = ({ navigateToProfile }: Props) => (
   <IconButton
     style={{
       position: 'absolute',
@@ -18,7 +15,7 @@ const ProfileIconButton: React.FC<ProfileIconButtonProps> = ({
     icon="account"
     iconColor="#000000"
     size={30}
-    onPress={() => navigation.navigate('Profile')}
+    onPress={navigateToProfile}
   />
 );
 
