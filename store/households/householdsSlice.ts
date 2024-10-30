@@ -4,7 +4,7 @@ import { Household } from '../../types';
 import {
   addHousehold,
   getHouseholdsByUserId,
-  updateHouseholdName,
+  updateSelectedHouseholdName,
 } from './householdsActions';
 
 // state
@@ -49,13 +49,15 @@ const householdsSlice = createSlice({
       //     state.selectedHousehold = action.payload;
       //   }
       // })
-      .addCase(updateHouseholdName.pending, (state) => {
+      .addCase(updateSelectedHouseholdName.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateHouseholdName.fulfilled, (state, action) => {
-        const household = state.list.find((h) => h.id === action.payload.id);
+      .addCase(updateSelectedHouseholdName.fulfilled, (state, action) => {
+        const household = state.list.find(
+          (h) => h.id === action.payload.housholdId,
+        );
         if (household) {
-          household.name = action.payload.name;
+          household.name = action.payload.housholdName;
         }
         state.isLoading = false;
       });

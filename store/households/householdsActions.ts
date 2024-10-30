@@ -95,19 +95,26 @@ export const getHouseholdByCode = createAsyncThunk<Household, string>(
   },
 );
 
-export const updateHouseholdName = createAppAsyncThunk<Household, Household>(
-  'households/updateHouseholdName',
-  async (household, thunkApi) => {
-    try {
-      await updateDoc(doc(db, 'households', household.id), {
-        name: household.name,
-      });
-      return household;
-    } catch (error) {
-      return thunkApi.rejectWithValue(`Error updating household: ${error}`);
-    }
+export const updateSelectedHouseholdName = createAppAsyncThunk<
+  {
+    housholdId: string;
+    housholdName: string;
   },
-);
+  string
+>('households/updateHouseholdName', async (newName, thunkApi) => {
+  const state = thunkApi.getState();
+  try {
+    await updateDoc(doc(db, 'households', state.user.selectedHousehold!.id), {
+      name: newName,
+    });
+    return {
+      housholdId: state.user.selectedHousehold!.id,
+      housholdName: newName,
+    };
+  } catch (error) {
+    return thunkApi.rejectWithValue(`Error updating household: ${error}`);
+  }
+});
 
 // export const getHouseholds = createAppAsyncThunk<Household[]>(
 //   'households/getHouseholds',

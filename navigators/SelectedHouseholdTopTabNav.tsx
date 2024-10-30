@@ -13,7 +13,8 @@ import { sliceStringToLengthAddEllipsis } from '../library/utils';
 import SelectedHouseholdScreen from '../screens/SelectedHouseholdScreen';
 import CurrentWeek from '../screens/statistics/CurrentWeek';
 import LastWeek from '../screens/statistics/LastWeek';
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { updateSelectedHouseholdName } from '../store/households/householdsActions';
 import { selectMemberForUserInSelectedHousehold } from '../store/members/membersSelectors';
 import { selectSelectedHousehold } from '../store/user/userSelectors';
 import { RootStackParamList } from './RootStackNavigator';
@@ -33,13 +34,13 @@ type Props = CompositeScreenProps<
 
 export default function SelectedHouseholdTopTabNav({ navigation }: Props) {
   const [showEditHouseholdName, setShowEditHouseholdName] = useState(false);
-  const [newHouseholdName, setNewHouseholdName] = useState(
-    selectSelectedHousehold.name,
-  );
+  const [newHouseholdName, setNewHouseholdName] = useState('');
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
   const memberForSelectedHousehold = useAppSelector(
     selectMemberForUserInSelectedHousehold,
   );
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     navigation.setOptions({
@@ -62,7 +63,9 @@ export default function SelectedHouseholdTopTabNav({ navigation }: Props) {
   }, [navigation, selectedHousehold, memberForSelectedHousehold]);
 
   const handleChangeHouseholdName = () => {
-    console.log(newHouseholdName);
+    dispatch(updateSelectedHouseholdName(newHouseholdName.trim()));
+    setShowEditHouseholdName(false);
+    setNewHouseholdName('');
   };
 
   return (
