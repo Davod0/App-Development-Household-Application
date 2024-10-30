@@ -12,7 +12,6 @@ import { SubHeaderStatsScreens } from '../components/SubHeaderStatsScreens';
 import { sliceStringToLengthAddEllipsis } from '../library/utils';
 import SelectedHouseholdScreen from '../screens/SelectedHouseholdScreen';
 import CurrentWeek from '../screens/statistics/CurrentWeek';
-import LastWeek from '../screens/statistics/LastWeek';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { updateSelectedHouseholdName } from '../store/households/householdsActions';
 import { selectMemberForUserInSelectedHousehold } from '../store/members/membersSelectors';
@@ -84,11 +83,11 @@ export default function SelectedHouseholdTopTabNav({ navigation }: Props) {
           component={CurrentWeek}
           options={{ title: 'nuvarande veckan' }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="StatsLastWeek"
           component={LastWeek}
           options={{ title: 'förra veckan' }}
-        />
+        /> */}
       </Tab.Navigator>
       <Portal>
         <Dialog
