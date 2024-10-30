@@ -1,3 +1,8 @@
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../firebase';
+import { AvatarName, Member } from '../types';
+import { avatarList } from './avatarList';
+
 /**
  * A proper modulo function that only return positive numbers.
  * @param n number to take the modulo on
@@ -33,4 +38,36 @@ export function sliceStringToLengthAddEllipsis(
   return str.length > len
     ? str.slice(0, len - 3).trim() + (str.length > len - 3 ? '...' : '')
     : str;
+}
+
+export async function getAvailableIcons(householdId: string) {
+  let avatars: AvatarName[] = [
+    'fox',
+    'pig',
+    'frog',
+    'chicken',
+    'octopus',
+    'dolphin',
+    'unicorn',
+    'owl',
+  ];
+  const members: Member[] = [];
+
+  try {
+    const snapshot = await getDocs(
+      query(collection(db, 'members'), where('householdId', '==', householdId)),
+    );
+    snapshot.forEach((doc) => members.push(doc.data() as Member));
+
+    members.forEach((m) => {
+      avatars = avatars.filter(
+        (avatar) => avatarList[avatar].icon !== m.avatar.icon,
+      );
+    });
+
+    return avatars;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }

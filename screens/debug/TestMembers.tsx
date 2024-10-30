@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Card, Icon, Text } from 'react-native-paper';
 import { avatarList } from '../../library/avatarList';
+import { getAvailableIcons } from '../../library/utils';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
@@ -84,6 +85,7 @@ export default function TestMembers({ navigation }: Props) {
         <>
           <Text>Household name: {selectedHousehold.name}</Text>
           <Text>HouseholdID: {selectedHousehold.id}</Text>
+          <Text>{getAvailableIcons(selectedHousehold.id)}</Text>
 
           <Button
             mode="contained"
