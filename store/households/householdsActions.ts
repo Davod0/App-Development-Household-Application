@@ -16,7 +16,7 @@ import { createAppAsyncThunk } from '../hooks';
 // updateHousehold
 
 export const addHousehold = createAppAsyncThunk<
-  Household,
+  { household: Household; member: Member },
   CreateHouseholdWithMember
 >('Household/createHousehold', async ({ household, member }, thunkApi) => {
   try {
@@ -36,7 +36,7 @@ export const addHousehold = createAppAsyncThunk<
     };
     await setDoc(memberRef, newMember);
 
-    return newHousehold;
+    return { household: newHousehold, member: newMember };
   } catch (error) {
     return thunkApi.rejectWithValue(
       `Error creating household or member: ${error}`,

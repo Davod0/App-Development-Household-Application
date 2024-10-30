@@ -17,14 +17,14 @@ export default function CreateHouseholdScreen({ navigation }: props) {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
 
-  const createHouseHold = () => {
+  const createHouseHold = async () => {
     if (!hounseholdName) {
       setShowDialog(true);
       return;
     }
 
     const householdCode = generateRandomCode();
-    dispatch(
+    await dispatch(
       addHousehold({
         household: {
           name: hounseholdName,
@@ -38,7 +38,7 @@ export default function CreateHouseholdScreen({ navigation }: props) {
           isAllowed: true,
         },
       }),
-    );
+    ).unwrap();
     navigation.navigate('YourHouseholds');
   };
 
