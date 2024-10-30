@@ -5,7 +5,10 @@ import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
-import { useUserAuthState } from '../store/user/hooks';
+import {
+  useSelectedHouseholdData,
+  useUserAuthState,
+} from '../store/user/hooks';
 import { setSelectedHousehold } from '../store/user/userSlice';
 import { Household } from '../types';
 
@@ -13,6 +16,8 @@ type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
 export default function YourHouseholdsScreen({ navigation }: Props) {
   useUserAuthState();
+  useSelectedHouseholdData();
+
   const dispatch = useAppDispatch();
   const households = useAppSelector(selectAllHouseholdsByCurrentUser);
 
