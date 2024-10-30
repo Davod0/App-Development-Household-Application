@@ -2,7 +2,6 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar, SegmentedButtons, Text } from 'react-native-paper';
-import { mockedMembers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
@@ -10,6 +9,7 @@ import {
   selectCurrentUser,
 } from '../store/user/userSelectors';
 
+import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
 import { useSelectedHouseholdData } from '../store/user/hooks';
 import { setColorMode } from '../store/user/userSlice';
 import { ColorMode } from '../theme/ThemeProvider';
@@ -18,16 +18,13 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
 export default function ProfileScreen({ navigation }: Props) {
   useSelectedHouseholdData();
+  const dispatch = useAppDispatch();
   const colorMode = useAppSelector(selectColorMode);
   const user = useAppSelector(selectCurrentUser)!;
-  const dispatch = useAppDispatch();
-
-  const userId = 'user-1';
-  const member = mockedMembers.find((m) => m.userId === userId)!;
-
+  const members = useAppSelector(selectAllMembersBySelectedHousehold);
+  const member = members.find((member) => member.userId === user?.uid)!;
   const avatar = member.avatar.icon;
   const avatarColor = member.avatar.color;
-
   return (
     <View style={s.container}>
       <View style={s.memberInfo}>
@@ -51,7 +48,7 @@ export default function ProfileScreen({ navigation }: Props) {
 
         <Text variant="displaySmall">____________________</Text>
 
-        <Text variant="headlineSmall">Gmail</Text>
+        <Text variant="headlineSmall">Email</Text>
         <Text style={s.emailText}>{user.email}</Text>
 
         <Text
