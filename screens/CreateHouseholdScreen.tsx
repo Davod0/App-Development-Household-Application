@@ -17,39 +17,6 @@ export default function CreateHouseholdScreen({ navigation }: props) {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
 
-  // const createHouseHold = async () => {
-  //   if (!hounseholdName) {
-  //     setShowDialog(true);
-  //     return;
-  //   }
-
-  //   const householdCode = generateRandomCode();
-  //   await dispatch(
-  //     addHousehold({
-  //       household: {
-  //         name: hounseholdName,
-  //         code: householdCode,
-  //       },
-  //       member: {
-  //         name: user?.email ?? 'Ägarens namn',
-  //         userId: user!.uid,
-  //         avatar: avatarList['fox'],
-  //         isOwner: true,
-  //         isAllowed: true,
-  //       },
-  //     }),
-  //   )
-  //     .unwrap()
-  //     .then(() => {
-  //       navigation.navigate('YourHouseholds');
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error while creating household', error);
-  //     });
-  //   ).unwrap();
-  //   navigation.navigate('YourHouseholds');
-  // };
-
   const createHouseHold = async () => {
     if (!householdName) {
       setShowDialog(true);
@@ -57,28 +24,24 @@ export default function CreateHouseholdScreen({ navigation }: props) {
     }
 
     const householdCode = generateRandomCode();
-    try {
-      await dispatch(
-        addHousehold({
-          household: {
-            name: householdName,
-            code: householdCode,
-          },
-          member: {
-            name: user?.email ?? 'Ägarens namn',
-            userId: user!.uid,
-            avatar: avatarList['fox'],
-            isOwner: true,
-            isAllowed: true,
-          },
-        }),
-      ).unwrap();
-
-      navigation.navigate('YourHouseholds');
-    } catch (error) {
-      console.error('Error while creating household', error);
-    }
+    await dispatch(
+      addHousehold({
+        household: {
+          name: householdName,
+          code: householdCode,
+        },
+        member: {
+          name: user?.email ?? 'Ägarens namn',
+          userId: user!.uid,
+          avatar: avatarList['fox'],
+          isOwner: true,
+          isAllowed: true,
+        },
+      }),
+    ).unwrap();
+    navigation.navigate('YourHouseholds');
   };
+
   return (
     <View style={s.container}>
       <View style={{ margin: 10 }}>
