@@ -40,6 +40,10 @@ export function sliceStringToLengthAddEllipsis(
     : str;
 }
 
+export function randomIndex<T>(array: T[]): number {
+  return Math.floor(Math.random() * array.length) % array.length;
+}
+
 export async function getAvailableIcons(householdId: string) {
   let avatars: AvatarName[] = [
     'fox',
@@ -52,22 +56,20 @@ export async function getAvailableIcons(householdId: string) {
     'owl',
   ];
   const members: Member[] = [];
-
   try {
     const snapshot = await getDocs(
       query(collection(db, 'members'), where('householdId', '==', householdId)),
     );
     snapshot.forEach((doc) => members.push(doc.data() as Member));
-
-    members.forEach((m) => {
-      avatars = avatars.filter(
-        (avatar) => avatarList[avatar].icon !== m.avatar.icon,
-      );
-    });
-
-    return avatars;
   } catch (error) {
-    console.log(error);
-    return [];
+    console.error(error);
   }
+
+  members.forEach((m) => {
+    avatars = avatars.filter(
+      (avatar) => avatarList[avatar].icon !== m.avatar.icon,
+    );
+  });
+
+  return avatars;
 }

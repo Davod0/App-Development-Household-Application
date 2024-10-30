@@ -9,15 +9,22 @@ import {
   where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { avatarList } from '../../library/avatarList';
+import { getAvailableIcons, randomIndex } from '../../library/utils';
 import { CreateMember, Member } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 
 export const addMember = createAppAsyncThunk<Member, CreateMember>(
   'members/add',
   async (member, thunkApi) => {
+    const randomAvailabileAvatar = await getAvailableIcons(member.householdId);
+    const randomAvatar =
+      randomAvailabileAvatar[randomIndex(randomAvailabileAvatar)];
+
     const memberRef = doc(collection(db, 'members'));
     const newMember: Member = {
       id: memberRef.id,
+      avatar: avatarList[randomAvatar],
       ...member,
     };
 
@@ -69,14 +76,6 @@ export const getMembersBySelectedHousehold = createAppAsyncThunk<Member[]>(
   },
 );
 
-/* 
-  lämna ett hushåll är VG-kvar
-  kommer ge lite komplikationer, vad ska vi göra med completedTasks och scheduledTasks som är 
-  kopplade till denna medlem som kommer raderas? vi kommer förmodligen behöva göra en "cascading delete". 
-
-  kanske behöver denna ändå ifall man vill neka en request så kommer man ha en användare som 
-  inte är kopplad till något hushåll, den ska vara ofarlig att radera.
-*/
 export const deleteMember = createAppAsyncThunk<string, string>(
   'members/delete',
   async (memberId, thunkApi) => {
