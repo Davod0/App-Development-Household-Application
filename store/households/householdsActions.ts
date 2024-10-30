@@ -49,7 +49,7 @@ export const getHouseholdsByUserId = createAppAsyncThunk<Household[]>(
   async (_, thunkApi) => {
     const state = thunkApi.getState();
     const householdIds = state.user.memberProfiles.map(
-      (member) => member.householdId,
+      (member) => member.householdId && member.isAllowed,
     );
 
     try {
