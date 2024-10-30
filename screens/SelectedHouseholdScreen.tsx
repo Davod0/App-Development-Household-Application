@@ -81,13 +81,13 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
               today,
               new Date(Date.parse(pastCompletionsOfThisTask[0].dateDone)),
             )
-          : 100;
+          : 10000;
 
       return (
         <>
-          {daysSinceLastCompleted > 99 ? (
+          {daysSinceLastCompleted > 9999 ? (
             <View>
-              <Badge size={24}>0</Badge>
+              <Badge size={24}>new</Badge>
             </View>
           ) : daysSinceLastCompleted > task.frequency ? (
             <View>
