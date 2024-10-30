@@ -1,7 +1,15 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Text, TextInput, useTheme } from 'react-native-paper';
+import {
+  Button,
+  IconButton,
+  MD3Colors,
+  Text,
+  TextInput,
+  useTheme,
+} from 'react-native-paper';
+import { mockedMembers } from '../data';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
@@ -12,12 +20,20 @@ export default function EditProfile() {
   }
 
   const theme = useTheme();
+  // const avatar = member.avatar.icon;
 
   return (
     <View style={styles.container}>
       <Text style={[styles.text, { color: theme.colors.primary }]}>
         Edit Profile
       </Text>
+
+      {/* <IconButton
+        icon={avatar}
+        iconColor={MD3Colors.error50}
+        size={20}
+        onPress={() => console.log('Pressed')}
+      /> */}
 
       <TextInput
         style={styles.input}
