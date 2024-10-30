@@ -1,6 +1,5 @@
-import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
   ActivityIndicator,
@@ -11,45 +10,43 @@ import {
 } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getHouseholdsByUserId } from '../store/households/householdsActions';
-import { getMembersBySelectedHousehold } from '../store/members/membersActions';
 import { addRequest } from '../store/requests/requestsActions';
+import { selectRequestError } from '../store/requests/requestsSelectors';
 import {
-  selectRequestError,
-  selectRequestIsLoading,
-} from '../store/requests/requestsSelectors';
-import { useSelectedHouseholdData } from '../store/user/hooks';
-import { getMembersByCurrentUserId } from '../store/user/userActions';
+  useSelectedHouseholdData,
+  useUserAuthState,
+} from '../store/user/hooks';
 import { selectCurrentUser } from '../store/user/userSelectors';
 
 type props = NativeStackScreenProps<RootStackParamList, 'JoinHousehold'>;
 
 export default function JoinHouseholdScreen({ navigation }: props) {
+  useUserAuthState();
   useSelectedHouseholdData();
   const [houseCode, setHouseCode] = useState('');
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [showValidationDialog, setShowValidationDialog] = useState(false);
   const dispatch = useAppDispatch();
-  const requestIsLoading = useAppSelector(selectRequestIsLoading);
+  const requestIsLoading = false;
   const requestError = useAppSelector(selectRequestError);
   const user = useAppSelector(selectCurrentUser);
 
-  // testing...
-  useFocusEffect(
-    useCallback(() => {
-      if (user) {
-        dispatch(getMembersByCurrentUserId())
-          .unwrap()
-          .then(() => {
-            dispatch(getHouseholdsByUserId())
-              .unwrap()
-              .then(() => {
-                dispatch(getMembersBySelectedHousehold());
-              });
-          });
-      }
-    }, [dispatch, user, showConfirmationDialog]),
-  );
+  // // testing...
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (user) {
+  //       dispatch(getMembersByCurrentUserId())
+  //         .unwrap()
+  //         .then(() => {
+  //           dispatch(getHouseholdsByUserId())
+  //             .unwrap()
+  //             .then(() => {
+  //               dispatch(getMembersBySelectedHousehold());
+  //             });
+  //         });
+  //     }
+  //   }, [dispatch, user, showConfirmationDialog]),
+  // );
 
   const handleSubmitCode = () => {
     if (!houseCode) {
@@ -60,6 +57,7 @@ export default function JoinHouseholdScreen({ navigation }: props) {
     dispatch(addRequest(code));
     setShowConfirmationDialog(true);
     setHouseCode('');
+    navigation.navigate('YourHouseholds');
   };
 
   return (

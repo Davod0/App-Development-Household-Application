@@ -1,5 +1,6 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
@@ -9,10 +10,6 @@ import {
   getIsNotAllowedHouseholdsByMemberId,
 } from '../store/households/householdsActions';
 import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
-import {
-  useSelectedHouseholdData,
-  useUserAuthState,
-} from '../store/user/hooks';
 import {
   getIsAllowedMembersByCurrentUserId,
   getIsNotAllowedMembersByCurrentUserId,
@@ -24,13 +21,18 @@ import { Household } from '../types';
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
 export default function YourHouseholdsScreen({ navigation }: Props) {
-  useSelectedHouseholdData();
+  // useUserAuthState();
+  // useSelectedHouseholdData();
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
   const [allowedHouseholds, setAllowedHouseholds] = useState<Household[]>([]);
   const [notAllowedHouseholds, setNotAllowedHouseholds] = useState<Household[]>(
     [],
   );
+  const households = useAppSelector(selectAllHouseholdsByCurrentUser);
+
   // const households = useAppSelector(selectAllHouseholdsByCurrentUser);
+
   // const allMembers = useAppSelector(selectAllMembersBySelectedHousehold);
   // const allAllowedMembers = useAppSelector(selectAllIsAllowedMembers);
   // const requests = useAppSelector(selectAllRequestsOfSelectedHousehold);
@@ -51,11 +53,6 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   //     }
   //   }, [dispatch, user]),
   // );
-  useUserAuthState();
-  useSelectedHouseholdData();
-
-  const dispatch = useAppDispatch();
-  const households = useAppSelector(selectAllHouseholdsByCurrentUser);
 
   // useEffect(() => {
   //   if (user) {
@@ -90,35 +87,70 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   //   }
   // }, [dispatch, user]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (user) {
-          await dispatch(getIsAllowedMembersByCurrentUserId()).unwrap();
-          const allowedHouseholds = await dispatch(
-            getAllowedHouseholdsByUserId(),
-          ).unwrap();
-          setAllowedHouseholds(allowedHouseholds);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       if (user) {
+  //         await dispatch(getIsAllowedMembersByCurrentUserId()).unwrap();
+  //         const allowedHouseholds = await dispatch(
+  //           getAllowedHouseholdsByUserId(),
+  //         ).unwrap();
+  //         setAllowedHouseholds(allowedHouseholds);
 
-          const members = await dispatch(
-            getIsNotAllowedMembersByCurrentUserId(),
-          ).unwrap();
-          try {
-            const notAllowedHouseholds = await dispatch(
-              getIsNotAllowedHouseholdsByMemberId(members),
-            ).unwrap();
-            setNotAllowedHouseholds(notAllowedHouseholds);
-          } catch {
-            setNotAllowedHouseholds([]);
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
+  //         const members = await dispatch(
+  //           getIsNotAllowedMembersByCurrentUserId(),
+  //         ).unwrap();
+  //         try {
+  //           const notAllowedHouseholds = await dispatch(
+  //             getIsNotAllowedHouseholdsByMemberId(members),
+  //           ).unwrap();
+  //           setNotAllowedHouseholds(notAllowedHouseholds);
+  //         } catch {
+  //           setNotAllowedHouseholds([]);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [dispatch, user]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (user) {
+        dispatch(getIsAllowedMembersByCurrentUserId())
+          .unwrap()
+          .then(() => {
+            dispatch(getAllowedHouseholdsByUserId())
+              .unwrap()
+              .then((households) => {
+                setAllowedHouseholds(households);
+              });
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+          });
+
+        dispatch(getIsNotAllowedMembersByCurrentUserId())
+          .unwrap()
+          .then((members) => {
+            dispatch(getIsNotAllowedHouseholdsByMemberId(members))
+              .unwrap()
+              .then((households) => {
+                setNotAllowedHouseholds(households);
+              })
+              .catch(() => {
+                setNotAllowedHouseholds([]);
+              });
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+          });
       }
-    };
-
-    fetchData();
-  }, [dispatch, user]);
+    }, [dispatch, user]),
+  );
 
   const handlePressHousehold = (household: Household) => {
     dispatch(setSelectedHousehold(household));
@@ -135,7 +167,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
       <View style={s.householdsContainer}>
         {allowedHouseholds.length > 0 ? (
           allowedHouseholds.map((household) => (
-            <View style={s.household} key={household.id}>
+            <ScrollView style={s.household} key={household.id}>
               <Surface style={s.surface}>
                 <TouchableOpacity
                   onPress={() => handlePressHousehold(household)}
@@ -149,7 +181,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
                   onPress={() => handlePressInfo(household)}
                 />
               </Surface>
-            </View>
+            </ScrollView>
           ))
         ) : (
           <Surface style={s.noHouseholdSurface}>
@@ -157,7 +189,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
           </Surface>
         )}
         {notAllowedHouseholds.length > 0 && (
-          <View>
+          <ScrollView>
             {notAllowedHouseholds.map((household) => (
               <View style={s.household} key={household.id}>
                 <Surface style={[s.surface, s.pendingSurface]}>
@@ -169,7 +201,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
                 </Surface>
               </View>
             ))}
-          </View>
+          </ScrollView>
         )}
       </View>
       <View style={s.footer}>
