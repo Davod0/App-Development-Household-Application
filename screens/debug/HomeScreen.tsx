@@ -45,9 +45,7 @@ export default function Home({ navigation }: Props) {
       <Pressable onPress={() => navigation.navigate('Profile')}>
         <Text style={styles.text}>Profile</Text>
       </Pressable>
-      <Pressable onPress={() => navigation.navigate('EditProfile')}>
-        <Text style={styles.text}>EditProfile</Text>
-      </Pressable>
+
       <Pressable
         onPress={() =>
           navigation.navigate('TaskInfo', {

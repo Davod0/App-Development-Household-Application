@@ -30,7 +30,7 @@ import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 import { useAppSelector } from '../store/hooks';
 import { useUserAuthState } from '../store/user/hooks';
 import { selectCurrentUser } from '../store/user/userSelectors';
-import { Household, Task } from '../types';
+import { Household, Member, Task } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
 export type RootStackParamList = {
@@ -54,7 +54,7 @@ export type RootStackParamList = {
   TestHouseholds: undefined;
   TestCompTasks: undefined;
   EditTask: { task: Task };
-  EditProfile: undefined;
+  EditProfile: { member: Member };
   TestRequests: undefined;
 };
 
@@ -120,7 +120,7 @@ export default function RootStackNavigator() {
                   <IconButton
                     icon="account-edit-outline"
                     size={35}
-                    onPress={() => navigation.navigate('Home')}
+                    onPress={() => navigation.navigate('EditProfile')}
                   />
                 </View>
               ),
