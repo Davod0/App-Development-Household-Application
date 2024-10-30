@@ -63,6 +63,23 @@ export async function useHouseholds() {
   }, [dispatch]);
 }
 
+// export async function useSelectedHousehold() {
+//   const dispatch = useAppDispatch();
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       await dispatch(getMembersBySelectedHousehold());
+//       await dispatch(getTasksBySelectedHousehold());
+//       await dispatch(getCompletedTasksByHousehold());
+//       await dispatch(getRequestsBySelectedHouseholdId());
+//     };
+
+//     const id = setInterval(fetchData, 5000); // http "polling"
+//     // obs: loading states vill ni typiskt inte ha i samband med polling.
+
+//     return () => clearInterval(id);
+//   }, [dispatch]);
+// }
+
 export async function useSelectedHouseholdData() {
   const dispatch = useAppDispatch();
   useFocusEffect(
