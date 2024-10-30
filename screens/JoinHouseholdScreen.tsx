@@ -1,5 +1,4 @@
-import { useFocusEffect } from '@react-navigation/native';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
   ActivityIndicator,
@@ -9,41 +8,25 @@ import {
   TextInput,
 } from 'react-native-paper';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getHouseholdsByUserId } from '../store/households/householdsActions';
-import { getMembersBySelectedHousehold } from '../store/members/membersActions';
 import { addRequest } from '../store/requests/requestsActions';
 import {
   selectRequestError,
   selectRequestIsLoading,
 } from '../store/requests/requestsSelectors';
-import { getMembersByCurrentUserId } from '../store/user/userActions';
-import { selectCurrentUser } from '../store/user/userSelectors';
+import {
+  useSelectedHouseholdData,
+  useUserAuthState,
+} from '../store/user/hooks';
 
 export default function JoinHouseholdScreen() {
+  useUserAuthState();
+  useSelectedHouseholdData();
   const [houseCode, setHouseCode] = useState('');
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [showValidationDialog, setShowValidationDialog] = useState(false);
   const dispatch = useAppDispatch();
   const requestIsLoading = useAppSelector(selectRequestIsLoading);
   const requestError = useAppSelector(selectRequestError);
-  const user = useAppSelector(selectCurrentUser);
-
-  // testing...
-  useFocusEffect(
-    useCallback(() => {
-      if (user) {
-        dispatch(getMembersByCurrentUserId())
-          .unwrap()
-          .then(() => {
-            dispatch(getHouseholdsByUserId())
-              .unwrap()
-              .then(() => {
-                dispatch(getMembersBySelectedHousehold());
-              });
-          });
-      }
-    }, [dispatch, user, showConfirmationDialog]),
-  );
 
   const handleSubmitCode = () => {
     if (!houseCode) {

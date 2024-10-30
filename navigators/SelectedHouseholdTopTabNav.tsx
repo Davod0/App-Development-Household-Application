@@ -4,7 +4,8 @@ import {
 } from '@react-navigation/material-top-tabs';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Button, Dialog, Portal, Text, TextInput } from 'react-native-paper';
 import DoubleHeaderIcon from '../components/DoubleHeaderIcon';
 import ProfileIconButton from '../components/ProfileIconButton';
 import { SubHeaderStatsScreens } from '../components/SubHeaderStatsScreens';
@@ -31,6 +32,10 @@ type Props = CompositeScreenProps<
 >;
 
 export default function SelectedHouseholdTopTabNav({ navigation }: Props) {
+  const [showEditHouseholdName, setShowEditHouseholdName] = useState(false);
+  const [newHouseholdName, setNewHouseholdName] = useState(
+    selectSelectedHousehold.name,
+  );
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
   const memberForSelectedHousehold = useAppSelector(
     selectMemberForUserInSelectedHousehold,
@@ -43,8 +48,7 @@ export default function SelectedHouseholdTopTabNav({ navigation }: Props) {
         <>
           {!!memberForSelectedHousehold?.isOwner ? (
             <DoubleHeaderIcon
-              //FIXME: add navigation to edit household
-              navigateToEditHousehold={() => navigation.navigate('Profile')}
+              navigateToEditHousehold={() => setShowEditHouseholdName(true)}
               navigateToProfile={() => navigation.navigate('Profile')}
             />
           ) : (
@@ -57,26 +61,60 @@ export default function SelectedHouseholdTopTabNav({ navigation }: Props) {
     });
   }, [navigation, selectedHousehold, memberForSelectedHousehold]);
 
+  const handleChangeHouseholdName = () => {
+    console.log(newHouseholdName);
+  };
+
   return (
-    <Tab.Navigator
-      initialRouteName="SelectedHousehold"
-      tabBar={(props) => <SubHeaderStatsScreens {...props} />}
-    >
-      <Tab.Screen
-        name="SelectedHousehold"
-        component={SelectedHouseholdScreen}
-        options={{ title: 'idag' }}
-      />
-      <Tab.Screen
-        name="StatsCurrentWeek"
-        component={CurrentWeek}
-        options={{ title: 'nuvarande veckan' }}
-      />
-      <Tab.Screen
-        name="StatsLastWeek"
-        component={LastWeek}
-        options={{ title: 'förra veckan' }}
-      />
-    </Tab.Navigator>
+    <>
+      <Tab.Navigator
+        initialRouteName="SelectedHousehold"
+        tabBar={(props) => <SubHeaderStatsScreens {...props} />}
+      >
+        <Tab.Screen
+          name="SelectedHousehold"
+          component={SelectedHouseholdScreen}
+          options={{ title: 'idag' }}
+        />
+        <Tab.Screen
+          name="StatsCurrentWeek"
+          component={CurrentWeek}
+          options={{ title: 'nuvarande veckan' }}
+        />
+        <Tab.Screen
+          name="StatsLastWeek"
+          component={LastWeek}
+          options={{ title: 'förra veckan' }}
+        />
+      </Tab.Navigator>
+      <Portal>
+        <Dialog
+          visible={showEditHouseholdName}
+          onDismiss={() => setShowEditHouseholdName(false)}
+        >
+          <Dialog.Title>
+            <Text>Byta hushållsnamn</Text>
+          </Dialog.Title>
+          <Dialog.Content>
+            <TextInput
+              value={newHouseholdName}
+              onChangeText={setNewHouseholdName}
+            />
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => setShowEditHouseholdName(false)}>
+              Avbryt
+            </Button>
+            <Button
+              style={{ paddingHorizontal: 30 }}
+              mode="contained"
+              onPress={() => handleChangeHouseholdName()}
+            >
+              OK
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+    </>
   );
 }
