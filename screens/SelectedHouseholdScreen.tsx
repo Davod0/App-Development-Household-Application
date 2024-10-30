@@ -122,7 +122,7 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
         <>
           {daysSinceLastCompleted > 99 ? (
             <View>
-              <Badge size={24}>99+</Badge>
+              <Badge size={24}>0</Badge>
             </View>
           ) : daysSinceLastCompleted > task.frequency ? (
             <View>

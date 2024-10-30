@@ -10,6 +10,7 @@ import {
   getIsNotAllowedHouseholdsByMemberId,
 } from '../store/households/householdsActions';
 import { selectAllHouseholdsByCurrentUser } from '../store/households/householdsSelectors';
+import { useHouseholds } from '../store/user/hooks';
 import {
   getIsAllowedMembersByCurrentUserId,
   getIsNotAllowedMembersByCurrentUserId,
@@ -23,6 +24,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 export default function YourHouseholdsScreen({ navigation }: Props) {
   // useUserAuthState();
   // useSelectedHouseholdData();
+  useHouseholds();
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
   const [allowedHouseholds, setAllowedHouseholds] = useState<Household[]>([]);

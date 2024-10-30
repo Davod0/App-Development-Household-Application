@@ -2,7 +2,7 @@ import { RootState } from '../store';
 import { selectCurrentUser } from '../user/userSelectors';
 
 export const selectAllMembersBySelectedHousehold = (state: RootState) =>
-  state.members.list;
+  state.members.list; //.filter(m => m.householdId === state.user.selectedHousehold.id);
 
 export const selectAllIsAllowedMembers = (state: RootState) =>
   state.members.list.filter((member) => member.isAllowed === true);

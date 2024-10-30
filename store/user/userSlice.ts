@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { User } from 'firebase/auth';
 import { ColorMode } from '../../theme/ThemeProvider';
 import { Household, Member, Request } from '../../types';
+import { addHousehold } from '../households/householdsActions';
 import { getRequestsByUserId } from '../requests/requestsActions';
 import {
   getIsAllowedMembersByCurrentUserId,
@@ -116,6 +117,10 @@ export const userSlice = createSlice({
           requestsByCurrentUser: action.payload,
           isLoading: false,
         };
+      })
+      .addCase(addHousehold.fulfilled, (state, action) => {
+        state.memberProfiles.push(action.payload.member);
+        state.isLoading = false;
       });
   },
 });

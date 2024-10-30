@@ -31,7 +31,7 @@ const householdsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(addHousehold.fulfilled, (state, action) => {
-        state.list.push(action.payload);
+        state.list.push(action.payload.household);
         state.isLoading = false;
       })
       .addCase(getHouseholdsByUserId.pending, (state, action) => {

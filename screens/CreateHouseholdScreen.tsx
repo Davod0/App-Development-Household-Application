@@ -13,48 +13,79 @@ type props = NativeStackScreenProps<RootStackParamList, 'CreateHouseHold'>;
 
 export default function CreateHouseholdScreen({ navigation }: props) {
   const [showDialog, setShowDialog] = useState(false);
-  const [hounseholdName, setHounseholdName] = useState('');
+  const [householdName, setHounseholdName] = useState('');
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
 
-  const createHouseHold = () => {
-    if (!hounseholdName) {
+  // const createHouseHold = async () => {
+  //   if (!hounseholdName) {
+  //     setShowDialog(true);
+  //     return;
+  //   }
+
+  //   const householdCode = generateRandomCode();
+  //   await dispatch(
+  //     addHousehold({
+  //       household: {
+  //         name: hounseholdName,
+  //         code: householdCode,
+  //       },
+  //       member: {
+  //         name: user?.email ?? 'Ägarens namn',
+  //         userId: user!.uid,
+  //         avatar: avatarList['fox'],
+  //         isOwner: true,
+  //         isAllowed: true,
+  //       },
+  //     }),
+  //   )
+  //     .unwrap()
+  //     .then(() => {
+  //       navigation.navigate('YourHouseholds');
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error while creating household', error);
+  //     });
+  //   ).unwrap();
+  //   navigation.navigate('YourHouseholds');
+  // };
+
+  const createHouseHold = async () => {
+    if (!householdName) {
       setShowDialog(true);
       return;
     }
 
     const householdCode = generateRandomCode();
-    dispatch(
-      addHousehold({
-        household: {
-          name: hounseholdName,
-          code: householdCode,
-        },
-        member: {
-          name: user?.email ?? 'Ägarens namn',
-          userId: user!.uid,
-          avatar: avatarList['fox'],
-          isOwner: true,
-          isAllowed: true,
-        },
-      }),
-    )
-      .unwrap()
-      .then(() => {
-        navigation.navigate('YourHouseholds');
-      })
-      .catch((error) => {
-        console.error('Error while creating household', error);
-      });
-  };
+    try {
+      await dispatch(
+        addHousehold({
+          household: {
+            name: householdName,
+            code: householdCode,
+          },
+          member: {
+            name: user?.email ?? 'Ägarens namn',
+            userId: user!.uid,
+            avatar: avatarList['fox'],
+            isOwner: true,
+            isAllowed: true,
+          },
+        }),
+      ).unwrap();
 
+      navigation.navigate('YourHouseholds');
+    } catch (error) {
+      console.error('Error while creating household', error);
+    }
+  };
   return (
     <View style={s.container}>
       <View style={{ margin: 10 }}>
         <TextInput
           mode="outlined"
           label={'Namn'}
-          value={hounseholdName}
+          value={householdName}
           onChangeText={(text) => setHounseholdName(text)}
           theme={{ roundness: 10 }}
           style={{ height: 60, justifyContent: 'center' }}
