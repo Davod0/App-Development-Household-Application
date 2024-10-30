@@ -2,9 +2,11 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, TextInput, useTheme } from 'react-native-paper';
+import { useSelector } from 'react-redux';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch } from '../store/hooks';
 import { updateMember } from '../store/members/membersActions';
+import { selectMemberForUserInSelectedHousehold } from '../store/members/membersSelectors';
 import { Member } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
@@ -13,31 +15,42 @@ export default function EditProfile({ route }: Props) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
-  // Retrieve member data passed through navigation params
-  const { member } = route.params;
+  const member = useSelector(selectMemberForUserInSelectedHousehold);
 
-  // Initialize state based on member data
   const [name, setName] = useState(member?.name || '');
-  const [avatar, setAvatar] = useState(member?.avatar || '');
+  const [loading, setLoading] = useState(false);
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
-  const handleUpdateMember = () => {
-    if (!member?.id) return; // Ensure member ID is available
+  const handleUpdateMember = async () => {
+    if (!member?.id) return;
 
     const updatedMember: Member = {
       ...member,
       name,
-      avatar,
     };
 
-    dispatch(updateMember(updatedMember))
-      .unwrap()
-      .then(() => {
-        console.log('Member updated successfully');
-      })
-      .catch((error) => {
-        console.error('Error updating member:', error);
-      });
+    setLoading(true);
+    try {
+      await dispatch(updateMember(updatedMember)).unwrap();
+      setSnackbarMessage('Member updated successfully');
+    } catch (error) {
+      setSnackbarMessage(`Error updating member: ${error}`);
+    } finally {
+      setLoading(false);
+      setSnackbarVisible(true);
+    }
   };
+
+  if (!member) {
+    return (
+      <View style={styles.container}>
+        <Text style={[styles.text, { color: theme.colors.primary }]}>
+          No member data available.
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -50,23 +63,16 @@ export default function EditProfile({ route }: Props) {
         label="Name"
         placeholder="Enter your name"
         value={name}
-        onChangeText={(text) => setName(text)}
+        onChangeText={setName}
         mode="outlined"
       />
-      {/* 
-      <TextInput
-        style={styles.input}
-        label="Avatar"
-        placeholder="Enter avatar URL"
-        value={avatar}
-        onChangeText={(text) => setAvatar(text)}
-        mode="outlined"
-      /> */}
 
       <Button
         mode="contained"
         onPress={handleUpdateMember}
         style={styles.button}
+        loading={loading}
+        disabled={loading}
       >
         Save Changes
       </Button>
