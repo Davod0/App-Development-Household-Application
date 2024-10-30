@@ -38,7 +38,7 @@ export default function TestMembers({ navigation }: Props) {
     householdId: selectedHousehold?.id!,
     name: 'name-' + Date.now().toString().slice(-5),
     userId: 'test-user',
-    avatar: avatarList[nameArray[Math.floor(Math.random() * 8)]],
+    // avatar: avatarList[nameArray[Math.floor(Math.random() * 8)]],
     isOwner: false,
     isAllowed: true,
   };
@@ -84,7 +84,6 @@ export default function TestMembers({ navigation }: Props) {
         <>
           <Text>Household name: {selectedHousehold.name}</Text>
           <Text>HouseholdID: {selectedHousehold.id}</Text>
-
           <Button
             mode="contained"
             onPress={() => dispatch(addMember(newMember))}
