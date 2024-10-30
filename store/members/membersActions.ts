@@ -17,9 +17,9 @@ import { createAppAsyncThunk } from '../hooks';
 export const addMember = createAppAsyncThunk<Member, CreateMember>(
   'members/add',
   async (member, thunkApi) => {
-    const randomAvailabileAvatar = await getAvailableIcons(member.householdId);
+    const randomAvailableAvatar = await getAvailableIcons(member.householdId);
     const randomAvatar =
-      randomAvailabileAvatar[randomIndex(randomAvailabileAvatar)];
+      randomAvailableAvatar[randomIndex(randomAvailableAvatar)];
 
     const memberRef = doc(collection(db, 'members'));
     const newMember: Member = {

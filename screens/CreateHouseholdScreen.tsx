@@ -3,7 +3,11 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Dialog, Icon, TextInput } from 'react-native-paper';
 import { avatarList } from '../library/avatarList';
-import { generateRandomCode } from '../library/utils';
+import {
+  generateRandomCode,
+  getAvailableIcons,
+  randomIndex,
+} from '../library/utils';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { addHousehold } from '../store/households/householdsActions';
@@ -24,6 +28,9 @@ export default function CreateHouseholdScreen({ navigation }: props) {
     }
 
     const householdCode = generateRandomCode();
+    const randomAvailableAvatar = await getAvailableIcons('');
+    const randomAvatar =
+      randomAvailableAvatar[randomIndex(randomAvailableAvatar)];
     await dispatch(
       addHousehold({
         household: {
@@ -33,7 +40,7 @@ export default function CreateHouseholdScreen({ navigation }: props) {
         member: {
           name: user?.email ?? 'Ägarens namn',
           userId: user!.uid,
-          avatar: avatarList['fox'],
+          avatar: avatarList[randomAvatar],
           isOwner: true,
           isAllowed: true,
         },
