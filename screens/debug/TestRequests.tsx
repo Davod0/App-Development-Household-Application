@@ -1,7 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
-import { avatarList } from '../../library/avatarList';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
@@ -12,7 +11,7 @@ import {
 import { selectAllRequestsOfSelectedHousehold } from '../../store/requests/requestsSelectors';
 import { useSelectedHouseholdData } from '../../store/user/hooks';
 import { selectSelectedHousehold } from '../../store/user/userSelectors';
-import { AvatarName, CreateMember } from '../../types';
+import { AvatarName } from '../../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TestRequests'>;
 
@@ -36,14 +35,14 @@ export default function TestRequest({ navigation }: Props) {
     'unicorn',
   ];
 
-  const newMember: CreateMember = {
-    householdId: selectedHousehold?.id!,
-    name: 'name-' + Date.now().toString().slice(-5),
-    userId: 'test-user',
-    avatar: avatarList[nameArray[Math.floor(Math.random() * 8)]],
-    isOwner: false,
-    isAllowed: true,
-  };
+  // const newMember: CreateMember = {
+  //   householdId: selectedHousehold?.id!,
+  //   name: 'name-' + Date.now().toString().slice(-5),
+  //   userId: 'test-user',
+  //   avatar: avatarList[nameArray[Math.floor(Math.random() * 8)]],
+  //   isOwner: false,
+  //   isAllowed: true,
+  // };
 
   const handleAdd = () => {
     // dispatch(addMember(newMember))
