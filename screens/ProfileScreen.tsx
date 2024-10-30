@@ -22,17 +22,10 @@ export default function ProfileScreen({ navigation }: Props) {
   const dispatch = useAppDispatch();
 
   const userId = 'user-1';
-  const member = mockedMembers.find((m) => m.userId === userId);
-
-  if (!member) {
-    throw new Error('bad userId: ' + userId);
-  }
+  const member = mockedMembers.find((m) => m.userId === userId)!;
 
   const avatar = member.avatar.icon;
   const avatarColor = member.avatar.color;
-  if (!avatar) {
-    throw new Error('bad avatarId: ' + member.avatar);
-  }
 
   return (
     <View style={s.container}>
