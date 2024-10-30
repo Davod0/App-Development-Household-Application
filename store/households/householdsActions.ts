@@ -16,7 +16,7 @@ import { createAppAsyncThunk } from '../hooks';
 // updateHousehold
 
 export const addHousehold = createAppAsyncThunk<
-  Household,
+  { household: Household; member: Member },
   CreateHouseholdWithMember
 >('Household/createHousehold', async ({ household, member }, thunkApi) => {
   try {
@@ -36,7 +36,7 @@ export const addHousehold = createAppAsyncThunk<
     };
     await setDoc(memberRef, newMember);
 
-    return newHousehold;
+    return { household: newHousehold, member: newMember };
   } catch (error) {
     return thunkApi.rejectWithValue(
       `Error creating household or member: ${error}`,
@@ -95,19 +95,26 @@ export const getHouseholdByCode = createAsyncThunk<Household, string>(
   },
 );
 
-export const updateHouseholdName = createAppAsyncThunk<Household, Household>(
-  'households/updateHouseholdName',
-  async (household, thunkApi) => {
-    try {
-      await updateDoc(doc(db, 'households', household.id), {
-        name: household.name,
-      });
-      return household;
-    } catch (error) {
-      return thunkApi.rejectWithValue(`Error updating household: ${error}`);
-    }
+export const updateSelectedHouseholdName = createAppAsyncThunk<
+  {
+    housholdId: string;
+    housholdName: string;
   },
-);
+  string
+>('households/updateHouseholdName', async (newName, thunkApi) => {
+  const state = thunkApi.getState();
+  try {
+    await updateDoc(doc(db, 'households', state.user.selectedHousehold!.id), {
+      name: newName,
+    });
+    return {
+      housholdId: state.user.selectedHousehold!.id,
+      housholdName: newName,
+    };
+  } catch (error) {
+    return thunkApi.rejectWithValue(`Error updating household: ${error}`);
+  }
+});
 
 // export const getHouseholds = createAppAsyncThunk<Household[]>(
 //   'households/getHouseholds',

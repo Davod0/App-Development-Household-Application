@@ -9,7 +9,6 @@ import {
   where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { avatarList } from '../../library/avatarList';
 import { CreateMember, Household, Request } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 import { addMember, deleteMember } from '../members/membersActions';
@@ -66,12 +65,12 @@ export const addRequest = createAppAsyncThunk<Request, string>(
 
       // create a member
       // const memberRef = doc(collection(db, 'members'));
+
       const newMember: CreateMember = {
         // id: memberRef.id,
         householdId: household!.id,
         name: state.user.currentUser!.email!,
         userId: state.user.currentUser!.uid,
-        avatar: avatarList['fox'], //FIXME: find a avatar that's not taken
         isOwner: false,
         isAllowed: false,
       };

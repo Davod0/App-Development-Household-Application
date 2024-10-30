@@ -4,6 +4,10 @@ import { User } from 'firebase/auth';
 import { ColorMode } from '../../theme/ThemeProvider';
 import { Household, Member, Request } from '../../types';
 import {
+  addHousehold,
+  updateSelectedHouseholdName,
+} from '../households/householdsActions';
+import {
   getMembersByCurrentUserId,
   getRequestsByUserId,
   signInUser,
@@ -86,6 +90,16 @@ export const userSlice = createSlice({
           ...state,
           requestsByCurrentUser: action.payload,
           isLoading: false,
+        };
+      })
+      .addCase(addHousehold.fulfilled, (state, action) => {
+        state.memberProfiles.push(action.payload.member);
+        state.isLoading = false;
+      })
+      .addCase(updateSelectedHouseholdName.fulfilled, (state, action) => {
+        state.selectedHousehold = {
+          ...state.selectedHousehold!,
+          name: action.payload.housholdName,
         };
       });
   },
