@@ -2,21 +2,22 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import PieChartAllTasks from '../../components/PieChartAllTasks';
 import PieChartOneTask from '../../components/PieChartOneTask';
-import { mockedTasks } from '../../data';
 import { todayAtMidnight } from '../../library/dateFunctions';
 import { sliceStringToLengthAddEllipsis } from '../../library/utils';
+import { useAppSelector } from '../../store/hooks';
+import { selectTasksForCurrentHousehold } from '../../store/tasks/tasksSelectors';
 import { useSelectedHouseholdData } from '../../store/user/hooks';
 import { Task } from '../../types';
 
 export default function CurrentWeek() {
   useSelectedHouseholdData();
   const householdId = 'household-1';
-  const tasks = mockedTasks.filter((t) => t.householdId === householdId);
+  const tasks = useAppSelector(selectTasksForCurrentHousehold);
 
   const renderItem = (item: Task) => (
     <View style={s.item}>
       <PieChartOneTask task={item} />
-      <Text>{sliceStringToLengthAddEllipsis(item.name, 14)}</Text>
+      <Text>{sliceStringToLengthAddEllipsis(item.name, 18)}</Text>
     </View>
   );
   return (
@@ -57,7 +58,10 @@ const s = StyleSheet.create({
     gap: 20,
     alignItems: 'center',
   },
-  item: {},
+  item: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   row: {
     gap: 20,
   },

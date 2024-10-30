@@ -8,7 +8,7 @@ import { getHouseholdsByUserId } from '../households/householdsActions';
 import { getMembersBySelectedHousehold } from '../members/membersActions';
 import { getRequestsBySelectedHouseholdId } from '../requests/requestsActions';
 import { getTasksBySelectedHousehold } from '../tasks/tasksAction';
-import { getMembersByCurrentUserId } from './userActions';
+import { getMembersByCurrentUserId, getRequestsByUserId } from './userActions';
 import { setUserOptimistically } from './userSlice';
 
 export async function useUserAuthState() {
@@ -18,9 +18,11 @@ export async function useUserAuthState() {
       dispatch(setUserOptimistically(user?.toJSON() as User));
       if (user) {
         const members = await dispatch(getMembersByCurrentUserId()).unwrap();
-        // added this check to prevent trying to get housholds when there won't be any
+        // added this check to prevent trying to get housholds/requests when
+        // there won't be any
         if (members.length > 0) {
           await dispatch(getHouseholdsByUserId()).unwrap();
+          await dispatch(getRequestsByUserId()).unwrap();
         }
       }
       console.log(`User from useUserAuthState: ${user?.email}`);
@@ -44,9 +46,42 @@ export async function useUserAuthState() {
   }
 }
 
+export async function useHouseholds() {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const fetchData = async () => {
+      const members = await dispatch(getMembersByCurrentUserId()).unwrap();
+      if (!members.length) return;
+      await dispatch(getHouseholdsByUserId()).unwrap();
+      await dispatch(getRequestsByUserId()).unwrap();
+    };
+
+    const id = setInterval(fetchData, 5000); // http "polling"
+    // obs: loading states vill ni typiskt inte ha i samband med polling.
+
+    return () => clearInterval(id);
+  }, [dispatch]);
+}
+
+// export async function useSelectedHousehold() {
+//   const dispatch = useAppDispatch();
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       await dispatch(getMembersBySelectedHousehold());
+//       await dispatch(getTasksBySelectedHousehold());
+//       await dispatch(getCompletedTasksByHousehold());
+//       await dispatch(getRequestsBySelectedHouseholdId());
+//     };
+
+//     const id = setInterval(fetchData, 5000); // http "polling"
+//     // obs: loading states vill ni typiskt inte ha i samband med polling.
+
+//     return () => clearInterval(id);
+//   }, [dispatch]);
+// }
+
 export async function useSelectedHouseholdData() {
   const dispatch = useAppDispatch();
-  // const selectedHousehold = useAppSelector(selectSelectedHousehold);
   useFocusEffect(
     useCallback(() => {
       const fetchData = async () => {
@@ -83,3 +118,10 @@ export async function useSelectedHouseholdData() {
   */
   }
 }
+
+// Logga in (User) --> Hämtar Hushållen, medlemmar, requests. | useUserAuthState
+
+// Skapa hushåll (Household) --> Skapa hushåll + medlem.
+// Går med i hushåll (Household) --> Hämtar Hushåll, medlemar.
+
+// Välj hushåll (Household) --> Hämtar Medlemmar, Sysslor, slutförda sysslor, requests. | useSelectedHouseholdData

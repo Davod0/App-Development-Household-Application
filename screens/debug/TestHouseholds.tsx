@@ -7,7 +7,7 @@ import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   addHousehold,
-  updateHouseholdName,
+  updateSelectedHouseholdName,
 } from '../../store/households/householdsActions';
 import { selectAllHouseholdsByCurrentUser } from '../../store/households/householdsSelectors';
 import { selectSelectedHousehold } from '../../store/user/userSelectors';
@@ -46,7 +46,7 @@ export default function TestHouseholds({ navigation }: Props) {
       ...household,
       name: 'another family with a really long name',
     };
-    dispatch(updateHouseholdName(updates));
+    dispatch(updateSelectedHouseholdName(updates.name));
   };
 
   return (

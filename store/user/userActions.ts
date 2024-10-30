@@ -6,7 +6,7 @@ import {
 } from 'firebase/auth';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { auth, db } from '../../firebase';
-import { EmailPassword, Member } from '../../types';
+import { EmailPassword, Member, Request } from '../../types';
 import { createAppAsyncThunk } from '../hooks';
 
 export const signUpUser = createAppAsyncThunk<User, EmailPassword>(
@@ -120,6 +120,31 @@ export const getMembersByCurrentUserId = createAppAsyncThunk<Member[]>(
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(`Error retrieving members: ${error}`);
+    }
+  },
+);
+
+export const getRequestsByUserId = createAppAsyncThunk<Request[]>(
+  'user/getByUserId',
+  async (_, thunkApi) => {
+    const state = thunkApi.getState();
+    const householdIds = state.user.memberProfiles.map(
+      (member) => member.householdId,
+    );
+
+    try {
+      const snapshot = await getDocs(
+        query(
+          collection(db, 'requests'),
+          where('householdId', 'in', householdIds),
+        ),
+      );
+
+      const data: Request[] = [];
+      snapshot.forEach((doc) => data.push(doc.data() as Request));
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(`Error retrieving requests: ${error}`);
     }
   },
 );

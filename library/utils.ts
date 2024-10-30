@@ -1,8 +1,13 @@
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../firebase';
+import { AvatarName, Member } from '../types';
+import { avatarList } from './avatarList';
+
 /**
- * A proper modulo function that ony gives positive answers.
+ * A proper modulo function that only return positive numbers.
  * @param n number to take the modulo on
  * @param m the modulo base
- * @returns a positive answer [0 .. m-1]
+ * @returns a positive number [0 .. m-1]
  */
 export function mod(n: number, m: number): number {
   return ((n % m) + m) % m;
@@ -33,4 +38,38 @@ export function sliceStringToLengthAddEllipsis(
   return str.length > len
     ? str.slice(0, len - 3).trim() + (str.length > len - 3 ? '...' : '')
     : str;
+}
+
+export function randomIndex<T>(array: T[]): number {
+  return Math.floor(Math.random() * array.length) % array.length;
+}
+
+export async function getAvailableIcons(householdId: string) {
+  let avatars: AvatarName[] = [
+    'fox',
+    'pig',
+    'frog',
+    'chicken',
+    'octopus',
+    'dolphin',
+    'unicorn',
+    'owl',
+  ];
+  const members: Member[] = [];
+  try {
+    const snapshot = await getDocs(
+      query(collection(db, 'members'), where('householdId', '==', householdId)),
+    );
+    snapshot.forEach((doc) => members.push(doc.data() as Member));
+  } catch (error) {
+    console.error(error);
+  }
+
+  members.forEach((m) => {
+    avatars = avatars.filter(
+      (avatar) => avatarList[avatar].icon !== m.avatar.icon,
+    );
+  });
+
+  return avatars;
 }
