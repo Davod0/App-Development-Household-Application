@@ -1,9 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { signOut } from 'firebase/auth';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
 import ArchivedTask from '../components/ArchiveTask';
 import ProfileIconButton from '../components/ProfileIconButton';
 import useSplashScreenVisibility from '../components/SplashScreenVisibility';
+import { auth } from '../firebase';
 import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
 import HomeScreen from '../screens/debug/HomeScreen';
@@ -110,10 +113,10 @@ export default function RootStackNavigator() {
             options={({ navigation }) => ({
               headerTitle: () => (
                 <View style={s.titleContainer}>
-                  <Text style={s.title}>Profile</Text>
+                  <Text style={s.title}>Profil</Text>
                   <IconButton
                     icon="account-edit-outline"
-                    size={24}
+                    size={35}
                     onPress={() => navigation.navigate('Home')}
                   />
                 </View>
@@ -121,9 +124,18 @@ export default function RootStackNavigator() {
               headerRight: () => (
                 <Button
                   mode="contained"
-                  onPress={() => navigation.navigate('Home')}
+                  onPress={() => {
+                    signOut(auth);
+                    navigation.navigate('Home');
+                  }}
+                  style={{
+                    backgroundColor: '#000',
+                    borderRadius: 10,
+                    width: 120,
+                  }}
+                  labelStyle={{ fontSize: 16, color: 'lightgray' }}
                 >
-                  Logout
+                  Logga ut
                 </Button>
               ),
             })}
