@@ -6,6 +6,7 @@ import { getCompletedTasksByHousehold } from '../completedTasks/completedTasksAc
 import { useAppDispatch } from '../hooks';
 import { getHouseholdsByUserId } from '../households/householdsActions';
 import { getMembersBySelectedHousehold } from '../members/membersActions';
+import { getRequestsBySelectedHouseholdId } from '../requests/requestsActions';
 import { getTasksBySelectedHousehold } from '../tasks/tasksAction';
 import { getMembersByCurrentUserId, getRequestsByUserId } from './userActions';
 import { setUserOptimistically } from './userSlice';
@@ -54,6 +55,7 @@ export async function useSelectedHouseholdData() {
         await dispatch(getMembersBySelectedHousehold());
         await dispatch(getTasksBySelectedHousehold());
         await dispatch(getCompletedTasksByHousehold());
+        await dispatch(getRequestsBySelectedHouseholdId());
       };
       fetchData();
     }, [dispatch]),
