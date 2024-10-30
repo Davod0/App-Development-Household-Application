@@ -2,14 +2,13 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Button, Card, Text } from 'react-native-paper';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
-import { getSelectedHouseholdTasks } from '../../store/completedTasks/completedTasksActions';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   addTask,
   getTasksBySelectedHousehold,
   updateTask,
 } from '../../store/tasks/tasksAction';
-import { selectTasks } from '../../store/tasks/tasksSelectors';
+import { selectTasksForSelectedHousehold } from '../../store/tasks/tasksSelectors';
 import { selectSelectedHousehold } from '../../store/user/userSelectors';
 import { CreateTask } from '../../types';
 
@@ -18,7 +17,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'TestTasks'>;
 export default function TestTasks({ navigation }: Props) {
   const dispatch = useAppDispatch();
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
-  const tasksForHouseholdId = useAppSelector(selectTasks);
+  const tasksForHouseholdId = useAppSelector(selectTasksForSelectedHousehold);
 
   if (!selectedHousehold) {
     return (
@@ -83,7 +82,7 @@ export default function TestTasks({ navigation }: Props) {
           <Button
             mode="contained"
             onPress={() => {
-              dispatch(getSelectedHouseholdTasks());
+              dispatch(getTasksBySelectedHousehold());
             }}
           >
             update(completed tasks)
