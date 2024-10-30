@@ -11,8 +11,10 @@ import {
 } from 'react-native-paper';
 import DatePicker from '../components/DatePicker';
 import EffortPicker from '../components/EffortPicker';
+import { todayAtMidnight } from '../library/dateFunctions';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { addCompletedTask } from '../store/completedTasks/completedTasksActions';
+import { selectCompletedTasksByHousehold } from '../store/completedTasks/completedTasksSelectors';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { selectMemberForUserInSelectedHousehold } from '../store/members/membersSelectors';
 import { selectTaskFromTaskID } from '../store/tasks/tasksSelectors';
@@ -25,6 +27,16 @@ export default function TaskInfoScreen({ navigation, route }: Props) {
   const { taskId } = route.params;
   const task = useAppSelector(selectTaskFromTaskID(taskId));
   const member = useAppSelector(selectMemberForUserInSelectedHousehold);
+
+  const completedTasks = useAppSelector(selectCompletedTasksByHousehold);
+  const taskTodayDoneByUser = completedTasks
+    .filter((cp) => cp.taskId === taskId && cp.memberId === member?.id)
+    .filter(
+      (compTask) =>
+        new Date(Date.parse(compTask.dateDone)) >= todayAtMidnight(),
+    );
+  const isDoneToday = taskTodayDoneByUser.length > 0;
+
   const dispatch = useAppDispatch();
 
   console.log(member?.isOwner);
@@ -73,17 +85,19 @@ export default function TaskInfoScreen({ navigation, route }: Props) {
 
       <EffortPicker weight={task.weight} isReadOnly={true} />
 
-      <View style={s.buttonContainer}>
-        <Button
-          style={[s.button, { borderColor: colors.primary }]}
-          icon={({ color }) => (
-            <Icon source="check-outline" size={27} color={color} />
-          )}
-          onPress={handleCheckTask}
-        >
-          <Text style={s.buttonText}>Utförd</Text>
-        </Button>
-      </View>
+      {!isDoneToday && (
+        <View style={s.buttonContainer}>
+          <Button
+            style={[s.button, { borderColor: colors.primary }]}
+            icon={({ color }) => (
+              <Icon source="check-outline" size={27} color={color} />
+            )}
+            onPress={handleCheckTask}
+          >
+            <Text style={s.buttonText}>Utförd</Text>
+          </Button>
+        </View>
+      )}
     </View>
   );
 }
