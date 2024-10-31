@@ -3,36 +3,97 @@ import { avatarList } from '../library/avatarList';
 import { selectCompletedTasksByHousehold } from '../store/completedTasks/completedTasksSelectors';
 import { useAppSelector } from '../store/hooks';
 import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
+import { selectTasksForCurrentHousehold } from '../store/tasks/tasksSelectors';
 import { useSelectedHouseholdData } from '../store/user/hooks';
-import { PieChartData, Task } from '../types';
+import { CompletedTask, Member, PieChartData, Task } from '../types';
 
 type Props = { task: Task };
 
 export default function PieChartOneTask({ task }: Props) {
   useSelectedHouseholdData();
 
-  const members = useAppSelector(selectAllMembersBySelectedHousehold);
+  const tasks = useAppSelector(selectTasksForCurrentHousehold);
   const completedTasks = useAppSelector(selectCompletedTasksByHousehold);
+  const members = useAppSelector(selectAllMembersBySelectedHousehold);
 
-  const membersWithCompletedTaskCount = members.map((member) => {
-    const memberCompletedTasks = completedTasks.filter(
-      (comTask) => comTask.memberId === member.id,
-    );
-    return {
-      member,
-      completedTaskCount: memberCompletedTasks.length,
-    };
-  });
+  type comTaskWithWeight = {
+    completedTask: CompletedTask;
+    weight: number;
+  };
+  type memberWithCompletedTask = {
+    member: Member;
+    completedTask: CompletedTask;
+    weight: number;
+  };
 
-  membersWithCompletedTaskCount.map((memberWithComTask) =>
-    console.log(
-      `Member name:${memberWithComTask.member.name}| Number of comTask: ${memberWithComTask.completedTaskCount}`,
-    ),
+  const taskWeightMap = tasks.reduce(
+    (map, task) => {
+      map[task.id] = task.weight;
+      return map;
+    },
+    {} as Record<string, number>,
   );
 
-  const pieChartData: PieChartData[] = membersWithCompletedTaskCount.map(
+  type memberWithSumOfWeight = {
+    member: Member;
+    weight: number;
+  };
+
+  // Skapa listan comTasksWithWeights
+  const comTasksWithWeights: comTaskWithWeight[] = completedTasks.map(
+    (completedTask) => {
+      const weight = taskWeightMap[completedTask.taskId];
+      return {
+        completedTask,
+        weight,
+      };
+    },
+  );
+
+  // Skapa en lista av typen memberWithCompletedTask
+  const membersWithCompletedTasks: memberWithCompletedTask[] =
+    comTasksWithWeights.reduce((acc, comTask) => {
+      // Hitta rätt medlem baserat på memberId i completedTask
+      const member = members.find(
+        (m) => m.id === comTask.completedTask.memberId,
+      );
+
+      // Om medlemmen finns, lägg till ett objekt av typen memberWithCompletedTask
+      if (member) {
+        acc.push({
+          member,
+          completedTask: comTask.completedTask,
+          weight: comTask.weight,
+        });
+      }
+      return acc;
+    }, [] as memberWithCompletedTask[]);
+
+  const membersWithComTaskWithSumOfWeight: memberWithSumOfWeight[] =
+    members.reduce((acc, member) => {
+      // Hitta alla completedTasks för den här medlemmen
+      const totalWeight = membersWithCompletedTasks
+        .filter((x) => x.member.id === member.id) // Filtrera completedTasks som tillhör medlemmen
+        .reduce((sum, x) => sum + x.weight, 0); // Summera deras weight
+
+      // Lägg till ett objekt för den här medlemmen med totalvikt
+      acc.push({
+        member,
+        weight: totalWeight,
+      });
+
+      return acc;
+    }, [] as memberWithSumOfWeight[]);
+
+  // membersWithComTaskWithSumOfWeight.map((x) => {
+  //   console.log(`Member name: ${x.member.name}`);
+  //   console.log(`Weight of task: ${x.weight}`);
+  //   console.log(`____________________________`);
+  // });
+
+  const pieChartData: PieChartData[] = membersWithComTaskWithSumOfWeight.map(
     (item) => ({
-      value: item.completedTaskCount,
+      value: item.weight,
       color: item.member.avatar.color,
       text: item.member.avatar.icon,
     }),

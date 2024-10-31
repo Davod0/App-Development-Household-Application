@@ -42,22 +42,6 @@ export const addTask = createAppAsyncThunk<Task, CreateTask>(
   },
 );
 
-// export const getTasks = createAppAsyncThunk<Task[]>(
-//   'tasks/get',
-//   async (_, thunkAPI) => {
-//     try {
-//       const snapshot = await getDocs(collection(db, 'tasks'));
-//       const data: Task[] = [];
-//       snapshot.forEach((doc) => data.push(doc.data() as Task));
-//       return data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(
-//         `Error reading from database, tasks ${error}`,
-//       );
-//     }
-//   },
-// );
-
 export const getTasksBySelectedHousehold = createAppAsyncThunk<Task[]>(
   'task/householdID/get',
   async (_, thunkApi) => {
