@@ -1,9 +1,10 @@
 import { PieChart } from 'react-native-gifted-charts';
+import { useTheme } from 'react-native-paper';
 import { startDayCurrentWeek } from '../library/dateFunctions';
 import { selectCompletedTasksBySelectedHousehold } from '../store/completedTasks/completedTasksSelectors';
 import { useAppSelector } from '../store/hooks';
 import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
-import { selectActiveTasksForSelectedHousehold } from '../store/tasks/tasksSelectors';
+import { selectTasksForSelectedHousehold } from '../store/tasks/tasksSelectors';
 
 type Props = {
   startDate: Date;
@@ -11,8 +12,11 @@ type Props = {
 };
 
 export default function PieChartAllTasks({ startDate }: Props) {
+  const theme = useTheme();
   const members = useAppSelector(selectAllMembersBySelectedHousehold);
-  const tasks = useAppSelector(selectActiveTasksForSelectedHousehold);
+  const tasks = useAppSelector(selectTasksForSelectedHousehold).filter(
+    (t) => !t.isArchived,
+  );
   const compTasks = useAppSelector(selectCompletedTasksBySelectedHousehold);
 
   const completedTasksForDate = compTasks.filter(
@@ -46,6 +50,12 @@ export default function PieChartAllTasks({ startDate }: Props) {
     });
   }
 
+  // if total effort is zero noone done any tasks so we show a gray chart w/o avatar
+  const totalEffort = overallData.reduce((acc, data) => acc + data.value, 0);
+  const noStatsData = [
+    { value: 1, color: theme.colors.surfaceDisabled, text: '' },
+  ];
+
   return (
     <PieChart
       showText
@@ -54,7 +64,7 @@ export default function PieChartAllTasks({ startDate }: Props) {
       //   showTextBackground
       textBackgroundRadius={22}
       textBackgroundColor="#00000033"
-      data={overallData}
+      data={totalEffort === 0 ? noStatsData : overallData}
     />
   );
 }
