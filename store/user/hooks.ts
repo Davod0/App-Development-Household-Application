@@ -2,7 +2,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { useCallback, useEffect } from 'react';
 import { auth } from '../../firebase';
-import { getCompletedTasksByHousehold } from '../completedTasks/completedTasksActions';
+import { getCompletedTasksBySelectedHousehold } from '../completedTasks/completedTasksActions';
 import { useAppDispatch } from '../hooks';
 import { getHouseholdsByUserId } from '../households/householdsActions';
 import { getMembersBySelectedHousehold } from '../members/membersActions';
@@ -87,7 +87,7 @@ export async function useSelectedHouseholdData() {
       const fetchData = async () => {
         await dispatch(getMembersBySelectedHousehold());
         await dispatch(getTasksBySelectedHousehold());
-        await dispatch(getCompletedTasksByHousehold());
+        await dispatch(getCompletedTasksBySelectedHousehold());
         await dispatch(getRequestsBySelectedHouseholdId());
       };
       fetchData();
