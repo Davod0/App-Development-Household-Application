@@ -5,13 +5,15 @@ import PieChartOneTask from '../../components/PieChartOneTask';
 import { todayAtMidnight } from '../../library/dateFunctions';
 import { sliceStringToLengthAddEllipsis } from '../../library/utils';
 import { useAppSelector } from '../../store/hooks';
-import { selectActiveTasksForSelectedHousehold } from '../../store/tasks/tasksSelectors';
+import { selectTasksForSelectedHousehold } from '../../store/tasks/tasksSelectors';
 import { useSelectedHouseholdData } from '../../store/user/hooks';
 import { Task } from '../../types';
 
 export default function CurrentWeek() {
   useSelectedHouseholdData();
-  const tasks = useAppSelector(selectActiveTasksForSelectedHousehold);
+  const tasks = useAppSelector(selectTasksForSelectedHousehold).filter(
+    (t) => !t.isArchived,
+  );
 
   const renderItem = (item: Task) => (
     <View style={s.item}>

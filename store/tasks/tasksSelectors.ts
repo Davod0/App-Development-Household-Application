@@ -7,9 +7,6 @@ export const selectTasksForSelectedHousehold = (state: RootState) =>
 export const selectTaskFromTaskID = (taskID: string) => (state: RootState) =>
   state.tasks.list.find((task) => task.id === taskID);
 
-export const selectActiveTasksForSelectedHousehold = (state: RootState) =>
-  selectTasksForSelectedHousehold(state).filter((t) => !t.isArchived);
-
 // export const selectTasksFromHouseholdId = (householdID: string) =>
 //   createSelector([(state: RootState) => state.tasks.list], (tasks) =>
 //     tasks.filter((task) => task.householdId === householdID),
