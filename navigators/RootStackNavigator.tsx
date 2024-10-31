@@ -17,6 +17,7 @@ import TestMembers from '../screens/debug/TestMembers';
 import TestRequests from '../screens/debug/TestRequests';
 import TestTasks from '../screens/debug/TestTasks';
 import TestUser from '../screens/debug/TestUser';
+import EditProfileScreen from '../screens/EditProfileScreen';
 import EditTaskScreen from '../screens/EditTaskScreen';
 import HouseholdInformationScreen from '../screens/HouseholdInformationScreen';
 import JoinHouseholdScreen from '../screens/JoinHouseholdScreen';
@@ -29,7 +30,7 @@ import YourHouseholdsScreen from '../screens/YourHouseholdsScreen';
 import { useAppSelector } from '../store/hooks';
 import { useUserAuthState } from '../store/user/hooks';
 import { selectCurrentUser } from '../store/user/userSelectors';
-import { Household, Task } from '../types';
+import { Household, Member, Task } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
 
 export type RootStackParamList = {
@@ -53,6 +54,7 @@ export type RootStackParamList = {
   TestHouseholds: undefined;
   TestCompTasks: undefined;
   EditTask: { task: Task };
+  EditProfile: { member: Member };
   TestRequests: undefined;
 };
 
@@ -95,6 +97,7 @@ export default function RootStackNavigator() {
             component={TaskInfoScreen}
             options={{ title: 'Information om syssla' }}
           />
+          <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
 
           <RootStack.Screen
             name="SelectedHouseholdNav"
@@ -117,7 +120,7 @@ export default function RootStackNavigator() {
                   <IconButton
                     icon="account-edit-outline"
                     size={35}
-                    onPress={() => navigation.navigate('Home')}
+                    onPress={() => navigation.navigate('EditProfile')}
                   />
                 </View>
               ),
