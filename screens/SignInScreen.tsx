@@ -27,7 +27,7 @@ export default function SignInScreen({ navigation }: Props) {
     };
     try {
       await dispatch(signInUser(emailPassword)).unwrap();
-      navigation.navigate('Home');
+      navigation.navigate('YourHouseholds');
     } catch (error) {}
   };
 

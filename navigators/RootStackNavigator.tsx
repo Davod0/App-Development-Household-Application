@@ -129,7 +129,6 @@ export default function RootStackNavigator() {
                   mode="contained"
                   onPress={() => {
                     signOut(auth);
-                    navigation.navigate('Home');
                   }}
                   style={{
                     backgroundColor: '#000',

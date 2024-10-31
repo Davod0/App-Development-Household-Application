@@ -45,7 +45,10 @@ export default function ReduxTestScreen({ navigation }: Props) {
       >
         Requests
       </Button>
-      <Button mode="outlined" onPress={() => navigation.navigate('Home')}>
+      <Button
+        mode="outlined"
+        onPress={() => navigation.navigate('YourHouseholds')}
+      >
         Home Screen
       </Button>
     </ScrollView>
