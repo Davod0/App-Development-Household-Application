@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Button, Text, TextInput, useTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { avatarList } from '../library/avatarList';
@@ -71,7 +71,16 @@ export default function EditProfile({ route }: Props) {
 
       <View style={s.iconContainer}>
         {availableAvatars.map((avatarName) => (
-          <Text style={s.icon}>{avatarList[avatarName].icon}</Text>
+          <Pressable key={avatarName} onPress={() => console.log(avatarName)}>
+            <Text
+              style={[
+                s.icon,
+                { backgroundColor: avatarList[avatarName].color },
+              ]}
+            >
+              {avatarList[avatarName].icon}
+            </Text>
+          </Pressable>
         ))}
       </View>
 
@@ -120,6 +129,18 @@ const s = StyleSheet.create({
   },
   iconContainer: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 5,
   },
-  icon: {},
+  // pressable: {
+  //   // padding: 5,
+  //   borderWidth: 1,
+  // },
+  icon: {
+    fontSize: 45,
+    padding: 8,
+    borderRadius: 50,
+  },
 });
