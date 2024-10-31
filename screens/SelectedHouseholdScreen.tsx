@@ -9,13 +9,13 @@ import { useAppSelector } from '../store/hooks';
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
-import { selectCompletedTasksByHousehold } from '../store/completedTasks/completedTasksSelectors';
+import { selectCompletedTasksBySelectedHousehold } from '../store/completedTasks/completedTasksSelectors';
 import {
   selectAllMembersBySelectedHousehold,
   selectMemberForUserInSelectedHousehold,
 } from '../store/members/membersSelectors';
 import { selectAllRequestsOfSelectedHousehold } from '../store/requests/requestsSelectors';
-import { selectTasks } from '../store/tasks/tasksSelectors';
+import { selectActiveTasksForSelectedHousehold } from '../store/tasks/tasksSelectors';
 import { useSelectedHouseholdData } from '../store/user/hooks';
 import { Task } from '../types';
 
@@ -35,8 +35,8 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   const requests = useAppSelector(selectAllRequestsOfSelectedHousehold);
   const member = useAppSelector(selectMemberForUserInSelectedHousehold);
   const members = useAppSelector(selectAllMembersBySelectedHousehold);
-  const tasks = useAppSelector(selectTasks);
-  const competedTasks = useAppSelector(selectCompletedTasksByHousehold);
+  const tasks = useAppSelector(selectActiveTasksForSelectedHousehold);
+  const competedTasks = useAppSelector(selectCompletedTasksBySelectedHousehold);
 
   const today = todayAtMidnight();
   const completedTasks = competedTasks

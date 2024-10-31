@@ -5,14 +5,13 @@ import PieChartOneTask from '../../components/PieChartOneTask';
 import { todayAtMidnight } from '../../library/dateFunctions';
 import { sliceStringToLengthAddEllipsis } from '../../library/utils';
 import { useAppSelector } from '../../store/hooks';
-import { selectTasksForCurrentHousehold } from '../../store/tasks/tasksSelectors';
+import { selectActiveTasksForSelectedHousehold } from '../../store/tasks/tasksSelectors';
 import { useSelectedHouseholdData } from '../../store/user/hooks';
 import { Task } from '../../types';
 
 export default function CurrentWeek() {
   useSelectedHouseholdData();
-  const householdId = 'household-1';
-  const tasks = useAppSelector(selectTasksForCurrentHousehold);
+  const tasks = useAppSelector(selectActiveTasksForSelectedHousehold);
 
   const renderItem = (item: Task) => (
     <View style={s.item}>

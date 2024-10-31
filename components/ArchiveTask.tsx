@@ -1,6 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Dialog, IconButton, Portal, Text } from 'react-native-paper';
+import { useAppDispatch } from '../store/hooks';
+import { updateTask } from '../store/tasks/tasksAction';
 import { Task } from '../types';
 
 type ArchivedTaskProps = {
@@ -9,20 +11,17 @@ type ArchivedTaskProps = {
 
 export default function ArchivedTask({ task }: ArchivedTaskProps) {
   const [visible, setVisible] = useState(false);
-  const [archived, setArchived] = useState(task.isArchived);
   const navigation = useNavigation();
+
+  const dispatch = useAppDispatch();
 
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
 
   const archiveTask = () => {
-    setArchived(true);
+    dispatch(updateTask({ id: task.id, updates: { isArchived: true } }));
+    navigation.goBack();
   };
-
-  // TODO: för att se om isArchived ändras till true
-  useEffect(() => {
-    console.log(archived);
-  }, [archived]);
 
   return (
     <>

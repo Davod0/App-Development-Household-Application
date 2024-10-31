@@ -6,11 +6,11 @@ import { mockedHouseholds } from '../../data';
 import { auth } from '../../firebase';
 import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppSelector } from '../../store/hooks';
-import { selectTasksForCurrentHousehold } from '../../store/tasks/tasksSelectors';
+import { selectTasksForSelectedHousehold } from '../../store/tasks/tasksSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 export default function Home({ navigation }: Props) {
-  const tasks = useAppSelector(selectTasksForCurrentHousehold);
+  const tasks = useAppSelector(selectTasksForSelectedHousehold);
   const taskForTestingTaskInfoScreen = tasks[0];
 
   // mockedData to EditTaskScreen
