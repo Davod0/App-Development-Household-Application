@@ -82,3 +82,5 @@ export type AvatarName =
   | 'dolphin'
   | 'owl'
   | 'unicorn';
+
+export type CharData = { value: number; color: string; text: string };

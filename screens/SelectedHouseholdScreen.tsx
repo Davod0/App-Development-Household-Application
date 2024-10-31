@@ -15,7 +15,7 @@ import {
   selectMemberForUserInSelectedHousehold,
 } from '../store/members/membersSelectors';
 import { selectAllRequestsOfSelectedHousehold } from '../store/requests/requestsSelectors';
-import { selectActiveTasksForSelectedHousehold } from '../store/tasks/tasksSelectors';
+import { selectTasksForSelectedHousehold } from '../store/tasks/tasksSelectors';
 import { useSelectedHouseholdData } from '../store/user/hooks';
 import { Task } from '../types';
 
@@ -35,7 +35,9 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   const requests = useAppSelector(selectAllRequestsOfSelectedHousehold);
   const member = useAppSelector(selectMemberForUserInSelectedHousehold);
   const members = useAppSelector(selectAllMembersBySelectedHousehold);
-  const tasks = useAppSelector(selectActiveTasksForSelectedHousehold);
+  const tasks = useAppSelector(selectTasksForSelectedHousehold).filter(
+    (t) => !t.isArchived,
+  );
   const competedTasks = useAppSelector(selectCompletedTasksBySelectedHousehold);
 
   const today = todayAtMidnight();
