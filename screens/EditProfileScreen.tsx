@@ -1,13 +1,15 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text, TextInput, useTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
+import { avatarList } from '../library/avatarList';
+import { getAvailableIcons } from '../library/utils';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch } from '../store/hooks';
 import { updateMember } from '../store/members/membersActions';
 import { selectMemberForUserInSelectedHousehold } from '../store/members/membersSelectors';
-import { Member } from '../types';
+import { AvatarName, Member } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
 
@@ -21,6 +23,15 @@ export default function EditProfile({ route }: Props) {
   const [loading, setLoading] = useState(false);
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [availableAvatars, setAvailableAvatars] = useState<AvatarName[]>([]);
+
+  useEffect(() => {
+    const fetchAvailableAvatars = async () => {
+      const avatars = await getAvailableIcons(member?.householdId as string);
+      setAvailableAvatars(avatars);
+    };
+    fetchAvailableAvatars();
+  }, [member?.householdId]);
 
   const handleUpdateMember = async () => {
     if (!member?.id) return;
@@ -44,8 +55,8 @@ export default function EditProfile({ route }: Props) {
 
   if (!member) {
     return (
-      <View style={styles.container}>
-        <Text style={[styles.text, { color: theme.colors.primary }]}>
+      <View style={s.container}>
+        <Text style={[s.text, { color: theme.colors.primary }]}>
           No member data available.
         </Text>
       </View>
@@ -53,13 +64,19 @@ export default function EditProfile({ route }: Props) {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={[styles.text, { color: theme.colors.primary }]}>
+    <View style={s.container}>
+      <Text style={[s.text, { color: theme.colors.primary }]}>
         Edit Profile
       </Text>
 
+      <View style={s.iconContainer}>
+        {availableAvatars.map((avatarName) => (
+          <Text style={s.icon}>{avatarList[avatarName].icon}</Text>
+        ))}
+      </View>
+
       <TextInput
-        style={styles.input}
+        style={s.input}
         label="Name"
         placeholder="Enter your name"
         value={name}
@@ -70,7 +87,7 @@ export default function EditProfile({ route }: Props) {
       <Button
         mode="contained"
         onPress={handleUpdateMember}
-        style={styles.button}
+        style={s.button}
         loading={loading}
         disabled={loading}
       >
@@ -80,7 +97,7 @@ export default function EditProfile({ route }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
@@ -101,4 +118,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: '100%',
   },
+  iconContainer: {
+    flexDirection: 'row',
+  },
+  icon: {},
 });
