@@ -25,23 +25,35 @@ export default function PieChartOneTask({ task }: Props) {
     {} as Record<string, number>,
   );
 
-  const pieChartData: PieChartData[] = completedTasks.reduce(
-    (acc, completedTask) => {
-      const weight = taskWeightMap[completedTask.taskId] || 0;
-      const member = members.find(
-        (member) => member.id === completedTask.memberId,
-      );
+  const memberWeightMap: Record<
+    string,
+    { totalWeight: number; color: string; icon: string }
+  > = {};
 
-      if (member && weight > 0) {
-        acc.push({
-          value: weight,
+  completedTasks.forEach((completedTask) => {
+    const weight = taskWeightMap[completedTask.taskId] || 0;
+    const member = members.find(
+      (member) => member.id === completedTask.memberId,
+    );
+
+    if (member && weight > 0) {
+      if (!memberWeightMap[member.id]) {
+        memberWeightMap[member.id] = {
+          totalWeight: 0,
           color: member.avatar.color,
-          text: member.avatar.icon,
-        });
+          icon: member.avatar.icon,
+        };
       }
-      return acc;
-    },
-    [] as PieChartData[],
+      memberWeightMap[member.id].totalWeight += weight;
+    }
+  });
+
+  const pieChartData: PieChartData[] = Object.values(memberWeightMap).map(
+    (data) => ({
+      value: data.totalWeight,
+      color: data.color,
+      text: data.icon,
+    }),
   );
 
   return <PieChart radius={50} data={pieChartData} />;
