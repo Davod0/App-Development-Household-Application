@@ -1,4 +1,4 @@
 import { RootState } from '../store';
 
-export const selectCompletedTasksByHousehold = (state: RootState) =>
+export const selectCompletedTasksBySelectedHousehold = (state: RootState) =>
   state.completedTasks.list;
