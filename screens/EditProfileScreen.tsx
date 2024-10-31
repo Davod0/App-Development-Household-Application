@@ -24,6 +24,9 @@ export default function EditProfile({ route }: Props) {
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [availableAvatars, setAvailableAvatars] = useState<AvatarName[]>([]);
+  const [selectedAvatar, setSelectedAvatar] = useState<AvatarName>(
+    member?.avatar?.icon as AvatarName,
+  );
 
   useEffect(() => {
     const fetchAvailableAvatars = async () => {
@@ -34,11 +37,12 @@ export default function EditProfile({ route }: Props) {
   }, [member?.householdId]);
 
   const handleUpdateMember = async () => {
-    if (!member?.id) return;
+    if (!member?.id || !selectedAvatar) return;
 
     const updatedMember: Member = {
       ...member,
       name,
+      avatar: avatarList[selectedAvatar],
     };
 
     setLoading(true);
@@ -65,13 +69,21 @@ export default function EditProfile({ route }: Props) {
 
   return (
     <View style={s.container}>
+      <Text style={[s.memberIcon, { backgroundColor: member.avatar.color }]}>
+        {member.avatar.icon}
+      </Text>
       <Text style={[s.text, { color: theme.colors.primary }]}>
-        Edit Profile
+        Redigera Profil
       </Text>
 
       <View style={s.iconContainer}>
         {availableAvatars.map((avatarName) => (
-          <Pressable key={avatarName} onPress={() => console.log(avatarName)}>
+          <Pressable
+            key={avatarName}
+            onPress={() => {
+              setSelectedAvatar(avatarName);
+            }}
+          >
             <Text
               style={[
                 s.icon,
@@ -86,7 +98,7 @@ export default function EditProfile({ route }: Props) {
 
       <TextInput
         style={s.input}
-        label="Name"
+        label="Namn"
         placeholder="Enter your name"
         value={name}
         onChangeText={setName}
@@ -100,7 +112,7 @@ export default function EditProfile({ route }: Props) {
         loading={loading}
         disabled={loading}
       >
-        Save Changes
+        Spara Ändringar
       </Button>
     </View>
   );
@@ -127,17 +139,17 @@ const s = StyleSheet.create({
     marginTop: 10,
     width: '100%',
   },
+  memberIcon: {
+    fontSize: 70,
+  },
   iconContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
     gap: 5,
+    marginBottom: 10,
   },
-  // pressable: {
-  //   // padding: 5,
-  //   borderWidth: 1,
-  // },
   icon: {
     fontSize: 45,
     padding: 8,
