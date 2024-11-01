@@ -3,15 +3,12 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Dialog, Icon, TextInput } from 'react-native-paper';
 import { avatarList } from '../library/avatarList';
-import {
-  generateRandomCode,
-  getAvailableIcons,
-  randomIndex,
-} from '../library/utils';
+import { generateRandomCode, randomIndex } from '../library/utils';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { addHousehold } from '../store/households/householdsActions';
 import { selectCurrentUser } from '../store/user/userSelectors';
+import { AvatarName } from '../types';
 
 type props = NativeStackScreenProps<RootStackParamList, 'CreateHouseHold'>;
 
@@ -28,9 +25,17 @@ export default function CreateHouseholdScreen({ navigation }: props) {
     }
 
     const householdCode = generateRandomCode();
-    const randomAvailableAvatar = await getAvailableIcons('');
-    const randomAvatar =
-      randomAvailableAvatar[randomIndex(randomAvailableAvatar)];
+    const avatars: AvatarName[] = [
+      'fox',
+      'pig',
+      'frog',
+      'chicken',
+      'octopus',
+      'dolphin',
+      'unicorn',
+      'owl',
+    ];
+    const randomAvatar = avatars[randomIndex(avatars)];
     await dispatch(
       addHousehold({
         household: {
@@ -38,7 +43,7 @@ export default function CreateHouseholdScreen({ navigation }: props) {
           code: householdCode,
         },
         member: {
-          name: user?.email ?? 'Ägarens namn',
+          name: user?.email ?? 'Ägarens 🐛namn fuck my life :D',
           userId: user!.uid,
           avatar: avatarList[randomAvatar],
           isOwner: true,
