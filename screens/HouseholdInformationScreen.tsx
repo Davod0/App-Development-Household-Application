@@ -4,12 +4,12 @@ import { Avatar, Button, Card, Icon, List, Text } from 'react-native-paper';
 import MakeOwnerButton from '../components/MakeOwnerButton';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppSelector } from '../store/hooks';
-import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
-import { useSelectedHouseholdData } from '../store/user/hooks';
 import {
-  selectCurrentUser,
-  selectSelectedHousehold,
-} from '../store/user/userSelectors';
+  selectAllMembersBySelectedHousehold,
+  selectMemberForUserInSelectedHousehold,
+} from '../store/members/membersSelectors';
+import { useSelectedHouseholdData } from '../store/user/hooks';
+import { selectSelectedHousehold } from '../store/user/userSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 
@@ -19,15 +19,10 @@ export default function HouseholdInformationScreen({
 }: Props) {
   useSelectedHouseholdData();
   const members = useAppSelector(selectAllMembersBySelectedHousehold);
+
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
   const membersInHousehold = members.filter((m) => m.isAllowed === true);
-  const currentUser = useAppSelector(selectCurrentUser);
-
-  // const currentUserIsOwner = members.some(
-  //   (member) => member.id === currentUser?.u && member.isOwner,
-  // );
-
-  // console.log(currentUser);
+  const currentMember = useAppSelector(selectMemberForUserInSelectedHousehold);
 
   return (
     <ScrollView contentContainerStyle={s.root}>
@@ -74,9 +69,9 @@ export default function HouseholdInformationScreen({
                         style={{ backgroundColor: member.avatar.color }}
                       />
                     )}
-                    //
+                    // ===================================
                     right={() =>
-                      !member.isOwner ? (
+                      currentMember?.isOwner && !member.isOwner ? (
                         <View style={{ justifyContent: 'center' }}>
                           <MakeOwnerButton member={member} />
                         </View>
