@@ -11,13 +11,13 @@ import {
 } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { deleteMember } from '../store/members/membersActions'; // Import deleteMember
+import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
+import { useSelectedHouseholdData } from '../store/user/hooks';
 import {
   selectColorMode,
   selectCurrentUser,
 } from '../store/user/userSelectors';
-
-import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
-import { useSelectedHouseholdData } from '../store/user/hooks';
 import { setColorMode } from '../store/user/userSlice';
 import { ColorMode } from '../theme/ThemeProvider';
 
@@ -38,10 +38,15 @@ export default function ProfileScreen({ navigation }: Props) {
   const showDialog = () => setVisible(true);
   const handleCancleLeaveHousehold = () => setVisible(false);
 
-  const handleLeaveHousehold = () => {
+  const handleLeaveHousehold = async () => {
     handleCancleLeaveHousehold();
-    navigation.navigate('YourHouseholds');
-    console.log('Leave household confirmed');
+    try {
+      await dispatch(deleteMember(member.id)).unwrap();
+      console.log('Leave household confirmed');
+      navigation.navigate('YourHouseholds');
+    } catch (error) {
+      console.error(`Error leaving household: ${error}`);
+    }
   };
 
   return (
