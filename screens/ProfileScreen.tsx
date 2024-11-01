@@ -36,12 +36,10 @@ export default function ProfileScreen({ navigation }: Props) {
   const [visible, setVisible] = useState(false);
 
   const showDialog = () => setVisible(true);
-  const handleCancleLeaveHousehold = () => setVisible(false);
+  const handleCancelLeaveHousehold = () => setVisible(false);
 
-  const handleLeaveHousehold = () => {
-    handleCancleLeaveHousehold();
-    navigation.navigate('YourHouseholds');
-    dispatch(deleteMember(member.id))
+  const handleLeaveHousehold = async () => {
+    await dispatch(deleteMember(member.id))
       .unwrap()
       .then(() => {
         console.log('Leave household confirmed');
@@ -49,6 +47,8 @@ export default function ProfileScreen({ navigation }: Props) {
       .catch((error) => {
         console.error(`Error leaving household: ${error}`);
       });
+    setVisible(false);
+    navigation.navigate('YourHouseholds');
   };
 
   return (
@@ -104,13 +104,13 @@ export default function ProfileScreen({ navigation }: Props) {
         </Button>
 
         <Portal>
-          <Dialog visible={visible} onDismiss={handleCancleLeaveHousehold}>
+          <Dialog visible={visible} onDismiss={handleCancelLeaveHousehold}>
             <Dialog.Title>Bekräfta</Dialog.Title>
             <Dialog.Content>
               <Text>Är du säker på att du vill lämna hushållet?</Text>
             </Dialog.Content>
             <Dialog.Actions>
-              <Button onPress={handleCancleLeaveHousehold}>Avbryt</Button>
+              <Button onPress={handleCancelLeaveHousehold}>Avbryt</Button>
               <Button onPress={handleLeaveHousehold}>Lämna</Button>
             </Dialog.Actions>
           </Dialog>
