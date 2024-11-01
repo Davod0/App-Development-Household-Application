@@ -30,8 +30,6 @@ export default function ProfileScreen({ navigation }: Props) {
   const user = useAppSelector(selectCurrentUser)!;
   const members = useAppSelector(selectAllMembersBySelectedHousehold);
   const member = members.find((member) => member.userId === user?.uid)!;
-  const avatar = member.avatar.icon;
-  const avatarColor = member.avatar.color;
 
   const [visible, setVisible] = useState(false);
 
@@ -51,6 +49,11 @@ export default function ProfileScreen({ navigation }: Props) {
     navigation.navigate('YourHouseholds');
   };
 
+  if (!member) {
+    return <Text>no member exists!</Text>;
+  }
+  const avatar = member.avatar.icon;
+  const avatarColor = member.avatar.color;
   return (
     <View style={s.container}>
       <View style={s.memberInfo}>

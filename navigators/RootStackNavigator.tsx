@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { signOut } from 'firebase/auth';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, IconButton, Text } from 'react-native-paper';
+import { Button, IconButton, Text, useTheme } from 'react-native-paper';
 import ArchivedTask from '../components/ArchiveTask';
 import ProfileIconButton from '../components/ProfileIconButton';
 import useSplashScreenVisibility from '../components/SplashScreenVisibility';
@@ -63,6 +63,7 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 export default function RootStackNavigator() {
   useUserAuthState();
   useSplashScreenVisibility();
+  const theme = useTheme();
   const user = useAppSelector(selectCurrentUser);
 
   return (
@@ -132,11 +133,11 @@ export default function RootStackNavigator() {
                     signOut(auth);
                   }}
                   style={{
-                    backgroundColor: '#000',
+                    backgroundColor: theme.colors.onBackground,
                     borderRadius: 10,
                     width: 120,
                   }}
-                  labelStyle={{ fontSize: 16, color: 'lightgray' }}
+                  labelStyle={{ fontSize: 16 }}
                 >
                   Logga ut
                 </Button>
