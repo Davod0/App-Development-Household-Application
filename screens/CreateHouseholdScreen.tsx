@@ -43,7 +43,7 @@ export default function CreateHouseholdScreen({ navigation }: props) {
           code: householdCode,
         },
         member: {
-          name: user?.email ?? 'Ägarens 🐛namn fuck my life :D',
+          name: user?.email ?? 'Ägarens',
           userId: user!.uid,
           avatar: avatarList[randomAvatar],
           isOwner: true,

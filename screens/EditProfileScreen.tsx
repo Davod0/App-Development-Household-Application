@@ -13,7 +13,7 @@ import { AvatarName, Member } from '../types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
 
-export default function EditProfile({ route }: Props) {
+export default function EditProfile({ navigation, route }: Props) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
@@ -46,6 +46,7 @@ export default function EditProfile({ route }: Props) {
     };
 
     setLoading(true);
+
     try {
       await dispatch(updateMember(updatedMember)).unwrap();
       setSnackbarMessage('Member updated successfully');
@@ -55,6 +56,7 @@ export default function EditProfile({ route }: Props) {
       setLoading(false);
       setSnackbarVisible(true);
     }
+    navigation.navigate('Profile');
   };
 
   if (!member) {
