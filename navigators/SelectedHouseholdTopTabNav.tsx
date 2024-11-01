@@ -12,6 +12,13 @@ import { SubHeaderStatsScreens } from '../components/SubHeaderStatsScreens';
 import { sliceStringToLengthAddEllipsis } from '../library/utils';
 import SelectedHouseholdScreen from '../screens/SelectedHouseholdScreen';
 import CurrentWeek from '../screens/statistics/CurrentWeek';
+import PreviousMonth from '../screens/statistics/PreviousMonth';
+import PreviousWeek from '../screens/statistics/PreviousWeek';
+import {
+  selectHasStatsCompletedTasksForCurrentWeek,
+  selectHasStatsCompletedTasksForPreviousMonth,
+  selectHasStatsCompletedTasksForPreviousWeek,
+} from '../store/completedTasks/completedTasksSelectors';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { updateSelectedHouseholdName } from '../store/households/householdsActions';
 import { selectMemberForUserInSelectedHousehold } from '../store/members/membersSelectors';
@@ -21,7 +28,8 @@ import { RootStackParamList } from './RootStackNavigator';
 export type TopTabNavigatorParamList = {
   SelectedHousehold: undefined;
   StatsCurrentWeek: undefined;
-  StatsLastWeek: undefined;
+  StatsPreviousWeek: undefined;
+  StatsPreviousMonth: undefined;
 };
 
 const Tab = createMaterialTopTabNavigator<TopTabNavigatorParamList>();
@@ -40,6 +48,16 @@ export default function SelectedHouseholdTopTabNav({ navigation }: Props) {
   );
   const dispatch = useAppDispatch();
   // useSelectedHousehold();
+
+  const hasStatsForCurrentWeek = useAppSelector(
+    selectHasStatsCompletedTasksForCurrentWeek,
+  );
+  const hasStatsForPreviousWeek = useAppSelector(
+    selectHasStatsCompletedTasksForPreviousWeek,
+  );
+  const hasStatsForPreviousMonth = useAppSelector(
+    selectHasStatsCompletedTasksForPreviousMonth,
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -78,16 +96,27 @@ export default function SelectedHouseholdTopTabNav({ navigation }: Props) {
           component={SelectedHouseholdScreen}
           options={{ title: 'idag' }}
         />
-        <Tab.Screen
-          name="StatsCurrentWeek"
-          component={CurrentWeek}
-          options={{ title: 'nuvarande veckan' }}
-        />
-        {/* <Tab.Screen
-          name="StatsLastWeek"
-          component={LastWeek}
-          options={{ title: 'förra veckan' }}
-        /> */}
+        {hasStatsForCurrentWeek && (
+          <Tab.Screen
+            name="StatsCurrentWeek"
+            component={CurrentWeek}
+            options={{ title: 'nuvarande veckan' }}
+          />
+        )}
+        {hasStatsForPreviousWeek && (
+          <Tab.Screen
+            name="StatsPreviousWeek"
+            component={PreviousWeek}
+            options={{ title: 'förra veckan' }}
+          />
+        )}
+        {hasStatsForPreviousMonth && (
+          <Tab.Screen
+            name="StatsPreviousMonth"
+            component={PreviousMonth}
+            options={{ title: 'förra månaden' }}
+          />
+        )}
       </Tab.Navigator>
       <Portal>
         <Dialog

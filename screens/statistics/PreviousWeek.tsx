@@ -3,16 +3,16 @@ import { Text } from 'react-native-paper';
 import PieChartAllTasks from '../../components/PieChartAllTasks';
 import PieChartOneTask from '../../components/PieChartOneTask';
 import { sliceStringToLengthAddEllipsis } from '../../library/utils';
-import { selectCompletedTasksForCurrentWeek } from '../../store/completedTasks/completedTasksSelectors';
+import { selectCompletedTasksForPreviousWeek } from '../../store/completedTasks/completedTasksSelectors';
 import { useAppSelector } from '../../store/hooks';
 import { selectTasksForSelectedHousehold } from '../../store/tasks/tasksSelectors';
 import { useSelectedHouseholdData } from '../../store/user/hooks';
 import { Task } from '../../types';
 
-export default function CurrentWeek() {
+export default function PreviousWeek() {
   useSelectedHouseholdData();
   const tasks = useAppSelector(selectTasksForSelectedHousehold);
-  const compTasks = useAppSelector(selectCompletedTasksForCurrentWeek);
+  const compTasks = useAppSelector(selectCompletedTasksForPreviousWeek);
 
   // want to find all compTasks that **has been done** so we find unique taskIDs form
   // compTasks and find the corresponding task for that id.
