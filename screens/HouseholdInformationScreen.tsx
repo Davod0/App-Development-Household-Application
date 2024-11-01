@@ -6,7 +6,10 @@ import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppSelector } from '../store/hooks';
 import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
 import { useSelectedHouseholdData } from '../store/user/hooks';
-import { selectSelectedHousehold } from '../store/user/userSelectors';
+import {
+  selectCurrentUser,
+  selectSelectedHousehold,
+} from '../store/user/userSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 
@@ -18,6 +21,13 @@ export default function HouseholdInformationScreen({
   const members = useAppSelector(selectAllMembersBySelectedHousehold);
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
   const membersInHousehold = members.filter((m) => m.isAllowed === true);
+  const currentUser = useAppSelector(selectCurrentUser);
+
+  // const currentUserIsOwner = members.some(
+  //   (member) => member.id === currentUser?.u && member.isOwner,
+  // );
+
+  // console.log(currentUser);
 
   return (
     <ScrollView contentContainerStyle={s.root}>
@@ -51,29 +61,27 @@ export default function HouseholdInformationScreen({
                 flexWrap: 'wrap',
               }}
             >
-              {membersInHousehold &&
-              Object.keys(membersInHousehold).length > 0 ? (
+              {membersInHousehold.length > 0 ? (
                 membersInHousehold.map((member) => (
                   <List.Item
                     key={member.id}
                     titleStyle={{ textAlign: 'center' }}
                     title={member.isOwner ? member.name + ' 👑 ' : member.name}
-                    left={(props) => (
+                    left={() => (
                       <Avatar.Text
                         size={72}
                         label={member.avatar.icon}
                         style={{ backgroundColor: member.avatar.color }}
                       />
                     )}
-                    right={() => (
-                      <View
-                        style={{
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <MakeOwnerButton member={member} />
-                      </View>
-                    )}
+                    //
+                    right={() =>
+                      !member.isOwner ? (
+                        <View style={{ justifyContent: 'center' }}>
+                          <MakeOwnerButton member={member} />
+                        </View>
+                      ) : null
+                    }
                   />
                 ))
               ) : (
