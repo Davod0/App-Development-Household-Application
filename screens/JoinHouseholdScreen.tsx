@@ -9,10 +9,7 @@ import {
 } from 'react-native-paper';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { addRequest } from '../store/requests/requestsActions';
-import {
-  selectRequestError,
-  selectRequestIsLoading,
-} from '../store/requests/requestsSelectors';
+import { selectRequestError } from '../store/requests/requestsSelectors';
 import {
   useSelectedHouseholdData,
   useUserAuthState,
@@ -25,7 +22,8 @@ export default function JoinHouseholdScreen() {
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [showValidationDialog, setShowValidationDialog] = useState(false);
   const dispatch = useAppDispatch();
-  const requestIsLoading = useAppSelector(selectRequestIsLoading);
+  const requestIsLoading = false;
+  // useAppSelector(selectRequestIsLoading);
   const requestError = useAppSelector(selectRequestError);
 
   const handleSubmitCode = () => {
