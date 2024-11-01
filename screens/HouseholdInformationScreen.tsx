@@ -1,14 +1,11 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Card, Icon, List, Text } from 'react-native-paper';
+import { Avatar, Button, Card, Icon, List, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppSelector } from '../store/hooks';
 import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
 import { useSelectedHouseholdData } from '../store/user/hooks';
-import {
-  selectCurrentUser,
-  selectSelectedHousehold,
-} from '../store/user/userSelectors';
+import { selectSelectedHousehold } from '../store/user/userSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HouseholdInformation'>;
 
@@ -17,34 +14,9 @@ export default function HouseholdInformationScreen({
   route,
 }: Props) {
   useSelectedHouseholdData();
-
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(selectCurrentUser);
   const members = useAppSelector(selectAllMembersBySelectedHousehold);
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
-
-  // testing...
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     if (user) {
-  //       dispatch(getMembersByHouseholdId())
-  //         .unwrap()
-  //         .then(() => {
-  //           dispatch(getMembersByHouseholdId())
-  //             .unwrap()
-  //             .then(() => {
-  //               // dispatch(getMembersByHouseholdId(''));
-  //             });
-  //         });
-  //     }
-  //   }, [dispatch, user]),
-  // );
-
-  const membersInHousehold = members.filter(
-    (m) => m.householdId === selectedHousehold?.id && m.isAllowed === true,
-  );
-
-  // console.log('house info screen:', members.length, membersInHousehold.length);
+  const membersInHousehold = members.filter((m) => m.isAllowed === true);
 
   return (
     <ScrollView contentContainerStyle={s.root}>
@@ -83,13 +55,15 @@ export default function HouseholdInformationScreen({
                 membersInHousehold.map((member) => (
                   <List.Item
                     key={member.id}
-                    style={{ width: '50%' }}
                     titleStyle={{ textAlign: 'center' }}
-                    title={member.name}
+                    title={member.isOwner ? member.name + ' 👑' : member.name}
                     left={(props) => (
-                      <List.Icon {...props} icon="account-circle" />
+                      <Avatar.Text
+                        size={72}
+                        label={member.avatar.icon}
+                        style={{ backgroundColor: member.avatar.color }}
+                      />
                     )}
-                    onPress={() => navigation.navigate('Profile')}
                   />
                 ))
               ) : (
