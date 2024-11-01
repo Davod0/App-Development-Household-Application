@@ -1,6 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Avatar, Button, Card, Icon, List, Text } from 'react-native-paper';
+import MakeOwnerButton from '../components/MakeOwnerButton';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppSelector } from '../store/hooks';
 import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
@@ -56,13 +57,22 @@ export default function HouseholdInformationScreen({
                   <List.Item
                     key={member.id}
                     titleStyle={{ textAlign: 'center' }}
-                    title={member.isOwner ? member.name + ' 👑' : member.name}
+                    title={member.isOwner ? member.name + ' 👑 ' : member.name}
                     left={(props) => (
                       <Avatar.Text
                         size={72}
                         label={member.avatar.icon}
                         style={{ backgroundColor: member.avatar.color }}
                       />
+                    )}
+                    right={() => (
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <MakeOwnerButton member={member} />
+                      </View>
                     )}
                   />
                 ))
