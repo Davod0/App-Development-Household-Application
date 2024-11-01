@@ -4,13 +4,41 @@ import { mod } from './utils';
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
 /**
- * Function to calculate monday T00:00:00.000 of the same week as the input date.
- * @param today a date.
- * @returns new date from the same week.
+ * Check if a date is in the current week. Find monday at 0.00.00 for the current week
+ * and check it the given date is after that date.
+ * @param d a date.
+ * @returns true if the given date is in the current week.
  */
-export function startDayCurrentWeek(today: Date): Date {
-  today.setHours(0, 0, 0, 0);
-  return new Date(today.getTime() - mod(today.getDay() - 1, 7) * DAY_IN_MS);
+export function isDateInCurrentWeek(d: Date): boolean {
+  return d >= startDayOfWeek(todayAtMidnight());
+}
+
+/**
+ * Check if a date is in last week by finding monday of last week and monday of this week,
+ * then check if the given date is between those dates.
+ * @param d a date.
+ * @returns true if the given date is in last week.
+ */
+export function isDateInPreviousWeek(d: Date): boolean {
+  const dateInLastWeek = new Date(todayAtMidnight().getTime() - 7 * DAY_IN_MS);
+  return (
+    d >= startDayOfWeek(dateInLastWeek) && d < startDayOfWeek(todayAtMidnight())
+  );
+}
+
+/**
+ *
+ * @param d
+ * @returns
+ */
+export function isDateInPreviousMonth(d: Date): boolean {
+  const firstDayOfPreviousMonth = todayAtMidnight();
+  firstDayOfPreviousMonth.setMonth(d.getMonth() - 1);
+  firstDayOfPreviousMonth.setDate(1);
+  const LastDayOfPreviousMonth = todayAtMidnight();
+  LastDayOfPreviousMonth.setDate(0);
+
+  return d >= firstDayOfPreviousMonth && d < LastDayOfPreviousMonth;
 }
 
 /**
@@ -23,6 +51,16 @@ export function todayAtMidnight(): Date {
 }
 
 /**
+ * Function to calculate monday T00:00:00.000 of the same week as the input date.
+ * @param today a date.
+ * @returns new date from the same week.
+ */
+export function startDayOfWeek(date: Date): Date {
+  date.setHours(0, 0, 0, 0);
+  return new Date(date.getTime() - mod(date.getDay() - 1, 7) * DAY_IN_MS);
+}
+
+/**
  * Function that calculate the number of whole days between to dates.
  * @param d1 a date
  * @param d2 another date
@@ -31,6 +69,3 @@ export function todayAtMidnight(): Date {
 export function dateDifference(d1: Date, d2: Date): number {
   return Math.floor(Math.abs(d1.getTime() - d2.getTime()) / DAY_IN_MS);
 }
-
-// isBetween(start: Date, end: Date, d: Date): boolean
-// isAfter(start: Date, d: Date): boolean

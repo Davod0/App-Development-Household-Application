@@ -13,6 +13,10 @@ export function mod(n: number, m: number): number {
   return ((n % m) + m) % m;
 }
 
+/**
+ *
+ * @returns
+ */
 export const generateRandomCode = () => {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let result = '';
