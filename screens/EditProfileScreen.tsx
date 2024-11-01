@@ -1,11 +1,11 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Button, Text, TextInput, useTheme } from 'react-native-paper';
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Avatar, Button, Text, TextInput, useTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
+import { avatarList } from '../library/avatarList';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch } from '../store/hooks';
-import { updateMember } from '../store/members/membersActions';
 import { selectMemberForUserInSelectedHousehold } from '../store/members/membersSelectors';
 import { Member } from '../types';
 
@@ -14,13 +14,13 @@ type Props = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
 export default function EditProfile({ route }: Props) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
-
   const member = useSelector(selectMemberForUserInSelectedHousehold);
 
   const [name, setName] = useState(member?.name || '');
+  const [selectedAvatar, setSelectedAvatar] = useState(
+    member?.avatar || avatarList.fox,
+  );
   const [loading, setLoading] = useState(false);
-  const [snackbarVisible, setSnackbarVisible] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const handleUpdateMember = async () => {
     if (!member?.id) return;
@@ -28,19 +28,27 @@ export default function EditProfile({ route }: Props) {
     const updatedMember: Member = {
       ...member,
       name,
+      avatar: selectedAvatar,
     };
-
-    setLoading(true);
-    try {
-      await dispatch(updateMember(updatedMember)).unwrap();
-      setSnackbarMessage('Member updated successfully');
-    } catch (error) {
-      setSnackbarMessage(`Error updating member: ${error}`);
-    } finally {
-      setLoading(false);
-      setSnackbarVisible(true);
-    }
   };
+  const renderAvatarItem = ({ item }: any) => (
+    <TouchableOpacity
+      onPress={() => setSelectedAvatar(item[0])}
+      style={styles.avatarItem}
+    >
+      <Avatar.Text
+        label={item[1].icon}
+        size={50}
+        style={{
+          backgroundColor: item[1].color,
+          opacity: selectedAvatar === item[0] ? 1 : 0.5,
+        }}
+      />
+      <Text style={{ color: selectedAvatar === item[0] ? 'blue' : 'black' }}>
+        {item[0]}
+      </Text>
+    </TouchableOpacity>
+  );
 
   if (!member) {
     return (
@@ -67,6 +75,14 @@ export default function EditProfile({ route }: Props) {
         mode="outlined"
       />
 
+      <FlatList
+        data={Object.entries(avatarList)}
+        renderItem={renderAvatarItem}
+        keyExtractor={(item) => item[0]}
+        numColumns={3}
+        contentContainerStyle={styles.avatarList}
+      />
+
       <Button
         mode="contained"
         onPress={handleUpdateMember}
@@ -84,14 +100,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#f5f5f5',
   },
   text: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    textAlign: 'center',
   },
   input: {
     width: '100%',
@@ -100,5 +115,13 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 10,
     width: '100%',
+  },
+  avatarList: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  avatarItem: {
+    alignItems: 'center',
+    margin: 10,
   },
 });
