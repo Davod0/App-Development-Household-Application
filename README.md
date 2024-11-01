@@ -31,7 +31,7 @@ Krav för väl godkänt:
 
 #### Kravlista (4)
 
-- [ ] **En logga, splashscreen och appikon ska designas och användas. \***
+- [x] **En logga, splashscreen och appikon ska designas och användas. \***
 - [x] **Applikationen ska byggas med RN, Expo & TS. \***
 - [x] **Designen av appen ska utgå ifrån befintliga skisser, undantag kan ges men ska diskuteras med produktägare, godkännas och dokumenteras. \***
 - [x] Information ska kommuniceras till och från en server. **(VG)**
@@ -57,7 +57,7 @@ Krav för väl godkänt:
 #### Profil (6)
 
 - [x] **En användare ska kunna ange sitt namn. \***
-- [ ] **En användare ska kunna välja en avatar (emoji-djur + färg) från en fördefinierad lista. \***
+- [x] **En användare ska kunna välja en avatar (emoji-djur + färg) från en fördefinierad lista. \***
 - [x] **Valda avatarer ska inte kunna väljas av andra användare i hushållet. \***
 - [x] **Avataren ska användas i appen för att visa vad användaren har gjort. \***
 - [x] En användare ska kunna ställa in appens utseende (mörkt, ljust, auto).
