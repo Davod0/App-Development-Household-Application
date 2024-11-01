@@ -27,9 +27,9 @@ export function isDateInPreviousWeek(d: Date): boolean {
 }
 
 /**
- *
- * @param d
- * @returns
+ * Check if a date is in previous month.
+ * @param d a date
+ * @returns true if the given date is in the previous month.
  */
 export function isDateInPreviousMonth(d: Date): boolean {
   const firstDayOfPreviousMonth = todayAtMidnight();
