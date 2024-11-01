@@ -1,6 +1,14 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Avatar, Button, Card, Icon, List, Text } from 'react-native-paper';
+import {
+  Avatar,
+  Button,
+  Card,
+  Icon,
+  List,
+  Text,
+  useTheme,
+} from 'react-native-paper';
 import MakeOwnerButton from '../components/MakeOwnerButton';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppSelector } from '../store/hooks';
@@ -18,6 +26,7 @@ export default function HouseholdInformationScreen({
   route,
 }: Props) {
   useSelectedHouseholdData();
+  const theme = useTheme();
   const members = useAppSelector(selectAllMembersBySelectedHousehold);
 
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
@@ -61,7 +70,24 @@ export default function HouseholdInformationScreen({
                   <List.Item
                     key={member.id}
                     titleStyle={{ textAlign: 'center' }}
-                    title={member.isOwner ? member.name + ' 👑 ' : member.name}
+                    title={
+                      member.isOwner ? (
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                          }}
+                        >
+                          <Text>{member.name}</Text>
+                          <Icon
+                            source="crown"
+                            size={35}
+                            color={theme.colors.primary}
+                          />
+                        </View>
+                      ) : (
+                        member.name
+                      )
+                    }
                     left={() => (
                       <Avatar.Text
                         size={72}
@@ -69,7 +95,6 @@ export default function HouseholdInformationScreen({
                         style={{ backgroundColor: member.avatar.color }}
                       />
                     )}
-                    // ===================================
                     right={() =>
                       currentMember?.isOwner && !member.isOwner ? (
                         <View style={{ justifyContent: 'center' }}>
