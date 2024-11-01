@@ -93,19 +93,20 @@ export default function ProfileScreen({ navigation }: Props) {
             { value: 'auto', label: 'Enhetens' },
           ]}
         />
-        <Button
-          mode="contained"
-          onPress={showDialog}
-          style={[
-            s.leaveButton,
-            { position: 'absolute', bottom: 10, alignSelf: 'center' },
-          ]}
-          buttonColor="#d32f2f"
-          textColor="#ffffff"
-        >
-          Lämna hushåll
-        </Button>
-
+        {!member.isOwner && (
+          <Button
+            mode="contained"
+            onPress={showDialog}
+            style={[
+              s.leaveButton,
+              { position: 'absolute', bottom: 10, alignSelf: 'center' },
+            ]}
+            buttonColor="#d32f2f"
+            textColor="#ffffff"
+          >
+            Lämna hushåll
+          </Button>
+        )}
         <Portal>
           <Dialog visible={visible} onDismiss={handleCancelLeaveHousehold}>
             <Dialog.Title>Bekräfta</Dialog.Title>
