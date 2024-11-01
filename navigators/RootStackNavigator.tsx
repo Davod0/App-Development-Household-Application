@@ -91,6 +91,7 @@ export default function RootStackNavigator() {
           <RootStack.Screen name="TestMembers" component={TestMembers} />
           <RootStack.Screen name="TestHouseholds" component={TestHouseholds} />
           <RootStack.Screen name="TestCompTasks" component={TestCompTasks} />
+
           <RootStack.Screen name="TestRequests" component={TestRequests} />
           <RootStack.Screen
             name="TaskInfo"
@@ -152,11 +153,18 @@ export default function RootStackNavigator() {
             component={YourHouseholdsScreen}
             options={({ navigation }) => ({
               title: 'Dina hushåll',
-              headerRight: () => (
+              headerLeft: () => (
                 <IconButton
                   icon="xml"
                   size={24}
                   onPress={() => navigation.navigate('Home')}
+                />
+              ),
+              headerRight: () => (
+                <IconButton
+                  icon="logout"
+                  size={24}
+                  onPress={() => signOut(auth)}
                 />
               ),
             })}
