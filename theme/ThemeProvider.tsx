@@ -11,6 +11,7 @@ export type ColorMode = 'dark' | 'light' | 'auto';
 
 export default function ThemeProvider({ children }: PropsWithChildren) {
   const colorScheme = useColorScheme();
+  // console.log(`Device's theme color: ${colorScheme}`);
   const colorMode = useAppSelector(selectColorMode);
   const theme =
     colorMode === 'dark' || (colorScheme === 'dark' && colorMode !== 'light')
