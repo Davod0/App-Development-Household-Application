@@ -87,7 +87,14 @@ export default function EditProfile({ route }: Props) {
             <Text
               style={[
                 s.icon,
-                { backgroundColor: avatarList[avatarName].color },
+                {
+                  backgroundColor: avatarList[avatarName].color,
+                  borderWidth: avatarName === selectedAvatar ? 2 : 2,
+                  borderColor:
+                    avatarName === selectedAvatar
+                      ? theme.colors.primary
+                      : 'transparent',
+                },
               ]}
             >
               {avatarList[avatarName].icon}
@@ -141,6 +148,8 @@ const s = StyleSheet.create({
   },
   memberIcon: {
     fontSize: 70,
+    padding: 10,
+    borderRadius: 50,
   },
   iconContainer: {
     flexDirection: 'row',
