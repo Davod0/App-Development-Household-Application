@@ -5,7 +5,6 @@ import { store } from './store/store';
 import ThemeProvider from './theme/ThemeProvider';
 
 export default function App() {
-  useKeepAwake(); //FIXME: REMOVE BEFORE RELEASE - JUST TO MAKE EXPOPHONEAPP STOP FUCKTARDSLEEPING CONSTANTLY.
   return (
     <Provider store={store}>
       <ThemeProvider>

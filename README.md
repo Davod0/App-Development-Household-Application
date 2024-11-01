@@ -1,6 +1,7 @@
 # App Develepment Household Application
 
-[infoga beskrivning]
+Detta är en applikation för hushåll med fler än två medlemmar där varje medlem kan skrivas upp på sysslor som ska göras med intervallet 1-31 dagar.
+appen visar sedermera statistik över vem som har gjort vad och hur ofta de har gjort en viss syssla.
 
 ## Bygga och köra projektet
 
