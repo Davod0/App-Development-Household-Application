@@ -53,7 +53,7 @@ Krav för väl godkänt:
 - [x] **En användare ska kunna skapa ett nytt hushåll. \***
 - [x] **En användare ska kunna gå med i ett hushåll genom att ange hushållets kod. \***
 - [x] När en användare har valt att gå med i ett hushåll behöver en ägare av hushållet först godkänna användaren.
-- [ ] En användare ska kunna lämna ett hushåll.
+- [x] En användare ska kunna lämna ett hushåll.
 
 #### Profil (6)
 
@@ -70,7 +70,7 @@ Krav för väl godkänt:
 - [x] **En syssla ska ha ett namn, en beskrivning (text), hur ofta den ska göras (dagar), och en vikt som beskriver hur energikrävande den är. \***
 - [ ] En användare ska kunna lägga till en ljudinspelning och en bild för att beskriva sysslan ytterligare.
 - [x] **En ägare ska kunna redigera en syssla. \***
-- [ ] En ägare ska kunna ta bort en syssla.
+- [x] En ägare ska kunna ta bort en syssla.
 - [x] När en syssla tas bort ska användaren få en varning om att all statistik gällande sysslan också kommer att tas bort och få valet att arkivera sysslan istället.
 
 #### Dagsvyn (3)
@@ -84,9 +84,9 @@ Krav för väl godkänt:
 - [x] **En användare ska kunna se fördelningen av gjorda sysslor mellan användarna i sitt hushåll. \***
 - [x] **Varje statistikvy ska visa den totala fördelningen (inräknat vikterna för sysslorna) samt fördelning av varje enskild syssla. \***
 - [x] **Det ska finnas en statistikvy över ”nuvarande vecka”. \***
-- [ ] Det ska finnas en statistikvy över ”förra vecka”.
-- [ ] Det ska finnas en statistikvy över ”förra månaden”.
-- [ ] Om det inte finns statistik för en av vyerna ska den vyn inte visas.
+- [x] Det ska finnas en statistikvy över ”förra vecka”.
+- [x] Det ska finnas en statistikvy över ”förra månaden”.
+- [x] Om det inte finns statistik för en av vyerna ska den vyn inte visas.
 
 #### Schemaläggning (3)
 

@@ -13,7 +13,6 @@ const ProfileIconButton = ({ navigateToProfile }: Props) => (
       top: -30,
     }}
     icon="account"
-    iconColor="#000000"
     size={30}
     onPress={navigateToProfile}
   />

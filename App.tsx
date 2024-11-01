@@ -1,4 +1,3 @@
-import { useKeepAwake } from 'expo-keep-awake';
 import { Provider } from 'react-redux';
 import RootStackNavigator from './navigators/RootStackNavigator';
 import { store } from './store/store';

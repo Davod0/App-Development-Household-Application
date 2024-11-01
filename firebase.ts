@@ -6,12 +6,11 @@ import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.EXPO_PUBLIC_FIREBAS_API,
-  authDomain: 'bank-app-b6a7e.firebaseapp.com',
-  projectId: 'bank-app-b6a7e',
-  storageBucket: 'bank-app-b6a7e.firebasestorage.app',
-  messagingSenderId: '818458394377',
-  appId: '1:818458394377:web:cb742f8b0cbaf30da21dd8',
-  measurementId: 'G-J7RCPH4077',
+  authDomain: 'fire-base-db-90846.firebaseapp.com',
+  projectId: 'fire-base-db-90846',
+  storageBucket: 'fire-base-db-90846.firebasestorage.app',
+  messagingSenderId: '1084251965186',
+  appId: '1:1084251965186:web:aad9371bc24596042a641b',
 };
 
 export const app = initializeApp(firebaseConfig);

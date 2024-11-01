@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
+import LoadingIndicator from '../../components/LoadingIndicator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import LoadingIndicator from '../../store/LoadingIndicator';
 import { signInUser, signUpUser } from '../../store/user/userActions';
 import {
   selectCurrentUser,

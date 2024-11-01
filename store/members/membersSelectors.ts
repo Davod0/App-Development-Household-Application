@@ -6,3 +6,6 @@ export const selectAllMembersBySelectedHousehold = (state: RootState) =>
 
 export const selectMemberForUserInSelectedHousehold = (state: RootState) =>
   state.members.list.find((m) => m.userId === selectCurrentUser(state)?.uid);
+
+export const selectUsedAvatarsForSelectedHousehold = (state: RootState) =>
+  state.members.list.map((member) => member.avatar);

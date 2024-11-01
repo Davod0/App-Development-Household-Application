@@ -30,8 +30,6 @@ export default function ProfileScreen({ navigation }: Props) {
   const user = useAppSelector(selectCurrentUser)!;
   const members = useAppSelector(selectAllMembersBySelectedHousehold);
   const member = members.find((member) => member.userId === user?.uid)!;
-  const avatar = member.avatar.icon;
-  const avatarColor = member.avatar.color;
 
   const [visible, setVisible] = useState(false);
 
@@ -51,6 +49,11 @@ export default function ProfileScreen({ navigation }: Props) {
     navigation.navigate('YourHouseholds');
   };
 
+  if (!member) {
+    return <Text>no member exists!</Text>;
+  }
+  const avatar = member.avatar.icon;
+  const avatarColor = member.avatar.color;
   return (
     <View style={s.container}>
       <View style={s.memberInfo}>
@@ -90,19 +93,20 @@ export default function ProfileScreen({ navigation }: Props) {
             { value: 'auto', label: 'Enhetens' },
           ]}
         />
-        <Button
-          mode="contained"
-          onPress={showDialog}
-          style={[
-            s.leaveButton,
-            { position: 'absolute', bottom: 10, alignSelf: 'center' },
-          ]}
-          buttonColor="#d32f2f"
-          textColor="#ffffff"
-        >
-          Lämna hushåll
-        </Button>
-
+        {!member.isOwner && (
+          <Button
+            mode="contained"
+            onPress={showDialog}
+            style={[
+              s.leaveButton,
+              { position: 'absolute', bottom: 10, alignSelf: 'center' },
+            ]}
+            buttonColor="#d32f2f"
+            textColor="#ffffff"
+          >
+            Lämna hushåll
+          </Button>
+        )}
         <Portal>
           <Dialog visible={visible} onDismiss={handleCancelLeaveHousehold}>
             <Dialog.Title>Bekräfta</Dialog.Title>

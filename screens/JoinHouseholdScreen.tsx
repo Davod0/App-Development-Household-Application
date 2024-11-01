@@ -22,9 +22,8 @@ export default function JoinHouseholdScreen() {
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [showValidationDialog, setShowValidationDialog] = useState(false);
   const dispatch = useAppDispatch();
-  // const requestIsLoading = useAppSelector(selectRequestIsLoading);
   const requestIsLoading = false;
-
+  // useAppSelector(selectRequestIsLoading);
   const requestError = useAppSelector(selectRequestError);
 
   const handleSubmitCode = () => {

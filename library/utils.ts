@@ -13,6 +13,10 @@ export function mod(n: number, m: number): number {
   return ((n % m) + m) % m;
 }
 
+/**
+ * Generate a random 5 characters long code using A-Z and 0-9.
+ * @returns a 5 character long string
+ */
 export const generateRandomCode = () => {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let result = '';
@@ -40,10 +44,21 @@ export function sliceStringToLengthAddEllipsis(
     : str;
 }
 
+/**
+ * A function to return a random index of an array.
+ * @param array an array
+ * @returns a number in the interval [0 .. array.length - 1]
+ */
+
 export function randomIndex<T>(array: T[]): number {
   return Math.floor(Math.random() * array.length) % array.length;
 }
 
+/**
+ * A function to get the available avatars in a household.
+ * @param householdId a string
+ * @returns an array of available avatar names
+ */
 export async function getAvailableIcons(householdId: string) {
   let avatars: AvatarName[] = [
     'fox',
@@ -55,6 +70,7 @@ export async function getAvailableIcons(householdId: string) {
     'unicorn',
     'owl',
   ];
+
   const members: Member[] = [];
   try {
     const snapshot = await getDocs(
