@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Avatar, SegmentedButtons, Text } from 'react-native-paper';
+import { Avatar, Button, SegmentedButtons, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
@@ -25,6 +25,11 @@ export default function ProfileScreen({ navigation }: Props) {
   const member = members.find((member) => member.userId === user?.uid)!;
   const avatar = member.avatar.icon;
   const avatarColor = member.avatar.color;
+
+  const handlePress = () => {
+    console.log('leave button pressed');
+  };
+
   return (
     <View style={s.container}>
       <View style={s.memberInfo}>
@@ -45,19 +50,15 @@ export default function ProfileScreen({ navigation }: Props) {
           />
         </View>
         <Text style={s.name}>{member.name}</Text>
-
         <Text variant="displaySmall">____________________</Text>
-
         <Text variant="headlineSmall">Email</Text>
         <Text style={s.emailText}>{user.email}</Text>
-
         <Text
           style={{ position: 'absolute', bottom: 130, alignSelf: 'center' }}
           variant="headlineLarge"
         >
           Välj tema för appen
         </Text>
-
         <SegmentedButtons
           style={{ position: 'absolute', bottom: 60, alignSelf: 'center' }}
           value={colorMode}
@@ -68,6 +69,18 @@ export default function ProfileScreen({ navigation }: Props) {
             { value: 'auto', label: 'Enhetens' },
           ]}
         />
+        <Button
+          mode="contained"
+          onPress={handlePress}
+          style={[
+            s.leaveButton,
+            { position: 'absolute', bottom: 10, alignSelf: 'center' },
+          ]}
+          buttonColor="#d32f2f"
+          textColor="#ffffff"
+        >
+          Lämna hushåll
+        </Button>
       </View>
     </View>
   );
@@ -95,7 +108,7 @@ const s = StyleSheet.create({
     color: '#555',
     marginVertical: 10,
   },
-  logoutButton: {
-    marginRight: 10,
+  leaveButton: {
+    marginTop: 10,
   },
 });
