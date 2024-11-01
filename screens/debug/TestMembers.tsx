@@ -6,6 +6,7 @@ import { RootStackParamList } from '../../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   addMember,
+  deleteMember,
   getMembersBySelectedHousehold,
   updateMember,
 } from '../../store/members/membersActions';
@@ -84,6 +85,7 @@ export default function TestMembers({ navigation }: Props) {
         <>
           <Text>Household name: {selectedHousehold.name}</Text>
           <Text>HouseholdID: {selectedHousehold.id}</Text>
+          <Text>HouseholdID: {selectedHousehold.code}</Text>
           <Button
             mode="contained"
             onPress={() => dispatch(addMember(newMember))}
@@ -113,6 +115,12 @@ export default function TestMembers({ navigation }: Props) {
                   <Text>isAllowed: {member.isAllowed ? '✅' : '❌'}</Text>
                 </Card.Content>
                 <Card.Actions>
+                  <Button
+                    mode="outlined"
+                    onPress={() => dispatch(deleteMember(member.id))}
+                  >
+                    Delete
+                  </Button>
                   <Button mode="contained" onPress={() => handleUpdate(member)}>
                     Update
                   </Button>
