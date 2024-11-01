@@ -38,15 +38,17 @@ export default function ProfileScreen({ navigation }: Props) {
   const showDialog = () => setVisible(true);
   const handleCancleLeaveHousehold = () => setVisible(false);
 
-  const handleLeaveHousehold = async () => {
+  const handleLeaveHousehold = () => {
     handleCancleLeaveHousehold();
-    try {
-      await dispatch(deleteMember(member.id)).unwrap();
-      console.log('Leave household confirmed');
-      navigation.navigate('YourHouseholds');
-    } catch (error) {
-      console.error(`Error leaving household: ${error}`);
-    }
+    navigation.navigate('YourHouseholds');
+    dispatch(deleteMember(member.id))
+      .unwrap()
+      .then(() => {
+        console.log('Leave household confirmed');
+      })
+      .catch((error) => {
+        console.error(`Error leaving household: ${error}`);
+      });
   };
 
   return (
