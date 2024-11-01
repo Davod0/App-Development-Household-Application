@@ -1,7 +1,14 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Avatar, Button, SegmentedButtons, Text } from 'react-native-paper';
+import {
+  Avatar,
+  Button,
+  Dialog,
+  Portal,
+  SegmentedButtons,
+  Text,
+} from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
@@ -26,10 +33,15 @@ export default function ProfileScreen({ navigation }: Props) {
   const avatar = member.avatar.icon;
   const avatarColor = member.avatar.color;
 
-  const handlePress = () => {
-    navigation.navigate('YourHouseholds');
+  const [visible, setVisible] = useState(false);
 
-    console.log('leave button pressed');
+  const showDialog = () => setVisible(true);
+  const handleCancleLeaveHousehold = () => setVisible(false);
+
+  const handleLeaveHousehold = () => {
+    handleCancleLeaveHousehold();
+    navigation.navigate('YourHouseholds');
+    console.log('Leave household confirmed');
   };
 
   return (
@@ -73,7 +85,7 @@ export default function ProfileScreen({ navigation }: Props) {
         />
         <Button
           mode="contained"
-          onPress={handlePress}
+          onPress={showDialog}
           style={[
             s.leaveButton,
             { position: 'absolute', bottom: 10, alignSelf: 'center' },
@@ -83,6 +95,19 @@ export default function ProfileScreen({ navigation }: Props) {
         >
           Lämna hushåll
         </Button>
+
+        <Portal>
+          <Dialog visible={visible} onDismiss={handleCancleLeaveHousehold}>
+            <Dialog.Title>Bekräfta</Dialog.Title>
+            <Dialog.Content>
+              <Text>Är du säker på att du vill lämna hushållet?</Text>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={handleCancleLeaveHousehold}>Avbryt</Button>
+              <Button onPress={handleLeaveHousehold}>Lämna</Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
       </View>
     </View>
   );
