@@ -27,6 +27,8 @@ export default function ProfileScreen({ navigation }: Props) {
   const avatarColor = member.avatar.color;
 
   const handlePress = () => {
+    navigation.navigate('YourHouseholds');
+
     console.log('leave button pressed');
   };
 
