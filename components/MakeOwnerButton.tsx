@@ -37,7 +37,7 @@ export default function MakeOwnerButton({ member }: Props) {
       <IconButton icon="crown-circle-outline" size={25} onPress={showDialog} />
       <Portal>
         <Dialog visible={visible} onDismiss={hideDialog}>
-          <Dialog.Title>Medlen till Ägare</Dialog.Title>
+          <Dialog.Title>Medlem till Ägare</Dialog.Title>
           <Dialog.Content>
             <Text>Vill du göra den här medlemmen till en ägare?</Text>
           </Dialog.Content>
