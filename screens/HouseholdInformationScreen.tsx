@@ -1,9 +1,21 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Avatar, Button, Card, Icon, List, Text } from 'react-native-paper';
+import {
+  Avatar,
+  Button,
+  Card,
+  Icon,
+  List,
+  Text,
+  useTheme,
+} from 'react-native-paper';
+import MakeOwnerButton from '../components/MakeOwnerButton';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppSelector } from '../store/hooks';
-import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
+import {
+  selectAllMembersBySelectedHousehold,
+  selectMemberForUserInSelectedHousehold,
+} from '../store/members/membersSelectors';
 import { useSelectedHouseholdData } from '../store/user/hooks';
 import { selectSelectedHousehold } from '../store/user/userSelectors';
 
@@ -14,9 +26,12 @@ export default function HouseholdInformationScreen({
   route,
 }: Props) {
   useSelectedHouseholdData();
+  const theme = useTheme();
   const members = useAppSelector(selectAllMembersBySelectedHousehold);
+
   const selectedHousehold = useAppSelector(selectSelectedHousehold);
   const membersInHousehold = members.filter((m) => m.isAllowed === true);
+  const currentMember = useAppSelector(selectMemberForUserInSelectedHousehold);
 
   return (
     <ScrollView contentContainerStyle={s.root}>
@@ -50,20 +65,43 @@ export default function HouseholdInformationScreen({
                 flexWrap: 'wrap',
               }}
             >
-              {membersInHousehold &&
-              Object.keys(membersInHousehold).length > 0 ? (
+              {membersInHousehold.length > 0 ? (
                 membersInHousehold.map((member) => (
                   <List.Item
                     key={member.id}
                     titleStyle={{ textAlign: 'center' }}
-                    title={member.isOwner ? member.name + ' 👑' : member.name}
-                    left={(props) => (
+                    title={
+                      member.isOwner ? (
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                          }}
+                        >
+                          <Text>{member.name}</Text>
+                          <Icon
+                            source="crown"
+                            size={35}
+                            color={theme.colors.primary}
+                          />
+                        </View>
+                      ) : (
+                        member.name
+                      )
+                    }
+                    left={() => (
                       <Avatar.Text
                         size={72}
                         label={member.avatar.icon}
                         style={{ backgroundColor: member.avatar.color }}
                       />
                     )}
+                    right={() =>
+                      currentMember?.isOwner && !member.isOwner ? (
+                        <View style={{ justifyContent: 'center' }}>
+                          <MakeOwnerButton member={member} />
+                        </View>
+                      ) : null
+                    }
                   />
                 ))
               ) : (
