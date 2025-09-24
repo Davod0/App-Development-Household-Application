@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { signOut } from 'firebase/auth';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, IconButton, Text, useTheme } from 'react-native-paper';
+import { Button, IconButton, useTheme } from 'react-native-paper';
 import ArchivedTask from '../components/ArchiveTask';
 import ProfileIconButton from '../components/ProfileIconButton';
 import useSplashScreenVisibility from '../components/SplashScreenVisibility';
@@ -99,7 +99,11 @@ export default function RootStackNavigator() {
             component={TaskInfoScreen}
             options={{ title: 'Information om syssla' }}
           />
-          <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
+          <RootStack.Screen
+            name="EditProfile"
+            component={EditProfileScreen}
+            options={{ title: 'Redigera Profil' }}
+          />
 
           <RootStack.Screen
             name="SelectedHouseholdNav"
@@ -118,7 +122,6 @@ export default function RootStackNavigator() {
             options={({ navigation }) => ({
               headerTitle: () => (
                 <View style={s.titleContainer}>
-                  <Text style={s.title}>Profil</Text>
                   <IconButton
                     icon="account-edit-outline"
                     size={35}
@@ -133,11 +136,10 @@ export default function RootStackNavigator() {
                     signOut(auth);
                   }}
                   style={{
-                    backgroundColor: theme.colors.onBackground,
                     borderRadius: 10,
-                    width: 120,
+                    width: 110,
                   }}
-                  labelStyle={{ fontSize: 16 }}
+                  labelStyle={{ fontSize: 14 }}
                 >
                   Logga ut
                 </Button>
@@ -162,10 +164,8 @@ export default function RootStackNavigator() {
                 />
               ),
               headerRight: () => (
-                <IconButton
-                  icon="logout"
-                  size={24}
-                  onPress={() => signOut(auth)}
+                <ProfileIconButton
+                  navigateToProfile={() => navigation.navigate('Profile')}
                 />
               ),
             })}
@@ -173,7 +173,7 @@ export default function RootStackNavigator() {
           <RootStack.Screen
             name="HouseholdInformation"
             component={HouseholdInformationScreen}
-            options={{ title: 'Hushållsinformation' }}
+            options={{ title: 'Hushålls information' }}
           />
           <RootStack.Screen
             name="CreateTask"
@@ -215,9 +215,7 @@ const s = StyleSheet.create({
   titleContainer: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
+    alignItems: 'flex-start',
+    marginLeft: -20,
   },
 });

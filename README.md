@@ -13,3 +13,7 @@ Installera alla dependencies med kommandot `npm install` i terminalen och kör m
 
 ## Krav
 
+
+
+flytta "Lämna hushåll" från ProfileScreen till SelectedHouseholdScreen
+Gör så att det valda hushållet syns med en grön tecken eller icon på dina-houseold-screen
