@@ -15,5 +15,16 @@ Installera alla dependencies med kommandot `npm install` i terminalen och kör m
 
 
 
-flytta "Lämna hushåll" från ProfileScreen till SelectedHouseholdScreen
-Gör så att det valda hushållet syns med en grön tecken eller icon på dina-houseold-screen
+
+davod@gmail.com
+davod12345
+hus-1: QR2EI
+hus-2: VPYVR
+
+sara@gmail.com
+sara12345
+sara-hus: TN15Y
+
+jack@gmail.com
+jack12345
+jack-hus: OA8X0

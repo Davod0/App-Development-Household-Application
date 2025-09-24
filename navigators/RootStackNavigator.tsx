@@ -32,6 +32,7 @@ import { useUserAuthState } from '../store/user/hooks';
 import { selectCurrentUser } from '../store/user/userSelectors';
 import { Household, Member, Task } from '../types';
 import SelectedHouseholdTopTabNav from './SelectedHouseholdTopTabNav';
+import { selectSelectedHousehold } from '../store/user/userSelectors';
 
 export type RootStackParamList = {
   SignIn: undefined;
@@ -65,6 +66,7 @@ export default function RootStackNavigator() {
   useSplashScreenVisibility();
   const theme = useTheme();
   const user = useAppSelector(selectCurrentUser);
+  const selectedHousehold = useAppSelector(selectSelectedHousehold);
 
   return (
     <RootStack.Navigator
@@ -156,18 +158,19 @@ export default function RootStackNavigator() {
             component={YourHouseholdsScreen}
             options={({ navigation }) => ({
               title: 'Dina hushåll',
-              headerLeft: () => (
-                <IconButton
-                  icon="xml"
-                  size={24}
-                  onPress={() => navigation.navigate('Home')}
-                />
-              ),
-              headerRight: () => (
-                <ProfileIconButton
-                  navigateToProfile={() => navigation.navigate('Profile')}
-                />
-              ),
+              // headerLeft: () => (
+              //   <IconButton
+              //     icon="xml"
+              //     size={24}
+              //     onPress={() => navigation.navigate('Home')}
+              //   />
+              // ),
+              headerRight: () =>
+                selectedHousehold ? (
+                  <ProfileIconButton
+                    navigateToProfile={() => navigation.navigate('Profile')}
+                  />
+                ) : null,
             })}
           />
           <RootStack.Screen
