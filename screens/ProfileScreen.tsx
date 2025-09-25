@@ -11,7 +11,7 @@ import {
 } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { deleteMember } from '../store/members/membersActions'; // Import deleteMember
+import { deleteMember } from '../store/members/membersActions';
 import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
 import { useSelectedHouseholdData } from '../store/user/hooks';
 import {
@@ -99,10 +99,13 @@ export default function ProfileScreen({ navigation }: Props) {
             onPress={showDialog}
             style={[
               s.leaveButton,
-              { position: 'absolute', bottom: 10, alignSelf: 'center' },
+              {
+                position: 'absolute',
+                bottom: 10,
+                alignSelf: 'center',
+                width: '100%',
+              },
             ]}
-            buttonColor="#d32f2f"
-            textColor="#ffffff"
           >
             Lämna hushåll
           </Button>

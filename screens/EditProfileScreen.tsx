@@ -75,7 +75,7 @@ export default function EditProfile({ navigation, route }: Props) {
         {member.avatar.icon}
       </Text>
       <Text style={[s.text, { color: theme.colors.primary }]}>
-        Redigera Profil
+        Välj din ikon från listan nedan:
       </Text>
 
       <View style={s.iconContainer}>
@@ -138,6 +138,7 @@ const s = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    marginTop: 10,
   },
   input: {
     width: '100%',

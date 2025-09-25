@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, IconButton, Surface, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
@@ -8,6 +8,7 @@ import { selectAllHouseholdsByCurrentUser } from '../store/households/households
 import { useHouseholds } from '../store/user/hooks';
 import { setSelectedHousehold } from '../store/user/userSlice';
 import { Household } from '../types';
+import { selectSelectedHousehold } from '../store/user/userSelectors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'YourHouseholds'>;
 
@@ -15,6 +16,14 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
   useHouseholds();
   const dispatch = useAppDispatch();
   const households = useAppSelector(selectAllHouseholdsByCurrentUser);
+
+  const selectedHousehold = useAppSelector(selectSelectedHousehold);
+
+  useEffect(() => {
+    if (!selectedHousehold && households && households.length > 0) {
+      dispatch(setSelectedHousehold(households[0]));
+    }
+  }, [households, selectedHousehold, dispatch]);
 
   const handlePressHousehold = (household: Household) => {
     dispatch(setSelectedHousehold(household));
@@ -36,7 +45,17 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
                 <TouchableOpacity
                   onPress={() => handlePressHousehold(household)}
                 >
-                  <Text style={s.text}>{household.name}</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={s.text}>{household.name}</Text>
+                    {selectedHousehold?.id === household.id && (
+                      <IconButton
+                        icon="check-circle"
+                        size={24}
+                        style={{ margin: 0 }}
+                        disabled
+                      />
+                    )}
+                  </View>
                 </TouchableOpacity>
 
                 <IconButton
@@ -51,6 +70,7 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
           <Text style={s.emptyText}>Inga tillgängliga hushåll</Text>
         )}
       </View>
+
       <View style={s.footer}>
         <Button
           style={{ width: '50%' }}
@@ -74,10 +94,9 @@ export default function YourHouseholdsScreen({ navigation }: Props) {
             fontSize: 20,
           }}
           contentStyle={{ height: 65 }}
-          onPress={(member) => {
+          onPress={() => {
             navigation.navigate('JoinHousehold');
           }}
-          // loggerInUserId (eller member), verkar skapas på nytt av ngn anledning? Scopelength?
         >
           Gå med i hushåll
         </Button>
