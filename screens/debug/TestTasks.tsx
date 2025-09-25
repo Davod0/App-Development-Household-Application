@@ -87,12 +87,12 @@ export default function TestTasks({ navigation }: Props) {
           >
             update(completed tasks)
           </Button>
-          <Button
+          {/* <Button
             mode="contained"
             onPress={() => dispatch(getTasksBySelectedHousehold)}
           >
             get tasks
-          </Button>
+          </Button> */}
 
           {tasksForHouseholdId.length > 0 ? (
             tasksForHouseholdId.map((task, index) => (

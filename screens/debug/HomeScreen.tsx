@@ -13,17 +13,6 @@ export default function Home({ navigation }: Props) {
   const tasks = useAppSelector(selectTasksForSelectedHousehold);
   const taskForTestingTaskInfoScreen = tasks[0];
 
-  // mockedData to EditTaskScreen
-  const task = {
-    id: '20',
-    householdId: '2020',
-    name: 'Katten',
-    description: 'Mata katten 2 gånger',
-    weight: 4,
-    frequency: 1,
-    isArchived: false,
-  };
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home Screen - testing </Text>
