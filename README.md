@@ -1,30 +1,24 @@
-# App Develepment Household Application
+# Household Management Application
 
-Detta är en applikation för hushåll med fler än två medlemmar där varje medlem kan skrivas upp på sysslor som ska göras med intervallet 1-31 dagar.
-Det går att skapa oika hushåll och bjuda in medlemmar till dessa hushåll.
-Varje medlem kan se vilka sysslor de har blivit tilldelade och när de ska vara klara.
-Medlemmen kan sedan markera sysslan som klar o.s.v.
-Applikationen har även en kalender där medlemmarna kan se sina sysslor och deadlines.
-Appen visar sedermera statistik över vem som har gjort vad och hur ofta de har gjort en viss syssla.
+This is a household management app built with React Native, Expo and TypeScript.
+The project uses Redux with redux-thunk to manage asynchronous operations like API requests. Continuous Integration (CI) is handled through GitHub Actions, which run tests and build the app to ensure everything works correctly before merging pull requests. It also
+includes a custom logo, splash screen, and app icon.
+Firebase is used as the backend service, and the app is not hosted or deployed anywhere.
 
-## Bygga och köra projektet
+Users can sign in or create an account.
+Users can also create or join households with a code and manage their membership.
+Household owners can handle join requests and manage chores while all members can track and complete tasks.
 
-Installera alla dependencies med kommandot `npm install` i terminalen och kör med kommandot `npm start`.
-
-## Krav
+Each user has a profile with a unique avatar, name and theme settings and can switch between multiple households. Chores are listed in a daily overview showing who did what, when it was last done, and if it’s overdue. The app also provides statistics on chore distribution across members with weekly and monthly breakdowns.
 
 
 
+## Build and Run the Application
 
-davod@gmail.com
-davod12345
-hus-1: QR2EI
-hus-2: VPYVR
+To run the app, clone it and run `npm install` in the terminal, then start it with `npm start`.
+You also have to connect it to your own Firebase project by replacing the config in `firebase.ts` with your own configuration.
 
-sara@gmail.com
-sara12345
-sara-hus: TN15Y
 
-jack@gmail.com
-jack12345
-jack-hus: OA8X0
+
+
+

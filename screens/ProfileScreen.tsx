@@ -1,17 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import {
-  Avatar,
-  Button,
-  Dialog,
-  Portal,
-  SegmentedButtons,
-  Text,
-} from 'react-native-paper';
+import { Avatar, SegmentedButtons, Text } from 'react-native-paper';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { deleteMember } from '../store/members/membersActions';
 import { selectAllMembersBySelectedHousehold } from '../store/members/membersSelectors';
 import { useSelectedHouseholdData } from '../store/user/hooks';
 import {
@@ -30,24 +21,6 @@ export default function ProfileScreen({ navigation }: Props) {
   const user = useAppSelector(selectCurrentUser)!;
   const members = useAppSelector(selectAllMembersBySelectedHousehold);
   const member = members.find((member) => member.userId === user?.uid)!;
-
-  const [visible, setVisible] = useState(false);
-
-  const showDialog = () => setVisible(true);
-  const handleCancelLeaveHousehold = () => setVisible(false);
-
-  const handleLeaveHousehold = async () => {
-    await dispatch(deleteMember(member.id))
-      .unwrap()
-      .then(() => {
-        console.log('Leave household confirmed');
-      })
-      .catch((error) => {
-        console.error(`Error leaving household: ${error}`);
-      });
-    setVisible(false);
-    navigation.navigate('YourHouseholds');
-  };
 
   if (!member) {
     return <Text>no member exists!</Text>;
@@ -93,35 +66,6 @@ export default function ProfileScreen({ navigation }: Props) {
             { value: 'auto', label: 'Enhetens' },
           ]}
         />
-        {!member.isOwner && (
-          <Button
-            mode="contained"
-            onPress={showDialog}
-            style={[
-              s.leaveButton,
-              {
-                position: 'absolute',
-                bottom: 10,
-                alignSelf: 'center',
-                width: '100%',
-              },
-            ]}
-          >
-            Lämna hushåll
-          </Button>
-        )}
-        <Portal>
-          <Dialog visible={visible} onDismiss={handleCancelLeaveHousehold}>
-            <Dialog.Title>Bekräfta</Dialog.Title>
-            <Dialog.Content>
-              <Text>Är du säker på att du vill lämna hushållet?</Text>
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button onPress={handleCancelLeaveHousehold}>Avbryt</Button>
-              <Button onPress={handleLeaveHousehold}>Lämna</Button>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
       </View>
     </View>
   );
@@ -148,8 +92,5 @@ const s = StyleSheet.create({
     fontSize: 20,
     color: '#555',
     marginVertical: 10,
-  },
-  leaveButton: {
-    marginTop: 10,
   },
 });
