@@ -4,16 +4,15 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import {
   Badge,
   Button,
-  Dialog,
   Icon,
-  Portal,
   Surface,
   Text,
+  Avatar,
+  Dialog,
+  Portal,
 } from 'react-native-paper';
 import { dateDifference, todayAtMidnight } from '../library/dateFunctions';
 import { TopTabNavigatorParamList } from '../navigators/SelectedHouseholdTopTabNav';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-
 import { CompositeScreenProps } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigators/RootStackNavigator';
@@ -22,11 +21,18 @@ import {
   selectAllMembersBySelectedHousehold,
   selectMemberForUserInSelectedHousehold,
 } from '../store/members/membersSelectors';
-import { deleteMember } from '../store/members/membersActions';
 import { selectAllRequestsOfSelectedHousehold } from '../store/requests/requestsSelectors';
 import { selectTasksForSelectedHousehold } from '../store/tasks/tasksSelectors';
 import { useSelectedHouseholdData } from '../store/user/hooks';
 import { Task } from '../types';
+import { deleteMember } from '../store/members/membersActions';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { selectCurrentUser } from '../store/user/userSelectors';
+
+// type Props = MaterialTopTabScreenProps<
+//   TopTabNavigatorParamList,
+//   'SelectedHousehold'
+// >;
 
 type Props = CompositeScreenProps<
   MaterialTopTabScreenProps<TopTabNavigatorParamList, 'SelectedHousehold'>,
@@ -35,7 +41,6 @@ type Props = CompositeScreenProps<
 
 export default function SelectedHouseholdScreen({ navigation }: Props) {
   useSelectedHouseholdData();
-  const dispatch = useAppDispatch();
 
   const requests = useAppSelector(selectAllRequestsOfSelectedHousehold);
   const member = useAppSelector(selectMemberForUserInSelectedHousehold);
@@ -45,18 +50,20 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
   );
   const competedTasks = useAppSelector(selectCompletedTasksBySelectedHousehold);
 
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
+  const member1 = members.find((member) => member.userId === user?.uid)!;
+
   const [visible, setVisible] = useState(false);
   const showDialog = () => setVisible(true);
   const handleCancelLeaveHousehold = () => setVisible(false);
-
   const handleLeaveHousehold = async () => {
-    if (!member) return;
-    await dispatch(deleteMember(member.id))
+    await dispatch(deleteMember(member1!.id))
       .unwrap()
       .then(() => {
         console.log('Leave household confirmed');
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error(`Error leaving household: ${error}`);
       });
     setVisible(false);
@@ -124,13 +131,46 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
               >
                 {daysSinceLastCompleted}
               </Badge>
+
+              {member1 && !member1.isOwner && (
+                <Button
+                  mode="contained"
+                  onPress={showDialog}
+                  style={[
+                    s.leaveButton,
+                    {
+                      position: 'absolute',
+                      bottom: 10,
+                      alignSelf: 'center',
+                      width: '100%',
+                    },
+                  ]}
+                >
+                  Lämna hushåll
+                </Button>
+              )}
+
+              <Portal>
+                <Dialog
+                  visible={visible}
+                  onDismiss={handleCancelLeaveHousehold}
+                >
+                  <Dialog.Title>Bekräfta</Dialog.Title>
+                  <Dialog.Content>
+                    <Text>Är du säker på att du vill lämna hushållet?</Text>
+                  </Dialog.Content>
+                  <Dialog.Actions>
+                    <Button onPress={handleCancelLeaveHousehold}>Avbryt</Button>
+                    <Button onPress={handleLeaveHousehold}>Lämna</Button>
+                  </Dialog.Actions>
+                </Dialog>
+              </Portal>
             </View>
           )}
         </>
       );
     }
   };
-
   return (
     <>
       <ScrollView style={s.container}>
@@ -148,7 +188,6 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
           </Pressable>
         ))}
       </ScrollView>
-
       {member?.isOwner && (
         <View
           style={{
@@ -201,36 +240,6 @@ export default function SelectedHouseholdScreen({ navigation }: Props) {
           </Button>
         </View>
       )}
-
-      {/* Leave household button */}
-      {member && !member.isOwner && (
-        <View style={{ width: '90%', alignSelf: 'center' }}>
-          <Button
-            mode="contained"
-            onPress={showDialog}
-            style={{
-              position: 'absolute',
-              bottom: 10,
-              alignSelf: 'center',
-              width: '100%',
-            }}
-          >
-            Lämna hushåll
-          </Button>
-          <Portal>
-            <Dialog visible={visible} onDismiss={handleCancelLeaveHousehold}>
-              <Dialog.Title>Bekräfta</Dialog.Title>
-              <Dialog.Content>
-                <Text>Är du säker på att du vill lämna hushållet?</Text>
-              </Dialog.Content>
-              <Dialog.Actions>
-                <Button onPress={handleCancelLeaveHousehold}>Avbryt</Button>
-                <Button onPress={handleLeaveHousehold}>Lämna</Button>
-              </Dialog.Actions>
-            </Dialog>
-          </Portal>
-        </View>
-      )}
     </>
   );
 }
@@ -261,5 +270,8 @@ const s = StyleSheet.create({
   },
   footer: {
     width: '100%',
+  },
+  leaveButton: {
+    // marginTop: 10,
   },
 });
